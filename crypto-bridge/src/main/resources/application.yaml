@@ -2,9 +2,14 @@ spring:
   config:
     import: optional:file:.env[.properties]
   rabbitmq:
+    host: ${RABBITMQ_HOSTNAME}
+    port:
+      - ${RABBITMQ_AMQP_PORT}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+    template:
+      exchange: ${RABBITMQ_EXCHANGE_NAME}
     queues:
       request_queue: ${RABBITMQ_COIN_REQUEST_QUEUE}
       response_queue: ${RABBITMQ_COIN_RESPONSE_QUEUE}
       notification_queue: ${RABBITMQ_NOTIFICATION_QUEUE}
-    template:
-      exchange: ${RABBITMQ_EXCHANGE_NAME}

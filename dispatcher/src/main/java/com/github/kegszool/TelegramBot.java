@@ -7,10 +7,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
+
+import java.io.Serializable;
 
 @Component
 public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
@@ -31,15 +34,14 @@ public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
 
     @Override
     public void consume(Update update) {
-        if(update.hasMessage() && update.getMessage().hasText()) {
-            var chatId =  update.getMessage().getChatId().toString();
-            var message =  update.getMessage().getText();
-            SendMessage answerMessage = new SendMessage(chatId, message);
-            try {
-                client.execute(answerMessage);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
+        controller.sortMessageByType(update);
+    }
+
+    public <T extends Serializable, Method extends PartialBotApiMethod<T>> void sendAnswerMessage(Method answerMessage) {
+        try {
+            client.execute((SendMessage)answerMessage);
+        } catch (TelegramApiException ex) {
+
         }
     }
 }
