@@ -1,0 +1,43 @@
+services:
+
+  dispatcher:
+    build:
+      context: .
+      dockerfile: dispatcher/Dockerfile
+    depends_on:
+      - rabbitmq
+    env_file:
+      - .env
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_BOT_NAME=${TELEGRAM_BOT_NAME}
+      - RABBITMQ_COIN_REQUEST_QUEUE=${RABBITMQ_COIN_REQUEST_QUEUE}
+      - RABBITMQ_COIN_RESPONSE_QUEUE=${RABBITMQ_COIN_RESPONSE_QUEUE}
+      - RABBITMQ_NOTIFICATION_QUEUE=${RABBITMQ_NOTIFICATION_QUEUE}
+
+  crypto-bridge:
+    build:
+      context: .
+      dockerfile: crypto-bridge/Dockerfile
+    depends_on:
+      - rabbitmq
+    env_file:
+      - .env
+    environment:
+      - RABBITMQ_COIN_REQUEST_QUEUE=${RABBITMQ_COIN_REQUEST_QUEUE}
+      - RABBITMQ_COIN_RESPONSE_QUEUE=${RABBITMQ_COIN_RESPONSE_QUEUE}
+
+  rabbitmq:
+    image: ${RABBITMQ_IMAGE}
+    container_name: ${RABBITMQ_CONTAINER_NAME}
+    hostname: ${RABBITMQ_HOSTNAME}
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USERNAME}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+    ports:
+      - ${RABBITMQ_HTTP_PORT}
+      - ${RABBITMQ_AMQP_PORT}
+    volumes:
+      - ./rabbitmq-data:/var/lib/rabbitmq
+    env_file:
+      - .env
