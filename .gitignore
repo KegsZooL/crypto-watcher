@@ -4,7 +4,7 @@ target/
 !**/src/test/**/target/
 
 rabbitmq-data/
-
+logs/
 # Intellij IDEA
 .idea/
 

@@ -1,43 +1,43 @@
 package com.github.kegszool.controll;
 
-import com.github.kegszool.service.ResponseConsumerService;
-import com.github.kegszool.service.RequestProducerService;
+import com.github.kegszool.TelegramBot;
+import com.github.kegszool.configuration.BotRegistrationService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
-import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 @Component
+@Log4j2
 public class TelegramBotController {
 
     @Value("${TELEGRAM_BOT_TOKEN}")
     private String botToken;
 
-    private LongPollingUpdateConsumer bot;
-    private final RequestProducerService updateProducer;
-    private final ResponseConsumerService consumer;
+    private TelegramBot bot;
+    private final BotRegistrationService botRegistrationService;
+    private final MessageRouter messageRouter;
 
     @Autowired
-    public TelegramBotController(ResponseConsumerService consumer, RequestProducerService updateProducer) {
-        this.consumer = consumer;
-        this.updateProducer = updateProducer;
+    public TelegramBotController(
+        BotRegistrationService botRegistrationService,
+        MessageRouter messageRouter
+    ) {
+        this.botRegistrationService = botRegistrationService;
+        this.messageRouter = messageRouter;
     }
 
+    public void registerBot(TelegramBot bot) {
+        this.bot = botRegistrationService.register(botToken, bot);
+    }
 
-    public void registerBot(LongPollingUpdateConsumer bot) {
+    public void hadleUpdate(Update update) {
+        log.info("Received update {}", update);
         try {
-            this.bot = bot;
-            var botsApplication = new TelegramBotsLongPollingApplication();
-            botsApplication.registerBot(botToken, bot);
-        } catch (TelegramApiException e) {
-            throw new RuntimeException(e);
+            messageRouter.routeMessage(bot, update);
+        } catch (Exception e) {
+            log.info("Failed to handle update", e);
         }
-    }
-
-    public void sortMessageByType(Update update) {
-
     }
 }

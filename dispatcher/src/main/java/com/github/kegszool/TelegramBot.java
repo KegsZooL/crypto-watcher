@@ -34,7 +34,7 @@ public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
 
     @Override
     public void consume(Update update) {
-        controller.sortMessageByType(update);
+        controller.hadleUpdate(update);
     }
 
     public <T extends Serializable, Method extends PartialBotApiMethod<T>> void sendAnswerMessage(Method answerMessage) {
