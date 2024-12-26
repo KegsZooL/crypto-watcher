@@ -1,6 +1,6 @@
-package com.github.kegszool.service.impl;
+package com.github.kegszool.communication_service.impl;
 
-import com.github.kegszool.service.RequestConsumerService;
+import com.github.kegszool.communication_service.RequestConsumerService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 public class RequestConsumerServiceImpl implements RequestConsumerService {

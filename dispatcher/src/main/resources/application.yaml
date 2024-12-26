@@ -14,6 +14,20 @@ spring:
       response_queue: ${RABBITMQ_COIN_RESPONSE_QUEUE}
       notification_queue: ${RABBITMQ_NOTIFICATION_QUEUE}
 
+menu:
+  pages:
+    - exchange_rate: ${MENU_PAGE_EXCHANGE_RATE}
+    - alerts: ${MENU_PAGE_ALERTS}
+    - add_coin: ${MENU_PAGE_ADD_COIN}
+    - settings: ${MENU_PAGE_SETTINGS}
+    - default: ${MENU_PAGE_MAIN}
+
+  actions:
+    back: ${MENU_ACTION_BACK}
+
+coin:
+  prefix: ${COIN_PREFIX}
+
 bot:
   name: ${TELEGRAM_BOT_NAME}
   token: ${TELEGRAM_BOT_TOKEN}

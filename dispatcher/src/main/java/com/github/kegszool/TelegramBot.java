@@ -2,6 +2,7 @@ package com.github.kegszool;
 
 import com.github.kegszool.controll.TelegramBotController;
 import jakarta.annotation.PostConstruct;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -9,13 +10,13 @@ import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 
-import java.io.Serializable;
-
 @Component
+@Log4j2
 public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
 
     private final TelegramClient client;
@@ -37,11 +38,16 @@ public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
         controller.hadleUpdate(update);
     }
 
-    public <T extends Serializable, Method extends PartialBotApiMethod<T>> void sendAnswerMessage(Method answerMessage) {
+    public void sendAnswerMessage(PartialBotApiMethod<?> answerMessage) {
         try {
-            client.execute((SendMessage)answerMessage);
+            if(answerMessage instanceof EditMessageText) {
+                client.execute((EditMessageText)answerMessage);
+            }
+            else if(answerMessage instanceof SendMessage) {
+                client.execute((SendMessage)answerMessage);
+            }
         } catch (TelegramApiException ex) {
-
+            log.warn("Method execution error!");
         }
     }
 }

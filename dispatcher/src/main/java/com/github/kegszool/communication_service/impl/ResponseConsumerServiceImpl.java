@@ -1,6 +1,6 @@
-package com.github.kegszool.service.impl;
+package com.github.kegszool.communication_service.impl;
 
-import com.github.kegszool.service.ResponseConsumerService;
+import com.github.kegszool.communication_service.ResponseConsumerService;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 

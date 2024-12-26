@@ -1,6 +1,6 @@
-package com.github.kegszool.service.impl;
+package com.github.kegszool.communication_service.impl;
 
-import com.github.kegszool.service.ResponseProducerService;
+import com.github.kegszool.communication_service.ResponseProducerService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
