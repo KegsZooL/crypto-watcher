@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Component
 public class MenuRegistry {
 
-    @Value("${menu.pages[4].default}")
+    @Value("${menu.pages[4].main}")
     private String DEFAULT_MENU;
 
     private final Map<String, Menu> menus;
@@ -24,5 +24,9 @@ public class MenuRegistry {
 
     public Menu getMenu(String menuName) {
         return menus.getOrDefault(menuName, menus.get(DEFAULT_MENU));
+    }
+
+    public boolean isContained(String menuName) {
+        return menus.containsKey(menuName);
     }
 }

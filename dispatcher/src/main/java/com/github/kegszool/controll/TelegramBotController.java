@@ -20,7 +20,7 @@ public class TelegramBotController {
     private TelegramBot bot;
     private final BotRegistrationService botRegistrationService;
     private final MessageRouter messageRouter;
-    private final InlineKeyboardHandler inlineKeyboardHandler;
+    private final CallbackQueryRouter callbackQueryRouter;
 
     private static final String ERROR_MESSAGE = "Произошла ошибка при выполнении программы";
 
@@ -28,11 +28,11 @@ public class TelegramBotController {
     public TelegramBotController(
         BotRegistrationService botRegistrationService,
         MessageRouter messageRouter,
-        InlineKeyboardHandler inlineKeyboardHandler
+        CallbackQueryRouter callbackQueryRouter
     ) {
         this.botRegistrationService = botRegistrationService;
         this.messageRouter = messageRouter;
-        this.inlineKeyboardHandler = inlineKeyboardHandler;
+        this.callbackQueryRouter = callbackQueryRouter;
     }
 
     public void registerBot(TelegramBot bot) {
@@ -44,9 +44,9 @@ public class TelegramBotController {
         try {
             PartialBotApiMethod<?> response = null;
             if (update.hasMessage() && update.getMessage().hasText()) {
-                response = messageRouter.handleMessage(update);
+                response = messageRouter.routeAndHandle(update);
             } else if (update.hasCallbackQuery()) {
-                response = inlineKeyboardHandler.handleCallbackQuery(update.getCallbackQuery());
+                response = callbackQueryRouter.routeAndHandle(update.getCallbackQuery());
             }
             bot.sendAnswerMessage(response);
         } catch (Exception e) { handleErrorUpdateProcessing(update); }

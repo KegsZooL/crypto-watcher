@@ -20,7 +20,7 @@ menu:
     - alerts: ${MENU_PAGE_ALERTS}
     - add_coin: ${MENU_PAGE_ADD_COIN}
     - settings: ${MENU_PAGE_SETTINGS}
-    - default: ${MENU_PAGE_MAIN}
+    - main: ${MENU_PAGE_MAIN}
 
   actions:
     back: ${MENU_ACTION_BACK}

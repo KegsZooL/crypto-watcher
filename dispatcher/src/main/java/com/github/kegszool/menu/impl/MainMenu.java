@@ -11,11 +11,11 @@ import java.util.Map;
 @Component
 public class MainMenu implements Menu {
 
-    @Value("${menu.pages[4].default}")
+    @Value("${menu.pages[4].main}")
     private String PAGE_NAME;
 
     private static final Map<String, String> SECTIONS = Map.of(
-            "coinexchangeratemenu", "Курс монет",
+            "exchange_rate_of_coins", "Курс монет",
             "alerts", "Оповещения",
             "settings", "Настройки"
     );
