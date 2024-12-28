@@ -1,39 +1,35 @@
-package com.github.kegszool.menu.callback_handler.impl;
+package com.github.kegszool.menu.command;
 
-import com.github.kegszool.menu.callback_handler.CallbackHandler;
 import com.github.kegszool.menu.MenuNavigationService;
 import com.github.kegszool.utils.MessageUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
 @Component
-public class BackCommandCallbackHandler implements CallbackHandler {
+@Log4j2
+public class PreviousMenuCommand extends CallbackCommand {
 
     private final MenuNavigationService menuNavigationService;
     private final MessageUtils messageUtils;
 
-    @Autowired
-    public BackCommandCallbackHandler(
-        MenuNavigationService menuNavigationService,
-        MessageUtils messageUtils
-    ) {
+    @Value("${menu.actions.back}")
+    private String BACK_COMMAND;
+
+    public PreviousMenuCommand(MenuNavigationService menuNavigationService, MessageUtils messageUtils) {
         this.menuNavigationService = menuNavigationService;
         this.messageUtils = messageUtils;
     }
 
-    @Value("${menu.actions.back}")
-    private String BACK_COMMAND;
-
     @Override
-    public boolean canHandle(String command) {
+    protected boolean canHandleCommand(String command) {
         return BACK_COMMAND.equals(command);
     }
 
     @Override
-    public EditMessageText handle(CallbackQuery query) {
+    protected PartialBotApiMethod<?> handleCommand(CallbackQuery query) {
         Long chatId = query.getMessage().getChatId();
         String previousMenuName = menuNavigationService.popMenu(chatId);
         return messageUtils.createEditMessageTextByMenuName(query, previousMenuName);

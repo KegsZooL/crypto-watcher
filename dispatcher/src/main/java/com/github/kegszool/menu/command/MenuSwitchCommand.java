@@ -1,23 +1,25 @@
-package com.github.kegszool.menu.callback_handler.impl;
+package com.github.kegszool.menu.command;
 
-import com.github.kegszool.menu.callback_handler.CallbackHandler;
 import com.github.kegszool.menu.MenuNavigationService;
 import com.github.kegszool.menu.MenuRegistry;
 import com.github.kegszool.utils.MessageUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
+
+//TODO: добавить логирование
+
 @Component
-public class MenuSwitcherCallbackHandler implements CallbackHandler {
+@Log4j2
+public class MenuSwitchCommand extends CallbackCommand {
 
     private final MenuRegistry menuRegistry;
     private final MenuNavigationService menuNavigationService;
     private final MessageUtils messageUtils;
 
-    @Autowired
-    public MenuSwitcherCallbackHandler(
+    public MenuSwitchCommand(
             MenuRegistry menuRegistry,
             MenuNavigationService menuNavigationService,
             MessageUtils messageUtils
@@ -28,12 +30,12 @@ public class MenuSwitcherCallbackHandler implements CallbackHandler {
     }
 
     @Override
-    public boolean canHandle(String menuName) {
-        return menuRegistry.isContained(menuName);
+    protected boolean canHandleCommand(String command) {
+        return menuRegistry.isContained(command);
     }
 
     @Override
-    public EditMessageText handle(CallbackQuery query) {
+    protected PartialBotApiMethod<?> handleCommand(CallbackQuery query) {
         Long chatId = query.getMessage().getChatId();
         String currentMenuName = query.getData();
         menuNavigationService.pushMenu(chatId, currentMenuName);

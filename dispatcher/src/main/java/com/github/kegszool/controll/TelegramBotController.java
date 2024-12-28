@@ -14,25 +14,22 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Log4j2
 public class TelegramBotController {
 
+    private static final String ERROR_MESSAGE = "Произошла ошибка при выполнении программы";
+
+    private final BotRegistrationService botRegistrationService;
+    private final UpdateRouter updateRouter;
+
     @Value("${TELEGRAM_BOT_TOKEN}")
     private String botToken;
-
     private TelegramBot bot;
-    private final BotRegistrationService botRegistrationService;
-    private final MessageRouter messageRouter;
-    private final CallbackQueryRouter callbackQueryRouter;
-
-    private static final String ERROR_MESSAGE = "Произошла ошибка при выполнении программы";
 
     @Autowired
     public TelegramBotController(
         BotRegistrationService botRegistrationService,
-        MessageRouter messageRouter,
-        CallbackQueryRouter callbackQueryRouter
+        UpdateRouter updateRouter
     ) {
         this.botRegistrationService = botRegistrationService;
-        this.messageRouter = messageRouter;
-        this.callbackQueryRouter = callbackQueryRouter;
+        this.updateRouter = updateRouter;
     }
 
     public void registerBot(TelegramBot bot) {
@@ -42,12 +39,7 @@ public class TelegramBotController {
     public void hadleUpdate(Update update) {
         log.info("Received update {}", update);
         try {
-            PartialBotApiMethod<?> response = null;
-            if (update.hasMessage() && update.getMessage().hasText()) {
-                response = messageRouter.routeAndHandle(update);
-            } else if (update.hasCallbackQuery()) {
-                response = callbackQueryRouter.routeAndHandle(update.getCallbackQuery());
-            }
+            PartialBotApiMethod<?> response = updateRouter.routeAndHandle(update);
             bot.sendAnswerMessage(response);
         } catch (Exception e) { handleErrorUpdateProcessing(update); }
     }
