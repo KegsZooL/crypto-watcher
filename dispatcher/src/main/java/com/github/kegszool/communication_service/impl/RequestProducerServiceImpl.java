@@ -19,7 +19,7 @@ public class RequestProducerServiceImpl implements RequestProducerService {
     }
 
     @Override
-    public void produce(String rabbitQueue, String request) {
-        rabbitTemplate.convertAndSend(EXCHANGE_NAME, rabbitQueue, request);
+    public void produce(String routingKey, String request) {
+        rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, request);
     }
 }

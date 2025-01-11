@@ -1,13 +1,9 @@
 package com.github.kegszool.configuration;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,14 +14,17 @@ public class RabbitConfiguration {
     @Value("${spring.rabbitmq.template.exchange}")
     private String EXCHANGE_NAME;
 
-    @Value("${spring.rabbitmq.queues.request_queue}")
-    private String COIN_REQUEST_QUEUE;
+    @Value("${spring.rabbitmq.queues.request_to_exchange_queue}")
+    private String REQUEST_TO_EXCHANGE_QUEUE;
 
-    @Value("${spring.rabbitmq.queues.response_queue}")
-    private String COIN_RESPONSE_QUEUE;
+    @Value("${spring.rabbitmq.queues.response_from_exchange_queue}")
+    private String RESPONSE_FROM_EXCHANGE_QUEUE;
 
     @Value("${spring.rabbitmq.queues.notification_queue}")
     private String NOTIFICATION_QUEUE;
+
+    @Value("${spring.rabbitmq.template.routing-key.coin_price_key}")
+    private String COIN_PRICE_ROUTING_KEY;
 
     @Bean
     public DirectExchange exchange() {
@@ -33,13 +32,13 @@ public class RabbitConfiguration {
     }
 
     @Bean
-    public Queue coinRequestQueue() {
-        return new Queue(COIN_REQUEST_QUEUE);
+    public Queue requestToExchangeQueue() {
+        return new Queue(REQUEST_TO_EXCHANGE_QUEUE);
     }
 
     @Bean
-    public Queue coinResponseQueue() {
-        return new Queue(COIN_RESPONSE_QUEUE);
+    public Queue responseFromExchangeQueue() {
+        return new Queue(RESPONSE_FROM_EXCHANGE_QUEUE);
     }
 
     @Bean
@@ -48,25 +47,23 @@ public class RabbitConfiguration {
     }
 
     @Bean
-    public Binding bindingCoinRequestQueue() {
-        return BindingBuilder.bind(coinRequestQueue()).to(exchange()).with(COIN_REQUEST_QUEUE);
+    public Binding bindingRequestToExchange() {
+        return BindingBuilder.bind(requestToExchangeQueue())
+                .to(exchange())
+                .with(REQUEST_TO_EXCHANGE_QUEUE);
     }
 
     @Bean
-    public Binding bindingCoinResponseQueue() {
-        return BindingBuilder.bind(coinResponseQueue()).to(exchange()).with(COIN_RESPONSE_QUEUE);
+    public Binding bindingResponsePriceFromExchange() {
+        return BindingBuilder.bind(responseFromExchangeQueue())
+                .to(exchange())
+                .with(COIN_PRICE_ROUTING_KEY);
     }
 
     @Bean
-    public Binding bindingNotificaitonQueue() {
-        return BindingBuilder.bind(coinRequestQueue()).to(exchange()).with(NOTIFICATION_QUEUE);
+    public Binding bindingNotification() {
+        return BindingBuilder.bind(requestToExchangeQueue())
+                .to(exchange())
+                .with(NOTIFICATION_QUEUE);
     }
-
-    @Bean
-    public MessageConverter messageConverter() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
-        return new Jackson2JsonMessageConverter(objectMapper);
-    }
-
 }

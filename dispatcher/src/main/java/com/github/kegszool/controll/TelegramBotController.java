@@ -18,6 +18,7 @@ public class TelegramBotController {
 
     private final BotRegistrationService botRegistrationService;
     private final UpdateRouter updateRouter;
+    private final ResponseRouter responseRouter;
 
     @Value("${TELEGRAM_BOT_TOKEN}")
     private String botToken;
@@ -26,10 +27,12 @@ public class TelegramBotController {
     @Autowired
     public TelegramBotController(
         BotRegistrationService botRegistrationService,
-        UpdateRouter updateRouter
+        UpdateRouter updateRouter,
+        ResponseRouter responseRouter
     ) {
         this.botRegistrationService = botRegistrationService;
         this.updateRouter = updateRouter;
+        this.responseRouter = responseRouter;
     }
 
     public void registerBot(TelegramBot bot) {
@@ -62,5 +65,9 @@ public class TelegramBotController {
             return update.getCallbackQuery().getMessage().getChatId().toString();
         }
         return null;
+    }
+
+    public void handleResponse(String response, String routingKey) {
+        responseRouter.routeAndHandle(response, routingKey);
     }
 }

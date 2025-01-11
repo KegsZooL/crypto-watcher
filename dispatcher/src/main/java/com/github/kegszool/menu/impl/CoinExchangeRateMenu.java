@@ -15,7 +15,7 @@ public class CoinExchangeRateMenu implements Menu {
     private String PAGE_NAME;
 
     private static final Map<String, String> SECTIONS = Map.of(
-            "coin_BTC", "BTC",
+            "coin_BTC-USD-SWAP", "BTC",
             "coin_ETH", "ETH",
             "coin_DOGE", "DOGE",
             "back", "Назад"

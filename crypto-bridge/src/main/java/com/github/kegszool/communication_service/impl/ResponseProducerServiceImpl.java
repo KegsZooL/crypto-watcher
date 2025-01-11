@@ -14,16 +14,13 @@ public class ResponseProducerServiceImpl implements ResponseProducerService {
     @Value("${spring.rabbitmq.template.exchange}")
     private String EXCHANGE_NAME;
 
-    @Value("${spring.rabbitmq.queues.response_queue}")
-    private String RESPONSE_QUEUE;
-
     @Autowired
     public ResponseProducerServiceImpl(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 
     @Override
-    public void produce(String response) {
-        rabbitTemplate.convertAndSend(EXCHANGE_NAME, RESPONSE_QUEUE, response);
+    public void produce(String response, String routingKey) {
+        rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, response);
     }
 }

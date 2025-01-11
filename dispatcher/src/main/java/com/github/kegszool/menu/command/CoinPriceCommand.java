@@ -18,8 +18,8 @@ public class CoinPriceCommand extends CallbackCommand {
     @Value("${coin.prefix}")
     private String COIN_PREFIX;
 
-    @Value("${spring.rabbitmq.queues.request_queue}")
-    private String COIN_REQUEST_QUEUE;
+    @Value("${spring.rabbitmq.queues.request_to_exchange_queue}")
+    private String REQUEST_TO_EXCHANGE_QUEUE;
 
     public CoinPriceCommand(RequestProducerService requestService, MessageUtils messageUtils) {
         this.requestService = requestService;
@@ -33,17 +33,10 @@ public class CoinPriceCommand extends CallbackCommand {
 
     @Override
     protected PartialBotApiMethod<?> handleCommand(CallbackQuery query) {
-        String cryptocurrencyName = getCryptocurrencyNameByCallbackData(query);
+        String cryptocurrencyName = query.getData();
         log.info("The process of getting the price of a coin: '{}'", cryptocurrencyName);
-        requestService.produce(COIN_REQUEST_QUEUE, cryptocurrencyName);
+        requestService.produce(REQUEST_TO_EXCHANGE_QUEUE, cryptocurrencyName);
         String text = String.format("Вы выбрали монету: %s", cryptocurrencyName);
         return messageUtils.createEditMessageText(query, text);
-    }
-
-    private String getCryptocurrencyNameByCallbackData(CallbackQuery query) {
-        String data = query.getData();
-        int lengthOfCoinPrefix = COIN_PREFIX.length();
-        int lengthOfData = data.length();
-        return data.substring(lengthOfCoinPrefix, lengthOfData);
     }
 }
