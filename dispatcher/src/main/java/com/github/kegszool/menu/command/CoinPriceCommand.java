@@ -1,5 +1,6 @@
 package com.github.kegszool.menu.command;
 
+import com.github.kegszool.DTO.DataTransferObject;
 import com.github.kegszool.communication_service.RequestProducerService;
 import com.github.kegszool.utils.MessageUtils;
 import lombok.extern.log4j.Log4j2;
@@ -18,10 +19,13 @@ public class CoinPriceCommand extends CallbackCommand {
     @Value("${coin.prefix}")
     private String COIN_PREFIX;
 
-    @Value("${spring.rabbitmq.queues.request_to_exchange_queue}")
-    private String REQUEST_TO_EXCHANGE_QUEUE;
+    @Value("${spring.rabbitmq.template.routing-key.coin_price_request_key}")
+    private String COIN_PRICE_REQUEST_ROUTING_KEY;
 
-    public CoinPriceCommand(RequestProducerService requestService, MessageUtils messageUtils) {
+    public CoinPriceCommand(
+            RequestProducerService requestService,
+            MessageUtils messageUtils
+    ) {
         this.requestService = requestService;
         this.messageUtils = messageUtils;
     }
@@ -33,10 +37,23 @@ public class CoinPriceCommand extends CallbackCommand {
 
     @Override
     protected PartialBotApiMethod<?> handleCommand(CallbackQuery query) {
-        String cryptocurrencyName = query.getData();
+        String cryptocurrencyName = getCryptocurrencyNameByCallbackData(query);
         log.info("The process of getting the price of a coin: '{}'", cryptocurrencyName);
-        requestService.produce(REQUEST_TO_EXCHANGE_QUEUE, cryptocurrencyName);
+
+        Long chatId = query.getMessage().getChatId();
+        var dataTransferObject = new DataTransferObject();
+        dataTransferObject.setData(cryptocurrencyName);
+        dataTransferObject.setChatId(chatId);
+        requestService.produce(COIN_PRICE_REQUEST_ROUTING_KEY, dataTransferObject);
+
         String text = String.format("Вы выбрали монету: %s", cryptocurrencyName);
         return messageUtils.createEditMessageText(query, text);
+    }
+
+    private String getCryptocurrencyNameByCallbackData(CallbackQuery query) {
+        String data = query.getData();
+        int lengthOfCoinPrefix = COIN_PREFIX.length();
+        int lengthOfData = data.length();
+        return data.substring(lengthOfCoinPrefix, lengthOfData);
     }
 }

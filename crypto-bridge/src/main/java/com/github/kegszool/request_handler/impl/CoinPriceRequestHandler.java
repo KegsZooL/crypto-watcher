@@ -1,5 +1,6 @@
 package com.github.kegszool.request_handler.impl;
 
+import com.github.kegszool.DTO.DataTransferObject;
 import com.github.kegszool.communication_service.ResponseProducerService;
 import com.github.kegszool.controller.RestCryptoController;
 import com.github.kegszool.request_handler.RequestHandler;
@@ -9,11 +10,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class CoinPriceRequestHandler implements RequestHandler {
 
-    @Value("${coin.prefix}")
-    private String COIN_PREFIX;
+    @Value("${spring.rabbitmq.template.routing-key.coin_price_response_key}")
+    private String COIN_PRICE_RESPONSE_ROUTING_KEY;
 
-    @Value("${spring.rabbitmq.template.routing-key.coin_price_key}")
-    private String COIN_PRICE_ROUTING_KEY;
+    @Value("${spring.rabbitmq.template.routing-key.coin_price_request_key}")
+    private String COIN_PRICE_REQUEST_ROUTING_KEY;
 
     private final RestCryptoController restCryptoController;
 
@@ -22,20 +23,15 @@ public class CoinPriceRequestHandler implements RequestHandler {
     }
 
     @Override
-    public boolean canHandle(String request) {
-        return request.startsWith(COIN_PREFIX);
+    public boolean canHandle(String routingKey) {
+        return COIN_PRICE_REQUEST_ROUTING_KEY.equals(routingKey);
     }
 
     @Override
-    public void handle(String request, ResponseProducerService responseProducerService) {
-        String coinName = getCryptocurrencyNameWithoutCoinPrefix(request);
+    public void handle(DataTransferObject dataTransferObject, ResponseProducerService responseProducerService) {
+        String coinName = dataTransferObject.getData();
         String response = restCryptoController.getCryptoPrice(coinName);
-        responseProducerService.produce(response, COIN_PRICE_ROUTING_KEY);
-    }
-
-    private String getCryptocurrencyNameWithoutCoinPrefix(String cryptocurrencyNameWithPrefix) {
-        int lengthOfCoinPrefix = COIN_PREFIX.length();
-        int lengthOfData = cryptocurrencyNameWithPrefix.length();
-        return cryptocurrencyNameWithPrefix.substring(lengthOfCoinPrefix, lengthOfData);
+        dataTransferObject.setData(response);
+        responseProducerService.produce(dataTransferObject, COIN_PRICE_RESPONSE_ROUTING_KEY);
     }
 }

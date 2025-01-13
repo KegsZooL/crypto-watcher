@@ -1,5 +1,6 @@
 package com.github.kegszool.controll;
 
+import com.github.kegszool.DTO.DataTransferObject;
 import com.github.kegszool.TelegramBot;
 import com.github.kegszool.configuration.BotRegistrationService;
 import lombok.extern.log4j.Log4j2;
@@ -67,7 +68,8 @@ public class TelegramBotController {
         return null;
     }
 
-    public void handleResponse(String response, String routingKey) {
-        responseRouter.routeAndHandle(response, routingKey);
+    public void handleResponse(DataTransferObject dataTransferObject, String routingKey) {
+        PartialBotApiMethod<?> response = responseRouter.routeAndHandle(dataTransferObject, routingKey);
+        bot.sendAnswerMessage(response);
     }
 }

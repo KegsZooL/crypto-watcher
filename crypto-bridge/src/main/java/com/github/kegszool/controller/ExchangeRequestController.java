@@ -1,5 +1,6 @@
 package com.github.kegszool.controller;
 
+import com.github.kegszool.DTO.DataTransferObject;
 import com.github.kegszool.communication_service.ResponseProducerService;
 import com.github.kegszool.request_handler.RequestHandler;
 import lombok.extern.log4j.Log4j2;
@@ -24,10 +25,10 @@ public class ExchangeRequestController {
     }
 
     //TODO: ДОБАВИТЬ ЛОГИРОВАНИЕ + ИСКЛЮЧЕНИЕ
-    public void handle(String request) {
+    public void handle(DataTransferObject dataTransferObject, String routingKey) {
         requestHandlers.stream()
-                .filter(requestHandler -> requestHandler.canHandle(request))
+                .filter(requestHandler -> requestHandler.canHandle(routingKey))
                 .findFirst()
-                .ifPresent(requestHandler -> requestHandler.handle(request, responseProducerService));
+                .ifPresent(requestHandler -> requestHandler.handle(dataTransferObject, responseProducerService));
     }
 }

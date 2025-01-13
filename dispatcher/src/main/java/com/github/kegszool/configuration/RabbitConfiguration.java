@@ -4,6 +4,7 @@ import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,11 +21,11 @@ public class RabbitConfiguration {
     @Value("${spring.rabbitmq.queues.response_from_exchange_queue}")
     private String RESPONSE_FROM_EXCHANGE_QUEUE;
 
-    @Value("${spring.rabbitmq.queues.notification_queue}")
-    private String NOTIFICATION_QUEUE;
+    @Value("${spring.rabbitmq.template.routing-key.coin_price_request_key}")
+    private String COIN_PRICE_REQUEST_ROUTING_KEY;
 
-    @Value("${spring.rabbitmq.template.routing-key.coin_price_key}")
-    private String COIN_PRICE_ROUTING_KEY;
+    @Value("${spring.rabbitmq.template.routing-key.coin_price_response_key}")
+    private String COIN_PRICE_RESPONSE_ROUTING_KEY;
 
     @Bean
     public DirectExchange exchange() {
@@ -42,28 +43,21 @@ public class RabbitConfiguration {
     }
 
     @Bean
-    public Queue notificationQueue() {
-        return new Queue(NOTIFICATION_QUEUE);
-    }
-
-    @Bean
-    public Binding bindingRequestToExchange() {
+    public Binding bindingCoinPriceRequestToExchange() {
         return BindingBuilder.bind(requestToExchangeQueue())
                 .to(exchange())
-                .with(REQUEST_TO_EXCHANGE_QUEUE);
+                .with(COIN_PRICE_REQUEST_ROUTING_KEY);
     }
 
     @Bean
     public Binding bindingResponsePriceFromExchange() {
         return BindingBuilder.bind(responseFromExchangeQueue())
                 .to(exchange())
-                .with(COIN_PRICE_ROUTING_KEY);
+                .with(COIN_PRICE_RESPONSE_ROUTING_KEY);
     }
 
     @Bean
-    public Binding bindingNotification() {
-        return BindingBuilder.bind(requestToExchangeQueue())
-                .to(exchange())
-                .with(NOTIFICATION_QUEUE);
+    public Jackson2JsonMessageConverter jackson2JsonMessageConverter() {
+        return new Jackson2JsonMessageConverter();
     }
 }

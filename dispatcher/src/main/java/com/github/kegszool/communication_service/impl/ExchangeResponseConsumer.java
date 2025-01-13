@@ -1,5 +1,6 @@
 package com.github.kegszool.communication_service.impl;
 
+import com.github.kegszool.DTO.DataTransferObject;
 import com.github.kegszool.communication_service.ResponseConsumerService;
 import com.github.kegszool.controll.TelegramBotController;
 import lombok.extern.log4j.Log4j2;
@@ -22,8 +23,8 @@ public class ExchangeResponseConsumer implements ResponseConsumerService {
 
     @Override
     @RabbitListener(queues = "${spring.rabbitmq.queues.response_from_exchange_queue}")
-    public void consume(String response, @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey) {
-       log.info("A response was received from the exchange: {}", response);
-       botController.handleResponse(response, routingKey);
+    public void consume(DataTransferObject dataTransferObject, @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey) {
+       log.info("A response was received from the exchange: {}", dataTransferObject);
+       botController.handleResponse(dataTransferObject, routingKey);
     }
 }

@@ -1,5 +1,6 @@
 package com.github.kegszool.communication_service.impl;
 
+import com.github.kegszool.DTO.DataTransferObject;
 import com.github.kegszool.communication_service.ResponseProducerService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class ResponseProducerServiceImpl implements ResponseProducerService {
     }
 
     @Override
-    public void produce(String response, String routingKey) {
-        rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, response);
+    public void produce(DataTransferObject dataTransferObject, String routingKey) {
+        rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, dataTransferObject);
     }
 }

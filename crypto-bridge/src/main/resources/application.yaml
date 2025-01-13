@@ -10,11 +10,7 @@ spring:
     template:
       exchange: ${RABBITMQ_EXCHANGE_NAME}
       routing-key:
-        coin_price_key: ${RABBITMQ_COIN_PRICE_ROUTING_KEY}
+        coin_price_request_key: ${RABBITMQ_COIN_PRICE_REQUEST_ROUTING_KEY}
+        coin_price_response_key: ${RABBITMQ_COIN_PRICE_RESPONSE_ROUTING_KEY}
     queues:
       request_to_exchange_queue: ${RABBITMQ_REQUEST_TO_EXCHANGE_QUEUE}
-      response_from_exchange_queue: ${RABBITMQ_RESPONSE_FROM_EXCHANGE_QUEUE}
-      notification_queue: ${RABBITMQ_NOTIFICATION_QUEUE}
-
-coin:
-  prefix: ${COIN_PREFIX}
