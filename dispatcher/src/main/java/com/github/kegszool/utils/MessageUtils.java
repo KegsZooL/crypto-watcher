@@ -1,7 +1,7 @@
 package com.github.kegszool.utils;
 
-import com.github.kegszool.menu.Menu;
-import com.github.kegszool.menu.MenuRegistry;
+import com.github.kegszool.bot.menu.Menu;
+import com.github.kegszool.bot.menu.service.MenuRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -49,5 +49,14 @@ public class MessageUtils {
     public EditMessageText createEditMessageTextByMenuName(CallbackQuery query, String menuName) {
         Menu menu = menuRegistry.getMenu(menuName);
         return createEditMessageText(query, menu.getTitle(), menu.get());
+    }
+
+    public String extractChatId(Update update) {
+        if (update.hasMessage()) {
+            return update.getMessage().getChatId().toString();
+        } else if (update.hasCallbackQuery()) {
+            return update.getCallbackQuery().getMessage().getChatId().toString();
+        }
+        return null;
     }
 }

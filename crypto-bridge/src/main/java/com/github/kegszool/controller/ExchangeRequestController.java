@@ -1,8 +1,8 @@
 package com.github.kegszool.controller;
 
-import com.github.kegszool.DTO.DataTransferObject;
-import com.github.kegszool.communication_service.ResponseProducerService;
-import com.github.kegszool.request_handler.RequestHandler;
+import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.producer.ResponseProducerService;
+import com.github.kegszool.handler.RequestHandler;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -25,10 +25,10 @@ public class ExchangeRequestController {
     }
 
     //TODO: ДОБАВИТЬ ЛОГИРОВАНИЕ + ИСКЛЮЧЕНИЕ
-    public void handle(DataTransferObject dataTransferObject, String routingKey) {
+    public void handle(ServiceMessage serviceMessage, String routingKey) {
         requestHandlers.stream()
                 .filter(requestHandler -> requestHandler.canHandle(routingKey))
                 .findFirst()
-                .ifPresent(requestHandler -> requestHandler.handle(dataTransferObject, responseProducerService));
+                .ifPresent(requestHandler -> requestHandler.handle(serviceMessage, responseProducerService));
     }
 }
