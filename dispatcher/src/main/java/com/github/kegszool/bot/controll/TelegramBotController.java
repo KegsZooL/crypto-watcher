@@ -14,9 +14,14 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMet
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import java.util.List;
+
 @Component
 @Log4j2
 public class TelegramBotController {
+
+    @Value("${TELEGRAM_BOT_TOKEN}")
+    private String botToken;
 
     private static final String ERROR_MESSAGE = "Произошла ошибка при выполнении программы";
 
@@ -25,8 +30,6 @@ public class TelegramBotController {
     private final ResponseRouter responseRouter;
     private final MessageUtils messageUtils;
 
-    @Value("${TELEGRAM_BOT_TOKEN}")
-    private String botToken;
     private TelegramBot bot;
 
     @Autowired
@@ -47,7 +50,7 @@ public class TelegramBotController {
     }
 
     public void hadleUpdate(Update update) {
-        log.info("Received update {}", update);
+        log.info("Received update:\n\t\t{}\n", update);
         try {
             PartialBotApiMethod<?> response = updateRouter.routeAndHandle(update, update);
             bot.sendAnswerMessage(response);
@@ -55,7 +58,7 @@ public class TelegramBotController {
     }
 
     private void handleErrorUpdateProcessing(Update update) {
-        log.error("Error processing update: {}", update);
+        log.error("Error processing update:\n\t\t{}\n", update);
         String chatId = messageUtils.extractChatId(update);
         if (chatId != null) {
             SendMessage errorMessage = new SendMessage(chatId, ERROR_MESSAGE);

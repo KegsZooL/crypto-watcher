@@ -10,16 +10,15 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
-//TODO: добавить логирование
 
 @Component
 @Log4j2
 public class CoinPriceResponseHandler implements ResponseHandler {
 
-    private final MessageUtils messageUtils;
-
     @Value("${spring.rabbitmq.template.routing-key.coin_price_response_key}")
     private String COIN_PRICE_RESPONSE_ROUTING_KEY;
+
+    private final MessageUtils messageUtils;
 
     @Autowired
     public CoinPriceResponseHandler(MessageUtils messageUtils) {
@@ -33,8 +32,7 @@ public class CoinPriceResponseHandler implements ResponseHandler {
 
     @Override
     public PartialBotApiMethod<?> handle(ServiceMessage serviceMessage) {
-        SendMessage answerMessage = new SendMessage(serviceMessage.getChatId().toString(), serviceMessage.getData());
-//        return messageUtils.createSendMessageByText("");
+        var answerMessage = new SendMessage(serviceMessage.getChatId(), serviceMessage.getData());
         return answerMessage;
     }
 }

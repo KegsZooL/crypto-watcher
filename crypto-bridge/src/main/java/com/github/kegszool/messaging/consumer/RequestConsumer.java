@@ -29,7 +29,7 @@ public class RequestConsumer implements RequestConsumerService {
 
     private void logReceivedRequest(ServiceMessage serviceMessage, String routingKey) {
         String request = serviceMessage.getData();
-        Long chatId = serviceMessage.getChatId();
+        String chatId = serviceMessage.getChatId();
         log.info("Request: \"{}\" for chat_id: \"{}\" has been received. Routing key: {}", request, chatId, routingKey);
     }
 }

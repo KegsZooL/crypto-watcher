@@ -1,6 +1,7 @@
 package com.github.kegszool.bot.menu.service;
 
 import com.github.kegszool.bot.menu.Menu;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -10,6 +11,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @Component
+@Log4j2
 public class MenuRegistry {
 
     @Value("${menu.pages[4].main}")
@@ -21,6 +23,11 @@ public class MenuRegistry {
     public MenuRegistry(List<Menu> menuList) {
         this.menus = menuList.stream().collect(Collectors.
                 toMap(Menu::getPageName, menu -> menu));
+        logRegistredMenus();
+    }
+
+    private void logRegistredMenus() {
+        log.info("The following menus were registered: {}", menus.entrySet().toString());
     }
 
     public Menu getMenu(String menuName) {

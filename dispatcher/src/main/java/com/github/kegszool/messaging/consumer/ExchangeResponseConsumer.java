@@ -23,7 +23,8 @@ public class ExchangeResponseConsumer implements ResponseConsumerService {
     @Override
     @RabbitListener(queues = "${spring.rabbitmq.queues.response_from_exchange_queue}")
     public void consume(ServiceMessage serviceMessage, @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey) {
-       log.info("A response was received from the exchange: {}", serviceMessage);
+       log.info("A response was received from the exchange:\n\t\t{}\n",
+               serviceMessage.getData());
        botController.handleResponse(serviceMessage, routingKey);
     }
 }

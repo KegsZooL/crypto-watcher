@@ -17,14 +17,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Log4j2
 public class StartCommand extends TextCommand {
 
+    @Value("${menu.pages[4].main}")
+    private String MAIN_MENU_NAME;
+
     private static final String START_COMMAND = "/start";
 
     private final MenuRegistry menuRegistry;
     private final MenuNavigationService navigationService;
     private final MessageUtils messageUtils;
-
-    @Value("${menu.pages[4].main}")
-    private String MAIN_MENU_NAME;
 
     @Autowired
     public StartCommand(
@@ -57,5 +57,4 @@ public class StartCommand extends TextCommand {
         answerMessage.setReplyMarkup(mainMenu.get());
         return answerMessage;
     }
-
 }

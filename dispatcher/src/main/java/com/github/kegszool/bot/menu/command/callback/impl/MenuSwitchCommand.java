@@ -36,9 +36,16 @@ public class MenuSwitchCommand extends CallbackCommand {
 
     @Override
     protected PartialBotApiMethod<?> handleCommand(CallbackQuery query) {
+        String menuName = switchAndGetMenu(query);
+        var message = messageUtils.createEditMessageByMenuName(query, menuName);
+        log.info("Switched menu successfully. Menu name: {}", menuName);
+        return message;
+    }
+
+    private String switchAndGetMenu(CallbackQuery query) {
         String chatId = messageUtils.extractChatId(query);
         String currentMenuName = query.getData();
         menuNavigationService.pushMenu(chatId, currentMenuName);
-        return messageUtils.createEditMessageByMenuName(query, currentMenuName);
+        return currentMenuName;
     }
 }

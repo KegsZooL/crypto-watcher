@@ -63,5 +63,4 @@ public class MessageUtils {
     public String extractChatId(CallbackQuery query) {
        return query.getMessage().getChatId().toString();
     }
-
 }

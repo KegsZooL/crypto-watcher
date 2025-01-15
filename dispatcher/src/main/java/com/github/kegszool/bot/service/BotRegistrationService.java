@@ -15,9 +15,9 @@ public class BotRegistrationService {
         try {
             var botsApplication = new TelegramBotsLongPollingApplication();
             botsApplication.registerBot(botToken, bot);
-            log.info("Successful registration of the bot");
+            log.info("Successful registration of the bot. Bot token: {}", botToken);
         } catch (TelegramApiException e) {
-            String errorMessage = "Bot registration error.";
+            var errorMessage = "Bot registration error. Bot token: " + botToken;
             log.error(errorMessage, e);
             throw new BotRegistrationException(errorMessage, e);
         }

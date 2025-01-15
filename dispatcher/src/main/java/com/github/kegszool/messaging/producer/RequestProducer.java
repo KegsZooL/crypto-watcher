@@ -11,6 +11,7 @@ public class RequestProducer implements RequestProducerService {
 
     @Value("${spring.rabbitmq.template.exchange}")
     private String EXCHANGE_NAME;
+
     private final RabbitTemplate rabbitTemplate;
 
     @Autowired

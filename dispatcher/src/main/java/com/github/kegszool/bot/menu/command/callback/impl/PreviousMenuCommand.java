@@ -14,11 +14,11 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 @Log4j2
 public class PreviousMenuCommand extends CallbackCommand {
 
-    private final MessageUtils messageUtils;
-    private final MenuNavigationService menuNavigationService;
-
     @Value("${menu.actions.back}")
     private String BACK_COMMAND;
+
+    private final MessageUtils messageUtils;
+    private final MenuNavigationService menuNavigationService;
 
     @Autowired
     public PreviousMenuCommand(
@@ -43,9 +43,8 @@ public class PreviousMenuCommand extends CallbackCommand {
     }
 
     private void logCommand(String chatId, String previousMenuName) {
-        var msg = String.format("The command to switch to the previous menu" +
-                  "(prev menu name: %s) of the current chat has been worked out. " +
-                  "ChatId: %s", previousMenuName, chatId);
+        var msg = String.format("The command to switch to the previous menu " +
+                  "\"%s\" of the chat \"%s\" has been worked out.", previousMenuName, chatId);
         log.info(msg);
     }
 }

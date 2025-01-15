@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ResponseProducer implements ResponseProducerService {
 
-    private final RabbitTemplate rabbitTemplate;
-
     @Value("${spring.rabbitmq.template.exchange}")
     private String EXCHANGE_NAME;
+
+    private final RabbitTemplate rabbitTemplate;
 
     @Autowired
     public ResponseProducer(RabbitTemplate rabbitTemplate) {

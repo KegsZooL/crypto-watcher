@@ -9,22 +9,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-
-//TODO: рефакторинг класса + логирование
 
 @Component
 @Log4j2
 public class CoinPriceCommand extends CallbackCommand {
-
-    private final MessageUtils messageUtils;
-    private final RequestProducerService requestService;
 
     @Value("${coin.prefix}")
     private String COIN_PREFIX;
 
     @Value("${spring.rabbitmq.template.routing-key.coin_price_request_key}")
     private String COIN_PRICE_REQUEST_ROUTING_KEY;
+
+    private final MessageUtils messageUtils;
+    private final RequestProducerService requestService;
 
     @Autowired
     public CoinPriceCommand(
@@ -42,23 +41,30 @@ public class CoinPriceCommand extends CallbackCommand {
 
     @Override
     protected PartialBotApiMethod<?> handleCommand(CallbackQuery query) {
-        String cryptocurrencyName = getCryptocurrencyNameByCallbackData(query);
-        log.info("The process of getting the price of a coin: '{}'", cryptocurrencyName);
-
-        Long chatId = query.getMessage().getChatId();
-        var dataTransferObject = new ServiceMessage();
-        dataTransferObject.setData(cryptocurrencyName);
-        dataTransferObject.setChatId(chatId);
-        requestService.produce(COIN_PRICE_REQUEST_ROUTING_KEY, dataTransferObject);
-
-        String text = String.format("Вы выбрали монету: %s", cryptocurrencyName);
-        return messageUtils.createEditMessage(query, text);
+        String coinName = getCoinNameWithoutPrefix(query);
+        produceRequest(query, coinName);
+        var answerMessage = createAnswerMessage(query, coinName);
+        return answerMessage;
     }
 
-    private String getCryptocurrencyNameByCallbackData(CallbackQuery query) {
+    private String getCoinNameWithoutPrefix(CallbackQuery query) {
         String data = query.getData();
-        int lengthOfCoinPrefix = COIN_PREFIX.length();
-        int lengthOfData = data.length();
-        return data.substring(lengthOfCoinPrefix, lengthOfData);
+        return data.substring(COIN_PREFIX.length());
+    }
+
+    private void produceRequest(CallbackQuery query, String coinName) {
+        String chatId = messageUtils.extractChatId(query);
+
+        var serviceMessage = new ServiceMessage();
+        serviceMessage.setData(coinName);
+        serviceMessage.setChatId(chatId);
+
+        requestService.produce(COIN_PRICE_REQUEST_ROUTING_KEY, serviceMessage);
+        log.info("A request has been sent to receive the price of the '{}' coin", coinName);
+    }
+
+    private EditMessageText createAnswerMessage(CallbackQuery query, String coinName) {
+        String text = "Вы выбрали монету: " + coinName;
+        return messageUtils.createEditMessage(query, text);
     }
 }

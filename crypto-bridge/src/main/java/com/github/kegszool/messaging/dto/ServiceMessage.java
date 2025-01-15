@@ -3,7 +3,7 @@ package com.github.kegszool.messaging.dto;
 public class ServiceMessage {
 
     public String data;
-    public Long chatId;
+    public String chatId;
 
     public String getData() {
         return data;
@@ -13,11 +13,11 @@ public class ServiceMessage {
         this.data = data;
     }
 
-    public Long getChatId() {
+    public String getChatId() {
         return chatId;
     }
 
-    public void setChatId(Long chatId) {
+    public void setChatId(String chatId) {
         this.chatId = chatId;
     }
 }
