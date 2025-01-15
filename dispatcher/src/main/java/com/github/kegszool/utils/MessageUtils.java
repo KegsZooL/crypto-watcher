@@ -28,7 +28,7 @@ public class MessageUtils {
         return sendMessage;
     }
 
-    public EditMessageText createEditMessageText (
+    public EditMessageText createEditMessage(
             CallbackQuery query, String text, InlineKeyboardMarkup keyboard
     ) {
         var message = query.getMessage();
@@ -42,13 +42,13 @@ public class MessageUtils {
                 .build();
     }
 
-    public EditMessageText createEditMessageText(CallbackQuery query, String text) {
-        return createEditMessageText(query, text, null);
+    public EditMessageText createEditMessage(CallbackQuery query, String text) {
+        return createEditMessage(query, text, null);
     }
 
-    public EditMessageText createEditMessageTextByMenuName(CallbackQuery query, String menuName) {
+    public EditMessageText createEditMessageByMenuName(CallbackQuery query, String menuName) {
         Menu menu = menuRegistry.getMenu(menuName);
-        return createEditMessageText(query, menu.getTitle(), menu.get());
+        return createEditMessage(query, menu.getTitle(), menu.get());
     }
 
     public String extractChatId(Update update) {
@@ -59,4 +59,9 @@ public class MessageUtils {
         }
         return null;
     }
+
+    public String extractChatId(CallbackQuery query) {
+       return query.getMessage().getChatId().toString();
+    }
+
 }

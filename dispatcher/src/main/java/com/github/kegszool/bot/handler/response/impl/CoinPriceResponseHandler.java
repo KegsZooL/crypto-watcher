@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
-//TODO: добавить логирование + разобраться с получением chatID;
+//TODO: добавить логирование
 
 @Component
 @Log4j2

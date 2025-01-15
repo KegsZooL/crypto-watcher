@@ -5,12 +5,10 @@ import com.github.kegszool.bot.menu.service.MenuNavigationService;
 import com.github.kegszool.bot.menu.service.MenuRegistry;
 import com.github.kegszool.utils.MessageUtils;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-
-
-//TODO: добавить логирование
 
 @Component
 @Log4j2
@@ -20,6 +18,7 @@ public class MenuSwitchCommand extends CallbackCommand {
     private final MenuNavigationService menuNavigationService;
     private final MessageUtils messageUtils;
 
+    @Autowired
     public MenuSwitchCommand(
             MenuRegistry menuRegistry,
             MenuNavigationService menuNavigationService,
@@ -37,9 +36,9 @@ public class MenuSwitchCommand extends CallbackCommand {
 
     @Override
     protected PartialBotApiMethod<?> handleCommand(CallbackQuery query) {
-        Long chatId = query.getMessage().getChatId();
+        String chatId = messageUtils.extractChatId(query);
         String currentMenuName = query.getData();
         menuNavigationService.pushMenu(chatId, currentMenuName);
-        return messageUtils.createEditMessageTextByMenuName(query, currentMenuName);
+        return messageUtils.createEditMessageByMenuName(query, currentMenuName);
     }
 }

@@ -4,7 +4,9 @@ import com.github.kegszool.bot.menu.Menu;
 import com.github.kegszool.bot.menu.service.MenuNavigationService;
 import com.github.kegszool.bot.menu.service.MenuRegistry;
 import com.github.kegszool.bot.menu.command.text.TextCommand;
+import com.github.kegszool.utils.MessageUtils;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
@@ -19,13 +21,20 @@ public class StartCommand extends TextCommand {
 
     private final MenuRegistry menuRegistry;
     private final MenuNavigationService navigationService;
+    private final MessageUtils messageUtils;
 
     @Value("${menu.pages[4].main}")
     private String MAIN_MENU_NAME;
 
-    public StartCommand(MenuRegistry menuRegistry, MenuNavigationService navigationService) {
+    @Autowired
+    public StartCommand(
+            MenuRegistry menuRegistry,
+            MenuNavigationService navigationService,
+            MessageUtils messageUtils
+    ) {
         this.menuRegistry = menuRegistry;
         this.navigationService = navigationService;
+        this.messageUtils = messageUtils;
     }
 
     @Override
@@ -35,11 +44,18 @@ public class StartCommand extends TextCommand {
 
     @Override
     protected PartialBotApiMethod<?> handleCommand(Update update) {
-        long chatId = update.getMessage().getChatId();
+        String chatId = messageUtils.extractChatId(update);
+        var answerMessage = createMessageWithMenu(chatId);
+        log.info("The start command has been worked out for the current chat: {}", chatId);
+        return answerMessage;
+    }
+
+    private SendMessage createMessageWithMenu(String chatId) {
         navigationService.pushMenu(chatId, MAIN_MENU_NAME);
         Menu mainMenu = menuRegistry.getMenu(MAIN_MENU_NAME);
-        var answerMessage = new SendMessage(String.valueOf(chatId), mainMenu.getTitle());
+        var answerMessage = new SendMessage(chatId, mainMenu.getTitle());
         answerMessage.setReplyMarkup(mainMenu.get());
         return answerMessage;
     }
+
 }
