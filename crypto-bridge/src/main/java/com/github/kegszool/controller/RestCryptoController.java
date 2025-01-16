@@ -1,19 +1,20 @@
 package com.github.kegszool.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
+@Log4j2
+@RequestMapping("/api")
 public class RestCryptoController {
 
-    private final String OKX_URL = "https://www.okx.com/api/v5/market/ticker";
+    private final RestTemplate restTemplate = new RestTemplate();
 
-    @GetMapping("/ticker")
-    public String getCryptoPrice(@RequestParam String instId) {
-        RestTemplate restTemplate = new RestTemplate();
-        String url = OKX_URL + "?instId=" + instId;
-        return restTemplate.getForObject(url, String.class);
+    public String getResponse(@RequestParam String url) {
+        var response = restTemplate.getForObject(url, String.class);
+        log.info("GET request executed to URL: {}\n\t\t Response: {}",
+                url, response);
+        return response;
     }
 }

@@ -5,5 +5,6 @@ import com.github.kegszool.messaging.producer.ResponseProducerService;
 
 public interface RequestHandler {
     boolean canHandle(String routingKey);
-    void handle(ServiceMessage serviceMessage, ResponseProducerService responseProducerService);
+    String getResponseRoutingKey();
+    String handle(ServiceMessage serviceMessage);
 }
