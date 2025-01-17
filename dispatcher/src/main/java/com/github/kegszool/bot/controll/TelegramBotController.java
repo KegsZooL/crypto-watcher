@@ -54,11 +54,11 @@ public class TelegramBotController {
         try {
             PartialBotApiMethod<?> response = updateRouter.routeAndHandle(update, update);
             bot.sendAnswerMessage(response);
-        } catch (Exception e) { handleErrorUpdateProcessing(update); }
+        } catch (Exception ex) { handleErrorUpdateProcessing(update, ex); }
     }
 
-    private void handleErrorUpdateProcessing(Update update) {
-        log.error("Error processing update:\n\t\t{}\n", update);
+    private void handleErrorUpdateProcessing(Update update, Exception ex) {
+        log.error("Error processing update:\n\t\t{}\n", update, ex);
         String chatId = messageUtils.extractChatId(update);
         if (chatId != null) {
             SendMessage errorMessage = new SendMessage(chatId, ERROR_MESSAGE);

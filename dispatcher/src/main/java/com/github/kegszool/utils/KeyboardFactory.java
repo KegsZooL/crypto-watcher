@@ -11,6 +11,8 @@ import java.util.stream.Collectors;
 
 public class KeyboardFactory {
 
+    //TODO: add docstrings for methods + add the func of stretching buttons to a certain width
+
     private static List<InlineKeyboardButton> createButtonsBySections(Map<String, String> sections) {
         List<String> сallbackDataSections = sections.keySet().stream().toList();
         return сallbackDataSections.stream()

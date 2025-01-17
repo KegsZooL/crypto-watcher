@@ -15,16 +15,16 @@ public class RabbitConfiguration {
     @Value("${spring.rabbitmq.template.exchange}")
     private String EXCHANGE_NAME;
 
-    @Value("${spring.rabbitmq.queues.request_to_exchange_queue}")
+    @Value("${spring.rabbitmq.queues.request_to_exchange}")
     private String REQUEST_TO_EXCHANGE_QUEUE;
 
-    @Value("${spring.rabbitmq.queues.response_from_exchange_queue}")
+    @Value("${spring.rabbitmq.queues.response_from_exchange}")
     private String RESPONSE_FROM_EXCHANGE_QUEUE;
 
-    @Value("${spring.rabbitmq.template.routing-key.coin_price_request_key}")
+    @Value("${spring.rabbitmq.template.routing-key.coin_price_request}")
     private String COIN_PRICE_REQUEST_ROUTING_KEY;
 
-    @Value("${spring.rabbitmq.template.routing-key.coin_price_response_key}")
+    @Value("${spring.rabbitmq.template.routing-key.coin_price_response}")
     private String COIN_PRICE_RESPONSE_ROUTING_KEY;
 
     @Bean

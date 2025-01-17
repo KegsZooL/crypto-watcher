@@ -21,13 +21,6 @@ public class MessageUtils {
         this.menuRegistry = menuRegistry;
     }
 
-    public SendMessage createSendMessageByText(Update update, String text) {
-        Message message = update.getMessage();
-        String chatId = message.getChatId().toString();
-        var sendMessage = new SendMessage(chatId, text);
-        return sendMessage;
-    }
-
     public EditMessageText createEditMessage(
             CallbackQuery query, String text, InlineKeyboardMarkup keyboard
     ) {

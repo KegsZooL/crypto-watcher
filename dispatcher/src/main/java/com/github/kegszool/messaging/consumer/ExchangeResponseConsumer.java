@@ -21,14 +21,14 @@ public class ExchangeResponseConsumer implements ResponseConsumerService {
     }
 
     @Override
-    @RabbitListener(queues = "${spring.rabbitmq.queues.response_from_exchange_queue}")
+    @RabbitListener(queues = "${spring.rabbitmq.queues.response_from_exchange}")
     public void consume(ServiceMessage serviceMessage, @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey) {
         if(isDataValid(serviceMessage, routingKey)) {
            log.info("A response was received from the exchange:\n\t\t{}\n",
                    serviceMessage.getData());
            botController.handleResponse(serviceMessage, routingKey);
         }
-        //TODO: обработать данное исключение
+        //TODO: handle this exception
     }
 
     private boolean isDataValid(ServiceMessage serviceMessage, String routingKey) {

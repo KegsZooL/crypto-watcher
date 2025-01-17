@@ -17,7 +17,7 @@
     <name>ratewatcher</name>
     <modules>
         <module>dispatcher</module>
-        <module>crypto-bridge</module>
+        <module>exchange_proxy</module>
     </modules>
 
     <properties>
