@@ -18,11 +18,16 @@ spring:
 
 menu:
   pages:
-    - exchange_rate: ${MENU_PAGE_EXCHANGE_RATE}
-    - alerts: ${MENU_PAGE_ALERTS}
-    - add_coin: ${MENU_PAGE_ADD_COIN}
-    - settings: ${MENU_PAGE_SETTINGS}
-    - main: ${MENU_PAGE_MAIN}
+    - exchange_rate: ${EXCHANGE_RATE_MENU}
+    - alerts: ${ALERTS_MENU}
+    - add_coin: ${ADD_COIN_MENU}
+    - settings: ${SETTINGS_MENU}
+    - main: ${MAIN_MENU}
+  titles:
+    - exchange_rate: ${TITLE_EXCHANGE_RATE_MENU}
+    - main: ${TITLE_MAIN_MENU}
+  sections:
+    - main: ${SECTIONS_MAIN_MENU}
 
   actions:
     back: ${MENU_ACTION_BACK}

@@ -1,6 +1,6 @@
 package com.github.kegszool.handler.impl;
 
-import com.github.kegszool.exception.exchange.request.coin.price.CoinPriceExchangeRequestException;
+import com.github.kegszool.exception.request.coin.price.CoinPriceExchangeRequestException;
 import com.github.kegszool.handler.BaseRequestHandler;
 import com.github.kegszool.messaging.dto.ServiceMessage;
 import com.github.kegszool.controller.RestCryptoController;
@@ -39,8 +39,8 @@ public class CoinPriceRequestHandler extends BaseRequestHandler {
     @Override
     public String handle(ServiceMessage serviceMessage) {
 
-        String coinName = serviceMessage.getData();
-        String requestUrl = BASE_REQUEST_URL + coinName;
+        String coin = serviceMessage.getData();
+        String requestUrl = BASE_REQUEST_URL + coin;
         String response;
 
         try {

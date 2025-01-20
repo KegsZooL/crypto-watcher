@@ -1,6 +1,6 @@
-package com.github.kegszool.exception.exchange.request.coin.price;
+package com.github.kegszool.exception.request.coin.price;
 
-import com.github.kegszool.exception.exchange.request.ExchangeRequestException;
+import com.github.kegszool.exception.request.ExchangeRequestException;
 
 public class CoinPriceExchangeRequestException extends ExchangeRequestException {
 

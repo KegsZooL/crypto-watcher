@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -16,7 +15,10 @@ public class CoinExchangeRateMenu implements Menu {
     //TODO: write a function to search for popular coins on the exchange
 
     @Value("${menu.pages[0].exchange_rate}")
-    private String PAGE_NAME;
+    private String NAME;
+
+    @Value("${menu.titles[0].exchange_rate}")
+    private String TITLE;
 
     private static final Map<String, String> SECTIONS = new LinkedHashMap<>();
 
@@ -24,11 +26,9 @@ public class CoinExchangeRateMenu implements Menu {
         SECTIONS.put("coin_BTC-USD-SWAP", "BTC");
         SECTIONS.put("coin_ETH-USD-SWAP", "ETH");
         SECTIONS.put("coin_DOGE-USD-SWAP", "DOGE");
-        SECTIONS.put("back", "Назад");
+        SECTIONS.put("back", "Back");
     }
 
-    //TODO: add static variable to the .env file
-    private static final String TITLE = "Выберите монету!";
 
     private final InlineKeyboardMarkup inlineKeyboardMarkup;
 
@@ -47,7 +47,7 @@ public class CoinExchangeRateMenu implements Menu {
     }
 
     @Override
-    public String getPageName() {
-        return PAGE_NAME;
+    public String getName() {
+        return NAME;
     }
 }

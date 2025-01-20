@@ -16,11 +16,13 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 @Log4j2
 public class CoinPriceCommand extends CallbackCommand {
 
+    private static final String ANSWER_MESSAGE_TEXT = "You have chosen: ";
+
     @Value("${coin.prefix}")
     private String COIN_PREFIX;
 
     @Value("${spring.rabbitmq.template.routing-key.coin_price_request}")
-    private String COIN_PRICE_SNAPSHOT_REQUEST_ROUTING_KEY;
+    private String COIN_PRICE_REQUEST_ROUTING_KEY;
 
     private final MessageUtils messageUtils;
     private final RequestProducerService requestService;
@@ -59,12 +61,12 @@ public class CoinPriceCommand extends CallbackCommand {
         serviceMessage.setData(coinName);
         serviceMessage.setChatId(chatId);
 
-        requestService.produce(COIN_PRICE_SNAPSHOT_REQUEST_ROUTING_KEY, serviceMessage);
+        requestService.produce(COIN_PRICE_REQUEST_ROUTING_KEY, serviceMessage);
         log.info("A request has been sent to receive the price of the '{}' coin", coinName);
     }
 
     private EditMessageText createAnswerMessage(CallbackQuery query, String coinName) {
-        String text = "Вы выбрали монету: " + coinName;
+        String text = ANSWER_MESSAGE_TEXT + coinName;
         return messageUtils.createEditMessage(query, text);
     }
 }

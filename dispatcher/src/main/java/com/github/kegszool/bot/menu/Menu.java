@@ -5,5 +5,5 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 public interface Menu {
     InlineKeyboardMarkup get();
     String getTitle();
-    String getPageName();
+    String getName();
 }

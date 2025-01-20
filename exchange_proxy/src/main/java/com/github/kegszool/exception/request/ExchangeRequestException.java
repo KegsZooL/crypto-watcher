@@ -1,4 +1,4 @@
-package com.github.kegszool.exception.exchange.request;
+package com.github.kegszool.exception.request;
 
 public class ExchangeRequestException extends RuntimeException {
 

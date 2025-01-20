@@ -1,6 +1,6 @@
-package com.github.kegszool.exception.exchange.request.handler;
+package com.github.kegszool.exception.handler;
 
-import com.github.kegszool.exception.exchange.request.ExchangeRequestException;
+import com.github.kegszool.exception.request.ExchangeRequestException;
 
 public class ExchangeRequestHandlerNotFoundException extends ExchangeRequestException {
 

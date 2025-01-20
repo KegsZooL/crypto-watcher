@@ -1,7 +1,7 @@
 package com.github.kegszool.controller;
 
-import com.github.kegszool.exception.exchange.request.ExchangeRequestException;
-import com.github.kegszool.exception.exchange.request.handler.ExchangeRequestHandlerNotFoundException;
+import com.github.kegszool.exception.request.ExchangeRequestException;
+import com.github.kegszool.exception.handler.ExchangeRequestHandlerNotFoundException;
 import com.github.kegszool.messaging.dto.ServiceMessage;
 import com.github.kegszool.messaging.producer.ResponseProducerService;
 import com.github.kegszool.handler.RequestHandler;
@@ -10,9 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
-
-//TODO: rewrite the proxy server impl
 
 @Component
 @Log4j2

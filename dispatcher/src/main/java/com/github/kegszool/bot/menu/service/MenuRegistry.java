@@ -22,7 +22,7 @@ public class MenuRegistry {
     @Autowired
     public MenuRegistry(List<Menu> menuList) {
         this.menus = menuList.stream().collect(Collectors.
-                toMap(Menu::getPageName, menu -> menu));
+                toMap(Menu::getName, menu -> menu));
         logRegistredMenus();
     }
 
