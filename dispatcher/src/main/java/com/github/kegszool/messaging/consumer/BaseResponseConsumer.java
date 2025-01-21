@@ -2,6 +2,8 @@ package com.github.kegszool.messaging.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.kegszool.bot.controll.TelegramBotController;
+import com.github.kegszool.exception.messaging.service_message.InvalidServiceMessageException;
+import com.github.kegszool.exception.messaging.conversion.DataConversionException;
 import com.github.kegszool.messaging.dto.ServiceMessage;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -24,8 +26,9 @@ public abstract class BaseResponseConsumer<T> implements ResponseConsumerService
         if(isDataValid(serviceMessage, routingKey)) {
             ServiceMessage<T> mappedMessage = mapToObject(serviceMessage);
             handleResponse(mappedMessage, routingKey);
+        } else {
+            handleInvalidServiceMessage(serviceMessage, routingKey);
         }
-        handleException();
     }
 
     private boolean  isDataValid(ServiceMessage<?> serviceMessage, String routingKey) {
@@ -33,15 +36,18 @@ public abstract class BaseResponseConsumer<T> implements ResponseConsumerService
     }
 
     private ServiceMessage<T> mapToObject(ServiceMessage<?> serviceMessage) {
+        Object serviceMessageData = serviceMessage.getData();
         try {
-            T data = objectMapper.convertValue(serviceMessage.getData(), getDataClass());
+            T data = objectMapper.convertValue(serviceMessageData, getDataClass());
+
             ServiceMessage<T> mappedMessage = new ServiceMessage<>();
             mappedMessage.setChatId(serviceMessage.getChatId());
             mappedMessage.setData(data);
+
             return mappedMessage;
         }
-        catch (Exception ex) {
-          throw new RuntimeException(ex); //TODO: create custom exception
+        catch (IllegalArgumentException ex) {
+            throw handleConversionError(serviceMessageData);
         }
     }
 
@@ -49,5 +55,18 @@ public abstract class BaseResponseConsumer<T> implements ResponseConsumerService
 
     protected abstract void handleResponse(ServiceMessage<T> serviceMessage, String routingKey);
 
-    private void handleException() {}
+    private DataConversionException handleConversionError(Object serviceMessageData) {
+        Class<?> dataClass = serviceMessageData.getClass();
+        log.error("Error converting object of type \"{}\" to type \"{}\".",
+                dataClass, getDataClass());
+        return new DataConversionException("Failed to convert service message data.");
+    }
+
+    private void handleInvalidServiceMessage(ServiceMessage<?> serviceMessage, String routingKey) {
+        Object data = serviceMessage != null ? serviceMessage.getData() : "null";
+        log.error("Received invalid service message. " +
+                "Routing key: \"{}\", Data: \"{}\"", routingKey, data);
+        throw new InvalidServiceMessageException(
+                String.format("Routing key: \"%s\". Data: \"%s\"", routingKey, data));
+    }
 }

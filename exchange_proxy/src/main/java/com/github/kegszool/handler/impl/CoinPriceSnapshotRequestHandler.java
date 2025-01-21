@@ -18,7 +18,7 @@ import org.springframework.web.client.RestClientException;
 @Log4j2
 public class CoinPriceSnapshotRequestHandler extends BaseRequestHandler {
 
-    //TODO: переписать
+    //TODO: refactoring
 
     @Value("${api.exchange.url.market.ticker.base}")
     private String BASE_REQUEST_URL;

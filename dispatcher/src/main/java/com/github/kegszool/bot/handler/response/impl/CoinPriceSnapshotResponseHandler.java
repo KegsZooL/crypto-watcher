@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
-//TODO: delete this shit code and edit MessageUtils
+//TODO: finish the impl the current command
 
 @Component
 @Log4j2

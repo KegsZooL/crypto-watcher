@@ -12,7 +12,7 @@ import java.util.Map;
 @Component
 public class CoinExchangeRateMenu implements Menu {
 
-    //TODO: write a function to search for popular coins on the exchange
+    //TODO: implement a data base (read the user's favorite coins)
 
     @Value("${menu.pages[0].exchange_rate}")
     private String NAME;
