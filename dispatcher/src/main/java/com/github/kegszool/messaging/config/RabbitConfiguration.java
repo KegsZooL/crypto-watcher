@@ -1,4 +1,4 @@
-package com.github.kegszool.messaging.configuration;
+package com.github.kegszool.messaging.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;

@@ -16,9 +16,9 @@
     <packaging>pom</packaging>
     <name>crypto-watcher</name>
     <modules>
-        <module>dispatcher</module>
-        <module>exchange_proxy</module>
         <module>data-manager</module>
+        <module>exchange_proxy</module>
+        <module>dispatcher</module>
     </modules>
 
     <properties>

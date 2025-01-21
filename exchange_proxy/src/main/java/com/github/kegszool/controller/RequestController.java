@@ -1,7 +1,7 @@
-package com.github.kegszool.controller;
+package com.github.kegszool.controller;//package com.github.kegszool.controller;
 
-import com.github.kegszool.exception.request.ExchangeRequestException;
-import com.github.kegszool.exception.handler.ExchangeRequestHandlerNotFoundException;
+import com.github.kegszool.exception.request.RequestException;
+import com.github.kegszool.exception.handler.RequestHandlerNotFoundException;
 import com.github.kegszool.messaging.dto.ServiceMessage;
 import com.github.kegszool.messaging.producer.ResponseProducerService;
 import com.github.kegszool.handler.RequestHandler;
@@ -13,13 +13,13 @@ import java.util.List;
 
 @Component
 @Log4j2
-public class ExchangeRequestController {
+public class RequestController {
 
     private final List<RequestHandler> requestHandlers;
     private final ResponseProducerService responseProducerService;
 
     @Autowired
-    public ExchangeRequestController(
+    public RequestController(
             List<RequestHandler> requestHandlers,
             ResponseProducerService responseProducerService
     ) {
@@ -34,18 +34,17 @@ public class ExchangeRequestController {
                    .findFirst()
                    .orElseThrow(() -> processMissingHandler(serviceMessage, routingKey));
 
-           String response = handler.handle(serviceMessage);
+           ServiceMessage<?> responseServiceMessage = handler.handle(serviceMessage);
            String responseRoutingKey = handler.getResponseRoutingKey();
 
-           serviceMessage.setData(response);
-           responseProducerService.produce(serviceMessage, responseRoutingKey);
+           responseProducerService.produce(responseServiceMessage, responseRoutingKey);
 
-        } catch(ExchangeRequestException ex) {
+        } catch(RequestException ex) {
             //TODO: Think about handaling the exception. Should I notify the user?
         }
     }
 
-    private ExchangeRequestHandlerNotFoundException processMissingHandler(ServiceMessage serviceMessage, String routingKey) {
+    private RequestHandlerNotFoundException processMissingHandler(ServiceMessage serviceMessage, String routingKey) {
         log.warn("The request handler for this routing key: \"{}\" was not found", routingKey);
 
         var data = serviceMessage.getData();
@@ -53,6 +52,6 @@ public class ExchangeRequestController {
         var exceptionMsg = String.format("Routing key: \"%s\". Data: \"%s\". ChatId: \"%s\" ",
                 routingKey, data, chatId);
 
-        return new ExchangeRequestHandlerNotFoundException(exceptionMsg);
+        return new RequestHandlerNotFoundException(exceptionMsg);
     }
 }

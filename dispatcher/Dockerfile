@@ -6,8 +6,8 @@ WORKDIR /home/app
 COPY ./pom.xml ./
 COPY ./dispatcher/pom.xml ./dispatcher/
 COPY ./dispatcher/src/ ./dispatcher/src
-COPY ./crypto-bridge/pom.xml ./crypto-bridge/
-COPY ./crypto-bridge/src/ ./crypto-bridge/src
+COPY ./exchange_proxy/pom.xml ./exchange_proxy/
+COPY ./exchange_proxy/src/ ./exchange_proxy/src
 
 RUN mvn clean package -DskipTest
 

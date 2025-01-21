@@ -14,7 +14,7 @@ import java.util.List;
 
 @Component
 @Log4j2
-public class ResponseRouter extends AbstractRouter<ServiceMessage, ResponseHandler> {
+public class ResponseRouter extends AbstractRouter<ServiceMessage<?>, ResponseHandler> {
 
     @Autowired
     public ResponseRouter(List<ResponseHandler> handlers) {
@@ -22,7 +22,7 @@ public class ResponseRouter extends AbstractRouter<ServiceMessage, ResponseHandl
     }
 
     @Override
-    protected HandlerNotFoundException proccessMissingHandler(ServiceMessage data, Object key) {
+    protected HandlerNotFoundException proccessMissingHandler(ServiceMessage<?> data, Object key) {
         String routingKey = (String) key;
         String warnMessage = String.format(
                 "No response handler found for routing key: %s / ChatId: {}",
@@ -33,7 +33,7 @@ public class ResponseRouter extends AbstractRouter<ServiceMessage, ResponseHandl
     }
 
     @Override
-    protected PartialBotApiMethod<?> handle(ResponseHandler handler, ServiceMessage data) {
+    protected PartialBotApiMethod<?> handle(ResponseHandler handler, ServiceMessage<?> data) {
         return handler.handle(data);
     }
 

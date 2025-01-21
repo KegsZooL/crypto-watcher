@@ -20,7 +20,7 @@ public class RequestProducer implements RequestProducerService {
     }
 
     @Override
-    public void produce(String routingKey, ServiceMessage serviceMessage) {
+    public void produce(String routingKey, ServiceMessage<String> serviceMessage) {
         rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, serviceMessage);
     }
 }

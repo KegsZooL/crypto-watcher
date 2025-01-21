@@ -14,8 +14,6 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMet
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-import java.util.List;
-
 @Component
 @Log4j2
 public class TelegramBotController {
@@ -68,7 +66,7 @@ public class TelegramBotController {
         }
     }
 
-    public void handleResponse(ServiceMessage serviceMessage, String routingKey) {
+    public void handleResponse(ServiceMessage<?> serviceMessage, String routingKey) {
         PartialBotApiMethod<?> response = responseRouter.routeAndHandle(serviceMessage, routingKey);
         bot.sendAnswerMessage(response);
     }

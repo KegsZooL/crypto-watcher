@@ -1,23 +1,11 @@
 package com.github.kegszool.messaging.dto;
 
-public class ServiceMessage {
+import lombok.Getter;
+import lombok.Setter;
 
-    public String data;
-    public String chatId;
-
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
-    }
-
-    public String getChatId() {
-        return chatId;
-    }
-
-    public void setChatId(String chatId) {
-        this.chatId = chatId;
-    }
+@Getter
+@Setter
+public class ServiceMessage<T> {
+    private String chatId;
+    private T data;
 }

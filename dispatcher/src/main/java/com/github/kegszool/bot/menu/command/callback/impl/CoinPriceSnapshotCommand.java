@@ -14,7 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
 @Component
 @Log4j2
-public class CoinPriceCommand extends CallbackCommand {
+public class CoinPriceSnapshotCommand extends CallbackCommand {
 
     private static final String ANSWER_MESSAGE_TEXT = "You have chosen: ";
 
@@ -28,7 +28,7 @@ public class CoinPriceCommand extends CallbackCommand {
     private final RequestProducerService requestService;
 
     @Autowired
-    public CoinPriceCommand(
+    public CoinPriceSnapshotCommand(
             MessageUtils messageUtils,
             RequestProducerService requestService
     ) {
@@ -57,7 +57,7 @@ public class CoinPriceCommand extends CallbackCommand {
     private void produceRequest(CallbackQuery query, String coinName) {
         String chatId = messageUtils.extractChatId(query);
 
-        var serviceMessage = new ServiceMessage();
+        var serviceMessage = new ServiceMessage<String>();
         serviceMessage.setData(coinName);
         serviceMessage.setChatId(chatId);
 
