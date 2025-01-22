@@ -13,12 +13,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 
+import java.math.BigDecimal;
+import java.util.function.Function;
 
 @Component
 @Log4j2
 public class CoinPriceSnapshotRequestHandler extends BaseRequestHandler {
-
-    //TODO: refactoring
 
     @Value("${api.exchange.url.market.ticker.base}")
     private String BASE_REQUEST_URL;
@@ -30,7 +30,21 @@ public class CoinPriceSnapshotRequestHandler extends BaseRequestHandler {
     private String COIN_PRICE_REQUEST_ROUTING_KEY;
 
     @Value("${api.exchange.url.market.ticker.response_parameter.last_price}")
-    private String LAST_PRICE_FIELD_NAME;
+    private String LAST_PRICE_FIELD;
+
+    @Value("${api.exchange.url.market.ticker.response_parameter.max_price_24h}")
+    private String MAX_PRICE_24H_FIELD;
+
+    @Value("${api.exchange.url.market.ticker.response_parameter.min_price_24h}")
+    private String MIN_PRICE_24H_FIELD;
+
+    @Value("${api.exchange.url.market.ticker.response_parameter.trading_volume}")
+    private String TRADING_VOLUME_FIELD;
+
+    @Value("${api.exchange.url.market.ticker.response_parameter.trading_volume_currency}")
+    private String TRADING_VOLUME_CURRENCY_FIELD;
+
+    private static final double DEFAULT_DOUBLE_VALUE = -1.0;
 
     public CoinPriceSnapshotRequestHandler(
             RestCryptoController restCryptoController,
@@ -52,22 +66,15 @@ public class CoinPriceSnapshotRequestHandler extends BaseRequestHandler {
     @Override
     public ServiceMessage<?> handle(ServiceMessage<String> serviceMessage) {
 
-        String coin = serviceMessage.getData();
-        String requestUrl = BASE_REQUEST_URL + coin;
+        String coinName = serviceMessage.getData();
+        String requestUrl = BASE_REQUEST_URL + coinName;
 
         ServiceMessage<CoinPriceSnapshot> responseServiceMessage = new ServiceMessage<>();
-
         try {
             String response = restCryptoController.getResponse(requestUrl);
+            CoinPriceSnapshot snapshot = createPriceSnapshot(response, coinName);
 
-            String lastPriceStr = jsonParser.parse(response, LAST_PRICE_FIELD_NAME);
-            double lastPrice = tryParseDouble(lastPriceStr);
-
-            var snapshost = new CoinPriceSnapshot();
-            snapshost.setLastPrice(lastPrice);
-            snapshost.setName(coin);
-
-            responseServiceMessage.setData(snapshost);
+            responseServiceMessage.setData(snapshot);
             responseServiceMessage.setChatId(serviceMessage.getChatId());
 
         } catch (RestClientException | JsonFieldNotFoundException | InvalidJsonFormatException ex ) {
@@ -76,13 +83,45 @@ public class CoinPriceSnapshotRequestHandler extends BaseRequestHandler {
         return responseServiceMessage;
     }
 
-    private double tryParseDouble(String str) {
+    private CoinPriceSnapshot createPriceSnapshot(String response, String coinName)
+            throws JsonFieldNotFoundException, InvalidJsonFormatException
+    {
+        var lastPriceStr = jsonParser.parse(response, LAST_PRICE_FIELD);
+        double lastPrice = tryParseDouble(
+                lastPriceStr, Double::parseDouble, LAST_PRICE_FIELD, DEFAULT_DOUBLE_VALUE, Double.class);
+
+        var maxPrice24hStr = jsonParser.parse(response, MAX_PRICE_24H_FIELD);
+        double maxPrice24h = tryParseDouble(
+                maxPrice24hStr, Double::parseDouble, MAX_PRICE_24H_FIELD, DEFAULT_DOUBLE_VALUE, Double.class);
+
+        var minPrice24hStr = jsonParser.parse(response, MIN_PRICE_24H_FIELD);
+        double minPrice24h = tryParseDouble(
+                minPrice24hStr, Double::parseDouble, MIN_PRICE_24H_FIELD, DEFAULT_DOUBLE_VALUE, Double.class);
+
+        var tradingVolumeStr = jsonParser.parse(response, TRADING_VOLUME_FIELD);
+        BigDecimal tradingVolume = tryParseDouble(
+                tradingVolumeStr, BigDecimal::new, TRADING_VOLUME_FIELD, BigDecimal.ZERO, BigDecimal.class);
+
+        var tradingVolumeCurrencyStr = jsonParser.parse(response, TRADING_VOLUME_CURRENCY_FIELD);
+        BigDecimal tradingVolumeCurrency = tryParseDouble(
+                tradingVolumeCurrencyStr, BigDecimal::new, TRADING_VOLUME_CURRENCY_FIELD, BigDecimal.ZERO, BigDecimal.class);
+
+        var snapshost = new CoinPriceSnapshot(
+                coinName, lastPrice, maxPrice24h, minPrice24h, tradingVolume, tradingVolumeCurrency
+        );
+        return snapshost;
+    }
+
+    private <T> T tryParseDouble(
+            String str, Function<String, T> parser,
+            String fieldName , T defaultValue, Class<T> clazz
+    ) {
         try {
-            return Double.parseDouble(str);
-        } catch(NullPointerException ex) {
-            return -1;
-        } catch(NumberFormatException ex) {
-            return -1;
+            return parser.apply(str);
+        } catch (NullPointerException | NumberFormatException ex) {
+            log.warn("Error converting a string \"{}\" to a type \"{}\" in field \"{}\"",
+                    str, clazz.getSimpleName(), fieldName);
+            return defaultValue;
         }
     }
 

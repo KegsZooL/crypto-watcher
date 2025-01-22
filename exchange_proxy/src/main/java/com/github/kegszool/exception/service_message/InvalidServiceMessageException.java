@@ -1,4 +1,4 @@
-package com.github.kegszool.exception.messaging.service_message;
+package com.github.kegszool.exception.service_message;
 
 public class InvalidServiceMessageException extends RuntimeException {
 

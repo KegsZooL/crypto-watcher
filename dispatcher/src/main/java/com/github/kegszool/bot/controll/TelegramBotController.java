@@ -68,6 +68,8 @@ public class TelegramBotController {
 
     public void handleResponse(ServiceMessage<?> serviceMessage, String routingKey) {
         PartialBotApiMethod<?> response = responseRouter.routeAndHandle(serviceMessage, routingKey);
-        bot.sendAnswerMessage(response);
+        if(response != null) {
+            bot.sendAnswerMessage(response);
+        }
     }
 }

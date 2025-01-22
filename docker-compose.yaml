@@ -37,6 +37,6 @@ services:
       - ${RABBITMQ_HTTP_PORT}
       - ${RABBITMQ_AMQP_PORT}
     volumes:
-      - ./rabbitmq-data:/var/lib/rabbitmq
+      - ./rabbitmq-data:/var/lib/rabbitmq/mnesia
     env_file:
       - .env

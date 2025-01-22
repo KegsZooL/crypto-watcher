@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServiceMessage<T> {
-    private String chatId;
-    private T data;
+public class ServiceException {
+    private String exceptionName;
+    private String message;
 }

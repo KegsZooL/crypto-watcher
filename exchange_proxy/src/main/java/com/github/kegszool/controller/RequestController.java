@@ -2,11 +2,13 @@ package com.github.kegszool.controller;//package com.github.kegszool.controller;
 
 import com.github.kegszool.exception.request.RequestException;
 import com.github.kegszool.exception.handler.RequestHandlerNotFoundException;
+import com.github.kegszool.messaging.dto.ServiceException;
 import com.github.kegszool.messaging.dto.ServiceMessage;
 import com.github.kegszool.messaging.producer.ResponseProducerService;
 import com.github.kegszool.handler.RequestHandler;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -14,6 +16,9 @@ import java.util.List;
 @Component
 @Log4j2
 public class RequestController {
+
+    @Value ("${spring.rabbitmq.template.routing-key.service_exception}")
+    private String SERVICE_EXCEPTION_ROUTING_KEY;
 
     private final List<RequestHandler> requestHandlers;
     private final ResponseProducerService responseProducerService;
@@ -27,7 +32,7 @@ public class RequestController {
         this.responseProducerService = responseProducerService;
     }
 
-    public void handle(ServiceMessage serviceMessage, String routingKey) {
+    public void handle(ServiceMessage<String> serviceMessage, String routingKey) {
         try {
            RequestHandler handler = requestHandlers.stream()
                    .filter(requestHandler -> requestHandler.canHandle(routingKey))
@@ -39,9 +44,7 @@ public class RequestController {
 
            responseProducerService.produce(responseServiceMessage, responseRoutingKey);
 
-        } catch(RequestException ex) {
-            //TODO: Think about handaling the exception. Should I notify the user?
-        }
+        } catch(RequestException ex) { handleServiceException(ex, routingKey, serviceMessage.getChatId()); }
     }
 
     private RequestHandlerNotFoundException processMissingHandler(ServiceMessage serviceMessage, String routingKey) {
@@ -53,5 +56,16 @@ public class RequestController {
                 routingKey, data, chatId);
 
         return new RequestHandlerNotFoundException(exceptionMsg);
+    }
+
+    private void handleServiceException(RequestException ex, String routingKey,String chatId) {
+        log.error("Error while handling request for routing key: {}", routingKey, ex);
+
+        String exceptionName = ex.getClass().getSimpleName();
+        String exceptionMessage = ex.getMessage();
+        var serviceException = new ServiceException(exceptionName, exceptionMessage);
+
+        ServiceMessage<ServiceException> serviceMessage = new ServiceMessage(chatId, serviceException);
+        responseProducerService.produce(serviceMessage, SERVICE_EXCEPTION_ROUTING_KEY);
     }
 }

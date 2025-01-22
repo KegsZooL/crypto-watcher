@@ -22,11 +22,11 @@ public class ResponseRouter extends AbstractRouter<ServiceMessage<?>, ResponseHa
     }
 
     @Override
-    protected HandlerNotFoundException proccessMissingHandler(ServiceMessage<?> data, Object key) {
+    protected HandlerNotFoundException proccessMissingHandler(ServiceMessage<?> serviceMessage, Object key) {
         String routingKey = (String) key;
         String warnMessage = String.format(
-                "No response handler found for routing key: %s / ChatId: {}",
-                routingKey, data.getChatId()
+                "No response handler found for routing key: \"%s\". ChatId: \"%s\".",
+                routingKey, serviceMessage.getChatId()
         );
         log.warn(warnMessage);
         return new ResponseHandlerNotFoundException(warnMessage);

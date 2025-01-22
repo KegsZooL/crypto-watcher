@@ -27,6 +27,9 @@ public class RabbitConfiguration {
     @Value("${spring.rabbitmq.template.routing-key.coin_price_response}")
     private String COIN_PRICE_RESPONSE_ROUTING_KEY;
 
+    @Value("${spring.rabbitmq.template.routing-key.service_exception}")
+    private String SERVICE_EXCEPTION_ROUTING_KEY;
+
     @Bean
     public DirectExchange exchange() {
         return new DirectExchange(EXCHANGE_NAME, true, false);
@@ -43,17 +46,23 @@ public class RabbitConfiguration {
     }
 
     @Bean
-    public Binding bindingCoinPriceRequestToExchange() {
+    public Binding bindCoinPriceRequestToExchange() {
         return BindingBuilder.bind(requestToExchangeQueue())
                 .to(exchange())
                 .with(COIN_PRICE_REQUEST_ROUTING_KEY);
     }
 
     @Bean
-    public Binding bindingResponsePriceFromExchange() {
+    public Binding bindCoinPriceResponseFromExchange() {
         return BindingBuilder.bind(responseFromExchangeQueue())
                 .to(exchange())
                 .with(COIN_PRICE_RESPONSE_ROUTING_KEY);
+    }
+    @Bean
+    public Binding bindServiceExceptionResponseFromExchange() {
+        return BindingBuilder.bind(responseFromExchangeQueue())
+                .to(exchange())
+                .with(SERVICE_EXCEPTION_ROUTING_KEY);
     }
 
     @Bean
