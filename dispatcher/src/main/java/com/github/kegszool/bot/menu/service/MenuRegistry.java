@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 @Log4j2
 public class MenuRegistry {
 
-    @Value("${menu.name[4].main}")
-    private String DEFAULT_MENU;
+    @Value("${menu.main.name}")
+    private String DEFAULT_MENU_NAME;
 
     private final Map<String, Menu> menus;
 
@@ -34,7 +34,7 @@ public class MenuRegistry {
     }
 
     public Menu getMenu(String menuName) {
-        return menus.getOrDefault(menuName, menus.get(DEFAULT_MENU));
+        return menus.getOrDefault(menuName, menus.get(DEFAULT_MENU_NAME));
     }
 
     public boolean isContained(String menuName) {

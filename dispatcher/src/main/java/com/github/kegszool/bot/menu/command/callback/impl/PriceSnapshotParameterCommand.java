@@ -13,10 +13,11 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 @Component
 public class PriceSnapshotParameterCommand extends CallbackCommand {
 
-    @Value("${menu.name[5].price_snapshot}")
+    @Value("${menu.price_snapshot.name}")
     private String PRICE_SNAPSHOT_MENU_NAME;
 
-    private static final String PARAMETER_PREFIX = "price_snapshot_";
+    @Value("${menu.price_snapshot.parameters.prefix}")
+    private String PARAMETER_PREFIX;
 
     private final MessageUtils messageUtils;
     private final PriceSnapshotResponseHandler coinPriceSnapshotResponseHandler;

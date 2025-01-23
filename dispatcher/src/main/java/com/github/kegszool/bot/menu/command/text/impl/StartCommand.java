@@ -13,7 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 @Log4j2
 public class StartCommand extends TextCommand {
 
-    @Value("${menu.name[4].main}")
+    @Value("${menu.main.name}")
     private String MAIN_MENU_NAME;
 
     private static final String START_COMMAND = "/start";

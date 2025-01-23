@@ -21,7 +21,7 @@ public class PriceSnapshotResponseHandler extends BaseResponseHandler {
     @Value("${spring.rabbitmq.template.routing-key.coin_price_response}")
     private String COIN_PRICE_RESPONSE_ROUTING_KEY;
 
-    @Value("${menu.name[5].price_snapshot}")
+    @Value("${menu.price_snapshot.name}")
     private String PRICE_SNAPSHOT_MENU_NAME;
 
     private final Map<String, CoinPriceSnapshot> coinPriceSnapshotMap = new ConcurrentHashMap<>();

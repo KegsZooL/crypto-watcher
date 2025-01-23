@@ -16,13 +16,13 @@ import java.util.Map;
 @Component
 public class MainMenu extends BaseMenu {
 
-    @Value("${menu.name[4].main}")
+    @Value("${menu.main.name}")
     private String NAME;
 
-    @Value("${menu.title[1].main}")
+    @Value("${menu.main.title}")
     private String TITLE;
 
-    @Value("${menu.section[0].main}")
+    @Value("${menu.main.sections}")
     private String MENU_SECTIONS_CONFIG;
 
     @Override

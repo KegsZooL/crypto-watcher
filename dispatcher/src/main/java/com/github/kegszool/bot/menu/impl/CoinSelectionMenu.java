@@ -9,13 +9,13 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 @Component
 public class CoinSelectionMenu extends BaseMenu {
 
-    @Value("${menu.name[0].coin_selection}")
+    @Value("${menu.coin_selection.name}")
     private String NAME;
 
-    @Value("${menu.title[0].coin_selection}")
+    @Value("${menu.coin_selection.title}")
     private String TITLE;
 
-    @Value("${menu.section[1].coin_selection}")
+    @Value("${menu.coin_selection.sections}")
     private String MENU_SECTIONS_CONFIG;
 
     @Override

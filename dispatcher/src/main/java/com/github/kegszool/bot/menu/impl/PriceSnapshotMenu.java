@@ -8,13 +8,13 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 @Component
 public class PriceSnapshotMenu extends BaseMenu {
 
-    @Value("${menu.name[5].price_snapshot}")
+    @Value("${menu.price_snapshot.name}")
     private String NAME;
 
-    @Value("${menu.title[2].coin_price_snapshot}")
+    @Value("${menu.price_snapshot.title}")
     private String TITLE;
 
-    @Value("${menu.section[2].coin_price_snapshot}")
+    @Value("${menu.price_snapshot.sections}")
     private String MENU_SECTIONS_CONFIG;
 
     @Override

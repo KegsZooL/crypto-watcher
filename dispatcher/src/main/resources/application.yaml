@@ -18,29 +18,29 @@ spring:
       response_from_exchange: ${RABBITMQ_RESPONSE_FROM_EXCHANGE_QUEUE}
 
 menu:
-  name:
-    - coin_selection: ${MENU_COIN_SELECTION}
-    - alerts: ${MENU_ALERTS}
-    - add_coin: ${MENU_ADDING_NEW_COIN}
-    - settings: ${MENU_SETTINGS}
-    - main: ${MENU_MAIN}
-    - price_snapshot: ${MENU_PRICE_SNAPSHOT}
-  title:
-    - coin_selection: ${MENU_TITLE_COIN_SELECTION}
-    - main: ${MENU_TITLE_MAIN}
-    - coin_price_snapshot: ${MENU_TITLE_COIN_PRICE_SNAPSHOT}
-  section:
-    - main: ${MENU_SECTIONS_CONFIG_MAIN_MENU}
-    - coin_selection: ${MENU_SECTIONS_CONFIG_COIN_SELECTION}
-    - coin_price_snapshot: ${MENU_SECTIONS_CONFIG_COIN_PRICE_SNAPSHOT}
-
-
-
   action:
-    back: ${MENU_ACTION_BACK}
+      back: ${MENU_ACTION_BACK}
 
-coin:
-  prefix: ${COIN_PREFIX}
+  main:
+      name: ${MENU_MAIN}
+      title: ${MENU_TITLE_MAIN}
+      sections: ${MENU_SECTIONS_CONFIG_MAIN_MENU}
+
+  coin_selection:
+    name: ${MENU_COIN_SELECTION}
+    title: ${MENU_TITLE_COIN_SELECTION}
+    sections: ${MENU_SECTIONS_CONFIG_COIN_SELECTION}
+    prefix: ${COIN_PREFIX}
+
+  settings:
+    name: ${MENU_SETTINGS}
+
+  price_snapshot:
+    name: ${MENU_PRICE_SNAPSHOT}
+    title: ${MENU_TITLE_COIN_PRICE_SNAPSHOT}
+    sections: ${MENU_SECTIONS_CONFIG_COIN_PRICE_SNAPSHOT}
+    parameters:
+      prefix: ${PRICE_SNAPSHOT_PARAMETER_PREFIX}
 
 bot:
   name: ${TELEGRAM_BOT_NAME}

@@ -18,7 +18,7 @@ public class CoinPriceRequestCommand extends CallbackCommand {
 
     private static final String ANSWER_MESSAGE_TEXT = "You have chosen: ";
 
-    @Value("${coin.prefix}")
+    @Value("${menu.coin_selection.prefix}")
     private String COIN_PREFIX;
 
     @Value("${spring.rabbitmq.template.routing-key.coin_price_request}")

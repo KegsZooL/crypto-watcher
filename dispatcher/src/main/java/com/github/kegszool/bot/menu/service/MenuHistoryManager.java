@@ -13,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Log4j2
 public class MenuHistoryManager {
 
-    @Value("${menu.name[4].main}")
+    @Value("${menu.main.name}")
     private String DEFAULT_MENU_NAME;
 
     private final Map<String, Deque<String>> menuHistory = new ConcurrentHashMap<>();
