@@ -1,7 +1,7 @@
 package com.github.kegszool.bot.menu.command.callback.impl;
 
 import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
-import com.github.kegszool.bot.menu.service.MenuNavigationService;
+import com.github.kegszool.bot.menu.service.MenuHistoryManager;
 import com.github.kegszool.bot.menu.service.MenuRegistry;
 import com.github.kegszool.utils.MessageUtils;
 import lombok.extern.log4j.Log4j2;
@@ -15,17 +15,17 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 public class MenuSwitchCommand extends CallbackCommand {
 
     private final MenuRegistry menuRegistry;
-    private final MenuNavigationService menuNavigationService;
+    private final MenuHistoryManager menuHistoryManager;
     private final MessageUtils messageUtils;
 
     @Autowired
     public MenuSwitchCommand(
             MenuRegistry menuRegistry,
-            MenuNavigationService menuNavigationService,
+            MenuHistoryManager menuHistoryManager,
             MessageUtils messageUtils
     ) {
         this.menuRegistry = menuRegistry;
-        this.menuNavigationService = menuNavigationService;
+        this.menuHistoryManager = menuHistoryManager;
         this.messageUtils = messageUtils;
     }
 
@@ -45,7 +45,7 @@ public class MenuSwitchCommand extends CallbackCommand {
     private String switchAndGetMenu(CallbackQuery query) {
         String chatId = messageUtils.extractChatId(query);
         String currentMenuName = query.getData();
-        menuNavigationService.pushMenu(chatId, currentMenuName);
+        menuHistoryManager.recordMenu(chatId, currentMenuName);
         return currentMenuName;
     }
 }

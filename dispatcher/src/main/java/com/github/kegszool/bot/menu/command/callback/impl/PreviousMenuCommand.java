@@ -1,6 +1,6 @@
 package com.github.kegszool.bot.menu.command.callback.impl;
 
-import com.github.kegszool.bot.menu.service.MenuNavigationService;
+import com.github.kegszool.bot.menu.service.MenuHistoryManager;
 import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
 import com.github.kegszool.utils.MessageUtils;
 import lombok.extern.log4j.Log4j2;
@@ -14,19 +14,19 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 @Log4j2
 public class PreviousMenuCommand extends CallbackCommand {
 
-    @Value("${menu.actions.back}")
+    @Value("${menu.action.back}")
     private String BACK_COMMAND;
 
     private final MessageUtils messageUtils;
-    private final MenuNavigationService menuNavigationService;
+    private final MenuHistoryManager menuHistoryManager;
 
     @Autowired
     public PreviousMenuCommand(
             MessageUtils messageUtils,
-            MenuNavigationService menuNavigationService
+            MenuHistoryManager menuHistoryManager
     ) {
         this.messageUtils = messageUtils;
-        this.menuNavigationService = menuNavigationService;
+        this.menuHistoryManager = menuHistoryManager;
     }
 
     @Override
@@ -37,7 +37,7 @@ public class PreviousMenuCommand extends CallbackCommand {
     @Override
     protected PartialBotApiMethod<?> handleCommand(CallbackQuery query) {
         var chatId = messageUtils.extractChatId(query);
-        var previousMenuName = menuNavigationService.popMenu(chatId);
+        var previousMenuName = menuHistoryManager.removeMenu(chatId);
         logCommand(chatId, previousMenuName);
         return messageUtils.createEditMessageByMenuName(query, previousMenuName);
     }

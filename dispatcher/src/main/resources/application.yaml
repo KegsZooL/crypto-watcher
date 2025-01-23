@@ -18,19 +18,25 @@ spring:
       response_from_exchange: ${RABBITMQ_RESPONSE_FROM_EXCHANGE_QUEUE}
 
 menu:
-  pages:
-    - exchange_rate: ${EXCHANGE_RATE_MENU}
-    - alerts: ${ALERTS_MENU}
-    - add_coin: ${ADD_COIN_MENU}
-    - settings: ${SETTINGS_MENU}
-    - main: ${MAIN_MENU}
-  titles:
-    - exchange_rate: ${TITLE_EXCHANGE_RATE_MENU}
-    - main: ${TITLE_MAIN_MENU}
-  sections:
-    - main: ${SECTIONS_MAIN_MENU}
+  name:
+    - coin_selection: ${MENU_COIN_SELECTION}
+    - alerts: ${MENU_ALERTS}
+    - add_coin: ${MENU_ADDING_NEW_COIN}
+    - settings: ${MENU_SETTINGS}
+    - main: ${MENU_MAIN}
+    - price_snapshot: ${MENU_PRICE_SNAPSHOT}
+  title:
+    - coin_selection: ${MENU_TITLE_COIN_SELECTION}
+    - main: ${MENU_TITLE_MAIN}
+    - coin_price_snapshot: ${MENU_TITLE_COIN_PRICE_SNAPSHOT}
+  section:
+    - main: ${MENU_SECTIONS_CONFIG_MAIN_MENU}
+    - coin_selection: ${MENU_SECTIONS_CONFIG_COIN_SELECTION}
+    - coin_price_snapshot: ${MENU_SECTIONS_CONFIG_COIN_PRICE_SNAPSHOT}
 
-  actions:
+
+
+  action:
     back: ${MENU_ACTION_BACK}
 
 coin:

@@ -1,8 +1,6 @@
 package com.github.kegszool.bot.menu.command.text;
 
 import com.github.kegszool.bot.menu.command.Command;
-import com.github.kegszool.bot.menu.service.MenuNavigationService;
-import com.github.kegszool.utils.MessageUtils;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 public abstract class TextCommand extends Command<Update> {

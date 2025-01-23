@@ -5,5 +5,5 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMet
 
 public interface ResponseHandler {
     boolean canHandle(String routingKey);
-    PartialBotApiMethod<?> handle(ServiceMessage serviceMessage);
+    PartialBotApiMethod<?> handle(ServiceMessage<?> serviceMessage);
 }

@@ -11,20 +11,20 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @Log4j2
-public class MenuNavigationService {
+public class MenuHistoryManager {
 
-    @Value("${menu.pages[4].main}")
+    @Value("${menu.name[4].main}")
     private String DEFAULT_MENU_NAME;
 
     private final Map<String, Deque<String>> menuHistory = new ConcurrentHashMap<>();
 
-    public void pushMenu(String chatId, String menuName) {
+    public void recordMenu(String chatId, String menuName) {
          Deque<String> stack = menuHistory.computeIfAbsent(chatId, key -> new LinkedList<>());
          stack.push(menuName);
          logMenuOperation(chatId, "Menu added to history: " + menuName);
     }
 
-    public String popMenu(String chatId) {
+    public String removeMenu(String chatId) {
         Deque<String> stack = menuHistory.get(chatId);
         if(stack == null || stack.size() <= 1) {
             return DEFAULT_MENU_NAME;

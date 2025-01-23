@@ -1,25 +1,28 @@
 package com.github.kegszool.bot.menu.command.callback.impl;
 
-import com.github.kegszool.bot.handler.response.impl.CoinPriceSnapshotResponseHandler;
+import com.github.kegszool.bot.handler.response.impl.PriceSnapshotResponseHandler;
 import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
 import com.github.kegszool.messaging.dto.CoinPriceSnapshot;
 import com.github.kegszool.utils.MessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
 @Component
 public class PriceSnapshotParameterCommand extends CallbackCommand {
 
+    @Value("${menu.name[5].price_snapshot}")
+    private String PRICE_SNAPSHOT_MENU_NAME;
+
     private static final String PARAMETER_PREFIX = "price_snapshot_";
 
     private final MessageUtils messageUtils;
-    private final CoinPriceSnapshotResponseHandler coinPriceSnapshotResponseHandler;
+    private final PriceSnapshotResponseHandler coinPriceSnapshotResponseHandler;
 
     @Autowired
-    public PriceSnapshotParameterCommand(MessageUtils messageUtils, CoinPriceSnapshotResponseHandler coinPriceSnapshotResponseHandler) {
+    public PriceSnapshotParameterCommand(MessageUtils messageUtils, PriceSnapshotResponseHandler coinPriceSnapshotResponseHandler) {
         this.messageUtils = messageUtils;
         this.coinPriceSnapshotResponseHandler = coinPriceSnapshotResponseHandler;
     }
@@ -36,7 +39,8 @@ public class PriceSnapshotParameterCommand extends CallbackCommand {
         CoinPriceSnapshot priceSnapshot = coinPriceSnapshotResponseHandler.getCoinPriceSnapshot(chatId);
 
         String parameterValue = getParameterValue(parameter, priceSnapshot);
-        return messageUtils.createEditMessage(query, parameterValue);
+        var answerMessage = messageUtils.createEditMessageByMenuName(query, parameterValue, PRICE_SNAPSHOT_MENU_NAME);
+        return answerMessage;
     }
 
     private String getParameterWithoutPrefix(CallbackQuery query) {

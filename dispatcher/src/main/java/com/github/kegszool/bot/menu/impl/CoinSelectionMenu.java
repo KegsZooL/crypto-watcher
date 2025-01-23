@@ -1,28 +1,21 @@
 package com.github.kegszool.bot.menu.impl;
 
 import com.github.kegszool.bot.menu.BaseMenu;
-import com.github.kegszool.bot.menu.Menu;
-import com.github.kegszool.utils.KeyboardFactory;
 import jakarta.annotation.PostConstruct;
-import lombok.extern.java.Log;
-import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 @Component
-public class MainMenu extends BaseMenu {
+public class CoinSelectionMenu extends BaseMenu {
 
-    @Value("${menu.name[4].main}")
+    @Value("${menu.name[0].coin_selection}")
     private String NAME;
 
-    @Value("${menu.title[1].main}")
+    @Value("${menu.title[0].coin_selection}")
     private String TITLE;
 
-    @Value("${menu.section[0].main}")
+    @Value("${menu.section[1].coin_selection}")
     private String MENU_SECTIONS_CONFIG;
 
     @Override

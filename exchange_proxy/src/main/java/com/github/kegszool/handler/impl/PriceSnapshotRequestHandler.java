@@ -2,7 +2,7 @@ package com.github.kegszool.handler.impl;
 
 import com.github.kegszool.exception.json.InvalidJsonFormatException;
 import com.github.kegszool.exception.json.JsonFieldNotFoundException;
-import com.github.kegszool.exception.request.price_snapshot.CoinPriceSnapshotRequestException;
+import com.github.kegszool.exception.request.price_snapshot.PriceSnapshotRequestException;
 import com.github.kegszool.handler.BaseRequestHandler;
 import com.github.kegszool.messaging.dto.CoinPriceSnapshot;
 import com.github.kegszool.messaging.dto.ServiceMessage;
@@ -18,7 +18,7 @@ import java.util.function.Function;
 
 @Component
 @Log4j2
-public class CoinPriceSnapshotRequestHandler extends BaseRequestHandler {
+public class PriceSnapshotRequestHandler extends BaseRequestHandler {
 
     @Value("${api.exchange.url.market.ticker.base}")
     private String BASE_REQUEST_URL;
@@ -46,7 +46,7 @@ public class CoinPriceSnapshotRequestHandler extends BaseRequestHandler {
 
     private static final double DEFAULT_DOUBLE_VALUE = -1.0;
 
-    public CoinPriceSnapshotRequestHandler(
+    public PriceSnapshotRequestHandler(
             RestCryptoController restCryptoController,
             JsonParser jsonParser
     ) {
@@ -125,8 +125,8 @@ public class CoinPriceSnapshotRequestHandler extends BaseRequestHandler {
         }
     }
 
-    private CoinPriceSnapshotRequestException processErrorOfReceivingPrice(String requestUrl, Exception ex) {
+    private PriceSnapshotRequestException processErrorOfReceivingPrice(String requestUrl, Exception ex) {
         log.error("Error executing the GET request to receive the coin price.\n\t\t Request: {}", requestUrl, ex);
-        return new CoinPriceSnapshotRequestException("Error executing the GET request: " + requestUrl, ex);
+        return new PriceSnapshotRequestException("Error executing the GET request: " + requestUrl, ex);
     }
 }

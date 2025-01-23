@@ -14,7 +14,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
 @Component
 @Log4j2
-public class CoinPriceSnapshotCommand extends CallbackCommand {
+public class CoinPriceRequestCommand extends CallbackCommand {
 
     private static final String ANSWER_MESSAGE_TEXT = "You have chosen: ";
 
@@ -28,7 +28,7 @@ public class CoinPriceSnapshotCommand extends CallbackCommand {
     private final RequestProducerService requestService;
 
     @Autowired
-    public CoinPriceSnapshotCommand(
+    public CoinPriceRequestCommand(
             MessageUtils messageUtils,
             RequestProducerService requestService
     ) {

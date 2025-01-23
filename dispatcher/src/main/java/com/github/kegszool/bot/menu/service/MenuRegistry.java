@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Log4j2
 public class MenuRegistry {
 
-    @Value("${menu.pages[4].main}")
+    @Value("${menu.name[4].main}")
     private String DEFAULT_MENU;
 
     private final Map<String, Menu> menus;
@@ -27,7 +27,10 @@ public class MenuRegistry {
     }
 
     private void logRegistredMenus() {
-        log.info("The following menus were registered: {}", menus.entrySet().toString());
+        String formattedMenus = menus.entrySet().stream()
+                        .map(entry -> entry.getValue().getClass().getSimpleName())
+                        .collect(Collectors.joining(", "));
+            log.info("Registered {} menus: [{}]", menus.size(), formattedMenus);
     }
 
     public Menu getMenu(String menuName) {
