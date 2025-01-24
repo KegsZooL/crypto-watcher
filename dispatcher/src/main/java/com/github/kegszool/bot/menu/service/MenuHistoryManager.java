@@ -19,9 +19,9 @@ public class MenuHistoryManager {
     private final Map<String, Deque<String>> menuHistory = new ConcurrentHashMap<>();
 
     public void recordMenu(String chatId, String menuName) {
-         Deque<String> stack = menuHistory.computeIfAbsent(chatId, key -> new LinkedList<>());
-         stack.push(menuName);
-         logMenuOperation(chatId, "Menu added to history: " + menuName);
+         menuHistory.computeIfAbsent(chatId, key -> new LinkedList<>())
+                   .push(menuName);
+         logHistory(chatId, "Menu added to history: " + menuName);
     }
 
     public String removeMenu(String chatId) {
@@ -32,11 +32,11 @@ public class MenuHistoryManager {
         String removedMenuName = stack.pop();
         String currentMenuName = stack.peek();
 
-        logMenuOperation(chatId, "Menu removed from history: " + removedMenuName);
+        logHistory(chatId, "Menu removed from history: " + removedMenuName);
         return currentMenuName != null ? currentMenuName : DEFAULT_MENU_NAME;
     }
 
-    private void logMenuOperation(String chatId, String msg) {
+    private void logHistory(String chatId, String msg) {
         Deque<String> stack = menuHistory.get(chatId);
         String stackState = stack != null ? stack.toString() : "[]";
 

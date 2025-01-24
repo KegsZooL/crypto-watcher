@@ -18,9 +18,17 @@ public class CoinSelectionMenu extends BaseMenu {
     @Value("${menu.coin_selection.sections}")
     private String MENU_SECTIONS_CONFIG;
 
+    @Value("${menu.coin_selection.max_buttons_per_row}")
+    private int MAX_BUTTONS_PER_ROW;
+
     @Override
     protected String getSectionsConfig() {
         return MENU_SECTIONS_CONFIG;
+    }
+
+    @Override
+    protected int getMaxButtonsPerRow() {
+        return MAX_BUTTONS_PER_ROW;
     }
 
     @Override

@@ -14,8 +14,6 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 @Component
 public class MessageUtils {
 
-    //TODO: переписать
-
     private final MenuHistoryManager menuHistoryManager;
     private final MenuRegistry menuRegistry;
 
@@ -32,9 +30,7 @@ public class MessageUtils {
         return createEditMessage(query, text, null);
     }
 
-    public EditMessageText createEditMessage(
-            CallbackQuery query, String text, InlineKeyboardMarkup keyboard
-    ) {
+    public EditMessageText createEditMessage(CallbackQuery query, String text, InlineKeyboardMarkup keyboard) {
         var message = query.getMessage();
         Long chatId = message.getChatId();
         Integer messageId = message.getMessageId();
@@ -57,13 +53,15 @@ public class MessageUtils {
     }
 
     public SendMessage createMessageByMenuName(String chatId, String menuName) {
-        Menu mainMenu = menuRegistry.getMenu(menuName);
-        var answerMessage = new SendMessage(chatId, mainMenu.getTitle());
-        answerMessage.setReplyMarkup(mainMenu.get());
-        return answerMessage;
+        Menu menu = menuRegistry.getMenu(menuName);
+        return SendMessage.builder()
+                .chatId(chatId)
+                .text(menu.getTitle())
+                .replyMarkup(menu.get())
+                .build();
     }
 
-    public SendMessage recordAndCreateMessageMenu(String chatId, String menuName) {
+    public SendMessage recordAndCreateMessageByMenuName(String chatId, String menuName) {
         menuHistoryManager.recordMenu(chatId, menuName);
         return createMessageByMenuName(chatId, menuName);
     }

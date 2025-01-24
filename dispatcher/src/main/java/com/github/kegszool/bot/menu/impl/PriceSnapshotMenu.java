@@ -17,9 +17,17 @@ public class PriceSnapshotMenu extends BaseMenu {
     @Value("${menu.price_snapshot.sections}")
     private String MENU_SECTIONS_CONFIG;
 
+    @Value("${menu.price_snapshot.max_buttons_per_row}")
+    private int MAX_BUTTONS_PER_ROW;
+
     @Override
     protected String getSectionsConfig() {
         return MENU_SECTIONS_CONFIG;
+    }
+
+    @Override
+    protected int getMaxButtonsPerRow() {
+        return MAX_BUTTONS_PER_ROW;
     }
 
     @Override

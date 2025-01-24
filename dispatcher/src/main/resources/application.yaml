@@ -25,12 +25,14 @@ menu:
       name: ${MENU_MAIN}
       title: ${MENU_TITLE_MAIN}
       sections: ${MENU_SECTIONS_CONFIG_MAIN_MENU}
+      max_buttons_per_row: ${MENU_MAX_BUTTONS_PER_ROW_MAIN}
 
   coin_selection:
     name: ${MENU_COIN_SELECTION}
     title: ${MENU_TITLE_COIN_SELECTION}
     sections: ${MENU_SECTIONS_CONFIG_COIN_SELECTION}
     prefix: ${COIN_PREFIX}
+    max_buttons_per_row: ${MENU_MAX_BUTTONS_PER_ROW_COIN_SELECTION}
 
   settings:
     name: ${MENU_SETTINGS}
@@ -39,8 +41,24 @@ menu:
     name: ${MENU_PRICE_SNAPSHOT}
     title: ${MENU_TITLE_COIN_PRICE_SNAPSHOT}
     sections: ${MENU_SECTIONS_CONFIG_COIN_PRICE_SNAPSHOT}
+    max_buttons_per_row: ${MENU_MAX_BUTTONS_PER_ROW_PRICE_SNAPSHOT}
     parameters:
       prefix: ${PRICE_SNAPSHOT_PARAMETER_PREFIX}
+      last_price:
+        name: ${LAST_PRICE_SNAPSHOT_PARAMETER}
+        description: ${LAST_PRICE_SNAPSHOT_PARAMETER_DESCRIPTION}
+      highest_price_24h:
+        name: ${HIGHEST_PRICE_24H_SNAPSHOT_PARAMETER}
+        description: ${HIGHEST_PRICE_24H_SNAPSHOT_PARAMETER_DESCRIPTION}
+      lowest_price_24h:
+        name: ${LOWEST_PRICE_24H_SNAPSHOT_PARAMETER}
+        description: ${LOWEST_PRICE_24H_SNAPSHOT_PARAMETER_DESCRIPTION}
+      trading_volume:
+        name: ${TRADING_VOLUME_PRICE_SNAPSHOT_PARAMETER}
+        description: ${TRADING_VOLUME_PRICE_SNAPSHOT_PARAMETER_DESCRIPTION}
+      trading_volume_currency:
+        name: ${TRADING_VOLUME_CURRENCY_PRICE_SNAPSHOT_PARAMETER}
+        description: ${TRADING_VOLUME_CURRENCY_PRICE_SNAPSHOT_PARAMETER_DESCRIPTION}
 
 bot:
   name: ${TELEGRAM_BOT_NAME}

@@ -1,4 +1,4 @@
-package com.github.kegszool.exception.bot;
+package com.github.kegszool.exception.bot.registration;
 
 public class BotRegistrationException extends RuntimeException {
 

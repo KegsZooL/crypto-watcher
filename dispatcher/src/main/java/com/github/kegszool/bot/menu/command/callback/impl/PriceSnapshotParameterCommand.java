@@ -2,65 +2,109 @@ package com.github.kegszool.bot.menu.command.callback.impl;
 
 import com.github.kegszool.bot.handler.response.impl.PriceSnapshotResponseHandler;
 import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
+import com.github.kegszool.bot.menu.command.callback.impl.entity.PriceSnapshotProperties;
 import com.github.kegszool.messaging.dto.CoinPriceSnapshot;
 import com.github.kegszool.utils.MessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+
+import java.util.Map;
+import java.util.function.Function;
 
 @Component
 public class PriceSnapshotParameterCommand extends CallbackCommand {
 
-    @Value("${menu.price_snapshot.name}")
-    private String PRICE_SNAPSHOT_MENU_NAME;
-
-    @Value("${menu.price_snapshot.parameters.prefix}")
-    private String PARAMETER_PREFIX;
-
     private final MessageUtils messageUtils;
-    private final PriceSnapshotResponseHandler coinPriceSnapshotResponseHandler;
+    private final PriceSnapshotResponseHandler priceSnapshotResponseHandler;
+    private final PriceSnapshotProperties properties;
 
     @Autowired
-    public PriceSnapshotParameterCommand(MessageUtils messageUtils, PriceSnapshotResponseHandler coinPriceSnapshotResponseHandler) {
+    public PriceSnapshotParameterCommand(
+            MessageUtils messageUtils,
+            @Lazy PriceSnapshotResponseHandler priceSnapshotResponseHandler,
+            PriceSnapshotProperties properties
+    ) {
         this.messageUtils = messageUtils;
-        this.coinPriceSnapshotResponseHandler = coinPriceSnapshotResponseHandler;
+        this.priceSnapshotResponseHandler = priceSnapshotResponseHandler;
+        this.properties = properties;
     }
 
     @Override
     protected boolean canHandleCommand(String command) {
-        return command.startsWith(PARAMETER_PREFIX);
+        return command.startsWith(properties.getParameterPrefix());
     }
 
     @Override
     protected PartialBotApiMethod<?> handleCommand(CallbackQuery query) {
         String parameter = getParameterWithoutPrefix(query);
         String chatId = messageUtils.extractChatId(query);
-        CoinPriceSnapshot priceSnapshot = coinPriceSnapshotResponseHandler.getCoinPriceSnapshot(chatId);
 
-        String parameterValue = getParameterValue(parameter, priceSnapshot);
-        var answerMessage = messageUtils.createEditMessageByMenuName(query, parameterValue, PRICE_SNAPSHOT_MENU_NAME);
+        var priceSnapshot = priceSnapshotResponseHandler.getCoinPriceSnapshot(chatId);
+        var parameterMap = createParameterMap();
+
+        String title = createTittleByParameter(parameter, parameterMap, priceSnapshot);
+
+        var answerMessage = messageUtils.createEditMessageByMenuName(query, title, properties.getMenuName());
+        answerMessage.setParseMode(ParseMode.HTML);
         return answerMessage;
     }
 
     private String getParameterWithoutPrefix(CallbackQuery query) {
         String data = query.getData();
-        return data.substring(PARAMETER_PREFIX.length());
+        return data.substring(properties.getParameterPrefix().length());
     }
 
-    private String getParameterValue(String parameter, CoinPriceSnapshot priceSnapshot) {
-        switch (parameter) {
-            case "max_price_24h":
-                return "Max price for 24h: " + priceSnapshot.getMaxPrice24h();
-            case "min_price_24h":
-                return "Min price for 24h: " + priceSnapshot.getMinPrice24h();
-            case "trading_volume":
-                return "Trading volume in 24h [currency unit]: " + priceSnapshot.getTradingVolume24h();
-            case "trading_volume_currency":
-                return "Trading volume in 24h [contract unit]: " + priceSnapshot.getTradingVolumeCurrency24h();
-            default:
-                return "Unknown parameter";
+    private Map<String, ParameterInfo> createParameterMap() {
+        return Map.of(
+            properties.getLastPriceName(), new ParameterInfo(
+                    properties.getLastPriceDescription(), snapshot -> "$" + snapshot.getLastPrice()),
+            properties.getHighestPrice24hName(), new ParameterInfo(
+                    properties.getHighestPrice24hDescription(), snapshot -> "$" + snapshot.getMaxPrice24h()),
+            properties.getLowestPrice24hName(), new ParameterInfo(
+                    properties.getLowestPrice24hDescription(), snapshot -> "$" + snapshot.getMinPrice24h()),
+            properties.getTradingVolumeName(), new ParameterInfo(
+                    properties.getTradingVolumeDescription(), snapshot -> String.valueOf(snapshot.getTradingVolume24h())),
+            properties.getTradingVolumeCurrencyName(), new ParameterInfo(
+                    properties.getTradingVolumeCurrencyDescription(), snapshot -> String.valueOf(snapshot.getTradingVolumeCurrency24h())
+                )
+        );
+    }
+
+    private String createTittleByParameter(
+            String desiredParameter,
+            Map<String, ParameterInfo> createParameterMap,
+            CoinPriceSnapshot priceSnapshot
+    ) {
+        ParameterInfo parameterInfo = createParameterMap.get(desiredParameter);
+
+        String coin = priceSnapshot.getName();
+        String value = parameterInfo.getValue(priceSnapshot);
+        String description = parameterInfo.getDescription();
+
+        String format = "\uD83E\uDE99 - <b>%s</b>\n\n%s - <b>%s</b>";
+        return String.format(format, coin, description, value);
+    }
+
+    private static class ParameterInfo {
+
+        private final String description;
+        private final Function<CoinPriceSnapshot, String> valueProvider;
+
+        public ParameterInfo(String description, Function<CoinPriceSnapshot, String> valueProvider) {
+            this.description = description;
+            this.valueProvider = valueProvider;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public String getValue(CoinPriceSnapshot coinPriceSnapshot) {
+            return valueProvider.apply(coinPriceSnapshot);
         }
     }
 }

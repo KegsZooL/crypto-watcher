@@ -27,7 +27,7 @@ api:
           response_parameter:
             coin: ${MARKET_TICKER_COIN_RESPONSE_PARAMETER}
             last_price: ${MARKET_TICKER_LAST_PRICE_RESPONSE_PARAMETER}
-            max_price_24h: ${MARKET_TICKER_MAX_PRICE_RESPONSE_PARAMETER}
-            min_price_24h: ${MARKET_TICKER_MIN_PRICE_RESPONSE_PARAMETER}
+            highest_price_24h: ${MARKET_TICKER_HIGHEST_PRICE_RESPONSE_PARAMETER}
+            lowest_price_24h: ${MARKET_TICKER_LOWEST_PRICE_RESPONSE_PARAMETER}
             trading_volume: ${MARKET_TICKER_TRADING_VOLUME_RESPONSE_PARAMETER}
             trading_volume_currency: ${MARKET_TICKER_TRADING_VOLUME_CURRENCY_RESPONSE_PARAMETER}

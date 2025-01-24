@@ -33,7 +33,7 @@ public class StartCommand extends TextCommand {
     @Override
     protected PartialBotApiMethod<?> handleCommand(Update update) {
         String chatId = messageUtils.extractChatId(update);
-        var answerMessage = messageUtils.recordAndCreateMessageMenu(chatId, MAIN_MENU_NAME);
+        var answerMessage = messageUtils.recordAndCreateMessageByMenuName(chatId, MAIN_MENU_NAME);
         log.info("The start command has been worked out for the current chat: {}", chatId);
         return answerMessage;
     }

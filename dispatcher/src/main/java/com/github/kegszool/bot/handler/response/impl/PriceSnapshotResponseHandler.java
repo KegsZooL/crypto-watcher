@@ -13,7 +13,6 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMet
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-//TODO: finish the impl the current command
 @Component
 @Log4j2
 public class PriceSnapshotResponseHandler extends BaseResponseHandler {
@@ -41,7 +40,7 @@ public class PriceSnapshotResponseHandler extends BaseResponseHandler {
         String chatId = serviceMessage.getChatId();
         var priceSnapshot = (CoinPriceSnapshot)serviceMessage.getData();
         coinPriceSnapshotMap.put(chatId, priceSnapshot);
-        var answerMessage = messageUtils.recordAndCreateMessageMenu(chatId, PRICE_SNAPSHOT_MENU_NAME);
+        var answerMessage = messageUtils.recordAndCreateMessageByMenuName(chatId, PRICE_SNAPSHOT_MENU_NAME);
         return answerMessage;
     }
 

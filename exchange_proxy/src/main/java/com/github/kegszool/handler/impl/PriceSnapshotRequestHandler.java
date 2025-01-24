@@ -32,11 +32,11 @@ public class PriceSnapshotRequestHandler extends BaseRequestHandler {
     @Value("${api.exchange.url.market.ticker.response_parameter.last_price}")
     private String LAST_PRICE_FIELD;
 
-    @Value("${api.exchange.url.market.ticker.response_parameter.max_price_24h}")
-    private String MAX_PRICE_24H_FIELD;
+    @Value("${api.exchange.url.market.ticker.response_parameter.highest_price_24h}")
+    private String HIGHEST_PRICE_24H_FIELD;
 
-    @Value("${api.exchange.url.market.ticker.response_parameter.min_price_24h}")
-    private String MIN_PRICE_24H_FIELD;
+    @Value("${api.exchange.url.market.ticker.response_parameter.lowest_price_24h}")
+    private String LOWEST_PRICE_24H_FIELD;
 
     @Value("${api.exchange.url.market.ticker.response_parameter.trading_volume}")
     private String TRADING_VOLUME_FIELD;
@@ -90,13 +90,13 @@ public class PriceSnapshotRequestHandler extends BaseRequestHandler {
         double lastPrice = tryParseDouble(
                 lastPriceStr, Double::parseDouble, LAST_PRICE_FIELD, DEFAULT_DOUBLE_VALUE, Double.class);
 
-        var maxPrice24hStr = jsonParser.parse(response, MAX_PRICE_24H_FIELD);
-        double maxPrice24h = tryParseDouble(
-                maxPrice24hStr, Double::parseDouble, MAX_PRICE_24H_FIELD, DEFAULT_DOUBLE_VALUE, Double.class);
+        var highestPriceStr = jsonParser.parse(response, HIGHEST_PRICE_24H_FIELD);
+        double highestPrice = tryParseDouble(
+                highestPriceStr, Double::parseDouble, HIGHEST_PRICE_24H_FIELD, DEFAULT_DOUBLE_VALUE, Double.class);
 
-        var minPrice24hStr = jsonParser.parse(response, MIN_PRICE_24H_FIELD);
-        double minPrice24h = tryParseDouble(
-                minPrice24hStr, Double::parseDouble, MIN_PRICE_24H_FIELD, DEFAULT_DOUBLE_VALUE, Double.class);
+        var lowestPriceStr = jsonParser.parse(response, LOWEST_PRICE_24H_FIELD);
+        double lowestPrice = tryParseDouble(
+                lowestPriceStr, Double::parseDouble, LOWEST_PRICE_24H_FIELD, DEFAULT_DOUBLE_VALUE, Double.class);
 
         var tradingVolumeStr = jsonParser.parse(response, TRADING_VOLUME_FIELD);
         BigDecimal tradingVolume = tryParseDouble(
@@ -107,7 +107,7 @@ public class PriceSnapshotRequestHandler extends BaseRequestHandler {
                 tradingVolumeCurrencyStr, BigDecimal::new, TRADING_VOLUME_CURRENCY_FIELD, BigDecimal.ZERO, BigDecimal.class);
 
         var snapshost = new CoinPriceSnapshot(
-                coinName, lastPrice, maxPrice24h, minPrice24h, tradingVolume, tradingVolumeCurrency
+                coinName, lastPrice, highestPrice, lowestPrice, tradingVolume, tradingVolumeCurrency
         );
         return snapshost;
     }

@@ -4,14 +4,14 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class KeyboardFactory {
 
-    //TODO: add docstrings for methods + add the func of stretching buttons to a certain width
+    private static String ACTION_BACK = "back";
 
     private static List<InlineKeyboardButton> createButtonsBySections(Map<String, String> sections) {
         List<String> сallbackDataSections = sections.keySet().stream().toList();
@@ -25,10 +25,23 @@ public class KeyboardFactory {
 
     }
 
-    public static InlineKeyboardMarkup create(Map<String, String> sections) {
+    public static InlineKeyboardMarkup create(Map<String, String> sections, int numberOfButtonsPerRow) {
         var buttons = createButtonsBySections(sections);
-        InlineKeyboardRow keyboardRow = new InlineKeyboardRow(buttons);
-        var rows = Arrays.asList(keyboardRow);
+
+        List<InlineKeyboardRow> rows = new ArrayList<>();
+        for (int i = 0; i < buttons.size(); i += numberOfButtonsPerRow) {
+
+            List<InlineKeyboardButton> rowButtons = buttons.subList(i, Math.min(i + numberOfButtonsPerRow, buttons.size()));
+            for (int j = 0; j < rowButtons.size(); j++) {
+                InlineKeyboardButton currentButton = rowButtons.get(j);
+                String currentCallbackData = currentButton.getCallbackData();
+                if(ACTION_BACK.equals(currentCallbackData) && i + numberOfButtonsPerRow == buttons.size()) {
+                    rowButtons = rowButtons.subList(0, rowButtons.size() - 1);
+                    --i;
+                }
+            }
+            rows.add(new InlineKeyboardRow(rowButtons));
+        }
         return new InlineKeyboardMarkup(rows);
     }
 }
