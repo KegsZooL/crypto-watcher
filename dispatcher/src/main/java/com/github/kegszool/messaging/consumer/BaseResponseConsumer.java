@@ -35,11 +35,9 @@ public abstract class BaseResponseConsumer<T> implements ResponseConsumerService
         Object serviceMessageData = serviceMessage.getData();
         try {
             T data = objectMapper.convertValue(serviceMessageData, getDataClass());
-
-            ServiceMessage<T> mappedMessage = new ServiceMessage<>();
-            mappedMessage.setChatId(serviceMessage.getChatId());
-            mappedMessage.setData(data);
-
+            ServiceMessage<T> mappedMessage = new ServiceMessage<>(
+                    serviceMessage.getMessageId(), serviceMessage.getChatId(), data
+            );
             return mappedMessage;
         }
         catch (IllegalArgumentException ex) {

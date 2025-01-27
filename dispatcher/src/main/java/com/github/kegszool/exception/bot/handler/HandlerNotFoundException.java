@@ -1,4 +1,4 @@
-package com.github.kegszool.exception.handler;
+package com.github.kegszool.exception.bot.handler;
 
 public abstract class HandlerNotFoundException extends RuntimeException {
 

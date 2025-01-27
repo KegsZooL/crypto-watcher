@@ -32,7 +32,7 @@ public class CoinSelectionMenu extends BaseMenu {
     }
 
     @Override
-    public InlineKeyboardMarkup get() {
+    public InlineKeyboardMarkup getKeyboard() {
         return menuKeyboard;
     }
 

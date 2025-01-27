@@ -31,8 +31,11 @@ menu:
     name: ${MENU_COIN_SELECTION}
     title: ${MENU_TITLE_COIN_SELECTION}
     sections: ${MENU_SECTIONS_CONFIG_COIN_SELECTION}
-    prefix: ${COIN_PREFIX}
+    prefix:
+      - coin: ${COIN_PREFIX}
+      - currency: ${CURRENCY_PREFIX}
     max_buttons_per_row: ${MENU_MAX_BUTTONS_PER_ROW_COIN_SELECTION}
+    answer_message: ${MENU_COIN_SELECTIONS_ANSWER_MESSAGE}
 
   settings:
     name: ${MENU_SETTINGS}

@@ -1,6 +1,6 @@
 package com.github.kegszool.bot.router;
 
-import com.github.kegszool.exception.handler.HandlerNotFoundException;
+import com.github.kegszool.exception.bot.handler.HandlerNotFoundException;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
 import java.util.List;

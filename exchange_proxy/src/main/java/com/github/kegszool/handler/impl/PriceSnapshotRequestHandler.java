@@ -4,7 +4,7 @@ import com.github.kegszool.exception.json.InvalidJsonFormatException;
 import com.github.kegszool.exception.json.JsonFieldNotFoundException;
 import com.github.kegszool.exception.request.price_snapshot.PriceSnapshotRequestException;
 import com.github.kegszool.handler.BaseRequestHandler;
-import com.github.kegszool.messaging.dto.CoinPriceSnapshot;
+import com.github.kegszool.messaging.dto.PriceSnapshot;
 import com.github.kegszool.messaging.dto.ServiceMessage;
 import com.github.kegszool.controller.RestCryptoController;
 import com.github.kegszool.utils.JsonParser;
@@ -69,12 +69,13 @@ public class PriceSnapshotRequestHandler extends BaseRequestHandler {
         String coinName = serviceMessage.getData();
         String requestUrl = BASE_REQUEST_URL + coinName;
 
-        ServiceMessage<CoinPriceSnapshot> responseServiceMessage = new ServiceMessage<>();
+        ServiceMessage<PriceSnapshot> responseServiceMessage = new ServiceMessage<>();
         try {
             String response = restCryptoController.getResponse(requestUrl);
-            CoinPriceSnapshot snapshot = createPriceSnapshot(response, coinName);
+            PriceSnapshot snapshot = createPriceSnapshot(response, coinName);
 
             responseServiceMessage.setData(snapshot);
+            responseServiceMessage.setMessageId(serviceMessage.getMessageId());
             responseServiceMessage.setChatId(serviceMessage.getChatId());
 
         } catch (RestClientException | JsonFieldNotFoundException | InvalidJsonFormatException ex ) {
@@ -83,7 +84,7 @@ public class PriceSnapshotRequestHandler extends BaseRequestHandler {
         return responseServiceMessage;
     }
 
-    private CoinPriceSnapshot createPriceSnapshot(String response, String coinName)
+    private PriceSnapshot createPriceSnapshot(String response, String coinName)
             throws JsonFieldNotFoundException, InvalidJsonFormatException
     {
         var lastPriceStr = jsonParser.parse(response, LAST_PRICE_FIELD);
@@ -106,7 +107,7 @@ public class PriceSnapshotRequestHandler extends BaseRequestHandler {
         BigDecimal tradingVolumeCurrency = tryParseDouble(
                 tradingVolumeCurrencyStr, BigDecimal::new, TRADING_VOLUME_CURRENCY_FIELD, BigDecimal.ZERO, BigDecimal.class);
 
-        var snapshost = new CoinPriceSnapshot(
+        var snapshost = new PriceSnapshot(
                 coinName, lastPrice, highestPrice, lowestPrice, tradingVolume, tradingVolumeCurrency
         );
         return snapshost;

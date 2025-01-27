@@ -44,7 +44,7 @@ public class PreviousMenuCommand extends CallbackCommand {
 
     private void logCommand(String chatId, String previousMenuName) {
         var msg = String.format("The command to switch to the previous menu " +
-                  "\"%s\" of the chat \"%s\" has been worked out.", previousMenuName, chatId);
+                  "\"%s\" for chat \"%s\" has been successfully executed.", previousMenuName, chatId);
         log.info(msg);
     }
 }

@@ -3,7 +3,7 @@ package com.github.kegszool.bot.menu.command.callback.impl;
 import com.github.kegszool.bot.handler.response.impl.PriceSnapshotResponseHandler;
 import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
 import com.github.kegszool.bot.menu.command.callback.impl.entity.PriceSnapshotProperties;
-import com.github.kegszool.messaging.dto.CoinPriceSnapshot;
+import com.github.kegszool.messaging.dto.PriceSnapshot;
 import com.github.kegszool.utils.MessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
@@ -77,7 +77,7 @@ public class PriceSnapshotParameterCommand extends CallbackCommand {
     private String createTittleByParameter(
             String desiredParameter,
             Map<String, ParameterInfo> createParameterMap,
-            CoinPriceSnapshot priceSnapshot
+            PriceSnapshot priceSnapshot
     ) {
         ParameterInfo parameterInfo = createParameterMap.get(desiredParameter);
 
@@ -85,16 +85,16 @@ public class PriceSnapshotParameterCommand extends CallbackCommand {
         String value = parameterInfo.getValue(priceSnapshot);
         String description = parameterInfo.getDescription();
 
-        String format = "\uD83E\uDE99 - <b>%s</b>\n\n%s - <b>%s</b>";
+        String format = "\uD83E\uDE99 — <b>%s</b>\n\n%s — <b>%s</b>";
         return String.format(format, coin, description, value);
     }
 
     private static class ParameterInfo {
 
         private final String description;
-        private final Function<CoinPriceSnapshot, String> valueProvider;
+        private final Function<PriceSnapshot, String> valueProvider;
 
-        public ParameterInfo(String description, Function<CoinPriceSnapshot, String> valueProvider) {
+        public ParameterInfo(String description, Function<PriceSnapshot, String> valueProvider) {
             this.description = description;
             this.valueProvider = valueProvider;
         }
@@ -103,7 +103,7 @@ public class PriceSnapshotParameterCommand extends CallbackCommand {
             return description;
         }
 
-        public String getValue(CoinPriceSnapshot coinPriceSnapshot) {
+        public String getValue(PriceSnapshot coinPriceSnapshot) {
             return valueProvider.apply(coinPriceSnapshot);
         }
     }

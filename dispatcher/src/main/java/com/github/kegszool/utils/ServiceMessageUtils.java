@@ -11,21 +11,38 @@ public class ServiceMessageUtils {
 
     public static boolean isDataValid(ServiceMessage<?> serviceMessage, String routingKey) {
         String chatId = serviceMessage.getChatId();
+        Integer messageId = serviceMessage.getMessageId();
         return serviceMessage != null && serviceMessage.getData() != null
                 && routingKey != null && !routingKey.isEmpty()
-                && chatId != null && !chatId.isEmpty();
+                && chatId != null && !chatId.isEmpty()
+                && messageId != null;
     }
 
     public static InvalidServiceMessageException handleInvalidServiceMessage(
             ServiceMessage<?> serviceMessage, String routingKey
     ) {
-        Object data = serviceMessage != null ? serviceMessage.getData() : "null";
-        String chatId = serviceMessage != null ? serviceMessage.getChatId() : "null";
+        if(serviceMessage == null) {
+            String errorMsg = "Service message is null!";
+            log.error("errorMsg");
+            return new InvalidServiceMessageException(errorMsg);
+        }
+        return createInvalidServiceMessageException(serviceMessage, routingKey);
+    }
 
-        log.error("Received invalid service message. " +
-                "Routing key: \"{}\", Data: \"{}\", ChatId: \"{}\"", routingKey, data, chatId);
-        return new InvalidServiceMessageException(String.format(
-                "Routing key: \"%s\". Data: \"%s\", ChatId: \"%s\"", routingKey, data, chatId));
+    private static InvalidServiceMessageException createInvalidServiceMessageException(
+            ServiceMessage<?> serviceMessage, String routingKey
+    ) {
+        String data, chatId, messageId;
+        data = serviceMessage.getData().toString();
+        chatId = serviceMessage.getChatId();
+        messageId = serviceMessage.getMessageId().toString();
+
+        String pattern = "Routing key: \"{}\", Data: \"{}\", ChatId: \"{}\", MessageId: \"{}\"";
+
+        log.error("Received invalid service message. "
+                + pattern, routingKey, data, chatId, messageId);
+        return new InvalidServiceMessageException(
+                String.format(pattern, routingKey, data, chatId, messageId));
     }
 
     public static ServiceMessageSendingException handleAmqpException(String routingKey, AmqpException ex) {

@@ -10,6 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ServiceMessage<T> {
+    private Integer messageId;
     private String chatId;
     private T data;
 }

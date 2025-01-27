@@ -44,7 +44,7 @@ public class RequestController {
 
            responseProducerService.produce(responseServiceMessage, responseRoutingKey);
 
-        } catch(RequestException ex) { handleServiceException(ex, routingKey, serviceMessage.getChatId()); }
+        } catch(RequestException ex) { handleServiceException(ex, routingKey, serviceMessage.getMessageId(), serviceMessage.getChatId()); }
     }
 
     private RequestHandlerNotFoundException processMissingHandler(ServiceMessage serviceMessage, String routingKey) {
@@ -58,14 +58,14 @@ public class RequestController {
         return new RequestHandlerNotFoundException(exceptionMsg);
     }
 
-    private void handleServiceException(RequestException ex, String routingKey,String chatId) {
+    private void handleServiceException(RequestException ex, String routingKey, Integer messageId, String chatId) {
         log.error("Error while handling request for routing key: {}", routingKey, ex);
 
         String exceptionName = ex.getClass().getSimpleName();
         String exceptionMessage = ex.getMessage();
         var serviceException = new ServiceException(exceptionName, exceptionMessage);
 
-        ServiceMessage<ServiceException> serviceMessage = new ServiceMessage(chatId, serviceException);
+        ServiceMessage<ServiceException> serviceMessage = new ServiceMessage(messageId, chatId, serviceException);
         responseProducerService.produce(serviceMessage, SERVICE_EXCEPTION_ROUTING_KEY);
     }
 }
