@@ -1,4 +1,4 @@
-package com.github.kegszool.config;
+package com.github.kegszool.messaging.config;
 
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.context.annotation.Bean;

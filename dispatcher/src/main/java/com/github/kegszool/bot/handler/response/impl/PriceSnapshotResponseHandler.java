@@ -59,7 +59,6 @@ public class PriceSnapshotResponseHandler extends BaseResponseHandler {
         return answerMessage;
     }
 
-
     public PriceSnapshot getCoinPriceSnapshot(String chatId) {
         return coinPriceSnapshotMap.get(chatId);
     }

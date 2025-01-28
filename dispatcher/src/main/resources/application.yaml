@@ -16,6 +16,8 @@ spring:
     queues:
       request_to_exchange: ${RABBITMQ_REQUEST_TO_EXCHANGE_QUEUE}
       response_from_exchange: ${RABBITMQ_RESPONSE_FROM_EXCHANGE_QUEUE}
+      request_to_database: ${RABBITMQ_REQUEST_TO_DATABASE_QUEUE}
+      response_from_database: ${RABBITMQ_RESPONSE_FROM_DATABASE_QUEUE}
 
 menu:
   action:

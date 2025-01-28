@@ -1,4 +1,4 @@
-package com.github.kegszool.entity;
+package com.github.kegszool.db.entity.base;
 
 public enum Direction {
     Up,

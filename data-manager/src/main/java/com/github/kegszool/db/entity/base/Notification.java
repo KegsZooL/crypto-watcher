@@ -1,11 +1,15 @@
-package com.github.kegszool.entity;
+package com.github.kegszool.db.entity.base;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "notification")
 public class Notification {

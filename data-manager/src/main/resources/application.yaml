@@ -1,5 +1,23 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]
+
+  rabbitmq:
+    host: ${RABBITMQ_HOSTNAME}
+    port:
+      - ${RABBITMQ_AMQP_PORT}
+    username: ${RABBITMQ_USERNAME}
+    password: ${RABBITMQ_PASSWORD}
+    template:
+      exchange: ${RABBITMQ_EXCHANGE_NAME}
+      routing-key:
+    queues:
+      request_to_database: ${RABBITMQ_REQUEST_TO_DATABASE_QUEUE}
+
   datasource:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
+
+
+
