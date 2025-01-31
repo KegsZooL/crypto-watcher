@@ -2,8 +2,8 @@ package com.github.kegszool.controller;//package com.github.kegszool.controller;
 
 import com.github.kegszool.exception.request.RequestException;
 import com.github.kegszool.exception.handler.RequestHandlerNotFoundException;
-import com.github.kegszool.messaging.dto.ServiceException;
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.dto.service.ServiceException;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.producer.ResponseProducerService;
 import com.github.kegszool.handler.RequestHandler;
 import lombok.extern.log4j.Log4j2;

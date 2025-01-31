@@ -1,4 +1,4 @@
-package com.github.kegszool.messaging.dto;
+package com.github.kegszool.messaging.dto.command_entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

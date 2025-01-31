@@ -21,6 +21,12 @@ public class RabbitConfiguration {
     @Value("${spring.rabbitmq.queues.response_from_exchange}")
     private String RESPONSE_FROM_EXCHANGE_QUEUE;
 
+    @Value("${spring.rabbitmq.queues.request_to_database}")
+    private String REQUEST_TO_DATABASE_QUEUE;
+
+    @Value("${spring.rabbitmq.queues.response_from_database}")
+    private String RESPONSE_FROM_DATABASE_QUEUE;
+
     @Value("${spring.rabbitmq.template.routing-key.coin_price_request}")
     private String COIN_PRICE_REQUEST_ROUTING_KEY;
 
@@ -29,6 +35,12 @@ public class RabbitConfiguration {
 
     @Value("${spring.rabbitmq.template.routing-key.service_exception}")
     private String SERVICE_EXCEPTION_ROUTING_KEY;
+
+    @Value("${spring.rabbitmq.template.routing-key.upsert_user_request}")
+    private String UPSERT_USER_REQUEST_TO_DATABASE_ROUTING_KEY;
+
+    @Value("${spring.rabbitmq.template.routing-key.upsert_user_response}")
+    private String UPSERT_USER_RESPONSE_FROM_DATABASE_ROUTING_KEY;
 
     @Bean
     public DirectExchange exchange() {
@@ -46,6 +58,16 @@ public class RabbitConfiguration {
     }
 
     @Bean
+    public Queue requestToDatabaseQueue() {
+        return new Queue(REQUEST_TO_DATABASE_QUEUE);
+    }
+
+    @Bean
+    public Queue responseFromDatabaseQueue() {
+        return new Queue(RESPONSE_FROM_DATABASE_QUEUE);
+    }
+
+    @Bean
     public Binding bindCoinPriceRequestToExchange() {
         return BindingBuilder.bind(requestToExchangeQueue())
                 .to(exchange())
@@ -58,6 +80,21 @@ public class RabbitConfiguration {
                 .to(exchange())
                 .with(COIN_PRICE_RESPONSE_ROUTING_KEY);
     }
+
+    @Bean
+    public Binding bindUpsertUserRequestToDatabase() {
+        return BindingBuilder.bind(requestToDatabaseQueue())
+                .to(exchange())
+                .with(UPSERT_USER_REQUEST_TO_DATABASE_ROUTING_KEY);
+    }
+
+    @Bean
+    public Binding bindUpsertUserResponseFromDatabase() {
+        return BindingBuilder.bind(responseFromDatabaseQueue())
+                .to(exchange())
+                .with(UPSERT_USER_RESPONSE_FROM_DATABASE_ROUTING_KEY);
+    }
+
     @Bean
     public Binding bindServiceExceptionResponseFromExchange() {
         return BindingBuilder.bind(responseFromExchangeQueue())

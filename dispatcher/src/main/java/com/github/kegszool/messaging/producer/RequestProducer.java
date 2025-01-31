@@ -22,7 +22,7 @@ public class RequestProducer implements RequestProducerService {
     }
 
     @Override
-    public void produce(String routingKey, ServiceMessage<String> serviceMessage) {
+    public void produce(String routingKey, ServiceMessage<?> serviceMessage) {
         if(ServiceMessageUtils.isDataValid(serviceMessage, routingKey)) {
             try {
                 rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, serviceMessage);

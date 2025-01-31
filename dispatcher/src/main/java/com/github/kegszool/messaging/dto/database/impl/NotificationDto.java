@@ -1,7 +1,7 @@
 package com.github.kegszool.messaging.dto.database.impl;
 
-import com.github.kegszool.database.entity.base.Direction;
 import com.github.kegszool.messaging.dto.database.BaseEntityDto;
+import com.github.kegszool.messaging.dto.database.Direction;
 
 public class NotificationDto extends BaseEntityDto {
 

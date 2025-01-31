@@ -1,7 +1,7 @@
 package com.github.kegszool.messaging.consumer;
 
 import com.github.kegszool.controller.RequestController;
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 //import com.github.kegszool.controller.RequestController;
 import com.github.kegszool.utils.ServiceMessageUtils;
 import lombok.extern.log4j.Log4j2;

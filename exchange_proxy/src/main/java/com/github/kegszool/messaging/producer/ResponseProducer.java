@@ -1,6 +1,6 @@
 package com.github.kegszool.messaging.producer;
 
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.utils.ServiceMessageUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.AmqpException;

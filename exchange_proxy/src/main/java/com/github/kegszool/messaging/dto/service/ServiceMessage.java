@@ -1,4 +1,4 @@
-package com.github.kegszool.messaging.dto;
+package com.github.kegszool.messaging.dto.service;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServiceException {
-    private String exceptionName;
-    private String message;
+public class ServiceMessage<T> {
+    private Integer messageId;
+    private String chatId;
+    private T data;
 }

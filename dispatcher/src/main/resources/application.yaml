@@ -13,6 +13,8 @@ spring:
         coin_price_request: ${RABBITMQ_COIN_PRICE_REQUEST_ROUTING_KEY}
         coin_price_response: ${RABBITMQ_COIN_PRICE_RESPONSE_ROUTING_KEY}
         service_exception: ${RABBITMQ_SERVICE_EXCEPTION_ROUTING_KEY}
+        upsert_user_request: ${RABBITMQ_UPSERT_USER_REQUEST_ROUTING_KEY}
+        upsert_user_response: ${RABBITMQ_UPSERT_USER_RESPONSE_ROUTING_KEY}
     queues:
       request_to_exchange: ${RABBITMQ_REQUEST_TO_EXCHANGE_QUEUE}
       response_from_exchange: ${RABBITMQ_RESPONSE_FROM_EXCHANGE_QUEUE}

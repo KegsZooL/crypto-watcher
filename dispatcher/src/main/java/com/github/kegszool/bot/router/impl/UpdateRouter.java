@@ -1,6 +1,7 @@
 package com.github.kegszool.bot.router.impl;
 
 import com.github.kegszool.bot.handler.UpdateHandler;
+import com.github.kegszool.bot.handler.UpsertUserHandler;
 import com.github.kegszool.bot.router.AbstractRouter;
 import com.github.kegszool.exception.bot.handler.HandlerNotFoundException;
 import com.github.kegszool.exception.bot.handler.impl.UpdateHandlerNotFoundException;
@@ -18,11 +19,17 @@ import java.util.List;
 public class UpdateRouter extends AbstractRouter<Update, UpdateHandler> {
 
     private final MessageUtils messageUtils;
+    private final UpsertUserHandler upsertUserHandler;
 
     @Autowired
-    public UpdateRouter(List<UpdateHandler> handlers, MessageUtils messageUtils) {
+    public UpdateRouter(
+            List<UpdateHandler> handlers,
+            MessageUtils messageUtils,
+            UpsertUserHandler upsertUserHandler
+    ) {
         super(handlers);
         this.messageUtils = messageUtils;
+        this.upsertUserHandler = upsertUserHandler;
     }
     
     @Override
@@ -32,6 +39,7 @@ public class UpdateRouter extends AbstractRouter<Update, UpdateHandler> {
 
     @Override
     protected PartialBotApiMethod<?> handle(UpdateHandler handler, Update update) {
+        upsertUserHandler.handle(update);
         return handler.handle(update);
     }
 
