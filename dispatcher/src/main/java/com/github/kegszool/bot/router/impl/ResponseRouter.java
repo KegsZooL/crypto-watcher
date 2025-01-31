@@ -1,6 +1,6 @@
 package com.github.kegszool.bot.router.impl;
 
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.bot.router.AbstractRouter;
 import com.github.kegszool.exception.bot.handler.HandlerNotFoundException;
 import com.github.kegszool.exception.bot.handler.impl.ResponseHandlerNotFoundException;

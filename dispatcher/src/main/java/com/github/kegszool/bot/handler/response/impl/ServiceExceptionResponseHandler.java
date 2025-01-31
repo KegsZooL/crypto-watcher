@@ -1,7 +1,7 @@
 package com.github.kegszool.bot.handler.response.impl;
 
 import com.github.kegszool.bot.handler.response.BaseResponseHandler;
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.utils.MessageUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,8 +2,8 @@ package com.github.kegszool.messaging.consumer.impl;
 
 import com.github.kegszool.bot.controll.TelegramBotController;
 import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
-import com.github.kegszool.messaging.dto.ServiceException;
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.dto.service.ServiceException;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

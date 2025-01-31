@@ -1,8 +1,8 @@
 package com.github.kegszool.messaging.consumer.impl;
 
 import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
-import com.github.kegszool.messaging.dto.PriceSnapshot;
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.dto.command_entity.PriceSnapshot;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.bot.controll.TelegramBotController;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

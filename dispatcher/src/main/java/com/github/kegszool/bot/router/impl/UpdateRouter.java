@@ -24,7 +24,7 @@ public class UpdateRouter extends AbstractRouter<Update, UpdateHandler> {
         super(handlers);
         this.messageUtils = messageUtils;
     }
-
+    
     @Override
     protected boolean canHandle(UpdateHandler handler, Object key) {
         return handler.canHandle((Update) key);

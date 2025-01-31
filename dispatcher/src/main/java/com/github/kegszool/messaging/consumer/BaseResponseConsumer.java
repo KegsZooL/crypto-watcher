@@ -3,7 +3,7 @@ package com.github.kegszool.messaging.consumer;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.kegszool.bot.controll.TelegramBotController;
 import com.github.kegszool.exception.messaging.conversion.DataConversionException;
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.utils.ServiceMessageUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;

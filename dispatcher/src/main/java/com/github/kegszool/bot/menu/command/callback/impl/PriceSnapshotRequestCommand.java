@@ -1,7 +1,7 @@
 package com.github.kegszool.bot.menu.command.callback.impl;
 
 import com.github.kegszool.exception.bot.data.ParsingCoinDataException;
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.producer.RequestProducerService;
 import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
 import com.github.kegszool.utils.MessageUtils;

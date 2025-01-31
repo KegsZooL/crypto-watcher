@@ -1,11 +1,9 @@
 package com.github.kegszool.bot.handler.response.impl;
 
 import com.github.kegszool.bot.handler.response.BaseResponseHandler;
-import com.github.kegszool.messaging.dto.PriceSnapshot;
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.dto.command_entity.PriceSnapshot;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.utils.MessageUtils;
-import lombok.extern.log4j.Log4j2;
-import org.apache.commons.io.StreamIterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

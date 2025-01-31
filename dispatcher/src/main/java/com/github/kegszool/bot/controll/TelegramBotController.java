@@ -1,6 +1,6 @@
 package com.github.kegszool.bot.controll;
 
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.bot.TelegramBot;
 import com.github.kegszool.bot.service.BotRegistrationService;
 import com.github.kegszool.bot.router.impl.ResponseRouter;
