@@ -18,6 +18,12 @@ public class ServiceMessageUtils {
                 && messageId != null;
     }
 
+    public static void logReceivedRequest(ServiceMessage<?> serviceMessage, String routingKey) {
+        String data = serviceMessage.getData().toString();
+        String chatId = serviceMessage.getChatId();
+        log.info("Request: \"{}\" for chat_id: \"{}\" has been received. Received data: {}", routingKey, chatId, data);
+    }
+
     public static InvalidServiceMessageException handleInvalidServiceMessage(
             ServiceMessage<?> serviceMessage, String routingKey
     ) {

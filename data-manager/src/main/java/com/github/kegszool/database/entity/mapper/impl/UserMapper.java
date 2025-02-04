@@ -2,7 +2,7 @@ package com.github.kegszool.database.entity.mapper.impl;
 
 import com.github.kegszool.database.entity.base.User;
 import com.github.kegszool.database.entity.mapper.EntityMapper;
-import com.github.kegszool.database.entity.dto.impl.UserDto;
+import com.github.kegszool.messaging.dto.database_entity.UserDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,7 +11,6 @@ public class UserMapper extends EntityMapper<User, UserDto> {
     @Override
     public User toEntity(UserDto userDto) {
         return new User(
-            userDto.getId(),
             userDto.getTelegramId(),
             userDto.getFirstName(),
             userDto.getLastName()
@@ -21,7 +20,6 @@ public class UserMapper extends EntityMapper<User, UserDto> {
     @Override
     public UserDto toDto(User user) {
         return new UserDto(
-            user.getId(),
             user.getTelegramId(),
             user.getFirstName(),
             user.getLastName()

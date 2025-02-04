@@ -2,8 +2,11 @@ package com.github.kegszool.database.repository.impl;
 
 import com.github.kegszool.database.entity.base.FavoriteCoin;
 import com.github.kegszool.database.repository.EntityRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
-public abstract class FavoriteCoinRepository extends EntityRepository<FavoriteCoin, Integer> {
+import java.util.List;
+
+@Repository
+public interface FavoriteCoinRepository extends EntityRepository<FavoriteCoin, Integer> {
+    List<FavoriteCoin> findByUser_Id(int userId);
 }

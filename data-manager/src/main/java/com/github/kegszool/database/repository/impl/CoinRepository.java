@@ -2,8 +2,8 @@ package com.github.kegszool.database.repository.impl;
 
 import com.github.kegszool.database.entity.base.Coin;
 import com.github.kegszool.database.repository.EntityRepository;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
-@Component
-public abstract class CoinRepository extends EntityRepository<Coin, Integer> {
+@Repository
+public interface CoinRepository extends EntityRepository<Coin, Integer> {
 }

@@ -26,16 +26,10 @@ public class RequestConsumer implements RequestConsumerService {
     @RabbitListener(queues = "${spring.rabbitmq.queues.request_to_exchange}")
     public void consume(ServiceMessage<String> serviceMessage, @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey) {
         if(ServiceMessageUtils.isDataValid(serviceMessage, routingKey)) {
-            logReceivedRequest(serviceMessage, routingKey);
+            ServiceMessageUtils.logReceivedRequest(serviceMessage, routingKey);
             requestController.handle(serviceMessage, routingKey);
         } else {
             throw ServiceMessageUtils.handleInvalidServiceMessage(serviceMessage, routingKey);
         }
-    }
-
-    private void logReceivedRequest(ServiceMessage<String> serviceMessage, String routingKey) {
-        String data = serviceMessage.getData();
-        String chatId = serviceMessage.getChatId();
-        log.info("Request: \"{}\" for chat_id: \"{}\" has been received. Received data: {}", routingKey, chatId, data);
     }
 }

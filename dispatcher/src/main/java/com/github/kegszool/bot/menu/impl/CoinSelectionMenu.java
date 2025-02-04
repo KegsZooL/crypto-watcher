@@ -1,7 +1,6 @@
 package com.github.kegszool.bot.menu.impl;
 
 import com.github.kegszool.bot.menu.BaseMenu;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;

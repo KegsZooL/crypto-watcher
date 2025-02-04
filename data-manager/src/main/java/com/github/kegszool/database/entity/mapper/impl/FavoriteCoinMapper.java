@@ -2,7 +2,7 @@ package com.github.kegszool.database.entity.mapper.impl;
 
 import com.github.kegszool.database.entity.base.FavoriteCoin;
 import com.github.kegszool.database.entity.mapper.EntityMapper;
-import com.github.kegszool.database.entity.dto.impl.FavoriteCoinDto;
+import com.github.kegszool.messaging.dto.database_entity.FavoriteCoinDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +21,6 @@ public class FavoriteCoinMapper extends EntityMapper<FavoriteCoin, FavoriteCoinD
     @Override
     public FavoriteCoin toEntity(FavoriteCoinDto favoriteCoinDto) {
         return new FavoriteCoin(
-            favoriteCoinDto.getId(),
             userMapper.toEntity(favoriteCoinDto.getUser()),
             coinMapper.toEntity(favoriteCoinDto.getCoin())
         );
@@ -30,7 +29,6 @@ public class FavoriteCoinMapper extends EntityMapper<FavoriteCoin, FavoriteCoinD
     @Override
     public FavoriteCoinDto toDto(FavoriteCoin favoriteCoin) {
         return new FavoriteCoinDto(
-            favoriteCoin.getId(),
             userMapper.toDto(favoriteCoin.getUser()),
             coinMapper.toDto(favoriteCoin.getCoin())
         );

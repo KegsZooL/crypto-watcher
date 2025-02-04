@@ -1,8 +1,8 @@
 package com.github.kegszool.database.entity.mapper.impl;
 
 import com.github.kegszool.database.entity.base.Notification;
-import com.github.kegszool.database.entity.dto.impl.NotificationDto;
 import com.github.kegszool.database.entity.mapper.EntityMapper;
+import com.github.kegszool.messaging.dto.database_entity.NotificationDto;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,7 +19,6 @@ public class NotificationMapper extends EntityMapper<Notification, NotificationD
     @Override
     public Notification toEntity(NotificationDto notificationDto) {
         return new Notification(
-                notificationDto.getId(),
                 userMapper.toEntity(notificationDto.getUser()),
                 coinMapper.toEntity(notificationDto.getCoin()),
                 notificationDto.isActive(),
@@ -33,7 +32,6 @@ public class NotificationMapper extends EntityMapper<Notification, NotificationD
     @Override
     public NotificationDto toDto(Notification notification) {
         return new NotificationDto(
-                notification.getId(),
                 userMapper.toDto(notification.getUser()),
                 coinMapper.toDto(notification.getCoin()),
                 notification.isActive(),

@@ -1,17 +1,17 @@
 package com.github.kegszool.database.entity.base;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
+
 @Setter
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "notification")
+@Table(name = "notification", schema = "public")
 public class Notification {
 
     @Id
@@ -33,12 +33,28 @@ public class Notification {
     private boolean isRecurring;
 
     @Column(name = "target_price", precision = 15, scale = 9)
-    private float targetPrice;
+    private BigDecimal targetPrice;
 
     @Column(name = "target_percentage", precision = 4, scale = 2)
-    private float targetPercentage;
+    private BigDecimal targetPercentage;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "directions")
     private Direction direction;
+
+    public Notification(
+            User user,
+            Coin coin,
+            boolean isActive, boolean isRecurring,
+            BigDecimal targetPrice, BigDecimal targetPercentage,
+            Direction direction
+    ) {
+        this.user = user;
+        this.coin = coin;
+        this.isActive = isActive;
+        this.isRecurring = isRecurring;
+        this.targetPrice = targetPrice;
+        this.targetPercentage = targetPercentage;
+        this.direction = direction;
+    }
 }

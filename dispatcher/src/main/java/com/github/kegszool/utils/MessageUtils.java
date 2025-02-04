@@ -99,6 +99,15 @@ public class MessageUtils {
         return null;
     }
 
+    public Integer extractMessageId(Update update) {
+        if (update.hasMessage()) {
+            return update.getMessage().getMessageId();
+        } else if (update.hasCallbackQuery()) {
+            return update.getCallbackQuery().getMessage().getMessageId();
+        }
+        return null;
+    }
+
     public String extractChatId(CallbackQuery query) {
        return query.getMessage().getChatId().toString();
     }

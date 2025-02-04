@@ -1,35 +1,33 @@
 package com.github.kegszool.database.entity.service;
 
-import com.github.kegszool.database.entity.dto.BaseEntityDto;
 import com.github.kegszool.database.entity.mapper.EntityMapper;
 import com.github.kegszool.database.repository.EntityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.Serializable;
 import java.util.Optional;
 
 @Service
-public class EntityService<E, Dto extends BaseEntityDto> {
+public abstract class EntityService<E, Dto, ID extends Serializable> {
 
-    private final EntityRepository<E, Integer> entityRepository;
-    private final EntityMapper<E, Dto> entityMapper;
+    protected final EntityRepository<E, ID> entityRepository;
+    protected final EntityMapper<E, Dto> entityMapper;
 
     @Autowired
-    public EntityService(EntityRepository<E, Integer> entityRepository, EntityMapper<E, Dto> entityMapper) {
+    public EntityService(EntityRepository<E, ID> entityRepository, EntityMapper<E, Dto> entityMapper) {
         this.entityRepository = entityRepository;
         this.entityMapper = entityMapper;
     }
 
-    public void saveEntity(Dto entityDto) {
+    public E saveEntity(Dto entityDto) {
         E entity = entityMapper.toEntity(entityDto);
         E savedEntity = entityRepository.save(entity);
+        return savedEntity;
     }
 
-    public Dto findEntityById(Integer id) {
+    public Optional<E> findEntityById(ID id) {
         Optional<E> foundedEntity = entityRepository.findById(id);
-        if(foundedEntity.isPresent()) {
-            return entityMapper.toDto(foundedEntity.get());
-        }
-        throw new RuntimeException();
+        return foundedEntity;
     }
 }

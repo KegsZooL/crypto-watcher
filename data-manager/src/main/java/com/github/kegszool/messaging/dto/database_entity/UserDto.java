@@ -1,4 +1,4 @@
-package com.github.kegszool.messaging.dto.service;
+package com.github.kegszool.messaging.dto.database_entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ServiceException {
-    private String exceptionName;
-    private String message;
+public class UserDto {
+    private Long telegramId;
+    private String firstName, lastName;
 }
