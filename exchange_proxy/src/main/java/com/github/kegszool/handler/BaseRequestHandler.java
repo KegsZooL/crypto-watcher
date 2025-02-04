@@ -12,4 +12,6 @@ public abstract class BaseRequestHandler implements RequestHandler {
         this.restCryptoController = restCryptoController;
         this.jsonParser = jsonParser;
     }
+    public abstract String getRequestRoutingKey();
+    public abstract String getResponseRoutingKey();
 }

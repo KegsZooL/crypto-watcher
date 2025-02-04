@@ -1,5 +1,7 @@
 package com.github.kegszool.utils;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.kegszool.exception.messaging.conversion.DataConversionException;
 import com.github.kegszool.exception.messaging.service_message.InvalidServiceMessageException;
 import com.github.kegszool.exception.messaging.service_message.ServiceMessageSendingException;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
@@ -9,6 +11,8 @@ import org.springframework.amqp.AmqpException;
 @Log4j2
 public class ServiceMessageUtils {
 
+    private static final ObjectMapper objectMapper = new ObjectMapper();
+
     public static boolean isDataValid(ServiceMessage<?> serviceMessage, String routingKey) {
         String chatId = serviceMessage.getChatId();
         Integer messageId = serviceMessage.getMessageId();
@@ -16,12 +20,6 @@ public class ServiceMessageUtils {
                 && routingKey != null && !routingKey.isEmpty()
                 && chatId != null && !chatId.isEmpty()
                 && messageId != null;
-    }
-
-    public static void logReceivedRequest(ServiceMessage<?> serviceMessage, String routingKey) {
-        String data = serviceMessage.getData().toString();
-        String chatId = serviceMessage.getChatId();
-        log.info("Request: \"{}\" for chat_id: \"{}\" has been received. Received data: {}", routingKey, chatId, data);
     }
 
     public static InvalidServiceMessageException handleInvalidServiceMessage(
@@ -38,17 +36,15 @@ public class ServiceMessageUtils {
     private static InvalidServiceMessageException createInvalidServiceMessageException(
             ServiceMessage<?> serviceMessage, String routingKey
     ) {
-        String data, chatId, messageId;
-        data = serviceMessage.getData().toString();
-        chatId = serviceMessage.getChatId();
-        messageId = serviceMessage.getMessageId().toString();
+        String serviceMessageData = fetchServiceMessageData(serviceMessage, routingKey);
+        log.error("Received invalid service message. {}", serviceMessageData);
+        return new InvalidServiceMessageException(serviceMessageData);
+    }
 
-        String pattern = "Routing key: \"{}\", Data: \"{}\", ChatId: \"{}\", MessageId: \"{}\"";
-
-        log.error("Received invalid service message. "
-                + pattern, routingKey, data, chatId, messageId);
-        return new InvalidServiceMessageException(
-                String.format(pattern, routingKey, data, chatId, messageId));
+    private static String fetchServiceMessageData(ServiceMessage<?> serviceMessage, String routinKey) {
+        return String.format("Routing key: \"%s\", Data: \"%s\", ChatId: \"%s\", MessageId: \"%s\"",
+                routinKey, serviceMessage.getData().toString(),
+                serviceMessage.getChatId(), serviceMessage.getMessageId().toString());
     }
 
     public static ServiceMessageSendingException handleAmqpException(String routingKey, AmqpException ex) {
@@ -61,5 +57,24 @@ public class ServiceMessageUtils {
         String classOfDataInServiceMessage = serviceMessage.getData().getClass().getSimpleName();
         log.info("Service message containing data of type \"{}\" sent with routing key \"{}\"",
                 classOfDataInServiceMessage, routingKey);
+    }
+
+    public static <T> ServiceMessage<T> mapToServiceMessage(ServiceMessage<?> serviceMessage, Class<T> targetClass) {
+        Object serviceMessageData = serviceMessage.getData();
+        try {
+            T mappedData = objectMapper.convertValue(serviceMessageData, targetClass);
+            return new ServiceMessage<>(
+                    serviceMessage.getMessageId(), serviceMessage.getChatId(), mappedData
+            );
+        } catch (IllegalArgumentException ex) {
+            throw handleConversionError(serviceMessageData, targetClass);
+        }
+    }
+
+    public static <T> DataConversionException handleConversionError(Object serviceMessageData, Class<T> targetClass) {
+        Class<?> dataClass = serviceMessageData.getClass();
+        log.error("Error converting object of type \"{}\" to type \"{}\".",
+                dataClass, targetClass);
+        return new DataConversionException("Failed to convert service message data.");
     }
 }

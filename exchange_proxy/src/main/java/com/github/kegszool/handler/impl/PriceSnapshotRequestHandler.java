@@ -54,8 +54,8 @@ public class PriceSnapshotRequestHandler extends BaseRequestHandler {
     }
 
     @Override
-    public boolean canHandle(String routingKey) {
-        return COIN_PRICE_REQUEST_ROUTING_KEY.equals(routingKey);
+    public String getRequestRoutingKey() {
+        return COIN_PRICE_REQUEST_ROUTING_KEY;
     }
 
     @Override

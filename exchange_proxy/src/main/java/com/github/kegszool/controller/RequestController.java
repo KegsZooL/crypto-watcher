@@ -3,6 +3,7 @@ package com.github.kegszool.controller;
 import com.github.kegszool.exception.request.RequestException;
 import com.github.kegszool.exception.handler.RequestHandlerNotFoundException;
 import com.github.kegszool.exception.service.ServiceException;
+import com.github.kegszool.handler.BaseRequestHandler;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.producer.ResponseProducerService;
 import com.github.kegszool.handler.RequestHandler;
@@ -35,7 +36,7 @@ public class RequestController {
 
     public void handle(ServiceMessage<String> serviceMessage, String routingKey) {
         try {
-           RequestHandler handler = requestHandlerFactory.getHandler(serviceMessage, routingKey);
+           BaseRequestHandler handler = requestHandlerFactory.getHandler(serviceMessage, routingKey);
 
            ServiceMessage<?> responseServiceMessage = handler.handle(serviceMessage);
            String responseRoutingKey = handler.getResponseRoutingKey();

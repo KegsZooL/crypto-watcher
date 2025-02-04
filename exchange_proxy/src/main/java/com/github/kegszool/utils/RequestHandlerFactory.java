@@ -1,6 +1,7 @@
 package com.github.kegszool.utils;
 
 import com.github.kegszool.exception.handler.RequestHandlerNotFoundException;
+import com.github.kegszool.handler.BaseRequestHandler;
 import com.github.kegszool.handler.RequestHandler;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import lombok.extern.log4j.Log4j2;
@@ -15,15 +16,15 @@ import java.util.concurrent.ConcurrentHashMap;
 @Component
 public class RequestHandlerFactory {
 
-    private final Map<String, RequestHandler> routingKeyHandlerMatching = new ConcurrentHashMap<>();
+    private final Map<String, BaseRequestHandler> routingKeyHandlerMatching = new ConcurrentHashMap<>();
 
-    public RequestHandlerFactory (List<RequestHandler> handlers) {
+    public RequestHandlerFactory (List<BaseRequestHandler> handlers) {
         handlers.forEach(handler -> routingKeyHandlerMatching
-                .put(handler.getResponseRoutingKey(), handler)
+                .put(handler.getRequestRoutingKey(), handler)
         );
     }
 
-    public RequestHandler getHandler(ServiceMessage<?> serviceMessage, String routingKey) {
+    public BaseRequestHandler getHandler(ServiceMessage<?> serviceMessage, String routingKey) {
         return Optional.ofNullable(routingKeyHandlerMatching.get(routingKey))
                 .orElseThrow(() -> processMissingHandler(serviceMessage, routingKey));
     }
