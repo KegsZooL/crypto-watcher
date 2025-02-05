@@ -1,12 +1,10 @@
 package com.github.kegszool.bot.handler.response;
 
 import com.github.kegszool.utils.MessageUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
-public abstract class BaseResponseHandler implements ResponseHandler{
+public abstract class BaseResponseHandler<T> implements ResponseHandler<T>{
 
-    protected final MessageUtils messageUtils;
-
-    public BaseResponseHandler(MessageUtils messageUtils) {
-        this.messageUtils = messageUtils;
-    }
+    @Autowired
+    protected MessageUtils messageUtils;
 }

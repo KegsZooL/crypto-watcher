@@ -1,6 +1,6 @@
 package com.github.kegszool.bot.menu.command.callback.impl;
 
-import com.github.kegszool.bot.handler.response.impl.PriceSnapshotResponseHandler;
+import com.github.kegszool.bot.handler.response.exchange.PriceSnapshotResponseHandler;
 import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
 import com.github.kegszool.bot.menu.command.callback.impl.entity.PriceSnapshotProperties;
 import com.github.kegszool.messaging.dto.command_entity.PriceSnapshot;

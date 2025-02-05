@@ -1,4 +1,4 @@
-package com.github.kegszool.bot.handler.response.impl;
+package com.github.kegszool.bot.handler.response.exception;
 
 import com.github.kegszool.bot.handler.response.BaseResponseHandler;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
@@ -17,11 +17,6 @@ public class ServiceExceptionResponseHandler extends BaseResponseHandler {
     @Value("${spring.rabbitmq.template.routing-key.service_exception}")
     private String SERVICE_EXCEPTION_ROUTING_KEY;
 
-    @Autowired
-    public ServiceExceptionResponseHandler(MessageUtils messageUtils) {
-        super(messageUtils);
-    }
-
     @Override
     public boolean canHandle(String routingKey) {
         return SERVICE_EXCEPTION_ROUTING_KEY.equals(routingKey);
@@ -29,7 +24,7 @@ public class ServiceExceptionResponseHandler extends BaseResponseHandler {
 
     @Override
     public PartialBotApiMethod<?> handle(ServiceMessage serviceMessage) {
-        var answerMessage = new SendMessage(serviceMessage.getChatId(), "Service Exception");
+        var answerMessage = new SendMessage(serviceMessage.getChatId(), "Service Exception"); //TODO: think about exception handling
         return answerMessage;
     }
 }

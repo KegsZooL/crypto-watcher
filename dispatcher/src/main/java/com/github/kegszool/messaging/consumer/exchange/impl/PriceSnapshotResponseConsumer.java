@@ -1,13 +1,11 @@
-package com.github.kegszool.messaging.consumer.impl.exchange.impl;
+package com.github.kegszool.messaging.consumer.exchange.impl;
 
-import com.github.kegszool.messaging.consumer.impl.exchange.ExchangeResponseConsumer;
+import com.github.kegszool.messaging.consumer.exchange.ExchangeResponseConsumer;
 import com.github.kegszool.messaging.dto.command_entity.PriceSnapshot;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.bot.controll.TelegramBotController;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 @Log4j2
@@ -15,11 +13,6 @@ public class PriceSnapshotResponseConsumer extends ExchangeResponseConsumer<Pric
 
     @Value("${spring.rabbitmq.template.routing-key.coin_price_response}")
     private String COIN_PRICE_RESPONSE_ROUTING_KEY;
-
-    @Autowired
-    public PriceSnapshotResponseConsumer(TelegramBotController botController) {
-        super(botController);
-    }
 
     @Override
     protected boolean canHandle(String routingKey) {
