@@ -20,8 +20,10 @@ public class UpsertUserResponseHandler extends BaseResponseHandler<UpsertUserRes
 
     @Override
     public PartialBotApiMethod<?> handle(ServiceMessage<UpsertUserResponse> serviceMessage) {
+        var response = serviceMessage.getData();
+        if(response.isSuccess()) {
 
-
-        return null;
+        }
+        return null; //TODO: think about passing null value in classes extends from BaseResponseHandler
     }
 }
