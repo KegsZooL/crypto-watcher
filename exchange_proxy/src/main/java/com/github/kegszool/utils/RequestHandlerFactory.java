@@ -18,7 +18,7 @@ public class RequestHandlerFactory {
 
     private final Map<String, BaseRequestHandler> routingKeyHandlerMatching = new ConcurrentHashMap<>();
 
-    public RequestHandlerFactory (List<BaseRequestHandler> handlers) {
+    public RequestHandlerFactory(List<BaseRequestHandler> handlers) {
         handlers.forEach(handler -> routingKeyHandlerMatching
                 .put(handler.getRequestRoutingKey(), handler)
         );

@@ -14,8 +14,8 @@ public class KeyboardFactory {
     private static String ACTION_BACK = "back";
 
     private static List<InlineKeyboardButton> createButtonsBySections(Map<String, String> sections) {
-        List<String> сallbackDataSections = sections.keySet().stream().toList();
-        return сallbackDataSections.stream()
+        List<String> callbackDataSections = sections.keySet().stream().toList();
+        return callbackDataSections.stream()
                 .map(callBackData -> {
                     String sectionName = sections.get(callBackData);
                     InlineKeyboardButton coinButton = new InlineKeyboardButton(sectionName);
@@ -35,7 +35,7 @@ public class KeyboardFactory {
             for (int j = 0; j < rowButtons.size(); j++) {
                 InlineKeyboardButton currentButton = rowButtons.get(j);
                 String currentCallbackData = currentButton.getCallbackData();
-                if(ACTION_BACK.equals(currentCallbackData) && i + numberOfButtonsPerRow == buttons.size()) {
+                if (ACTION_BACK.equals(currentCallbackData) && i + numberOfButtonsPerRow == buttons.size()) {
                     rowButtons = rowButtons.subList(0, rowButtons.size() - 1);
                     --i;
                 }

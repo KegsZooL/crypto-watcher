@@ -25,7 +25,7 @@ public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
     private final TelegramBotController controller;
 
     @Autowired
-    public TelegramBot(@Value("${bot.token}") String botToken, TelegramBotController controller){
+    public TelegramBot(@Value("${bot.token}") String botToken, TelegramBotController controller) {
         this.client = new OkHttpTelegramClient(botToken);
         this.controller = controller;
     }
@@ -49,11 +49,11 @@ public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
     }
 
     private void executeMethod(PartialBotApiMethod<?> answerMessage) throws TelegramApiException {
-        if(answerMessage instanceof EditMessageText editMessage) {
+        if (answerMessage instanceof EditMessageText editMessage) {
             client.execute(editMessage);
             log.info("EditMessage was executed:\n\n\"{}\"", editMessage);
         }
-        else if(answerMessage instanceof SendMessage sendMessage) {
+        else if (answerMessage instanceof SendMessage sendMessage) {
             client.execute((SendMessage)answerMessage);
             log.info("SendMessage was executed:\n\n\"{}\"", sendMessage);
         }

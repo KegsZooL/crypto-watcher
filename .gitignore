@@ -9,11 +9,11 @@ logs/
 .idea/
 
 ### Java ###
-
 *.class
 *.log
 
 # Package Files #
+*.iml
 *.jar
 *.war
 *.nar

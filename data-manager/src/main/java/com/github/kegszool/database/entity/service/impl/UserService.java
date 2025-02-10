@@ -46,7 +46,7 @@ public class UserService extends EntityService<User, UserDto, Integer> {
         this.userRepository = userRepository;
     }
 
-    public Optional<User> getUserByTelegramId(Long telegramId){
+    public Optional<User> getUserByTelegramId(Long telegramId) {
         return userRepository.findByTelegramId(telegramId);
     }
 

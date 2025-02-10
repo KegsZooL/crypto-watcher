@@ -25,7 +25,7 @@ public class RequestConsumer implements RequestConsumerService {
     @Override
     @RabbitListener(queues = "${spring.rabbitmq.queues.request_to_exchange}")
     public void consume(ServiceMessage<String> serviceMessage, @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey) {
-        if(ServiceMessageUtils.isDataValid(serviceMessage, routingKey)) {
+        if (ServiceMessageUtils.isDataValid(serviceMessage, routingKey)) {
             ServiceMessageUtils.logReceivedRequest(serviceMessage, routingKey);
             requestController.handle(serviceMessage, routingKey);
         } else {

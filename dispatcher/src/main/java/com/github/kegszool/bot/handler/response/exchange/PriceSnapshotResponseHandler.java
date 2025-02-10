@@ -1,6 +1,7 @@
 package com.github.kegszool.bot.handler.response.exchange;
 
 import com.github.kegszool.bot.handler.response.BaseResponseHandler;
+import com.github.kegszool.bot.handler.result.HandlerResult;
 import com.github.kegszool.messaging.dto.command_entity.PriceSnapshot;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,14 +29,15 @@ public class PriceSnapshotResponseHandler extends BaseResponseHandler<PriceSnaps
     }
 
     @Override
-    public PartialBotApiMethod<?> handle(ServiceMessage<PriceSnapshot> serviceMessage) {
+    public HandlerResult handle(ServiceMessage<PriceSnapshot> serviceMessage) {
         String chatId = serviceMessage.getChatId();
         Integer messageId = serviceMessage.getMessageId();
 
         var priceSnapshot = serviceMessage.getData();
         coinPriceSnapshotMap.put(chatId, priceSnapshot);
 
-        return createAnswerMessage(priceSnapshot, chatId, messageId);
+        var answerMessage = createAnswerMessage(priceSnapshot, chatId, messageId);
+        return new HandlerResult.Success(answerMessage);
     }
 
     private EditMessageText createAnswerMessage(PriceSnapshot snapshot, String chatId, Integer messageId) {

@@ -1,11 +1,11 @@
 package com.github.kegszool.bot.handler.response.database;
 
 import com.github.kegszool.bot.handler.response.BaseResponseHandler;
+import com.github.kegszool.bot.handler.result.HandlerResult;
 import com.github.kegszool.messaging.dto.command_entity.UpsertUserResponse;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
 @Component
 public class UpsertUserResponseHandler extends BaseResponseHandler<UpsertUserResponse> {
@@ -19,11 +19,11 @@ public class UpsertUserResponseHandler extends BaseResponseHandler<UpsertUserRes
     }
 
     @Override
-    public PartialBotApiMethod<?> handle(ServiceMessage<UpsertUserResponse> serviceMessage) {
-        var response = serviceMessage.getData();
-        if(response.isSuccess()) {
+    public HandlerResult handle(ServiceMessage<UpsertUserResponse> serviceMessage) {
+        var responseServiceMsg = serviceMessage.getData();
+        if(responseServiceMsg.isSuccess()) {
 
         }
-        return null; //TODO: think about passing null value in classes extends from BaseResponseHandler
+        return new HandlerResult.NoResponse(); // TODO think about passing null value in classes extends from BaseResponseHandler
     }
 }

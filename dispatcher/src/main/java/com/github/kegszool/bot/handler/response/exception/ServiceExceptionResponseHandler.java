@@ -1,6 +1,7 @@
 package com.github.kegszool.bot.handler.response.exception;
 
 import com.github.kegszool.bot.handler.response.BaseResponseHandler;
+import com.github.kegszool.bot.handler.result.HandlerResult;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.utils.MessageUtils;
 import lombok.extern.log4j.Log4j2;
@@ -23,8 +24,8 @@ public class ServiceExceptionResponseHandler extends BaseResponseHandler {
     }
 
     @Override
-    public PartialBotApiMethod<?> handle(ServiceMessage serviceMessage) {
-        var answerMessage = new SendMessage(serviceMessage.getChatId(), "Service Exception"); //TODO: think about exception handling
-        return answerMessage;
+    public HandlerResult handle(ServiceMessage serviceMessage) {
+        var answerMessage = new SendMessage(serviceMessage.getChatId(), "Service Exception"); //TODO think about exception handling
+        return new HandlerResult.Success(answerMessage);
     }
 }

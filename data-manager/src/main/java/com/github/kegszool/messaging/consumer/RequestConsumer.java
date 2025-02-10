@@ -20,7 +20,7 @@ public class RequestConsumer implements RequestConsumerService {
     @Override
     @RabbitListener(queues = "${spring.rabbitmq.queues.request_to_database}")
     public void consume(ServiceMessage<?> serviceMessage, String routingKey) {
-        if(ServiceMessageUtils.isDataValid(serviceMessage, routingKey)) {
+        if (ServiceMessageUtils.isDataValid(serviceMessage, routingKey)) {
             ServiceMessageUtils.logReceivedRequest(serviceMessage, routingKey);
             requestController.handle(serviceMessage, routingKey);
         } else {

@@ -31,6 +31,6 @@ public class UpsertUserDatabaseResponseConsumer extends DatabaseResponseConsumer
 
     @Override
     protected void logReceivedData(ServiceMessage<UpsertUserResponse> serviceMessage, String routingKey) {
-        //TODO: add logging
+        //TODO add logging
     }
 }

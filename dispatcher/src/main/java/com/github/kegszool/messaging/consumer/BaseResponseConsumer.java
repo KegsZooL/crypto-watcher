@@ -14,7 +14,7 @@ public abstract class BaseResponseConsumer<T> implements ResponseConsumerService
 
     @Override
     public void consume(ServiceMessage<T> serviceMessage, String routingKey) {
-        if(ServiceMessageUtils.isDataValid(serviceMessage, routingKey) && canHandle(routingKey)) {
+        if (ServiceMessageUtils.isDataValid(serviceMessage, routingKey) && canHandle(routingKey)) {
             ServiceMessage<T> mappedMessage = ServiceMessageUtils.mapToServiceMessage(serviceMessage, getDataClass());
             handleResponse(mappedMessage, routingKey);
         } else {

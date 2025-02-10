@@ -11,7 +11,7 @@ import org.springframework.amqp.AmqpException;
 @Log4j2
 public class ServiceMessageUtils {
 
-    private final static ObjectMapper objectMapper = new ObjectMapper();
+    private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     public static boolean isDataValid(ServiceMessage<?> serviceMessage, String routingKey) {
         String chatId = serviceMessage.getChatId();
@@ -31,7 +31,7 @@ public class ServiceMessageUtils {
     public static InvalidServiceMessageException handleInvalidServiceMessage(
             ServiceMessage<?> serviceMessage, String routingKey
     ) {
-        if(serviceMessage == null) {
+        if (serviceMessage == null) {
             String errorMsg = "Service message is null!";
             log.error("errorMsg");
             return new InvalidServiceMessageException(errorMsg);
@@ -70,7 +70,7 @@ public class ServiceMessageUtils {
     public static <T> ServiceMessage<T> mapToServiceMessage(ServiceMessage<?> serviceMessage, Class<T> targetClass) {
         Object serviceMessageData = serviceMessage.getData();
         try {
-            T mappedData = objectMapper.convertValue(serviceMessageData, targetClass);
+            T mappedData = OBJECT_MAPPER.convertValue(serviceMessageData, targetClass);
             return new ServiceMessage<>(
                     serviceMessage.getMessageId(), serviceMessage.getChatId(), mappedData
             );

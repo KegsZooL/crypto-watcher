@@ -1,5 +1,6 @@
 package com.github.kegszool.bot.router.impl;
 
+import com.github.kegszool.bot.handler.result.HandlerResult;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.bot.router.AbstractRouter;
 import com.github.kegszool.exception.bot.handler.HandlerNotFoundException;
@@ -33,12 +34,12 @@ public class ResponseRouter extends AbstractRouter<ServiceMessage<?>, ResponseHa
     }
 
     @Override
-    protected PartialBotApiMethod<?> handle(ResponseHandler handler, ServiceMessage<?> data) {
+    protected HandlerResult handle(ResponseHandler handler, ServiceMessage<?> data) {
         return handler.handle(data);
     }
 
     @Override
     protected boolean canHandle(ResponseHandler handler, Object key) {
-        return handler.canHandle((String)key);
+        return handler.canHandle((String) key);
     }
 }
