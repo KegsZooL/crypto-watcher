@@ -22,7 +22,7 @@ public abstract class BaseMenu implements Menu {
         String SECTIONS_CONFIG = getSectionsConfig();
         int maxButtons = getMaxButtonsPerRow();
         try {
-            if(SECTIONS_CONFIG != null && !SECTIONS_CONFIG.isEmpty()) {
+            if (SECTIONS_CONFIG != null && !SECTIONS_CONFIG.isEmpty()) {
                 parseSectionConfig(SECTIONS_CONFIG);
                 menuKeyboard = KeyboardFactory.create(SECTIONS, maxButtons);
             } else {
@@ -45,7 +45,7 @@ public abstract class BaseMenu implements Menu {
             String[] pairs = menuSectionsConfig.split(",");
             for (String pair : pairs) {
                 String[] keyValue = pair.split(":");
-                if(keyValue.length == 2) {
+                if (keyValue.length == 2) {
                     SECTIONS.put(keyValue[0], keyValue[1]);
                 } else {
                     handleMenuException(
@@ -54,14 +54,14 @@ public abstract class BaseMenu implements Menu {
                     );
                 }
             }
-        } catch(Exception ex) {
+        } catch (Exception ex) {
             handleMenuException("Error parsing menu sections config: " + menuSectionsConfig, ex);
         }
     }
 
     private void handleMenuException(String logMessage, Exception ex) throws MenuException {
         log.error(logMessage, ex);
-        if(ex instanceof MenuException) {
+        if (ex instanceof MenuException) {
             throw (MenuException) ex;
         } else {
             throw new MenuException(logMessage, ex);

@@ -1,10 +1,9 @@
-package com.github.kegszool.bot.handler.response.impl;
+package com.github.kegszool.bot.handler.response.exchange;
 
 import com.github.kegszool.bot.handler.response.BaseResponseHandler;
+import com.github.kegszool.bot.handler.result.HandlerResult;
 import com.github.kegszool.messaging.dto.command_entity.PriceSnapshot;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.utils.MessageUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
@@ -14,7 +13,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-public class PriceSnapshotResponseHandler extends BaseResponseHandler {
+public class PriceSnapshotResponseHandler extends BaseResponseHandler<PriceSnapshot> {
 
     @Value("${spring.rabbitmq.template.routing-key.coin_price_response}")
     private String COIN_PRICE_RESPONSE_ROUTING_KEY;
@@ -24,25 +23,21 @@ public class PriceSnapshotResponseHandler extends BaseResponseHandler {
 
     private final Map<String, PriceSnapshot> coinPriceSnapshotMap = new ConcurrentHashMap<>();
 
-    @Autowired
-    public PriceSnapshotResponseHandler(MessageUtils messageUtils) {
-        super(messageUtils);
-    }
-
     @Override
     public boolean canHandle(String routingKey) {
         return COIN_PRICE_RESPONSE_ROUTING_KEY.equals(routingKey);
     }
 
     @Override
-    public PartialBotApiMethod<?> handle(ServiceMessage<?> serviceMessage) {
+    public HandlerResult handle(ServiceMessage<PriceSnapshot> serviceMessage) {
         String chatId = serviceMessage.getChatId();
         Integer messageId = serviceMessage.getMessageId();
 
-        var priceSnapshot = (PriceSnapshot)serviceMessage.getData();
+        var priceSnapshot = serviceMessage.getData();
         coinPriceSnapshotMap.put(chatId, priceSnapshot);
 
-        return createAnswerMessage(priceSnapshot, chatId, messageId);
+        var answerMessage = createAnswerMessage(priceSnapshot, chatId, messageId);
+        return new HandlerResult.Success(answerMessage);
     }
 
     private EditMessageText createAnswerMessage(PriceSnapshot snapshot, String chatId, Integer messageId) {

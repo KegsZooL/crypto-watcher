@@ -6,6 +6,8 @@ import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.AmqpException;
 
+import java.security.KeyPair;
+
 @Log4j2
 public class ServiceMessageUtils {
 

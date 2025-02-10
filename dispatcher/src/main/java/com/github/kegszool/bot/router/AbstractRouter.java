@@ -1,5 +1,6 @@
 package com.github.kegszool.bot.router;
 
+import com.github.kegszool.bot.handler.result.HandlerResult;
 import com.github.kegszool.exception.bot.handler.HandlerNotFoundException;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
@@ -13,7 +14,7 @@ public abstract class AbstractRouter<T, H> {
         this.handlers = handlers;
     }
 
-    public PartialBotApiMethod<?> routeAndHandle(T data, Object key) {
+    public HandlerResult routeAndHandle(T data, Object key) {
         return handlers.stream()
                 .filter(handler -> canHandle(handler, key))
                 .findFirst()
@@ -23,7 +24,7 @@ public abstract class AbstractRouter<T, H> {
 
     protected abstract boolean canHandle(H handler, Object key);
 
-    protected abstract PartialBotApiMethod<?> handle(H handler, T data);
+    protected abstract HandlerResult handle(H handler, T data);
 
     protected abstract HandlerNotFoundException proccessMissingHandler(T input, Object key);
 }

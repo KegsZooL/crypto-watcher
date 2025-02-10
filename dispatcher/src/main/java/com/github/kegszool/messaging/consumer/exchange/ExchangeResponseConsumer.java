@@ -1,15 +1,12 @@
-package com.github.kegszool.messaging.consumer.impl.exchange;
+package com.github.kegszool.messaging.consumer.exchange;
 
-import com.github.kegszool.bot.controll.TelegramBotController;
 import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.stereotype.Component;
 
+@Component
 public abstract class ExchangeResponseConsumer<T> extends BaseResponseConsumer<T> {
-
-    public ExchangeResponseConsumer(TelegramBotController botController) {
-        super(botController);
-    }
 
     @Override
     @RabbitListener(queues = "${spring.rabbitmq.queues.response_from_exchange}")

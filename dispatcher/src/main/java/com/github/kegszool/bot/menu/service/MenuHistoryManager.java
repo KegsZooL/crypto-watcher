@@ -26,7 +26,7 @@ public class MenuHistoryManager {
 
     public String removeMenu(String chatId) {
         Deque<String> stack = menuHistory.get(chatId);
-        if(stack == null || stack.size() <= 1) {
+        if (stack == null || stack.size() <= 1) {
             return DEFAULT_MENU_NAME;
         }
         String removedMenuName = stack.pop();

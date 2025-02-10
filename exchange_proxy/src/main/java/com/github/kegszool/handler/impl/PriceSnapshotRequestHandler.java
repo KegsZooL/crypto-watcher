@@ -78,7 +78,7 @@ public class PriceSnapshotRequestHandler extends BaseRequestHandler {
             responseServiceMessage.setMessageId(serviceMessage.getMessageId());
             responseServiceMessage.setChatId(serviceMessage.getChatId());
 
-        } catch (RestClientException | JsonFieldNotFoundException | InvalidJsonFormatException ex ) {
+        } catch (RestClientException | JsonFieldNotFoundException | InvalidJsonFormatException ex) {
             throw processErrorOfReceivingPrice(requestUrl, ex);
         }
         return responseServiceMessage;
@@ -115,7 +115,7 @@ public class PriceSnapshotRequestHandler extends BaseRequestHandler {
 
     private <T> T tryParseDouble(
             String str, Function<String, T> parser,
-            String fieldName , T defaultValue, Class<T> clazz
+            String fieldName, T defaultValue, Class<T> clazz
     ) {
         try {
             return parser.apply(str);

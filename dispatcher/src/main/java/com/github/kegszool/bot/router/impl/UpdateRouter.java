@@ -2,6 +2,7 @@ package com.github.kegszool.bot.router.impl;
 
 import com.github.kegszool.bot.handler.UpdateHandler;
 import com.github.kegszool.bot.handler.UpsertUserHandler;
+import com.github.kegszool.bot.handler.result.HandlerResult;
 import com.github.kegszool.bot.router.AbstractRouter;
 import com.github.kegszool.exception.bot.handler.HandlerNotFoundException;
 import com.github.kegszool.exception.bot.handler.impl.UpdateHandlerNotFoundException;
@@ -38,9 +39,10 @@ public class UpdateRouter extends AbstractRouter<Update, UpdateHandler> {
     }
 
     @Override
-    protected PartialBotApiMethod<?> handle(UpdateHandler handler, Update update) {
+    protected HandlerResult handle(UpdateHandler handler, Update update) {
         upsertUserHandler.handle(update);
-        return handler.handle(update);
+        PartialBotApiMethod<?> response = handler.handle(update);
+        return new HandlerResult.Success(response);
     }
 
     @Override

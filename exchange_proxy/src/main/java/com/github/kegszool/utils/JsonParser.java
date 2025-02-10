@@ -20,15 +20,15 @@ public class JsonParser {
         try {
             JsonNode rootNode = objectMapper.readTree(JSON);
             return processFieldValue(rootNode, fieldName, JSON);
-        } catch(JsonProcessingException e) {
+        } catch (JsonProcessingException e) {
             handleInvalidJsonFormatException(JSON);
         }
         return null;
     }
 
-    private String processFieldValue(JsonNode rootNode, String fieldName, String JSON) throws JsonFieldNotFoundException{
+    private String processFieldValue(JsonNode rootNode, String fieldName, String JSON) throws JsonFieldNotFoundException {
         String result = findFieldValue(rootNode, fieldName);
-        if(result == null) {
+        if (result == null) {
             handleJsonFieldNotFoundException(fieldName, JSON);
         }
         return result;
@@ -39,13 +39,12 @@ public class JsonParser {
         Stack<JsonNode> stack = new Stack<>();
         stack.push(node);
 
-        while(!stack.isEmpty()) {
+        while (!stack.isEmpty()) {
             JsonNode currentNode = stack.pop();
 
-            if(currentNode.isObject() && currentNode.has(fieldName)) {
+            if (currentNode.isObject() && currentNode.has(fieldName)) {
                 return currentNode.get(fieldName).asText();
-            }
-            else if (currentNode.isObject() || currentNode.isArray()) {
+            } else if (currentNode.isObject() || currentNode.isArray()) {
                 currentNode.forEach(stack::push);
             }
         }
@@ -53,8 +52,7 @@ public class JsonParser {
     }
 
     private void handleJsonFieldNotFoundException(String fieldName, String JSON) throws JsonFieldNotFoundException {
-        log.warn("This JSON does not contain the field: \"{}\". " +
-                "JSON:\n\t\t {}", fieldName, JSON);
+        log.warn("This JSON does not contain the field: \"{}\". JSON:\n\t\t {}", fieldName, JSON);
         throw new JsonFieldNotFoundException(String.format("Field: \"%s\", JSON: %s", fieldName, JSON));
     }
 

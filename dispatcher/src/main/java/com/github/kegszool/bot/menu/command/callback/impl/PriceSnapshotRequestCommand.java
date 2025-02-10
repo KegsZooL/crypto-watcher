@@ -63,7 +63,7 @@ public class PriceSnapshotRequestCommand extends CallbackCommand {
         int beginIndex = COIN_PREFIX.length();
         int endIndex = coinData.length();
 
-        if(beginIndex > endIndex || beginIndex == 0) {
+        if (beginIndex > endIndex || beginIndex == 0) {
             throw handleInvalidIndicesException(coinData, beginIndex, endIndex);
         }
         return coinData.substring(beginIndex, endIndex);
@@ -73,7 +73,7 @@ public class PriceSnapshotRequestCommand extends CallbackCommand {
         int beginIndex = 0;
         int endIndex = coinNameWithCurrencyPrefix.length() - CURRENCY_PREFIX.length();
 
-        if(endIndex < 0) {
+        if (endIndex < 0) {
             throw handleInvalidIndicesException(coinNameWithCurrencyPrefix, beginIndex, endIndex);
         }
         return coinNameWithCurrencyPrefix.substring(beginIndex, endIndex);

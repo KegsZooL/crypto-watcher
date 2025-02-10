@@ -25,7 +25,7 @@ public class ResponseProducer implements ResponseProducerService {
 
     @Override
     public void produce(ServiceMessage<?> serviceMessage, String routingKey) {
-        if(ServiceMessageUtils.isDataValid(serviceMessage, routingKey)) {
+        if (ServiceMessageUtils.isDataValid(serviceMessage, routingKey)) {
             try {
                 rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, serviceMessage);
                 ServiceMessageUtils.logTransmittedMessage(serviceMessage, routingKey);

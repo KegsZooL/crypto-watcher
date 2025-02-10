@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 
 @Component
-@Log4j2 //TODO: refactoring
+@Log4j2 //TODO refactoring
 public class UpsertUserHandler {
 
     @Value("${spring.rabbitmq.template.routing-key.upsert_user_request}")

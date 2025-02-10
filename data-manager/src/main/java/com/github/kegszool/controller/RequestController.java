@@ -38,7 +38,9 @@ public class RequestController {
 
             responseProducerService.produce(responseServiceMessage, responseRoutingKey);
 
-        } catch(Exception ex) { handleServiceException(ex, routingKey, serviceMessage.getMessageId(), serviceMessage.getChatId()); }
+        } catch (Exception ex) {
+            handleServiceException(ex, routingKey, serviceMessage.getMessageId(), serviceMessage.getChatId());
+        }
     }
 
     private void handleServiceException(Exception ex, String routingKey, Integer messageId, String chatId) {
