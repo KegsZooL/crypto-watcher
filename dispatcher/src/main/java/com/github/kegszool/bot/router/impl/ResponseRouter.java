@@ -9,13 +9,12 @@ import com.github.kegszool.bot.handler.response.ResponseHandler;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
 import java.util.List;
 
 @Component
 @Log4j2
-public class ResponseRouter extends AbstractRouter<ServiceMessage<?>, ResponseHandler> {
+public class ResponseRouter extends AbstractRouter<ServiceMessage<?>, ResponseHandler, String> {
 
     @Autowired
     public ResponseRouter(List<ResponseHandler> handlers) {
@@ -23,14 +22,8 @@ public class ResponseRouter extends AbstractRouter<ServiceMessage<?>, ResponseHa
     }
 
     @Override
-    protected HandlerNotFoundException proccessMissingHandler(ServiceMessage<?> serviceMessage, Object key) {
-        String routingKey = (String) key;
-        String warnMessage = String.format(
-                "No response handler found for routing key: \"%s\". ChatId: \"%s\".",
-                routingKey, serviceMessage.getChatId()
-        );
-        log.warn(warnMessage);
-        return new ResponseHandlerNotFoundException(warnMessage);
+    protected boolean canHandle(ResponseHandler handler, String key) {
+        return handler.canHandle(key);
     }
 
     @Override
@@ -39,7 +32,10 @@ public class ResponseRouter extends AbstractRouter<ServiceMessage<?>, ResponseHa
     }
 
     @Override
-    protected boolean canHandle(ResponseHandler handler, Object key) {
-        return handler.canHandle((String) key);
+    protected HandlerNotFoundException proccessMissingHandler(ServiceMessage<?> serviceMessage, String key) {
+        String warnMessage = String.format("No response handler found for routing key: \"%s\". ChatId: \"%s\".",
+                                           key, serviceMessage.getChatId());
+        log.warn(warnMessage);
+        return new ResponseHandlerNotFoundException(warnMessage);
     }
 }

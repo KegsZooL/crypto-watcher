@@ -6,7 +6,7 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMet
 
 import java.util.List;
 
-public abstract class AbstractRouter<T, H> {
+public abstract class AbstractRouter<T, H, K> {
 
     private final List<H> handlers;
 
@@ -14,7 +14,7 @@ public abstract class AbstractRouter<T, H> {
         this.handlers = handlers;
     }
 
-    public HandlerResult routeAndHandle(T data, Object key) {
+    public HandlerResult routeAndHandle(T data, K key) {
         return handlers.stream()
                 .filter(handler -> canHandle(handler, key))
                 .findFirst()
@@ -22,9 +22,9 @@ public abstract class AbstractRouter<T, H> {
                 .orElseThrow(() -> proccessMissingHandler(data, key));
     }
 
-    protected abstract boolean canHandle(H handler, Object key);
+    protected abstract boolean canHandle(H handler, K key);
 
     protected abstract HandlerResult handle(H handler, T data);
 
-    protected abstract HandlerNotFoundException proccessMissingHandler(T input, Object key);
+    protected abstract HandlerNotFoundException proccessMissingHandler(T input, K key);
 }

@@ -22,8 +22,8 @@ public class UpsertUserResponseHandler extends BaseResponseHandler<UpsertUserRes
     public HandlerResult handle(ServiceMessage<UpsertUserResponse> serviceMessage) {
         var responseServiceMsg = serviceMessage.getData();
         if(responseServiceMsg.isSuccess()) {
-
+            
         }
-        return new HandlerResult.NoResponse(); // TODO think about passing null value in classes extends from BaseResponseHandler
+        return new HandlerResult.NoResponse();
     }
 }
