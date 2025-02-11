@@ -17,7 +17,7 @@ import java.util.List;
 
 @Component
 @Log4j2
-public class UpdateRouter extends AbstractRouter<Update, UpdateHandler> {
+public class UpdateRouter extends AbstractRouter<Update, UpdateHandler, Update> {
 
     private final MessageUtils messageUtils;
     private final UpsertUserHandler upsertUserHandler;
@@ -34,8 +34,8 @@ public class UpdateRouter extends AbstractRouter<Update, UpdateHandler> {
     }
     
     @Override
-    protected boolean canHandle(UpdateHandler handler, Object key) {
-        return handler.canHandle((Update) key);
+    protected boolean canHandle(UpdateHandler handler, Update key) {
+        return handler.canHandle(key);
     }
 
     @Override
@@ -46,7 +46,7 @@ public class UpdateRouter extends AbstractRouter<Update, UpdateHandler> {
     }
 
     @Override
-    protected HandlerNotFoundException proccessMissingHandler(Update update, Object key) {
+    protected HandlerNotFoundException proccessMissingHandler(Update update, Update key) {
         String chatId = messageUtils.extractChatId(update);
         String warnMessage = "No handler was found for the update. ChatId: " + chatId;
         log.warn(warnMessage);

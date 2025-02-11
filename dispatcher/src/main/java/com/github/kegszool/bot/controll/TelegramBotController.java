@@ -47,7 +47,7 @@ public class TelegramBotController {
         log.info("Received update:\n\t\t{}\n", update);
         try {
             HandlerResult result = updateRouter.routeAndHandle(update, update);
-            handleResult(result);
+            processHandlerResult(result);
         } catch (Exception ex) {
             log.error("Error processing update:\n\t\t{}\n", update, ex);
         }
@@ -56,17 +56,15 @@ public class TelegramBotController {
     public void handleResponse(ServiceMessage<?> serviceMessage, String routingKey) {
         try {
             HandlerResult result = responseRouter.routeAndHandle(serviceMessage, routingKey);
-            handleResult(result);
+            processHandlerResult(result);
         } catch (Exception ex) {
-            log.error("Error processing response");
+            log.error("Error processing response", ex);
         }
     }
 
-    private void handleResult(HandlerResult result) {
+    private void processHandlerResult(HandlerResult result) {
         if (result instanceof HandlerResult.Success success) {
             bot.sendAnswerMessage(success.response());
-        } else if (result instanceof HandlerResult.NoResponse) {
-            //TODO. add logic
         }
     }
 }
