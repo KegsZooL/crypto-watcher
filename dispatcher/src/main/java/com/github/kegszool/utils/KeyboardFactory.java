@@ -1,47 +1,90 @@
 package com.github.kegszool.utils;
 
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
+@Log4j2
+@Component
 public class KeyboardFactory {
 
-    private static String ACTION_BACK = "back";
+    @Value("${menu.action.back}")
+    private String ACTION_BACK;
 
-    private static List<InlineKeyboardButton> createButtonsBySections(Map<String, String> sections) {
-        List<String> callbackDataSections = sections.keySet().stream().toList();
-        return callbackDataSections.stream()
-                .map(callBackData -> {
-                    String sectionName = sections.get(callBackData);
-                    InlineKeyboardButton coinButton = new InlineKeyboardButton(sectionName);
-                    coinButton.setCallbackData(callBackData);
-                    return coinButton;
-                }).collect(Collectors.toList());
-
+    private List<InlineKeyboardButton> createButtonsBySections(Map<String, String> sections) {
+        return sections.entrySet().stream()
+                .map(entry -> InlineKeyboardButton.builder()
+                            .text(entry.getValue())
+                            .callbackData(entry.getKey())
+                            .build()
+                ).collect(Collectors.toList());
     }
 
-    public static InlineKeyboardMarkup create(Map<String, String> sections, int numberOfButtonsPerRow) {
-        var buttons = createButtonsBySections(sections);
+    public InlineKeyboardMarkup create(Map<String, String> sections, int numberOfButtonsPerRow) {
 
         List<InlineKeyboardRow> rows = new ArrayList<>();
-        for (int i = 0; i < buttons.size(); i += numberOfButtonsPerRow) {
+        List<InlineKeyboardButton> buttons = createButtonsBySections(sections);
 
-            List<InlineKeyboardButton> rowButtons = buttons.subList(i, Math.min(i + numberOfButtonsPerRow, buttons.size()));
-            for (int j = 0; j < rowButtons.size(); j++) {
-                InlineKeyboardButton currentButton = rowButtons.get(j);
-                String currentCallbackData = currentButton.getCallbackData();
-                if (ACTION_BACK.equals(currentCallbackData) && i + numberOfButtonsPerRow == buttons.size()) {
-                    rowButtons = rowButtons.subList(0, rowButtons.size() - 1);
-                    --i;
+        AtomicReference<InlineKeyboardButton> backButtonRef = new AtomicReference<>();
+
+        for (int i = 0; i < buttons.size(); i += numberOfButtonsPerRow) {
+            int endIndex = Math.min(i + numberOfButtonsPerRow, buttons.size());
+            List<InlineKeyboardButton> rowButtons = new ArrayList<>(buttons.subList(i, endIndex));
+
+            rowButtons.removeIf(button -> {
+                if (ACTION_BACK.equals(button.getCallbackData())) {
+                    backButtonRef.set(button);
+                    return true;
                 }
-            }
+                return false;
+            });
             rows.add(new InlineKeyboardRow(rowButtons));
         }
+        InlineKeyboardButton backButton = backButtonRef.get();
+        if (backButton != null) {
+            rows.add(new InlineKeyboardRow(backButton));
+        }
         return new InlineKeyboardMarkup(rows);
+    }
+
+    public void change(
+            InlineKeyboardMarkup keyboard, Map<String, String> sections
+    ) {
+        List<InlineKeyboardRow> rows = keyboard.getKeyboard();
+        Iterator<Map.Entry<String, String>> sectionsIterator = sections.entrySet().iterator();
+
+        for (int i = 0; i < rows.size(); i++) {
+            InlineKeyboardRow currentRow = rows.get(i);
+            for (int j = 0; j < currentRow.size(); j++) {
+
+                InlineKeyboardButton currentButton = currentRow.get(j);
+                String currentCallbackData = currentButton.getCallbackData();
+
+                if (sectionsIterator.hasNext()) {
+                    Map.Entry<String, String> section = sectionsIterator.next();
+                    currentButton.setText(section.getValue());
+                    currentButton.setCallbackData(section.getKey());
+                } else {
+                    if (!ACTION_BACK.equals(currentCallbackData)) {
+                        currentRow.remove(j);
+                        --j;
+                    }
+                    if (currentRow.isEmpty()) {
+                        rows.remove(i);
+                        --i;
+                    }
+                }
+            }
+        }
     }
 }
