@@ -1,22 +1,25 @@
 package com.github.kegszool.bot.router.impl;
 
+import com.github.kegszool.bot.router.AbstractRouter;
 import com.github.kegszool.bot.handler.UpdateHandler;
 import com.github.kegszool.bot.handler.UpsertUserHandler;
 import com.github.kegszool.bot.handler.result.HandlerResult;
-import com.github.kegszool.bot.router.AbstractRouter;
+
 import com.github.kegszool.exception.bot.handler.HandlerNotFoundException;
 import com.github.kegszool.exception.bot.handler.impl.UpdateHandlerNotFoundException;
-import com.github.kegszool.utils.MessageUtils;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
 import java.util.List;
+import lombok.extern.log4j.Log4j2;
+import com.github.kegszool.utils.MessageUtils;
 
-@Component
 @Log4j2
+@Component
 public class UpdateRouter extends AbstractRouter<Update, UpdateHandler, Update> {
 
     private final MessageUtils messageUtils;

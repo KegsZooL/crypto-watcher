@@ -3,12 +3,14 @@ package com.github.kegszool.bot.menu.service;
 import com.github.kegszool.bot.menu.BaseMenu;
 import com.github.kegszool.bot.menu.Menu;
 import com.github.kegszool.exception.bot.menu.configuration.sections.NotSupportedUpdateMenuSectionsConfigException;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
-@Component
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.extern.log4j.Log4j2;
+
 @Log4j2
+@Component
 public class MenuUpdaterService {
 
     private final MenuRegistry menuRegistry;

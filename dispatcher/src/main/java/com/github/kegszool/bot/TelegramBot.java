@@ -3,22 +3,26 @@ package com.github.kegszool.bot;
 import com.github.kegszool.bot.controll.TelegramBotController;
 import com.github.kegszool.exception.bot.data.method.execution.FailedExecutionMethodException;
 import com.github.kegszool.exception.bot.data.method.execution.UnsupportedExecutionMethodException;
-import jakarta.annotation.PostConstruct;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
 import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
-import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
-import org.telegram.telegrambots.meta.api.objects.Update;
+
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
-@Component
+import lombok.extern.log4j.Log4j2;
+import jakarta.annotation.PostConstruct;
+
 @Log4j2
+@Component
 public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
 
     private final TelegramClient client;
@@ -52,12 +56,12 @@ public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
         if (answerMessage instanceof EditMessageText editMessage) {
             client.execute(editMessage);
             log.info("EditMessage was executed:\n\n\"{}\"", editMessage);
-        }
-        else if (answerMessage instanceof SendMessage sendMessage) {
-            client.execute((SendMessage)answerMessage);
+        } else if (answerMessage instanceof SendMessage sendMessage) {
+            client.execute((SendMessage) answerMessage);
             log.info("SendMessage was executed:\n\n\"{}\"", sendMessage);
+        } else {
+            handleExecutionUnsupportedMethod(answerMessage);
         }
-        else { handleExecutionUnsupportedMethod(answerMessage); }
     }
 
     private void handleExecutionUnsupportedMethod(PartialBotApiMethod<?> answerMessage) {

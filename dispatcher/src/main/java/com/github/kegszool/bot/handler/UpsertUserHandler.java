@@ -4,15 +4,18 @@ import com.github.kegszool.messaging.dto.database_entity.UserDto;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.producer.RequestProducerService;
 import com.github.kegszool.utils.MessageUtils;
-import lombok.extern.log4j.Log4j2;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;
 
-@Component
+import lombok.extern.log4j.Log4j2;
+
 @Log4j2 //TODO refactoring
+@Component
 public class UpsertUserHandler {
 
     @Value("${spring.rabbitmq.template.routing-key.upsert_user_request}")

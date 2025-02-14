@@ -1,20 +1,24 @@
 package com.github.kegszool.handler.impl;
 
+import com.github.kegszool.handler.BaseRequestHandler;
 import com.github.kegszool.database.entity.base.User;
 import com.github.kegszool.database.entity.service.impl.UserService;
-import com.github.kegszool.handler.BaseRequestHandler;
-import com.github.kegszool.messaging.dto.command_entity.UpsertUserResponse;
-import com.github.kegszool.messaging.dto.database_entity.FavoriteCoinDto;
-import com.github.kegszool.messaging.dto.database_entity.NotificationDto;
-import com.github.kegszool.messaging.dto.database_entity.UserDto;
+
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import lombok.extern.log4j.Log4j2;
+import com.github.kegszool.messaging.dto.command_entity.UpsertUserResponse;
+
+import com.github.kegszool.messaging.dto.database_entity.UserDto;
+import com.github.kegszool.messaging.dto.database_entity.NotificationDto;
+import com.github.kegszool.messaging.dto.database_entity.FavoriteCoinDto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Component

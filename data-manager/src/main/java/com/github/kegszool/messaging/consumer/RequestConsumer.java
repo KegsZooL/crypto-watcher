@@ -3,9 +3,10 @@ package com.github.kegszool.messaging.consumer;
 import com.github.kegszool.controller.RequestController;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.utils.ServiceMessageUtils;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 @Service
 public class RequestConsumer implements RequestConsumerService {

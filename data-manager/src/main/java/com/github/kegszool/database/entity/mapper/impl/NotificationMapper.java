@@ -2,8 +2,9 @@ package com.github.kegszool.database.entity.mapper.impl;
 
 import com.github.kegszool.database.entity.base.Notification;
 import com.github.kegszool.database.entity.mapper.EntityMapper;
-import com.github.kegszool.messaging.dto.database_entity.NotificationDto;
+
 import org.springframework.stereotype.Component;
+import com.github.kegszool.messaging.dto.database_entity.NotificationDto;
 
 @Component
 public class NotificationMapper extends EntityMapper<Notification, NotificationDto> {

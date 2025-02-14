@@ -1,18 +1,23 @@
 package com.github.kegszool.database.entity.service.impl;
 
+import com.github.kegszool.database.entity.base.User;
 import com.github.kegszool.database.entity.base.FavoriteCoin;
 import com.github.kegszool.database.entity.base.Notification;
-import com.github.kegszool.database.entity.base.User;
-import com.github.kegszool.database.entity.mapper.impl.FavoriteCoinMapper;
-import com.github.kegszool.database.entity.mapper.impl.NotificationMapper;
+
 import com.github.kegszool.database.entity.mapper.impl.UserMapper;
+import com.github.kegszool.database.entity.mapper.impl.NotificationMapper;
+import com.github.kegszool.database.entity.mapper.impl.FavoriteCoinMapper;
+
 import com.github.kegszool.database.entity.service.EntityService;
+
+import com.github.kegszool.database.repository.impl.UserRepository;
 import com.github.kegszool.database.repository.impl.FavoriteCoinRepository;
 import com.github.kegszool.database.repository.impl.NotificationRepository;
-import com.github.kegszool.database.repository.impl.UserRepository;
+
 import com.github.kegszool.messaging.dto.database_entity.FavoriteCoinDto;
 import com.github.kegszool.messaging.dto.database_entity.NotificationDto;
 import com.github.kegszool.messaging.dto.database_entity.UserDto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

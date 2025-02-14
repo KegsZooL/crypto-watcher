@@ -1,13 +1,14 @@
 package com.github.kegszool.messaging.producer;
 
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.utils.ServiceMessageUtils;
-import lombok.extern.log4j.Log4j2;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
+
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class ResponseProducer implements ResponseProducerService {

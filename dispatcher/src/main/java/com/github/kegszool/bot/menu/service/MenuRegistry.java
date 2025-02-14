@@ -1,17 +1,19 @@
 package com.github.kegszool.bot.menu.service;
 
 import com.github.kegszool.bot.menu.Menu;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Component
+import lombok.extern.log4j.Log4j2;
+
 @Log4j2
+@Component
 public class MenuRegistry {
 
     @Value("${menu.main.name}")
@@ -23,12 +25,12 @@ public class MenuRegistry {
     public MenuRegistry(List<Menu> menuList) {
         this.menus = menuList.stream().collect(Collectors.
                 toMap(Menu::getName, menu -> menu));
-        logRegistredMenus();
+        logRegisteredMenus();
     }
 
-    private void logRegistredMenus() {
-        String formattedMenus = menus.entrySet().stream()
-                        .map(entry -> entry.getValue().getClass().getSimpleName())
+    private void logRegisteredMenus() {
+        String formattedMenus = menus.values().stream()
+                        .map(entry -> entry.getClass().getSimpleName())
                         .collect(Collectors.joining(", "));
             log.info("Registered {} menus: [{}]", menus.size(), formattedMenus);
     }

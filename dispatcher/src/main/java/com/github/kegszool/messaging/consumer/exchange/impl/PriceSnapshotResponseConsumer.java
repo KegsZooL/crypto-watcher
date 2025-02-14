@@ -1,14 +1,16 @@
 package com.github.kegszool.messaging.consumer.exchange.impl;
 
-import com.github.kegszool.messaging.consumer.exchange.ExchangeResponseConsumer;
-import com.github.kegszool.messaging.dto.command_entity.PriceSnapshot;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
+import com.github.kegszool.messaging.dto.command_entity.PriceSnapshot;
+import com.github.kegszool.messaging.consumer.exchange.ExchangeResponseConsumer;
 
-@Service
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
+
+import lombok.extern.log4j.Log4j2;
+
 @Log4j2
+@Service
 public class PriceSnapshotResponseConsumer extends ExchangeResponseConsumer<PriceSnapshot> {
 
     @Value("${spring.rabbitmq.template.routing-key.coin_price_response}")

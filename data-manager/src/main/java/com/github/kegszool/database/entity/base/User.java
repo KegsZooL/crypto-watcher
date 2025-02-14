@@ -1,9 +1,10 @@
 package com.github.kegszool.database.entity.base;
 
-import jakarta.persistence.*;
+import lombok.Setter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import jakarta.persistence.*;
 
 @Setter
 @Getter

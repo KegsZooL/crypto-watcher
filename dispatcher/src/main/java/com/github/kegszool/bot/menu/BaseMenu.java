@@ -1,16 +1,19 @@
 package com.github.kegszool.bot.menu;
 
+import com.github.kegszool.utils.KeyboardFactory;
+
 import com.github.kegszool.exception.bot.menu.MenuException;
 import com.github.kegszool.exception.bot.menu.configuration.sections.parsing.InvalidKeyValuePairException;
 import com.github.kegszool.exception.bot.menu.configuration.sections.InvalidMenuSectionConfigException;
-import com.github.kegszool.utils.KeyboardFactory;
-import jakarta.annotation.PostConstruct;
-import lombok.extern.log4j.Log4j2;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+
+import lombok.extern.log4j.Log4j2;
+import jakarta.annotation.PostConstruct;
 
 @Log4j2
 public abstract class BaseMenu implements Menu {

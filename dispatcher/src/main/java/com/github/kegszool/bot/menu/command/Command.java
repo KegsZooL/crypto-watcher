@@ -1,8 +1,8 @@
 package com.github.kegszool.bot.menu.command;
 
 import com.github.kegszool.bot.handler.UpdateHandler;
-import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
 public abstract class Command<T> implements UpdateHandler {
 

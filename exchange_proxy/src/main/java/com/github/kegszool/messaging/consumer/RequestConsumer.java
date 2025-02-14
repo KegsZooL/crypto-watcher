@@ -1,18 +1,20 @@
 package com.github.kegszool.messaging.consumer;
 
+import com.github.kegszool.utils.ServiceMessageUtils;
 import com.github.kegszool.controller.RequestController;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-//import com.github.kegszool.controller.RequestController;
-import com.github.kegszool.utils.ServiceMessageUtils;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+
 import org.springframework.amqp.support.AmqpHeaders;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+
+import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.stereotype.Service;
 
-@Service
+import lombok.extern.log4j.Log4j2;
+
 @Log4j2
+@Service
 public class RequestConsumer implements RequestConsumerService {
 
     private final RequestController requestController;

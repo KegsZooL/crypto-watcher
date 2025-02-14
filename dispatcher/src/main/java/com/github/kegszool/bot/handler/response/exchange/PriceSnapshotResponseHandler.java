@@ -4,10 +4,10 @@ import com.github.kegszool.bot.handler.response.BaseResponseHandler;
 import com.github.kegszool.bot.handler.result.HandlerResult;
 import com.github.kegszool.messaging.dto.command_entity.PriceSnapshot;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
+
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -42,7 +42,6 @@ public class PriceSnapshotResponseHandler extends BaseResponseHandler<PriceSnaps
 
     private EditMessageText createAnswerMessage(PriceSnapshot snapshot, String chatId, Integer messageId) {
         String coin = snapshot.getName();
-
         var answerMessage = messageUtils.recordAndCreateEditMessageByMenuName(
                 chatId, messageId, PRICE_SNAPSHOT_MENU_NAME
         );

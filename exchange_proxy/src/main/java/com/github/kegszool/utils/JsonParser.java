@@ -1,17 +1,19 @@
 package com.github.kegszool.utils;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.github.kegszool.exception.json.InvalidJsonFormatException;
 import com.github.kegszool.exception.json.JsonFieldNotFoundException;
-import lombok.extern.log4j.Log4j2;
+
 import org.springframework.stereotype.Component;
 
 import java.util.Stack;
+import lombok.extern.log4j.Log4j2;
 
-@Component
 @Log4j2
+@Component
 public class JsonParser {
 
     private final ObjectMapper objectMapper = new ObjectMapper();

@@ -1,15 +1,18 @@
 package com.github.kegszool.messaging.consumer.exception;
 
 import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
-import com.github.kegszool.messaging.dto.service.ServiceException;
+
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import lombok.extern.log4j.Log4j2;
+import com.github.kegszool.messaging.dto.service.ServiceException;
+
+import org.springframework.stereotype.Service;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
 
-@Service
+import lombok.extern.log4j.Log4j2;
+
 @Log4j2
+@Service
 public class ServiceExceptionResponseConsumer extends BaseResponseConsumer<ServiceException> {
 
     @Value("${spring.rabbitmq.template.routing-key.service_exception}")

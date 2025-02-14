@@ -1,17 +1,19 @@
 package com.github.kegszool.bot.menu.command.callback.impl;
 
-import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
-import com.github.kegszool.bot.menu.service.MenuHistoryManager;
 import com.github.kegszool.bot.menu.service.MenuRegistry;
+import com.github.kegszool.bot.menu.service.MenuHistoryManager;
+import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
 import com.github.kegszool.utils.MessageUtils;
-import lombok.extern.log4j.Log4j2;
+
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import lombok.extern.log4j.Log4j2;
 
-@Component
 @Log4j2
+@Component
 public class MenuSwitchCommand extends CallbackCommand {
 
     private final MenuRegistry menuRegistry;

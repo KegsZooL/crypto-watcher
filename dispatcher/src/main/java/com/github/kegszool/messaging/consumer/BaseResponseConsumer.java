@@ -1,10 +1,11 @@
 package com.github.kegszool.messaging.consumer;
 
+import com.github.kegszool.utils.ServiceMessageUtils;
 import com.github.kegszool.bot.controll.TelegramBotController;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.utils.ServiceMessageUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
 public abstract class BaseResponseConsumer<T> implements ResponseConsumerService<T> {
