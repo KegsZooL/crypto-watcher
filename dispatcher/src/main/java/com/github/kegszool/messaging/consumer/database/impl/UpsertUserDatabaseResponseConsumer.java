@@ -1,5 +1,6 @@
 package com.github.kegszool.messaging.consumer.database.impl;
 
+import com.github.kegszool.messaging.dto.database_entity.UserDto;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.dto.command_entity.UpsertUserResponse;
 import com.github.kegszool.messaging.consumer.database.DatabaseResponseConsumer;
@@ -33,6 +34,9 @@ public class UpsertUserDatabaseResponseConsumer extends DatabaseResponseConsumer
 
     @Override
     protected void logReceivedData(ServiceMessage<UpsertUserResponse> serviceMessage, String routingKey) {
-        //TODO add logging
+        UpsertUserResponse response = serviceMessage.getData();
+        UserDto user = response.getUser();
+        Long userId = user.getTelegramId();
+        log.info("Upsert user response has been received. User id: {}", userId);
     }
 }

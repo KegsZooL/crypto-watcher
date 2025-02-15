@@ -24,6 +24,7 @@ spring:
 menu:
   action:
       back: ${MENU_ACTION_BACK}
+      edit_coin_sections: ${MENU_ACTION_EDIT_COIN_SECTIONS}
 
   main:
       name: ${MENU_MAIN}

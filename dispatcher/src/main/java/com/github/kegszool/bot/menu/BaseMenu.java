@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import lombok.extern.log4j.Log4j2;
@@ -27,7 +28,7 @@ public abstract class BaseMenu implements Menu {
     @PostConstruct
     protected void initializeMenu() throws MenuException {
         processSections(getSectionsConfig());
-        menuKeyboard = keyboardFactory.create(SECTIONS, getMaxButtonsPerRow());
+        menuKeyboard = keyboardFactory.create(SECTIONS, getMaxButtonsPerRow(), getFullWidthSections());
     }
 
     protected abstract String getSectionsConfig();
@@ -79,4 +80,5 @@ public abstract class BaseMenu implements Menu {
         }
     }
     protected abstract int getMaxButtonsPerRow();
+    protected abstract List<String> getFullWidthSections();
 }

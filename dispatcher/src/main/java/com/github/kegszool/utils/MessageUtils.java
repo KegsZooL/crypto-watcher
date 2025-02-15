@@ -4,6 +4,7 @@ import com.github.kegszool.bot.menu.Menu;
 import com.github.kegszool.bot.menu.service.MenuHistoryManager;
 import com.github.kegszool.bot.menu.service.MenuRegistry;
 
+import com.github.kegszool.exception.bot.data.UnsupportedExtractFieldUpdateException;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -100,7 +101,7 @@ public class MessageUtils {
         } else if (update.hasCallbackQuery()) {
             return update.getCallbackQuery().getMessage().getChatId().toString();
         }
-        return null;
+        throw new UnsupportedExtractFieldUpdateException("Cannot extract chatId from the given Update type");
     }
 
     public Integer extractMessageId(Update update) {
@@ -109,7 +110,7 @@ public class MessageUtils {
         } else if (update.hasCallbackQuery()) {
             return update.getCallbackQuery().getMessage().getMessageId();
         }
-        return null;
+        throw new UnsupportedExtractFieldUpdateException("Cannot extract messageId from the given Update type");
     }
 
     public String extractChatId(CallbackQuery query) {

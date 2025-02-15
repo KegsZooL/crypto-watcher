@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
+import java.util.List;
+
 @Component
 public class PriceSnapshotMenu extends BaseMenu {
 
@@ -29,6 +31,11 @@ public class PriceSnapshotMenu extends BaseMenu {
     @Override
     protected int getMaxButtonsPerRow() {
         return MAX_BUTTONS_PER_ROW;
+    }
+
+    @Override
+    protected List<String> getFullWidthSections() {
+        return List.of();
     }
 
     @Override
