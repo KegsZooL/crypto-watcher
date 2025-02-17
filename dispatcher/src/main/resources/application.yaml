@@ -24,15 +24,15 @@ spring:
 menu:
   action:
       back: ${MENU_ACTION_BACK}
-      edit_coin_sections: ${MENU_ACTION_EDIT_COIN_SECTIONS}
+      open_edit_coin_sections_menu: ${MENU_ACTION_OPEN_EDIT_COIN_SECTIONS_MENU}
 
   main:
+      name: ${MENU_MAIN}
       title: ${MENU_TITLE_MAIN}
       sections: ${MENU_SECTIONS_CONFIG_MAIN_MENU}
       max_buttons_per_row: ${MENU_MAX_BUTTONS_PER_ROW_MAIN}
 
   coin_selection:
-      name: ${MENU_MAIN}
     name: ${MENU_COIN_SELECTION}
     title: ${MENU_TITLE_COIN_SELECTION}
     sections: ${MENU_SECTIONS_CONFIG_COIN_SELECTION}
@@ -41,6 +41,12 @@ menu:
       - currency: ${CURRENCY_PREFIX}
     max_buttons_per_row: ${MENU_MAX_BUTTONS_PER_ROW_COIN_SELECTION}
     answer_message: ${MENU_COIN_SELECTIONS_ANSWER_MESSAGE}
+
+  edit_coin_sections:
+    name: ${MENU_EDIT_COIN_SECTIONS}
+    title: ${MENU_TITLE_EDIT_COIN_SECTIONS}
+    sections: ${MENU_SECTIONS_CONFIG_EDIT_COIN_SECTIONS}
+    max_buttons_per_row: ${MENU_MAX_BUTTONS_PER_ROW_EDIT_COIN_SECTIONS}
 
   settings:
     name: ${MENU_SETTINGS}

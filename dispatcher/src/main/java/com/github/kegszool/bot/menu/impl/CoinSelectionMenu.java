@@ -4,7 +4,6 @@ import com.github.kegszool.bot.menu.BaseMenu;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 import java.util.List;
 
@@ -23,8 +22,8 @@ public class CoinSelectionMenu extends BaseMenu {
     @Value("${menu.coin_selection.max_buttons_per_row}")
     private int MAX_BUTTONS_PER_ROW;
 
-    @Value("${menu.action.edit_coin_sections}")
-    private String EDIT_COIN_SELECTIONS_CALLBACK_DATA;
+    @Value("${menu.action.open_edit_coin_sections_menu}")
+    private String EDIT_COIN_SECTIONS_CALLBACK_DATA;
 
     @Override
     protected String getSectionsConfig() {
@@ -38,12 +37,7 @@ public class CoinSelectionMenu extends BaseMenu {
 
     @Override
     protected List<String> getFullWidthSections() {
-        return List.of(EDIT_COIN_SELECTIONS_CALLBACK_DATA);
-    }
-
-    @Override
-    public InlineKeyboardMarkup getKeyboard() {
-        return menuKeyboard;
+        return List.of(EDIT_COIN_SECTIONS_CALLBACK_DATA);
     }
 
     @Override
