@@ -1,8 +1,9 @@
 package com.github.kegszool.handler;
 
+import com.github.kegszool.utils.ServiceMessageUtils;
 import com.github.kegszool.handler.impl.RequestHandler;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.utils.ServiceMessageUtils;
+
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 

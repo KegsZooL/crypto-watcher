@@ -7,8 +7,4 @@ public class MenuSectionsParsingException extends MenuConfigurationException {
     public MenuSectionsParsingException(String message) {
         super(message);
     }
-
-    public MenuSectionsParsingException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }

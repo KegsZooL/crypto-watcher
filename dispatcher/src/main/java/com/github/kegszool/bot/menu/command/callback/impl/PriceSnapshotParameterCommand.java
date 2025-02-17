@@ -1,13 +1,16 @@
 package com.github.kegszool.bot.menu.command.callback.impl;
 
-import com.github.kegszool.bot.handler.response.exchange.PriceSnapshotResponseHandler;
 import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
+import com.github.kegszool.bot.handler.response.exchange.PriceSnapshotResponseHandler;
 import com.github.kegszool.bot.menu.command.callback.impl.entity.PriceSnapshotProperties;
+
 import com.github.kegszool.messaging.dto.command_entity.PriceSnapshot;
 import com.github.kegszool.utils.MessageUtils;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
+
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;

@@ -1,22 +1,22 @@
 package com.github.kegszool.controller;
 
 import com.github.kegszool.exception.request.RequestException;
-import com.github.kegszool.exception.handler.RequestHandlerNotFoundException;
 import com.github.kegszool.exception.service.ServiceException;
+
 import com.github.kegszool.handler.BaseRequestHandler;
+import com.github.kegszool.utils.RequestHandlerFactory;
+
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.producer.ResponseProducerService;
-import com.github.kegszool.handler.RequestHandler;
-import com.github.kegszool.utils.RequestHandlerFactory;
-import lombok.extern.log4j.Log4j2;
+
+import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
-import java.util.List;
+import lombok.extern.log4j.Log4j2;
 
-@Component
 @Log4j2
+@Component
 public class RequestController {
 
     @Value ("${spring.rabbitmq.template.routing-key.service_exception}")
@@ -47,7 +47,6 @@ public class RequestController {
             handleServiceException(ex, routingKey, serviceMessage.getMessageId(), serviceMessage.getChatId());
         }
     }
-
 
     private void handleServiceException(RequestException ex, String routingKey, Integer messageId, String chatId) {
         log.error("Error while handling request for routing key: {}", routingKey, ex);

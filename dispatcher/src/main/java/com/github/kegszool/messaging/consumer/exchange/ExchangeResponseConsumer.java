@@ -1,9 +1,10 @@
 package com.github.kegszool.messaging.consumer.exchange;
 
-import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
+
 import org.springframework.stereotype.Component;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 @Component
 public abstract class ExchangeResponseConsumer<T> extends BaseResponseConsumer<T> {

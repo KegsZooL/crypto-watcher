@@ -24,14 +24,15 @@ spring:
 menu:
   action:
       back: ${MENU_ACTION_BACK}
+      edit_coin_sections: ${MENU_ACTION_EDIT_COIN_SECTIONS}
 
   main:
-      name: ${MENU_MAIN}
       title: ${MENU_TITLE_MAIN}
       sections: ${MENU_SECTIONS_CONFIG_MAIN_MENU}
       max_buttons_per_row: ${MENU_MAX_BUTTONS_PER_ROW_MAIN}
 
   coin_selection:
+      name: ${MENU_MAIN}
     name: ${MENU_COIN_SELECTION}
     title: ${MENU_TITLE_COIN_SELECTION}
     sections: ${MENU_SECTIONS_CONFIG_COIN_SELECTION}
@@ -66,6 +67,9 @@ menu:
       trading_volume_currency:
         name: ${TRADING_VOLUME_CURRENCY_PRICE_SNAPSHOT_PARAMETER}
         description: ${TRADING_VOLUME_CURRENCY_PRICE_SNAPSHOT_PARAMETER_DESCRIPTION}
+
+  answer_message:
+    service_exception: ${ANSWER_LOG_MESSAGE_ON_SERVICE_EXCEPTION}
 
 bot:
   name: ${TELEGRAM_BOT_NAME}

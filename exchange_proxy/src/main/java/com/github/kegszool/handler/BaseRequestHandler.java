@@ -1,7 +1,7 @@
 package com.github.kegszool.handler;
 
-import com.github.kegszool.controller.RestCryptoController;
 import com.github.kegszool.utils.JsonParser;
+import com.github.kegszool.controller.RestCryptoController;
 
 public abstract class BaseRequestHandler implements RequestHandler {
 

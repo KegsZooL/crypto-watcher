@@ -1,10 +1,11 @@
 package com.github.kegszool.messaging.dto.database_entity;
 
 import com.github.kegszool.database.entity.base.Direction;
-import lombok.AllArgsConstructor;
+
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 

@@ -1,13 +1,17 @@
 package com.github.kegszool.messaging.config;
 
+import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
-import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+
 import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.Map;
 
 @Configuration
 public class RabbitConfiguration {
@@ -42,29 +46,31 @@ public class RabbitConfiguration {
     @Value("${spring.rabbitmq.template.routing-key.upsert_user_response}")
     private String UPSERT_USER_RESPONSE_FROM_DATABASE_ROUTING_KEY;
 
+    private final Map<String, Object> queueArgs = Map.of("x-expires", 36000);
+
     @Bean
     public DirectExchange exchange() {
-        return new DirectExchange(EXCHANGE_NAME, true, false);
+    	return new DirectExchange(EXCHANGE_NAME, true, false);
     }
 
     @Bean
     public Queue requestToExchangeQueue() {
-        return new Queue(REQUEST_TO_EXCHANGE_QUEUE);
+        return new Queue(REQUEST_TO_EXCHANGE_QUEUE, true, false, false, queueArgs);
     }
 
     @Bean
     public Queue responseFromExchangeQueue() {
-        return new Queue(RESPONSE_FROM_EXCHANGE_QUEUE);
+        return new Queue(RESPONSE_FROM_EXCHANGE_QUEUE, true, false, false, queueArgs);
     }
 
     @Bean
     public Queue requestToDatabaseQueue() {
-        return new Queue(REQUEST_TO_DATABASE_QUEUE);
+        return new Queue(REQUEST_TO_DATABASE_QUEUE, true, false, false, queueArgs);
     }
 
     @Bean
     public Queue responseFromDatabaseQueue() {
-        return new Queue(RESPONSE_FROM_DATABASE_QUEUE);
+        return new Queue(RESPONSE_FROM_DATABASE_QUEUE, true, false, false, queueArgs);
     }
 
     @Bean

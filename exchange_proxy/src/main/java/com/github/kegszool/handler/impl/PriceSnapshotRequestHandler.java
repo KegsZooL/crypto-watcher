@@ -3,21 +3,25 @@ package com.github.kegszool.handler.impl;
 import com.github.kegszool.exception.json.InvalidJsonFormatException;
 import com.github.kegszool.exception.json.JsonFieldNotFoundException;
 import com.github.kegszool.exception.request.price_snapshot.PriceSnapshotRequestException;
+
+import com.github.kegszool.utils.JsonParser;
 import com.github.kegszool.handler.BaseRequestHandler;
+import com.github.kegszool.controller.RestCryptoController;
+
 import com.github.kegszool.messaging.dto.command_entity.PriceSnapshot;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.controller.RestCryptoController;
-import com.github.kegszool.utils.JsonParser;
-import lombok.extern.log4j.Log4j2;
+
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 
 import java.math.BigDecimal;
 import java.util.function.Function;
 
-@Component
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Component;
+
 @Log4j2
+@Component
 public class PriceSnapshotRequestHandler extends BaseRequestHandler {
 
     @Value("${api.exchange.url.market.ticker.base}")

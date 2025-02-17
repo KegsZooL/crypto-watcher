@@ -2,6 +2,7 @@ package com.github.kegszool.database.entity.mapper.impl;
 
 import com.github.kegszool.database.entity.base.Coin;
 import com.github.kegszool.database.entity.mapper.EntityMapper;
+
 import com.github.kegszool.messaging.dto.database_entity.CoinDto;
 import org.springframework.stereotype.Component;
 

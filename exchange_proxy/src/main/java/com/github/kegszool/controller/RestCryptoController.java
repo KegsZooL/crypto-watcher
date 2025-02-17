@@ -1,8 +1,9 @@
 package com.github.kegszool.controller;
 
-import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+
+import lombok.extern.log4j.Log4j2;
 
 @RestController
 @Log4j2

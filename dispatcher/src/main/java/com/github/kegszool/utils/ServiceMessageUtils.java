@@ -1,12 +1,14 @@
 package com.github.kegszool.utils;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.exception.messaging.conversion.DataConversionException;
 import com.github.kegszool.exception.messaging.service_message.InvalidServiceMessageException;
 import com.github.kegszool.exception.messaging.service_message.ServiceMessageSendingException;
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import lombok.extern.log4j.Log4j2;
+
 import org.springframework.amqp.AmqpException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class ServiceMessageUtils {
