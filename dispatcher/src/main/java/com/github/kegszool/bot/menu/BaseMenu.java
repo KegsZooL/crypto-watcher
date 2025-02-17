@@ -9,9 +9,9 @@ import com.github.kegszool.exception.bot.menu.configuration.sections.InvalidMenu
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.List;
+import java.util.LinkedHashMap;
 
 import lombok.extern.log4j.Log4j2;
 import jakarta.annotation.PostConstruct;
@@ -30,24 +30,29 @@ public abstract class BaseMenu implements Menu {
         processSections(getSectionsConfig());
         menuKeyboard = keyboardFactory.create(SECTIONS, getMaxButtonsPerRow(), getFullWidthSections());
     }
-
     protected abstract String getSectionsConfig();
+
 
     private void processSections(String sectionsConfig) {
         try {
-            if (sectionsConfig != null && !sectionsConfig.isEmpty()) {
-                parseSectionConfig(sectionsConfig);
-            } else {
-                handleMenuException("Config is empty or null: " + sectionsConfig,
-                        new InvalidMenuSectionConfigException("Config: " + sectionsConfig)
-                );
-            }
+            validateSectionsConfig(sectionsConfig);
+            parseSectionConfig(sectionsConfig);
         } catch (Exception ex) {
             handleMenuException("Error during menu initialization!", ex);
         }
     }
 
+    private void validateSectionsConfig(String sectionsConfig) {
+        if (sectionsConfig == null || sectionsConfig.isEmpty()) {
+            handleMenuException("Config is empty or null: " + sectionsConfig,
+                    new InvalidMenuSectionConfigException("Config: " + sectionsConfig));
+        }
+    }
+
     public void updateSections(String sectionsConfig) {
+        if (sectionsConfig != null || sectionsConfig.equals(getSectionsConfig())) {
+            return;
+        }
         SECTIONS.clear();
         processSections(sectionsConfig);
         keyboardFactory.change(menuKeyboard, SECTIONS);
@@ -73,11 +78,10 @@ public abstract class BaseMenu implements Menu {
 
     private void handleMenuException(String logMessage, Exception ex) throws MenuException {
         log.error(logMessage, ex);
-        if (ex instanceof MenuException) {
-            throw (MenuException) ex;
-        } else {
-            throw new MenuException(logMessage, ex);
-        }
+        throw switch(ex) {
+            case MenuException menuException -> menuException;
+            default -> new MenuException(logMessage, ex);
+        };
     }
     protected abstract int getMaxButtonsPerRow();
     protected abstract List<String> getFullWidthSections();
