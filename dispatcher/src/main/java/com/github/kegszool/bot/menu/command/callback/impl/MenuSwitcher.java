@@ -14,14 +14,14 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Component
-public class MenuSwitchCommand extends CallbackCommand {
+public class MenuSwitcher extends CallbackCommand {
 
     private final MenuRegistry menuRegistry;
     private final MenuHistoryManager menuHistoryManager;
     private final MessageUtils messageUtils;
 
     @Autowired
-    public MenuSwitchCommand(
+    public MenuSwitcher(
             MenuRegistry menuRegistry,
             MenuHistoryManager menuHistoryManager,
             MessageUtils messageUtils

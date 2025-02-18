@@ -5,36 +5,34 @@ import com.github.kegszool.utils.MessageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
 @Component
-public class EditCoinSectionsCommand extends CallbackCommand {
+public class OpenerCoinDeletionMenu extends CallbackCommand {
 
-    @Value("${menu.action.open_edit_coin_sections_menu}")
-    private String MENU_ACTION_EDIT_COIN_SECTIONS;
+    @Value("${menu.action.open_coin_deletion_menu}")
+    private String ACTION_OPEN_COIN_DELETION_MENU;
 
-    @Value("${menu.edit_coin_sections.name}")
-    private String EDIT_COIN_SECTIONS_MENU_NAME;
+    @Value("${menu.coin_deletion_menu.name}")
+    private String COIN_DELETION_MENU_NAME;
 
     private final MessageUtils messageUtils;
 
     @Autowired
-    public EditCoinSectionsCommand(MessageUtils messageUtils) {
+    public OpenerCoinDeletionMenu(MessageUtils messageUtils) {
         this.messageUtils = messageUtils;
     }
 
     @Override
     protected boolean canHandleCommand(String command) {
-        return MENU_ACTION_EDIT_COIN_SECTIONS.equals(command);
+        return ACTION_OPEN_COIN_DELETION_MENU.equals(command);
     }
 
     @Override
     protected PartialBotApiMethod<?> handleCommand(CallbackQuery callbackQuery) {
         String chatId = messageUtils.extractChatId(callbackQuery);
-        var answerMessage = messageUtils.recordAndCreateMessageByMenuName(chatId, EDIT_COIN_SECTIONS_MENU_NAME);
-        answerMessage.setParseMode(ParseMode.HTML);
-        return answerMessage;
+        Integer messageId = callbackQuery.getMessage().getMessageId();
+        return messageUtils.recordAndCreateEditMessageByMenuName(chatId, messageId, COIN_DELETION_MENU_NAME);
     }
 }

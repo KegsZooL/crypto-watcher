@@ -19,14 +19,14 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Component
-public class PriceSnapshotParameterCommand extends CallbackCommand {
+public class OpenerPriceSnapshotParameterMenu extends CallbackCommand {
 
     private final MessageUtils messageUtils;
     private final PriceSnapshotResponseHandler priceSnapshotResponseHandler;
     private final PriceSnapshotProperties properties;
 
     @Autowired
-    public PriceSnapshotParameterCommand(
+    public OpenerPriceSnapshotParameterMenu(
             MessageUtils messageUtils,
             @Lazy PriceSnapshotResponseHandler priceSnapshotResponseHandler,
             PriceSnapshotProperties properties

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
+import java.util.Collections;
 
 @Component
 public class EditCoinSectionsMenu extends BaseMenu {
@@ -24,7 +25,7 @@ public class EditCoinSectionsMenu extends BaseMenu {
 
     @Override
     protected List<String> getFullWidthSections() {
-        return List.of();
+        return Collections.emptyList();
     }
 
     @Override
