@@ -3,7 +3,6 @@ package com.github.kegszool.bot.menu.command.callback.impl;
 import com.github.kegszool.bot.menu.service.MenuRegistry;
 import com.github.kegszool.bot.menu.service.MenuHistoryManager;
 import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
-import com.github.kegszool.utils.MessageUtils;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
@@ -18,17 +17,11 @@ public class MenuSwitcher extends CallbackCommand {
 
     private final MenuRegistry menuRegistry;
     private final MenuHistoryManager menuHistoryManager;
-    private final MessageUtils messageUtils;
 
     @Autowired
-    public MenuSwitcher(
-            MenuRegistry menuRegistry,
-            MenuHistoryManager menuHistoryManager,
-            MessageUtils messageUtils
-    ) {
+    public MenuSwitcher(MenuRegistry menuRegistry, MenuHistoryManager menuHistoryManager) {
         this.menuRegistry = menuRegistry;
         this.menuHistoryManager = menuHistoryManager;
-        this.messageUtils = messageUtils;
     }
 
     @Override

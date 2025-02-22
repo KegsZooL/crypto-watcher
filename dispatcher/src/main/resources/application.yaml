@@ -56,6 +56,8 @@ menu:
     sections: ${MENU_SECTIONS_CONFIG_COIN_DELETION}
     hint: ${MENU_HINT_NO_COINS_SELECTED}
     max_buttons_per_row: ${MENU_MAX_BUTTONS_PER_ROW_COIN_SELECTION}
+    prefix:
+      deletion_coin_prefix: ${DELETION_COIN_PREFIX}
 
   settings:
     name: ${MENU_SETTINGS}
@@ -101,3 +103,8 @@ api:
           response_parameter:
             coin: ${MARKET_TICKER_COIN_RESPONSE_PARAMETER}
             last_price: ${MARKET_TICKER_LAST_PRICE_RESPONSE_PARAMETER}
+
+emoji_unicode_symbol:
+  coin: ${COIN_UNICODE_SYMBOL}
+  ballot_box_with_check: ${BALLOT_BOX_WITH_CHECK_UNICODE_SYMBOL}
+  white_heavy_check_mark: ${WHITE_HEAVY_CHECK_MARK_UNICODE_SYMBOL}

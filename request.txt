@@ -1,0 +1,148 @@
+Как мне лучше переименовать класс OpenerCoinDeletionMenu, как мне лучше реализовать 
+структуру открытя данного, обработки получения секция, как я понимаю в OpenerCoinDeletionMenu
+должен просто открывать меню, но не как не вызывать coinDeletionSectionTransfer.perform();
+этой операцией должна явна быть в каком-то сервисе, который бы обрабатывал такие менюшки,
+скорее всего небходимо создать абстрактный класс или интерфейс, что-бы явно не вызывать perform.
+
+
+@Component
+public class OpenerCoinDeletionMenu extends CallbackCommand {
+
+    @Value("${menu.action.open_coin_deletion_menu}")
+    private String ACTION_OPEN_COIN_DELETION_MENU;
+
+    @Value("${menu.coin_deletion_menu.name}")
+    private String COIN_DELETION_MENU_NAME;
+
+    private final CoinDeletionSectionTransfer coinDeletionSectionTransfer;
+
+    @Autowired
+    public OpenerCoinDeletionMenu(CoinDeletionSectionTransfer coinDeletionSectionTransfer) {
+        this.coinDeletionSectionTransfer = coinDeletionSectionTransfer;
+    }
+
+    @Override
+    protected boolean canHandleCommand(String command) {
+        return ACTION_OPEN_COIN_DELETION_MENU.equals(command);
+    }
+
+    @Override
+    protected PartialBotApiMethod<?> handleCommand(CallbackQuery callbackQuery) {
+        String chatId = messageUtils.extractChatId(callbackQuery);
+        Integer messageId = callbackQuery.getMessage().getMessageId();
+        coinDeletionSectionTransfer.perform();
+        return messageUtils.recordAndCreateEditMessageByMenuName(chatId, messageId, COIN_DELETION_MENU_NAME);
+    }
+}
+@Component
+public abstract class BaseMenuSectionTransfer {
+
+    private final MenuSectionExtractor sectionExtractor;
+    private final MenuRegistry menuRegistry;
+
+    protected String sourceMenuName, targetMenuName;
+    protected Predicate<? super InlineKeyboardButton> buttonFilter;
+    protected String prefixButtonText, prefixCallbackData;
+
+    @Autowired
+    public BaseMenuSectionTransfer(MenuSectionExtractor sectionExtractor, MenuRegistry menuRegistry) {
+        this.sectionExtractor = sectionExtractor;
+        this.menuRegistry = menuRegistry;
+    }
+
+    public void perform() {
+        Menu sourceMenu = menuRegistry.getMenu(sourceMenuName);
+        Menu targetMenu = menuRegistry.getMenu(targetMenuName);
+
+        InlineKeyboardMarkup sourceKeyboardMarkup = sourceMenu.getKeyboardMarkup();
+        InlineKeyboardMarkup targetKeyboardMarkup = targetMenu.getKeyboardMarkup();
+
+        List<InlineKeyboardRow> transformedSections = sectionExtractor.extractAndTransformSections(
+                sourceKeyboardMarkup,
+                buttonFilter,
+                prefixButtonText,
+                prefixCallbackData
+        );
+        List<InlineKeyboardRow> mergedSections = mergeSectionsWithoutDuplicates(
+               targetKeyboardMarkup.getKeyboard(),
+               transformedSections
+        );
+        targetKeyboardMarkup.setKeyboard(mergedSections);
+    }
+
+    private List<InlineKeyboardRow> mergeSectionsWithoutDuplicates(
+            List<InlineKeyboardRow> currentSections,
+            List<InlineKeyboardRow> newSections
+    ) {
+        Set<String> existedCallbacks = currentSections.stream().
+                flatMap(Collection::stream)
+                .map(InlineKeyboardButton::getCallbackData)
+                .collect(Collectors.toSet());
+
+        List<InlineKeyboardRow> filteredNewSections = newSections.stream()
+                .map(row -> {
+                    InlineKeyboardRow filteredRow = new InlineKeyboardRow();
+                    row.forEach(button -> {
+                        if (!existedCallbacks.contains(button.getCallbackData())) {
+                            filteredRow.add(button);
+                        }
+                    });
+                    return filteredRow.isEmpty() ? null : filteredRow;
+                })
+                .filter(Objects::nonNull)
+                .toList();
+        return Stream.concat(filteredNewSections.stream(), currentSections.stream()).toList();
+    }
+}
+
+@Component
+public class CoinDeletionSectionTransfer extends BaseMenuSectionTransfer {
+
+    @Value("${menu.coin_selection.name}")
+    private String COIN_SELECTIONS_MENU;
+
+    @Value("${menu.coin_deletion_menu.name}")
+    private String COIN_DELETION_MENU_NAME;
+
+    @Value("${menu.coin_selection.prefix[0].coin}")
+    private String COIN_PREFIX;
+
+    @Value("${menu.coin_deletion_menu.prefix.deletion_coin_prefix}")
+    private String DELETION_COIN_PREFIX;
+
+    @Value("${emoji_unicode_symbol.ballot_box_with_check}")
+    private String BALLOT_BOX_WITH_CHECK_UNICODE_SYMBOL;
+
+    @Autowired
+    public CoinDeletionSectionTransfer(MenuSectionExtractor sectionExtractor, MenuRegistry menuRegistry) {
+        super(sectionExtractor, menuRegistry);
+    }
+
+    @PostConstruct
+    private void init() {
+        this.sourceMenuName = COIN_SELECTIONS_MENU;
+        this.targetMenuName = COIN_DELETION_MENU_NAME;
+        this.buttonFilter = button -> button.getCallbackData().startsWith(COIN_PREFIX);
+        this.prefixButtonText = BALLOT_BOX_WITH_CHECK_UNICODE_SYMBOL + " ";
+        this.prefixCallbackData = DELETION_COIN_PREFIX;
+    }
+}
+
+
+public abstract class CallbackCommand extends Command<CallbackQuery> {
+
+    @Override
+    protected boolean isApplicable(Update update) {
+        return update.hasCallbackQuery();
+    }
+
+    @Override
+    protected String extractCommand(Update update) {
+        return update.getCallbackQuery().getData();
+    }
+
+    @Override
+    protected CallbackQuery extractData(Update update) {
+        return update.getCallbackQuery();
+    }
+}

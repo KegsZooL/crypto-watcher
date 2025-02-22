@@ -87,7 +87,7 @@ public abstract class BaseMenu implements Menu {
     protected abstract List<String> getFullWidthSections();
 
     @Override
-    public InlineKeyboardMarkup getKeyboard() {
+    public InlineKeyboardMarkup getKeyboardMarkup() {
         return menuKeyboard;
     }
 }
