@@ -9,23 +9,23 @@ import java.util.List;
 import java.util.Collections;
 
 @Component
-public class PriceSnapshotMenu extends BaseMenu {
+public class EditCoinSectionsMenu extends BaseMenu {
 
-    @Value("${menu.price_snapshot.name}")
-    private String NAME;
-
-    @Value("${menu.price_snapshot.title}")
-    private String TITLE;
-
-    @Value("${menu.price_snapshot.sections}")
-    private String MENU_SECTIONS_CONFIG;
-
-    @Value("${menu.price_snapshot.max_buttons_per_row}")
+    @Value("${menu.edit_coin_sections.max_buttons_per_row}")
     private int MAX_BUTTONS_PER_ROW;
 
+    @Value("${menu.edit_coin_sections.sections}")
+    private String SECTIONS_CONFIG;
+
+    @Value("${menu.edit_coin_sections.title}")
+    private String TITLE;
+
+    @Value("${menu.edit_coin_sections.name}")
+    private String NAME;
+
     @Override
-    protected String getSectionsConfig() {
-        return MENU_SECTIONS_CONFIG;
+    protected List<String> getFullWidthSections() {
+        return Collections.emptyList();
     }
 
     @Override
@@ -34,8 +34,8 @@ public class PriceSnapshotMenu extends BaseMenu {
     }
 
     @Override
-    protected List<String> getFullWidthSections() {
-        return Collections.emptyList();
+    protected String getSectionsConfig() {
+        return SECTIONS_CONFIG;
     }
 
     @Override

@@ -2,7 +2,6 @@ package com.github.kegszool.bot.menu.command.callback.impl;
 
 import com.github.kegszool.bot.menu.service.MenuHistoryManager;
 import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
-import com.github.kegszool.utils.MessageUtils;
 
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -20,15 +19,10 @@ public class PreviousMenuCommand extends CallbackCommand {
     @Value("${menu.action.back}")
     private String BACK_COMMAND;
 
-    private final MessageUtils messageUtils;
     private final MenuHistoryManager menuHistoryManager;
 
     @Autowired
-    public PreviousMenuCommand(
-            MessageUtils messageUtils,
-            MenuHistoryManager menuHistoryManager
-    ) {
-        this.messageUtils = messageUtils;
+    public PreviousMenuCommand(MenuHistoryManager menuHistoryManager) {
         this.menuHistoryManager = menuHistoryManager;
     }
 

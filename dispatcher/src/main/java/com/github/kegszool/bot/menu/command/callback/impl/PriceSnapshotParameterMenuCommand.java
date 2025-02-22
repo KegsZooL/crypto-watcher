@@ -2,12 +2,13 @@ package com.github.kegszool.bot.menu.command.callback.impl;
 
 import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
 import com.github.kegszool.bot.handler.response.exchange.PriceSnapshotResponseHandler;
+import com.github.kegszool.bot.menu.command.callback.impl.entity.PriceSnapshotParameterInfo;
 import com.github.kegszool.bot.menu.command.callback.impl.entity.PriceSnapshotProperties;
 
 import com.github.kegszool.messaging.dto.command_entity.PriceSnapshot;
-import com.github.kegszool.utils.MessageUtils;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -16,22 +17,23 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMet
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 
 import java.util.Map;
-import java.util.function.Function;
+
+//TODO division responsibilities
 
 @Component
-public class PriceSnapshotParameterCommand extends CallbackCommand {
+public class PriceSnapshotParameterMenuCommand extends CallbackCommand {
 
-    private final MessageUtils messageUtils;
+    @Value("${emoji_unicode_symbol.coin}")
+    private String COIN_EMOJI_UNICODE_SYMBOL;
+
     private final PriceSnapshotResponseHandler priceSnapshotResponseHandler;
     private final PriceSnapshotProperties properties;
 
     @Autowired
-    public PriceSnapshotParameterCommand(
-            MessageUtils messageUtils,
+    public PriceSnapshotParameterMenuCommand(
             @Lazy PriceSnapshotResponseHandler priceSnapshotResponseHandler,
             PriceSnapshotProperties properties
     ) {
-        this.messageUtils = messageUtils;
         this.priceSnapshotResponseHandler = priceSnapshotResponseHandler;
         this.properties = properties;
     }
@@ -61,17 +63,17 @@ public class PriceSnapshotParameterCommand extends CallbackCommand {
         return data.substring(properties.getParameterPrefix().length());
     }
 
-    private Map<String, ParameterInfo> createParameterMap() {
+    private Map<String, PriceSnapshotParameterInfo> createParameterMap() {
         return Map.of(
-            properties.getLastPriceName(), new ParameterInfo(
+            properties.getLastPriceName(), new PriceSnapshotParameterInfo(
                     properties.getLastPriceDescription(), snapshot -> "$" + snapshot.getLastPrice()),
-            properties.getHighestPrice24hName(), new ParameterInfo(
+            properties.getHighestPrice24hName(), new PriceSnapshotParameterInfo(
                     properties.getHighestPrice24hDescription(), snapshot -> "$" + snapshot.getMaxPrice24h()),
-            properties.getLowestPrice24hName(), new ParameterInfo(
+            properties.getLowestPrice24hName(), new PriceSnapshotParameterInfo(
                     properties.getLowestPrice24hDescription(), snapshot -> "$" + snapshot.getMinPrice24h()),
-            properties.getTradingVolumeName(), new ParameterInfo(
+            properties.getTradingVolumeName(), new PriceSnapshotParameterInfo(
                     properties.getTradingVolumeDescription(), snapshot -> String.valueOf(snapshot.getTradingVolume24h())),
-            properties.getTradingVolumeCurrencyName(), new ParameterInfo(
+            properties.getTradingVolumeCurrencyName(), new PriceSnapshotParameterInfo(
                     properties.getTradingVolumeCurrencyDescription(), snapshot -> String.valueOf(snapshot.getTradingVolumeCurrency24h())
                 )
         );
@@ -79,35 +81,16 @@ public class PriceSnapshotParameterCommand extends CallbackCommand {
 
     private String createTittleByParameter(
             String desiredParameter,
-            Map<String, ParameterInfo> createParameterMap,
+            Map<String, PriceSnapshotParameterInfo> createParameterMap,
             PriceSnapshot priceSnapshot
     ) {
-        ParameterInfo parameterInfo = createParameterMap.get(desiredParameter);
+        PriceSnapshotParameterInfo parameterInfo = createParameterMap.get(desiredParameter);
 
         String coin = priceSnapshot.getName();
         String value = parameterInfo.getValue(priceSnapshot);
         String description = parameterInfo.getDescription();
 
-        String format = "\uD83E\uDE99 — <b>%s</b>\n\n%s — <b>%s</b>";
+        String format = COIN_EMOJI_UNICODE_SYMBOL + " — <b>%s</b>\n\n%s — <b>%s</b>";
         return String.format(format, coin, description, value);
-    }
-
-    private static class ParameterInfo {
-
-        private final String description;
-        private final Function<PriceSnapshot, String> valueProvider;
-
-        public ParameterInfo(String description, Function<PriceSnapshot, String> valueProvider) {
-            this.description = description;
-            this.valueProvider = valueProvider;
-        }
-
-        public String getDescription() {
-            return description;
-        }
-
-        public String getValue(PriceSnapshot coinPriceSnapshot) {
-            return valueProvider.apply(coinPriceSnapshot);
-        }
     }
 }

@@ -63,17 +63,17 @@ public class MessageUtils {
 
     public EditMessageText createEditMessageByMenuName(CallbackQuery query, String menuName) {
         Menu menu = menuRegistry.getMenu(menuName);
-        return createEditMessage(query, menu.getTitle(), menu.getKeyboard());
+        return createEditMessage(query, menu.getTitle(), menu.getKeyboardMarkup());
     }
 
     public EditMessageText createEditMessageByMenuName(CallbackQuery query, String title, String menuName) {
         Menu menu = menuRegistry.getMenu(menuName);
-        return createEditMessage(query, title, menu.getKeyboard());
+        return createEditMessage(query, title, menu.getKeyboardMarkup());
     }
 
     public EditMessageText createEditMessageByMenuName(String chatId, Integer messageId, String menuName) {
         Menu menu = menuRegistry.getMenu(menuName);
-        return createEditMessage(chatId, messageId, menu.getTitle(), menu.getKeyboard());
+        return createEditMessage(chatId, messageId, menu.getTitle(), menu.getKeyboardMarkup());
     }
 
     public SendMessage createMessageByMenuName(String chatId, String menuName) {
@@ -81,7 +81,7 @@ public class MessageUtils {
         return SendMessage.builder()
                 .chatId(chatId)
                 .text(menu.getTitle())
-                .replyMarkup(menu.getKeyboard())
+                .replyMarkup(menu.getKeyboardMarkup())
                 .build();
     }
 

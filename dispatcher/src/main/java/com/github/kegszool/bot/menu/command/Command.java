@@ -1,10 +1,17 @@
 package com.github.kegszool.bot.menu.command;
 
 import com.github.kegszool.bot.handler.UpdateHandler;
+import com.github.kegszool.utils.MessageUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
+@Component
 public abstract class Command<T> implements UpdateHandler {
+
+    @Autowired
+    protected MessageUtils messageUtils;
 
     @Override
     public boolean canHandle(Update update) {

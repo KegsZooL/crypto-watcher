@@ -26,6 +26,7 @@ public class MenuRegistry {
         this.menus = menuList.stream().collect(Collectors.
                 toMap(Menu::getName, menu -> menu));
         logRegisteredMenus();
+
     }
 
     private void logRegisteredMenus() {

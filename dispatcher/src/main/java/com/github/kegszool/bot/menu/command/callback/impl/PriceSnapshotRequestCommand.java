@@ -1,6 +1,5 @@
 package com.github.kegszool.bot.menu.command.callback.impl;
 
-import com.github.kegszool.utils.MessageUtils;
 import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
 import com.github.kegszool.exception.bot.data.ParsingCoinDataException;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
@@ -33,15 +32,10 @@ public class PriceSnapshotRequestCommand extends CallbackCommand {
     @Value("${menu.coin_selection.answer_message}")
     private String ANSWER_MESSAGE_TEXT;
 
-    private final MessageUtils messageUtils;
     private final RequestProducerService requestService;
 
     @Autowired
-    public PriceSnapshotRequestCommand(
-            MessageUtils messageUtils,
-            RequestProducerService requestService
-    ) {
-        this.messageUtils = messageUtils;
+    public PriceSnapshotRequestCommand(RequestProducerService requestService) {
         this.requestService = requestService;
     }
 

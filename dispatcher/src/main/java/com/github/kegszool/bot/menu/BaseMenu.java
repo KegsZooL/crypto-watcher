@@ -30,8 +30,8 @@ public abstract class BaseMenu implements Menu {
         processSections(getSectionsConfig());
         menuKeyboard = keyboardFactory.create(SECTIONS, getMaxButtonsPerRow(), getFullWidthSections());
     }
-    protected abstract String getSectionsConfig();
 
+    protected abstract String getSectionsConfig();
 
     private void processSections(String sectionsConfig) {
         try {
@@ -85,4 +85,9 @@ public abstract class BaseMenu implements Menu {
     }
     protected abstract int getMaxButtonsPerRow();
     protected abstract List<String> getFullWidthSections();
+
+    @Override
+    public InlineKeyboardMarkup getKeyboardMarkup() {
+        return menuKeyboard;
+    }
 }
