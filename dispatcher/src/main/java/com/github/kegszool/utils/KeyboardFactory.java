@@ -64,35 +64,4 @@ public class KeyboardFactory {
         }
         return new InlineKeyboardMarkup(rows);
     }
-
-    public void updateSectionsWithoutActions(InlineKeyboardMarkup keyboard, Map<String, String> newSections) {
-
-        List<InlineKeyboardRow> rows = keyboard.getKeyboard();
-        Iterator<Map.Entry<String, String>> sectionsIterator = newSections.entrySet().iterator();
-
-        for (int i = 0; i < rows.size(); i++) {
-            InlineKeyboardRow currentRow = rows.get(i);
-            for (int j = 0; j < currentRow.size(); j++) {
-
-                InlineKeyboardButton currentButton = currentRow.get(j);
-                String currentCallbackData = currentButton.getCallbackData();
-
-                if (sectionsIterator.hasNext()) {
-                    Map.Entry<String, String> section = sectionsIterator.next();
-                    if (!section.getKey().startsWith(ACTION_PREFIX)) {
-                        currentButton.setText(section.getValue());
-                        currentButton.setCallbackData(section.getKey());
-                        continue;
-                    }
-                }
-                if (!currentCallbackData.startsWith(ACTION_PREFIX)) {
-                    currentRow.remove(j);
-                    --j;
-                } else if (currentRow.isEmpty()) {
-                    rows.remove(i);
-                    --i;
-                }
-            }
-        }
-    }
 }

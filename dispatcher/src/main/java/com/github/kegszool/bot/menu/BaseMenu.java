@@ -31,7 +31,7 @@ public abstract class BaseMenu implements Menu {
 
     public void updateSections(String sectionsConfig, boolean saveActionButton) {
         sectionService.updateSections(SECTIONS, sectionsConfig, saveActionButton);
-        keyboardFactory.updateSectionsWithoutActions(menuKeyboard, SECTIONS);
+        menuKeyboard = keyboardFactory.create(SECTIONS, getMaxButtonsPerRow(), getFullWidthSections());
     }
 
     protected abstract String getSectionsConfig();
