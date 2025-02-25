@@ -35,7 +35,7 @@ public class UpsertUserDatabaseResponseConsumer extends DatabaseResponseConsumer
     @Override
     protected void logReceivedData(ServiceMessage<UpsertUserResponse> serviceMessage, String routingKey) {
         UpsertUserResponse response = serviceMessage.getData();
-        UserDto user = response.getUser();
+        UserDto user = response.getUserData().getUser();
         Long userId = user.getTelegramId();
         log.info("Upsert user response has been received. User id: {}", userId);
     }

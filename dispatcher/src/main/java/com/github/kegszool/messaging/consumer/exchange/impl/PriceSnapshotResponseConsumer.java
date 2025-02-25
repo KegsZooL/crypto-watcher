@@ -1,7 +1,7 @@
 package com.github.kegszool.messaging.consumer.exchange.impl;
 
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.messaging.dto.command_entity.PriceSnapshot;
+import com.github.kegszool.messaging.dto.command_entity.CoinPriceSnapshot;
 import com.github.kegszool.messaging.consumer.exchange.ExchangeResponseConsumer;
 
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Service
-public class PriceSnapshotResponseConsumer extends ExchangeResponseConsumer<PriceSnapshot> {
+public class PriceSnapshotResponseConsumer extends ExchangeResponseConsumer<CoinPriceSnapshot> {
 
     @Value("${spring.rabbitmq.template.routing-key.coin_price_response}")
     private String COIN_PRICE_RESPONSE_ROUTING_KEY;
@@ -22,18 +22,18 @@ public class PriceSnapshotResponseConsumer extends ExchangeResponseConsumer<Pric
     }
 
     @Override
-    public void consume(ServiceMessage<PriceSnapshot> serviceMessage, String routingKey) {
+    public void consume(ServiceMessage<CoinPriceSnapshot> serviceMessage, String routingKey) {
         super.consume(serviceMessage, routingKey);
     }
 
     @Override
-    protected Class<PriceSnapshot> getDataClass() {
-        return PriceSnapshot.class;
+    protected Class<CoinPriceSnapshot> getDataClass() {
+        return CoinPriceSnapshot.class;
     }
 
     @Override
-    protected void logReceivedData(ServiceMessage<PriceSnapshot> serviceMessage, String routingKey) {
-        PriceSnapshot receivedSnapshot = serviceMessage.getData();
+    protected void logReceivedData(ServiceMessage<CoinPriceSnapshot> serviceMessage, String routingKey) {
+        CoinPriceSnapshot receivedSnapshot = serviceMessage.getData();
         String coinName = receivedSnapshot.getName();
         log.info("Received a response to the price snapshot for coin \"{}\"", coinName);
     }

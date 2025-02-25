@@ -4,6 +4,7 @@ import com.github.kegszool.handler.BaseRequestHandler;
 import com.github.kegszool.database.entity.base.User;
 import com.github.kegszool.database.entity.service.impl.UserService;
 
+import com.github.kegszool.messaging.dto.database_entity.UserData;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.dto.command_entity.UpsertUserResponse;
 
@@ -86,9 +87,8 @@ public class UpsertUserRequestHandler extends BaseRequestHandler<UserDto> {
         int userId = user.getId();
         Pair<List<FavoriteCoinDto>, List<NotificationDto>> userAdditionalData = fetchUserAdditionalData(userId);
 
-        UpsertUserResponse response = new UpsertUserResponse(
-                userExistBefore, userDto, userAdditionalData.getFirst(), userAdditionalData.getSecond()
-        );
+        UserData userData = new UserData(userDto, userAdditionalData.getFirst(), userAdditionalData.getSecond());
+        UpsertUserResponse response = new UpsertUserResponse(userExistBefore, userData);
         return new ServiceMessage<>(requestServiceMessage.getMessageId(), requestServiceMessage.getChatId(), response);
     }
 

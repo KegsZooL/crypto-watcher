@@ -1,8 +1,8 @@
-package com.github.kegszool.bot.menu.service.transfer.impl;
+package com.github.kegszool.bot.menu.service.section_transfer.impl;
 
 import com.github.kegszool.bot.menu.service.MenuRegistry;
 import com.github.kegszool.bot.menu.service.MenuSectionExtractor;
-import com.github.kegszool.bot.menu.service.transfer.BaseMenuSectionTransfer;
+import com.github.kegszool.bot.menu.service.section_transfer.BaseMenuSectionTransfer;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

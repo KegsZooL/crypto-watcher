@@ -1,15 +1,15 @@
-package com.github.kegszool.bot.menu.service.transfer;
+package com.github.kegszool.bot.menu.service.section_transfer;
 
 import java.util.List;
 import lombok.extern.log4j.Log4j2;
 
-import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.exception.bot.MenuSectionTransferNotFoundException;
+import org.springframework.stereotype.Service;
 
 @Log4j2
-@Component
+@Service
 public class MenuSectionTransferService {
 
     private final List<BaseMenuSectionTransfer> transfers;

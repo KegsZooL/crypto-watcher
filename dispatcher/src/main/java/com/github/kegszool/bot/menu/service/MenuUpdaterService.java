@@ -1,36 +1,26 @@
 package com.github.kegszool.bot.menu.service;
 
-import com.github.kegszool.bot.menu.BaseMenu;
-import com.github.kegszool.bot.menu.Menu;
-import com.github.kegszool.exception.bot.menu.configuration.sections.NotSupportedUpdateMenuSectionsConfigException;
+import com.github.kegszool.bot.menu.impl.user_data_dependent.UserDataDependentMenu;
 
-import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.github.kegszool.messaging.dto.database_entity.UserData;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Log4j2
-@Component
+@Service
 public class MenuUpdaterService {
 
-    private final MenuRegistry menuRegistry;
+    private final Map<String, UserDataDependentMenu> userDataDependentMenus = new ConcurrentHashMap<>();
 
-    @Autowired
-    public MenuUpdaterService(MenuRegistry menuRegistry) {
-        this.menuRegistry = menuRegistry;
+    public void registerUserDataDependentMenu(String menuName, UserDataDependentMenu menu) {
+        userDataDependentMenus.put(menuName, menu);
     }
 
-    public void updateMenuSections(String menuName, String sectionsConfig) {
-        Menu menu = menuRegistry.getMenu(menuName);
-        if (menu instanceof BaseMenu baseMenu) {
-            baseMenu.updateSections(sectionsConfig);
-        } else {
-            handleNotSupportedUpdatesSections(menuName);
-        }
-    }
-
-    private void handleNotSupportedUpdatesSections(String menuName) {
-        log.error("Menu \"{}\" does not support section update", menuName);
-        throw new NotSupportedUpdateMenuSectionsConfigException(menuName);
+    public void updateMenus(UserData userData) {
+        userDataDependentMenus.values().forEach(menu -> menu.updateMenu(userData));
     }
 }

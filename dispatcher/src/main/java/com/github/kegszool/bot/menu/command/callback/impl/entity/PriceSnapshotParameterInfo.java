@@ -1,6 +1,6 @@
 package com.github.kegszool.bot.menu.command.callback.impl.entity;
 
-import com.github.kegszool.messaging.dto.command_entity.PriceSnapshot;
+import com.github.kegszool.messaging.dto.command_entity.CoinPriceSnapshot;
 import lombok.Getter;
 
 import java.util.function.Function;
@@ -9,17 +9,17 @@ public class PriceSnapshotParameterInfo {
 
     @Getter
     private final String description;
-    private final Function<PriceSnapshot, String> valueProvider;
+    private final Function<CoinPriceSnapshot, String> valueProvider;
 
     public PriceSnapshotParameterInfo(
             String description,
-            Function<PriceSnapshot, String> valueProvider
+            Function<CoinPriceSnapshot, String> valueProvider
     ) {
         this.description = description;
         this.valueProvider = valueProvider;
     }
 
-    public String getValue(PriceSnapshot coinPriceSnapshot) {
+    public String getValue(CoinPriceSnapshot coinPriceSnapshot) {
         return valueProvider.apply(coinPriceSnapshot);
     }
 }

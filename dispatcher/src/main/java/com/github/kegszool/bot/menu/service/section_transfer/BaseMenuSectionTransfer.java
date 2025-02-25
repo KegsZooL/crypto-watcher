@@ -1,4 +1,4 @@
-package com.github.kegszool.bot.menu.service.transfer;
+package com.github.kegszool.bot.menu.service.section_transfer;
 
 import com.github.kegszool.bot.menu.Menu;
 import com.github.kegszool.bot.menu.service.MenuRegistry;

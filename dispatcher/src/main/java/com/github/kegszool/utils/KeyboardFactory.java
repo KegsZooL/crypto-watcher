@@ -19,6 +19,9 @@ public class KeyboardFactory {
     @Value("${menu.action.back}")
     private String ACTION_BACK;
 
+    @Value("${menu.action.prefix}")
+    private String ACTION_PREFIX;
+
     private List<InlineKeyboardButton> createButtonsBySections(Map<String, String> sections) {
         return sections.entrySet().stream()
                 .map(entry -> InlineKeyboardButton.builder()
@@ -62,11 +65,10 @@ public class KeyboardFactory {
         return new InlineKeyboardMarkup(rows);
     }
 
-    public void change(
-            InlineKeyboardMarkup keyboard, Map<String, String> sections
-    ) {
+    public void updateSectionsWithoutActions(InlineKeyboardMarkup keyboard, Map<String, String> newSections) {
+
         List<InlineKeyboardRow> rows = keyboard.getKeyboard();
-        Iterator<Map.Entry<String, String>> sectionsIterator = sections.entrySet().iterator();
+        Iterator<Map.Entry<String, String>> sectionsIterator = newSections.entrySet().iterator();
 
         for (int i = 0; i < rows.size(); i++) {
             InlineKeyboardRow currentRow = rows.get(i);
@@ -77,17 +79,18 @@ public class KeyboardFactory {
 
                 if (sectionsIterator.hasNext()) {
                     Map.Entry<String, String> section = sectionsIterator.next();
-                    currentButton.setText(section.getValue());
-                    currentButton.setCallbackData(section.getKey());
-                } else {
-                    if (!ACTION_BACK.equals(currentCallbackData)) {
-                        currentRow.remove(j);
-                        --j;
+                    if (!section.getKey().startsWith(ACTION_PREFIX)) {
+                        currentButton.setText(section.getValue());
+                        currentButton.setCallbackData(section.getKey());
+                        continue;
                     }
-                    if (currentRow.isEmpty()) {
-                        rows.remove(i);
-                        --i;
-                    }
+                }
+                if (!currentCallbackData.startsWith(ACTION_PREFIX)) {
+                    currentRow.remove(j);
+                    --j;
+                } else if (currentRow.isEmpty()) {
+                    rows.remove(i);
+                    --i;
                 }
             }
         }

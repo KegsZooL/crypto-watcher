@@ -2,7 +2,6 @@ package com.github.kegszool.bot.menu.service;
 
 import com.github.kegszool.bot.menu.Menu;
 
-import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,9 +10,10 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
 
 @Log4j2
-@Component
+@Service
 public class MenuRegistry {
 
     @Value("${menu.main.name}")

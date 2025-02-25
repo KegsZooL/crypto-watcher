@@ -3,14 +3,14 @@ package com.github.kegszool.bot.service;
 import com.github.kegszool.bot.TelegramBot;
 import com.github.kegszool.exception.bot.registration.BotRegistrationException;
 
+import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.longpolling.TelegramBotsLongPollingApplication;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Component;
 
 @Log4j2
-@Component
+@Service
 public class BotRegistrationService {
 
     public TelegramBot register(String botToken, TelegramBot bot) {
