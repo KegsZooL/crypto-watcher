@@ -2,18 +2,17 @@ package com.github.kegszool.bot.handler.response.exchange;
 
 import com.github.kegszool.bot.handler.response.BaseResponseHandler;
 import com.github.kegszool.bot.handler.result.HandlerResult;
-import com.github.kegszool.messaging.dto.command_entity.PriceSnapshot;
+import com.github.kegszool.bot.menu.service.price_snapshot.PriceSnapshotRepository;
+import com.github.kegszool.messaging.dto.command_entity.CoinPriceSnapshot;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
-
 @Component
-public class PriceSnapshotResponseHandler extends BaseResponseHandler<PriceSnapshot> {
+public class PriceSnapshotResponseHandler extends BaseResponseHandler<CoinPriceSnapshot> {
 
     @Value("${spring.rabbitmq.template.routing-key.coin_price_response}")
     private String COIN_PRICE_RESPONSE_ROUTING_KEY;
@@ -21,7 +20,12 @@ public class PriceSnapshotResponseHandler extends BaseResponseHandler<PriceSnaps
     @Value("${menu.price_snapshot.name}")
     private String PRICE_SNAPSHOT_MENU_NAME;
 
-    private final Map<String, PriceSnapshot> coinPriceSnapshotMap = new ConcurrentHashMap<>();
+    private final PriceSnapshotRepository priceSnapshotRepository;
+
+    @Autowired
+    public PriceSnapshotResponseHandler(PriceSnapshotRepository priceSnapshotRepository) {
+        this.priceSnapshotRepository = priceSnapshotRepository;
+    }
 
     @Override
     public boolean canHandle(String routingKey) {
@@ -29,18 +33,18 @@ public class PriceSnapshotResponseHandler extends BaseResponseHandler<PriceSnaps
     }
 
     @Override
-    public HandlerResult handle(ServiceMessage<PriceSnapshot> serviceMessage) {
+    public HandlerResult handle(ServiceMessage<CoinPriceSnapshot> serviceMessage) {
         String chatId = serviceMessage.getChatId();
         Integer messageId = serviceMessage.getMessageId();
 
-        var priceSnapshot = serviceMessage.getData();
-        coinPriceSnapshotMap.put(chatId, priceSnapshot);
+        CoinPriceSnapshot snapshot = serviceMessage.getData();
+        priceSnapshotRepository.saveSnapshot(chatId, snapshot);
 
-        var answerMessage = createAnswerMessage(priceSnapshot, chatId, messageId);
+        EditMessageText answerMessage = createAnswerMessage(snapshot, chatId, messageId);
         return new HandlerResult.Success(answerMessage);
     }
 
-    private EditMessageText createAnswerMessage(PriceSnapshot snapshot, String chatId, Integer messageId) {
+    private EditMessageText createAnswerMessage(CoinPriceSnapshot snapshot, String chatId, Integer messageId) {
         String coin = snapshot.getName();
         var answerMessage = messageUtils.recordAndCreateEditMessageByMenuName(
                 chatId, messageId, PRICE_SNAPSHOT_MENU_NAME
@@ -49,9 +53,5 @@ public class PriceSnapshotResponseHandler extends BaseResponseHandler<PriceSnaps
         String newTitle = String.format(currentTitle, coin);
         answerMessage.setText(newTitle);
         return answerMessage;
-    }
-
-    public PriceSnapshot getCoinPriceSnapshot(String chatId) {
-        return coinPriceSnapshotMap.get(chatId);
     }
 }

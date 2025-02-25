@@ -19,6 +19,9 @@ public class KeyboardFactory {
     @Value("${menu.action.back}")
     private String ACTION_BACK;
 
+    @Value("${menu.action.prefix}")
+    private String ACTION_PREFIX;
+
     private List<InlineKeyboardButton> createButtonsBySections(Map<String, String> sections) {
         return sections.entrySet().stream()
                 .map(entry -> InlineKeyboardButton.builder()
@@ -60,36 +63,5 @@ public class KeyboardFactory {
             rows.add(new InlineKeyboardRow(backButton));
         }
         return new InlineKeyboardMarkup(rows);
-    }
-
-    public void change(
-            InlineKeyboardMarkup keyboard, Map<String, String> sections
-    ) {
-        List<InlineKeyboardRow> rows = keyboard.getKeyboard();
-        Iterator<Map.Entry<String, String>> sectionsIterator = sections.entrySet().iterator();
-
-        for (int i = 0; i < rows.size(); i++) {
-            InlineKeyboardRow currentRow = rows.get(i);
-            for (int j = 0; j < currentRow.size(); j++) {
-
-                InlineKeyboardButton currentButton = currentRow.get(j);
-                String currentCallbackData = currentButton.getCallbackData();
-
-                if (sectionsIterator.hasNext()) {
-                    Map.Entry<String, String> section = sectionsIterator.next();
-                    currentButton.setText(section.getValue());
-                    currentButton.setCallbackData(section.getKey());
-                } else {
-                    if (!ACTION_BACK.equals(currentCallbackData)) {
-                        currentRow.remove(j);
-                        --j;
-                    }
-                    if (currentRow.isEmpty()) {
-                        rows.remove(i);
-                        --i;
-                    }
-                }
-            }
-        }
     }
 }

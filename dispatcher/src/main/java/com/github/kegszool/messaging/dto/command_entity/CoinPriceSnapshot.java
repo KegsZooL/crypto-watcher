@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PriceSnapshot {
+public class CoinPriceSnapshot {
     private String name;
     private double lastPrice;
     private double maxPrice24h;

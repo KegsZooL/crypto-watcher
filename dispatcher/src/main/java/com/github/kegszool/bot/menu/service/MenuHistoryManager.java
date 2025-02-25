@@ -2,15 +2,15 @@ package com.github.kegszool.bot.menu.service;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component
 @Log4j2
+@Service
 public class MenuHistoryManager {
 
     @Value("${menu.main.name}")

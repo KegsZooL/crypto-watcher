@@ -3,10 +3,10 @@ package com.github.kegszool.controller;
 import com.github.kegszool.websocket.OKXWebSocketClient;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
 @Log4j2
+@Service
 public class WebSocketController {
 
     private final OKXWebSocketClient okxWebSocketClient;

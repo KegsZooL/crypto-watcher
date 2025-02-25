@@ -7,14 +7,14 @@ import com.github.kegszool.exception.service.ServiceException;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.producer.ResponseProducerService;
 
-import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
 
 @Log4j2
-@Component
+@Service
 public class RequestController {
 
     @Value("${spring.rabbitmq.template.routing-key.service_exception}")
