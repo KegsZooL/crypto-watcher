@@ -40,10 +40,14 @@ public class CoinDeletionDataUpdater implements SelectionDataUpdater {
 
         String buttonText = button.getText();
         String[] words = buttonText.split(" ");
-        if (words.length != 2) {
-            throw handleInvalidButtonText(buttonText);
+
+        if (words.length == 1) {
+        	button.setText(newEmoji + " " + words[0]);
+        } else if (words.length == 2) {
+            button.setText(newEmoji + " " + words[1]);
+        } else {
+        	throw handleInvalidButtonText(buttonText);
         }
-        button.setText(newEmoji + " " + words[1]);
     }
 
     public InvalidButtonTextException handleInvalidButtonText(String buttonText) {
