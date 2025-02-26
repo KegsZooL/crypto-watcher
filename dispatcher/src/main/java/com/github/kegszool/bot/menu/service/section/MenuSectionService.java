@@ -4,6 +4,7 @@ import com.github.kegszool.exception.bot.menu.MenuException;
 import com.github.kegszool.exception.bot.menu.configuration.section.InvalidMenuSectionConfigException;
 import com.github.kegszool.exception.bot.menu.configuration.section.parsing.InvalidKeyValuePairException;
 
+
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -74,18 +75,23 @@ public class MenuSectionService {
         };
     }
 
+    //TODO optimize the algorithm
     private void mergeSections(
             Map<String, String> sourceSections,
             Map<String, String> targetSections,
             boolean saveActionButton
     ) {
-        Iterator<Map.Entry<String, String>> iterator = targetSections.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<String, String> entry = iterator.next();
-            if (!sourceSections.containsKey(entry.getKey()) && (!saveActionButton || !entry.getKey().startsWith(ACTION_PREFIX))) {
-                iterator.remove();
+        Map<String, String> updatedSections = new LinkedHashMap<>();
+        updatedSections.putAll(sourceSections);
+
+        for (Map.Entry<String, String> targetEntry : targetSections.entrySet()) {
+            if (!updatedSections.containsKey(targetEntry.getKey())
+                    && (saveActionButton || !targetEntry.getKey().startsWith(ACTION_PREFIX))
+            ) {
+                updatedSections.put(targetEntry.getKey(), targetEntry.getValue());
             }
         }
-        targetSections.putAll(sourceSections);
+        targetSections.clear();
+        targetSections.putAll(updatedSections);
     }
 }

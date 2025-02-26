@@ -1,15 +1,12 @@
 package com.github.kegszool.bot.menu.impl.user_data_dependent;
 
 import com.github.kegszool.bot.menu.service.managment.MenuUpdaterService;
-import com.github.kegszool.messaging.dto.database_entity.CoinDto;
-import com.github.kegszool.messaging.dto.database_entity.FavoriteCoinDto;
-import com.github.kegszool.messaging.dto.database_entity.UserData;
+import com.github.kegszool.bot.menu.service.section.builder.impl.CoinSelectionSectionBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class CoinSelectionMenu extends UserDataDependentBaseMenu {
@@ -29,15 +26,12 @@ public class CoinSelectionMenu extends UserDataDependentBaseMenu {
     @Value("${menu.action.open_edit_coin_sections_menu}")
     private String EDIT_COIN_SECTIONS_CALLBACK_DATA;
 
-    @Value("${menu.coin_selection.prefix[0].coin}")
-    private String COIN_PREFIX;
-
-    @Value("${menu.coin_selection.prefix[1].currency}")
-    private String CURRENCY_PREFIX;
-
     @Autowired
-    public CoinSelectionMenu(MenuUpdaterService menuUpdaterService) {
-        super(menuUpdaterService);
+    public CoinSelectionMenu(
+            MenuUpdaterService menuUpdaterService,
+            CoinSelectionSectionBuilder sectionBuilder
+    ) {
+        super(menuUpdaterService, sectionBuilder);
     }
 
     @Override
@@ -63,25 +57,5 @@ public class CoinSelectionMenu extends UserDataDependentBaseMenu {
     @Override
     public String getName() {
         return NAME;
-    }
-    @Override
-    public void updateMenu(UserData userData) {
-        processUpdate(userData);
-    }
-
-    private void processUpdate(UserData userData) {
-        List<FavoriteCoinDto> favoriteCoins = userData.getFavoriteCoins();
-        String menuSectionsConfig = buildMenuSectionsConfig(favoriteCoins);
-        updateSections(menuSectionsConfig, true);
-    }
-
-    private String buildMenuSectionsConfig(List<FavoriteCoinDto> favoriteCoins) {
-        return favoriteCoins.stream()
-                .map(favoriteCoin -> {
-                    CoinDto coin = favoriteCoin.getCoin();
-                    String coinName = coin.getName();
-                    String coinNamWithPrefixes = COIN_PREFIX + coinName + CURRENCY_PREFIX;
-                    return String.format("%s:%s", coinNamWithPrefixes, coinName);
-                }).collect(Collectors.joining(","));
     }
 }

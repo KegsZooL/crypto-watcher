@@ -1,8 +1,8 @@
 package com.github.kegszool.bot.menu.command.callback.impl.choice_coin_deletion;
 
 import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
-import com.github.kegszool.bot.menu.service.selection.controller.CoinDeletionController;
 
+import com.github.kegszool.bot.menu.service.selection.controller.BaseSelectionController;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
@@ -19,16 +19,16 @@ public class SelectedCoinDeletionCommand extends CallbackCommand {
     @Value("${menu.coin_deletion_menu.name}")
     private String COIN_DELETION_MENU_NAME;
 
-    private final CoinDeletionController coinDeletionController;
+    private final BaseSelectionController baseSelectionController;
 
     @Autowired
-    public SelectedCoinDeletionCommand(CoinDeletionController coinDeletionController) {
-        this.coinDeletionController = coinDeletionController;
+    public SelectedCoinDeletionCommand(BaseSelectionController baseSelectionController) {
+        this.baseSelectionController = baseSelectionController;
     }
 
     @Override
     protected PartialBotApiMethod<?> handleCommand(CallbackQuery callback) {
-        return coinDeletionController.handleSelection(callback, COIN_DELETION_MENU_NAME);
+        return baseSelectionController.handleSelection(callback, COIN_DELETION_MENU_NAME);
     }
 
     @Override
