@@ -1,4 +1,4 @@
-package com.github.kegszool.bot.menu.service.section_transfer;
+package com.github.kegszool.bot.menu.service.section.section_transfer;
 
 import java.util.List;
 import lombok.extern.log4j.Log4j2;

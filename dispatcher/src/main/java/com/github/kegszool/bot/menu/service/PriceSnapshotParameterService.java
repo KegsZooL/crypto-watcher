@@ -67,8 +67,8 @@ public class PriceSnapshotParameterService {
             Map<String, PriceSnapshotParameterInfo> snapshotParameterMap,
             CoinPriceSnapshot coinPriceSnapshot
     ) {
-        PriceSnapshotParameterInfo parameterInfo = snapshotParameterMap.get(parameter);
 
+        PriceSnapshotParameterInfo parameterInfo = snapshotParameterMap.get(parameter);
         String coinName = coinPriceSnapshot.getName();
         String parameterValue = parameterInfo.getValue(coinPriceSnapshot);
         String description = parameterInfo.getDescription();

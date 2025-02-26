@@ -1,7 +1,7 @@
-package com.github.kegszool.bot.menu.command.callback.impl;
+package com.github.kegszool.bot.menu.command.callback.impl.navigation;
 
-import com.github.kegszool.bot.menu.service.MenuRegistry;
-import com.github.kegszool.bot.menu.service.MenuHistoryManager;
+import com.github.kegszool.bot.menu.service.managment.MenuRegistry;
+import com.github.kegszool.bot.menu.service.managment.MenuHistoryManager;
 import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;

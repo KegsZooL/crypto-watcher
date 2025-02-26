@@ -1,4 +1,4 @@
-package com.github.kegszool.bot.menu.service;
+package com.github.kegszool.bot.menu.service.managment;
 
 import com.github.kegszool.bot.menu.impl.user_data_dependent.UserDataDependentMenu;
 

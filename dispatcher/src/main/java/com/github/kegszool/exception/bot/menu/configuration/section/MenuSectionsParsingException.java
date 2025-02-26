@@ -1,4 +1,4 @@
-package com.github.kegszool.exception.bot.menu.configuration.sections;
+package com.github.kegszool.exception.bot.menu.configuration.section;
 
 import com.github.kegszool.exception.bot.menu.configuration.MenuConfigurationException;
 

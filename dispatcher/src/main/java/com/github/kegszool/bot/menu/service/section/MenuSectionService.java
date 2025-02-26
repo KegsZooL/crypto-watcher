@@ -1,8 +1,8 @@
-package com.github.kegszool.bot.menu.service;
+package com.github.kegszool.bot.menu.service.section;
 
 import com.github.kegszool.exception.bot.menu.MenuException;
-import com.github.kegszool.exception.bot.menu.configuration.sections.InvalidMenuSectionConfigException;
-import com.github.kegszool.exception.bot.menu.configuration.sections.parsing.InvalidKeyValuePairException;
+import com.github.kegszool.exception.bot.menu.configuration.section.InvalidMenuSectionConfigException;
+import com.github.kegszool.exception.bot.menu.configuration.section.parsing.InvalidKeyValuePairException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
