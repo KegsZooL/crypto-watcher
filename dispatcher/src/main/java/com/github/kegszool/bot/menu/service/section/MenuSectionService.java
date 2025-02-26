@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Map;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import lombok.extern.log4j.Log4j2;
@@ -25,10 +24,10 @@ public class MenuSectionService {
         return new LinkedHashMap<>(parseSectionConfig(sectionsConfig));
     }
 
-    public void updateSections(LinkedHashMap<String, String> oldSections, String sectionsConfig, boolean saveActionButton) {
+    public void updateSections(LinkedHashMap<String, String> current, String sectionsConfig, boolean saveActionButton) {
         LinkedHashMap<String, String> newSections = new LinkedHashMap<>();
         processSections(sectionsConfig, newSections);
-        mergeSections(newSections, oldSections, saveActionButton);
+        updateSectionsWithActionPriority(newSections, current,  saveActionButton);
     }
 
     private void processSections(String sectionsConfig, Map<String, String> sections) {
@@ -75,23 +74,23 @@ public class MenuSectionService {
         };
     }
 
-    //TODO optimize the algorithm
-    private void mergeSections(
-            Map<String, String> sourceSections,
-            Map<String, String> targetSections,
-            boolean saveActionButton
-    ) {
-        Map<String, String> updatedSections = new LinkedHashMap<>();
-        updatedSections.putAll(sourceSections);
+    private void updateSectionsWithActionPriority(Map<String, String> sourceSections, Map<String, String> targetSections, boolean saveActionButton) {
+        Map<String, String> result = new LinkedHashMap<>();
 
-        for (Map.Entry<String, String> targetEntry : targetSections.entrySet()) {
-            if (!updatedSections.containsKey(targetEntry.getKey())
-                    && (saveActionButton || !targetEntry.getKey().startsWith(ACTION_PREFIX))
-            ) {
-                updatedSections.put(targetEntry.getKey(), targetEntry.getValue());
+        sourceSections.forEach((key, value) -> {
+            if (!(saveActionButton && key.startsWith(ACTION_PREFIX))) {
+                result.put(key, value);
             }
+        });
+
+        if (saveActionButton) {
+            targetSections.forEach((key, value) -> {
+                if (key.startsWith(ACTION_PREFIX)) {
+                    result.put(key, value);
+                }
+            });
         }
         targetSections.clear();
-        targetSections.putAll(updatedSections);
+        targetSections.putAll(result);
     }
 }
