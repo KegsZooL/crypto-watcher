@@ -1,6 +1,6 @@
 package com.github.kegszool.bot.menu.impl.user_data_dependent;
 
-import com.github.kegszool.bot.menu.service.MenuUpdaterService;
+import com.github.kegszool.bot.menu.service.managment.MenuUpdaterService;
 import com.github.kegszool.messaging.dto.database_entity.CoinDto;
 import com.github.kegszool.messaging.dto.database_entity.FavoriteCoinDto;
 import com.github.kegszool.messaging.dto.database_entity.UserData;

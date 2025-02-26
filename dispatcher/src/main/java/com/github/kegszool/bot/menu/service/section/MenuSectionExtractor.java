@@ -1,4 +1,4 @@
-package com.github.kegszool.bot.menu.service;
+package com.github.kegszool.bot.menu.service.section;
 
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;

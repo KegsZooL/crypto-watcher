@@ -1,4 +1,4 @@
-package com.github.kegszool.bot.menu.command.callback.impl;
+package com.github.kegszool.bot.menu.command.callback.impl.price_snapshot;
 
 import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
 import com.github.kegszool.exception.bot.data.ParsingCoinDataException;

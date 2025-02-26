@@ -1,8 +1,8 @@
 package com.github.kegszool.utils;
 
 import com.github.kegszool.bot.menu.Menu;
-import com.github.kegszool.bot.menu.service.MenuHistoryManager;
-import com.github.kegszool.bot.menu.service.MenuRegistry;
+import com.github.kegszool.bot.menu.service.managment.MenuHistoryManager;
+import com.github.kegszool.bot.menu.service.managment.MenuRegistry;
 
 import com.github.kegszool.exception.bot.data.UnsupportedExtractFieldUpdateException;
 import org.springframework.stereotype.Component;

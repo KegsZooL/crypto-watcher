@@ -45,8 +45,8 @@ public class CoinDeletionMenu extends BaseMenu {
     @Override
     public String getTitle() {
         return TITLE;
-    }
 
+    }
     public String getHint() {
         return HINT;
     }

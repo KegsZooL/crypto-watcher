@@ -2,7 +2,7 @@ package com.github.kegszool.bot.handler.response.database;
 
 import com.github.kegszool.bot.handler.result.HandlerResult;
 import com.github.kegszool.bot.handler.response.BaseResponseHandler;
-import com.github.kegszool.bot.menu.service.MenuUpdaterService;
+import com.github.kegszool.bot.menu.service.managment.MenuUpdaterService;
 
 import com.github.kegszool.messaging.dto.database_entity.UserData;
 import com.github.kegszool.messaging.dto.database_entity.UserDto;

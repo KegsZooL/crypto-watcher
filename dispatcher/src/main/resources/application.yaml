@@ -28,6 +28,8 @@ menu:
       open_edit_coin_sections_menu: ${MENU_ACTION_OPEN_EDIT_COIN_SECTIONS_MENU}
       open_coin_deletion_menu: ${MENU_ACTION_DELETE_COINS}
       delete_selected: ${MENU_ACTION_DELETE_SELECTED}
+      selected_prefix: ${SELECTED_OBJECT_PREFIX}
+      unselected_prefix: ${UNSELECTED_OBJECT_PREFIX}
 
   main:
       name: ${MENU_MAIN}
@@ -58,7 +60,8 @@ menu:
     hint: ${MENU_HINT_NO_COINS_SELECTED}
     max_buttons_per_row: ${MENU_MAX_BUTTONS_PER_ROW_COIN_SELECTION}
     prefix:
-      deletion_coin_prefix: ${DELETION_COIN_PREFIX}
+      unselected_coin_prefix: ${UNSELECTED_DELETION_COIN_PREFIX}
+      selected_coin_prefix: ${SELECTED_DELETION_COIN_PREFIX}
 
   settings:
     name: ${MENU_SETTINGS}

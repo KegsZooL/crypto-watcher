@@ -1,4 +1,4 @@
-package com.github.kegszool.bot.menu.service;
+package com.github.kegszool.bot.menu.service.managment;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;

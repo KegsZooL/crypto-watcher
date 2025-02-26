@@ -1,8 +1,8 @@
 package com.github.kegszool.bot.menu.command.callback.impl.with_section_transfer;
 
-import com.github.kegszool.bot.menu.service.section_transfer.BaseMenuSectionTransfer;
-import com.github.kegszool.bot.menu.service.section_transfer.MenuSectionTransferService;
-import com.github.kegszool.bot.menu.service.section_transfer.impl.CoinDeletionSectionTransfer;
+import com.github.kegszool.bot.menu.service.section.section_transfer.BaseMenuSectionTransfer;
+import com.github.kegszool.bot.menu.service.section.section_transfer.MenuSectionTransferService;
+import com.github.kegszool.bot.menu.service.section.section_transfer.impl.CoinDeletionSectionTransfer;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;

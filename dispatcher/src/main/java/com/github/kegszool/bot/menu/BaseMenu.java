@@ -2,7 +2,7 @@ package com.github.kegszool.bot.menu;
 
 import com.github.kegszool.utils.KeyboardFactory;
 import com.github.kegszool.exception.bot.menu.MenuException;
-import com.github.kegszool.bot.menu.service.MenuSectionService;
+import com.github.kegszool.bot.menu.service.section.MenuSectionService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
