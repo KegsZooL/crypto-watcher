@@ -1,7 +1,6 @@
 package com.github.kegszool.bot.menu.service.section;
 
 import com.github.kegszool.exception.bot.menu.MenuException;
-import com.github.kegszool.exception.bot.menu.configuration.section.InvalidMenuSectionConfigException;
 import com.github.kegszool.exception.bot.menu.configuration.section.parsing.InvalidKeyValuePairException;
 
 
@@ -32,17 +31,11 @@ public class MenuSectionService {
 
     private void processSections(String sectionsConfig, Map<String, String> sections) {
         try {
-            validateSectionsConfig(sectionsConfig);
-            sections.putAll(parseSectionConfig(sectionsConfig));
+            if (sectionsConfig != null && !sectionsConfig.isEmpty()) {
+            	sections.putAll(parseSectionConfig(sectionsConfig));
+            }
         } catch (MenuException ex) {
             handleMenuException("Error during menu initialization!", ex);
-        }
-    }
-
-    private void validateSectionsConfig(String sectionsConfig) {
-        if (sectionsConfig == null || sectionsConfig.isEmpty()) {
-            handleMenuException("Config is empty or null: " + sectionsConfig,
-                    new InvalidMenuSectionConfigException("Config: " + sectionsConfig));
         }
     }
 

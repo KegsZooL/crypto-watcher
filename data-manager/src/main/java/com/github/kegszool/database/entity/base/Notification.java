@@ -39,7 +39,7 @@ public class Notification {
     private BigDecimal targetPercentage;
 
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "directions")
+    @Column(name = "directions")
     private Direction direction;
 
     public Notification(
