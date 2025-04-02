@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,5 +68,21 @@ public class UserService extends EntityService<User, UserDto, Integer> {
         return notifications.stream()
                 .map(notificationMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    public List<FavoriteCoinDto> deleteFavoriteCoins(int id, List<FavoriteCoinDto> removableCoins) {
+	    List<FavoriteCoin> existingCoins = favoriteCoinRepository.findByUser_Id(id);
+        List<String> coinsToRemove = removableCoins.stream()
+                .map(coin -> coin.getCoin().getName())
+                .toList();
+
+        existingCoins.stream()
+                .filter(coin -> coinsToRemove.contains(coin.getCoin().getName()))
+                .forEach(favoriteCoinRepository::delete);
+
+        return existingCoins.stream()
+                .filter(coin -> !coinsToRemove.contains(coin.getCoin().getName()))
+                .map(favoriteCoinMapper::toDto)
+                .toList();
     }
 }

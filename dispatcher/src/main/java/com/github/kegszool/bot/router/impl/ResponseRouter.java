@@ -3,7 +3,7 @@ package com.github.kegszool.bot.router.impl;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 
 import com.github.kegszool.bot.router.AbstractRouter;
-import com.github.kegszool.bot.handler.result.HandlerResult;
+import com.github.kegszool.bot.handler.HandlerResult;
 import com.github.kegszool.bot.handler.response.ResponseHandler;
 
 import com.github.kegszool.exception.bot.handler.HandlerNotFoundException;
@@ -18,8 +18,8 @@ import java.util.List;
 @Log4j2
 @Component
 public class ResponseRouter extends AbstractRouter<ServiceMessage<?>, ResponseHandler, String> {
-
     @Autowired
+
     public ResponseRouter(List<ResponseHandler> handlers) {
         super(handlers);
     }

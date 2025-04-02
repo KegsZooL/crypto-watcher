@@ -1,6 +1,6 @@
 package com.github.kegszool.bot.router;
 
-import com.github.kegszool.bot.handler.result.HandlerResult;
+import com.github.kegszool.bot.handler.HandlerResult;
 import com.github.kegszool.exception.bot.handler.HandlerNotFoundException;
 import jakarta.annotation.PreDestroy;
 import org.springframework.stereotype.Service;

@@ -12,7 +12,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Component
-public class UpsertUserDatabaseResponseConsumer extends DatabaseResponseConsumer<UpsertUserResponse> {
+public class UpsertUserResponseConsumer extends DatabaseResponseConsumer<UpsertUserResponse> {
 
     @Value("${spring.rabbitmq.template.routing-key.upsert_user_response}")
     private String UPSERT_USER_RESPONSE_ROUTING_KEY;

@@ -1,4 +1,4 @@
-package com.github.kegszool.bot.menu.service.selection.data_updater;
+package com.github.kegszool.bot.menu.service.selection.state_updater;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 

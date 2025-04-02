@@ -1,6 +1,6 @@
 package com.github.kegszool.bot.handler.response.database;
 
-import com.github.kegszool.bot.handler.result.HandlerResult;
+import com.github.kegszool.bot.handler.HandlerResult;
 import com.github.kegszool.bot.handler.response.BaseResponseHandler;
 import com.github.kegszool.bot.menu.service.managment.MenuUpdaterService;
 

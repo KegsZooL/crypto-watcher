@@ -3,8 +3,8 @@ package com.github.kegszool.bot.menu.service;
 import com.github.kegszool.utils.MessageUtils;
 import com.github.kegszool.messaging.dto.command_entity.CoinPriceSnapshot;
 
-import com.github.kegszool.bot.menu.command.callback.impl.entity.PriceSnapshotProperties;
-import com.github.kegszool.bot.menu.command.callback.impl.entity.PriceSnapshotParameterInfo;
+import com.github.kegszool.bot.menu.entity.PriceSnapshotProperties;
+import com.github.kegszool.bot.menu.entity.PriceSnapshotParameterInfo;
 import com.github.kegszool.bot.menu.service.price_snapshot.PriceSnapshotRepository;
 
 import com.github.kegszool.bot.menu.service.price_snapshot.PriceSnapshotParameterFormater;

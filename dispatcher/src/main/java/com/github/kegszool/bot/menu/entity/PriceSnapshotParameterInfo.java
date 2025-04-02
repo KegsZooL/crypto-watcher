@@ -1,4 +1,4 @@
-package com.github.kegszool.bot.menu.command.callback.impl.entity;
+package com.github.kegszool.bot.menu.entity;
 
 import com.github.kegszool.messaging.dto.command_entity.CoinPriceSnapshot;
 import lombok.Getter;

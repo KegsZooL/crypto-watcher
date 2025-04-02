@@ -15,6 +15,9 @@ spring:
           request: ${RABBITMQ_UPSERT_USER_REQUEST_ROUTING_KEY}
           response: ${RABBITMQ_UPSERT_USER_RESPONSE_ROUTING_KEY}
         service_exception: ${RABBITMQ_SERVICE_EXCEPTION_ROUTING_KEY}
+        delete_favorite_coin:
+          request: ${RABBITMQ_DELETE_FAVORITE_COIN_REQUEST_ROUTING_KEY}
+          response: ${RABBITMQ_DELETE_FAVORITE_COIN_RESPONSE_ROUTING_KEY}
     queues:
       request_to_database: ${RABBITMQ_REQUEST_TO_DATABASE_QUEUE}
 

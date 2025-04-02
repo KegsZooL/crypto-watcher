@@ -1,8 +1,7 @@
-package com.github.kegszool.bot.menu.service.selection.controller;
+package com.github.kegszool.bot.menu.service.selection;
 
 import com.github.kegszool.bot.menu.service.managment.MenuRegistry;
-import com.github.kegszool.bot.menu.service.selection.SelectionStateRepository;
-import com.github.kegszool.bot.menu.service.selection.data_updater.CoinDeletionDataUpdater;
+import com.github.kegszool.bot.menu.service.selection.state_updater.CoinSelectionStateUpdater;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.kegszool.utils.MessageUtils;
 
 @Service
-public class CoinDeletionController extends BaseSelectionController {
+public class CoinDeletionController extends AbstractSelectionController {
 
     @Autowired
     public CoinDeletionController(
             SelectionStateRepository selectionStateRepository,
-            CoinDeletionDataUpdater dataUpdater,
+            CoinSelectionStateUpdater dataUpdater,
             MenuRegistry menuRegistry,
             MessageUtils messageUtils
     ) {

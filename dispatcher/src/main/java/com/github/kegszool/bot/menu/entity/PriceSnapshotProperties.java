@@ -1,4 +1,4 @@
-package com.github.kegszool.bot.menu.command.callback.impl.entity;
+package com.github.kegszool.bot.menu.entity;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;

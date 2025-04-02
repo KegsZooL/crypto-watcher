@@ -1,7 +1,7 @@
 package com.github.kegszool.bot.menu.command.callback.impl.price_snapshot;
 
 import com.github.kegszool.bot.menu.command.callback.CallbackCommand;
-import com.github.kegszool.bot.menu.command.callback.impl.entity.PriceSnapshotProperties;
+import com.github.kegszool.bot.menu.entity.PriceSnapshotProperties;
 
 import com.github.kegszool.bot.menu.service.PriceSnapshotParameterService;
 import org.springframework.beans.factory.annotation.Autowired;

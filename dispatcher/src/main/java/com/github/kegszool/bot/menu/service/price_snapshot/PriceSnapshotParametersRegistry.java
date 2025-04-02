@@ -1,7 +1,7 @@
 package com.github.kegszool.bot.menu.service.price_snapshot;
 
-import com.github.kegszool.bot.menu.command.callback.impl.entity.PriceSnapshotParameterInfo;
-import com.github.kegszool.bot.menu.command.callback.impl.entity.PriceSnapshotProperties;
+import com.github.kegszool.bot.menu.entity.PriceSnapshotParameterInfo;
+import com.github.kegszool.bot.menu.entity.PriceSnapshotProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;

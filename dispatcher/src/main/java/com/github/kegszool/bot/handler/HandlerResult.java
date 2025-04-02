@@ -1,4 +1,4 @@
-package com.github.kegszool.bot.handler.result;
+package com.github.kegszool.bot.handler;
 
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 

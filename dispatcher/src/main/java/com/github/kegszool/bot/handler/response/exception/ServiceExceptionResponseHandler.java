@@ -1,7 +1,7 @@
 package com.github.kegszool.bot.handler.response.exception;
 
 import com.github.kegszool.bot.handler.response.BaseResponseHandler;
-import com.github.kegszool.bot.handler.result.HandlerResult;
+import com.github.kegszool.bot.handler.HandlerResult;
 import com.github.kegszool.messaging.dto.service.ServiceException;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 

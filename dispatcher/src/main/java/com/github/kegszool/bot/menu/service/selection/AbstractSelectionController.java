@@ -1,8 +1,7 @@
-package com.github.kegszool.bot.menu.service.selection.controller;
+package com.github.kegszool.bot.menu.service.selection;
 
 import com.github.kegszool.bot.menu.service.managment.MenuRegistry;
-import com.github.kegszool.bot.menu.service.selection.SelectionStateRepository;
-import com.github.kegszool.bot.menu.service.selection.data_updater.SelectionDataUpdater;
+import com.github.kegszool.bot.menu.service.selection.state_updater.SelectionDataUpdater;
 
 import com.github.kegszool.utils.MessageUtils;
 import com.github.kegszool.exception.bot.menu.selection.SelectionButtonNotFoundException;
@@ -18,14 +17,14 @@ import java.util.Collection;
 
 @Log4j2
 @Service
-public abstract class BaseSelectionController {
+public abstract class AbstractSelectionController {
 
     private final SelectionStateRepository selectionStateRepository;
     private final SelectionDataUpdater dataUpdater;
     private final MenuRegistry menuRegistry;
     private final MessageUtils messageUtils;
 
-    protected BaseSelectionController(
+    protected AbstractSelectionController(
             SelectionStateRepository selectionStateRepository,
             SelectionDataUpdater dataUpdater,
             MenuRegistry menuRegistry,
@@ -57,10 +56,10 @@ public abstract class BaseSelectionController {
                 .flatMap(Collection::stream)
                 .filter(button -> callback.getData().equals(button.getCallbackData()))
                 .findFirst()
-                .orElseThrow(() -> handleSelectionButtonNotFoundException(callback.getData(), menuName));
+                .orElseThrow(() -> createSelectionButtonNotFoundException(callback.getData(), menuName));
     }
 
-    private SelectionButtonNotFoundException handleSelectionButtonNotFoundException(
+    private SelectionButtonNotFoundException createSelectionButtonNotFoundException(
             String callbackData, String menuName
     ) {
         String errorMessage = String.format(

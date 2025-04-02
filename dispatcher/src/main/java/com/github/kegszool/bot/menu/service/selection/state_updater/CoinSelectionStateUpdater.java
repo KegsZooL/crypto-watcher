@@ -1,4 +1,4 @@
-package com.github.kegszool.bot.menu.service.selection.data_updater;
+package com.github.kegszool.bot.menu.service.selection.state_updater;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import com.github.kegszool.exception.bot.menu.configuration.section.InvalidButtonTextException;
@@ -10,7 +10,7 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Service
-public class CoinDeletionDataUpdater implements SelectionDataUpdater {
+public class CoinSelectionStateUpdater implements SelectionDataUpdater {
 
     @Value("${menu.coin_deletion_menu.prefix.selected_coin_prefix}")
     private String SELECTED_DELETION_COIN_PREFIX;
@@ -27,13 +27,13 @@ public class CoinDeletionDataUpdater implements SelectionDataUpdater {
     @Override
     public void update(InlineKeyboardButton button, String currentCallbackData) {
         if (currentCallbackData.startsWith(SELECTED_DELETION_COIN_PREFIX)) {
-            updateData(button, UNSELECTED_DELETION_COIN_PREFIX, SELECTED_DELETION_COIN_PREFIX, BALLOT_BOX_WITH_CHECK_MARK);
+            toggleSelectionState(button, UNSELECTED_DELETION_COIN_PREFIX, SELECTED_DELETION_COIN_PREFIX, BALLOT_BOX_WITH_CHECK_MARK);
         } else {
-            updateData(button, SELECTED_DELETION_COIN_PREFIX, UNSELECTED_DELETION_COIN_PREFIX, WHITE_HEAVY_CHECK_MARK);
+            toggleSelectionState(button, SELECTED_DELETION_COIN_PREFIX, UNSELECTED_DELETION_COIN_PREFIX, WHITE_HEAVY_CHECK_MARK);
         }
     }
 
-    private void updateData(InlineKeyboardButton button, String newPrefix, String currentPrefix, String newEmoji) {
+    private void toggleSelectionState(InlineKeyboardButton button, String newPrefix, String currentPrefix, String newEmoji) {
         String currentCallback = button.getCallbackData();
         String callbackWithoutPrefix = currentCallback.substring(currentPrefix.length());
         button.setCallbackData(newPrefix + callbackWithoutPrefix);
@@ -46,11 +46,11 @@ public class CoinDeletionDataUpdater implements SelectionDataUpdater {
         } else if (words.length == 2) {
             button.setText(newEmoji + " " + words[1]);
         } else {
-        	throw handleInvalidButtonText(buttonText);
+        	throw createInvalidButtonTextException(buttonText);
         }
     }
 
-    public InvalidButtonTextException handleInvalidButtonText(String buttonText) {
+    public InvalidButtonTextException createInvalidButtonTextException(String buttonText) {
         String errorMessage = String.format(
                 "Invalid button text format '%s' for updating coin deletion button",
                 buttonText

@@ -3,7 +3,7 @@ package com.github.kegszool.bot.router.impl;
 import com.github.kegszool.bot.router.AbstractRouter;
 import com.github.kegszool.bot.handler.UpdateHandler;
 import com.github.kegszool.bot.handler.UpsertUserHandler;
-import com.github.kegszool.bot.handler.result.HandlerResult;
+import com.github.kegszool.bot.handler.HandlerResult;
 
 import com.github.kegszool.exception.bot.handler.HandlerNotFoundException;
 import com.github.kegszool.exception.bot.handler.impl.UpdateHandlerNotFoundException;

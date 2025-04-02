@@ -46,6 +46,12 @@ public class RabbitConfiguration {
     @Value("${spring.rabbitmq.template.routing-key.upsert_user_response}")
     private String UPSERT_USER_RESPONSE_FROM_DATABASE_ROUTING_KEY;
 
+    @Value("${spring.rabbitmq.template.routing-key.delete_favorite_coin_request}")
+    private String DELETE_FAVORITE_COIN_REQUEST_TO_DATABASE_ROUTING_KEY;
+
+    @Value("${spring.rabbitmq.template.routing-key.delete_favorite_coin_response}")
+    private String DELETE_FAVORITE_COIN_RESPONSE_FROM_DATABASE_ROUTING_KEY;
+
     private final Map<String, Object> queueArgs = Map.of("x-expires", 36000);
 
     @Bean
@@ -106,6 +112,20 @@ public class RabbitConfiguration {
         return BindingBuilder.bind(responseFromExchangeQueue())
                 .to(exchange())
                 .with(SERVICE_EXCEPTION_ROUTING_KEY);
+    }
+
+    @Bean
+    public Binding bindDeleteFavoriteCoinRequestToDatabase() {
+        return BindingBuilder.bind(requestToDatabaseQueue())
+                .to(exchange())
+                .with(DELETE_FAVORITE_COIN_REQUEST_TO_DATABASE_ROUTING_KEY);
+    }
+
+    @Bean
+    public Binding bindDeleteFavoriteCoinResponseFromDatabase() {
+        return BindingBuilder.bind(responseFromDatabaseQueue())
+                .to(exchange())
+                .with(DELETE_FAVORITE_COIN_RESPONSE_FROM_DATABASE_ROUTING_KEY);
     }
 
     @Bean

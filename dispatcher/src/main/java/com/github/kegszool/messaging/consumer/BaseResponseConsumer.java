@@ -13,8 +13,10 @@ public abstract class BaseResponseConsumer<T> implements ResponseConsumerService
     @Autowired
     protected TelegramBotController botController;
 
+
     @Override
     public void consume(ServiceMessage<T> serviceMessage, String routingKey) {
+
         if (ServiceMessageUtils.isDataValid(serviceMessage, routingKey) && canHandle(routingKey)) {
             ServiceMessage<T> mappedMessage = ServiceMessageUtils.mapToServiceMessage(serviceMessage, getDataClass());
             handleResponse(mappedMessage, routingKey);
@@ -22,6 +24,8 @@ public abstract class BaseResponseConsumer<T> implements ResponseConsumerService
             throw ServiceMessageUtils.handleInvalidServiceMessage(serviceMessage, routingKey);
         }
     }
+
+
     protected abstract boolean canHandle(String routingKey);
     protected abstract Class<T> getDataClass();
     protected abstract void logReceivedData(ServiceMessage<T> serviceMessage, String routingKey);

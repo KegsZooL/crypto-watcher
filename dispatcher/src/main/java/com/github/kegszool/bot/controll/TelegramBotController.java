@@ -1,7 +1,7 @@
 package com.github.kegszool.bot.controll;
 
 import com.github.kegszool.bot.TelegramBot;
-import com.github.kegszool.bot.handler.result.HandlerResult;
+import com.github.kegszool.bot.handler.HandlerResult;
 import com.github.kegszool.bot.service.BotRegistrationService;
 import com.github.kegszool.bot.router.impl.ResponseRouter;
 import com.github.kegszool.bot.router.impl.UpdateRouter;

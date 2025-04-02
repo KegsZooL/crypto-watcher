@@ -1,7 +1,6 @@
 package com.github.kegszool.handler;
 
 import com.github.kegszool.utils.ServiceMessageUtils;
-import com.github.kegszool.handler.impl.RequestHandler;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 
 import lombok.extern.log4j.Log4j2;
