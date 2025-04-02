@@ -19,9 +19,11 @@ spring:
         delete_favorite_coin_response: ${RABBITMQ_DELETE_FAVORITE_COIN_RESPONSE_ROUTING_KEY}
     queues:
       request_to_exchange: ${RABBITMQ_REQUEST_TO_EXCHANGE_QUEUE}
-      response_from_exchange: ${RABBITMQ_RESPONSE_FROM_EXCHANGE_QUEUE}
       request_to_database: ${RABBITMQ_REQUEST_TO_DATABASE_QUEUE}
-      response_from_database: ${RABBITMQ_RESPONSE_FROM_DATABASE_QUEUE}
+      response_upsert_user: ${RABBITMQ_UPSERT_USER_RESPONSE_QUEUE}
+      response_delete_favorite_coin: ${RABBITMQ_DELETE_FAVORITE_COIN_RESPONSE_QUEUE}
+      response_coin_price: ${RABBITMQ_COIN_PRICE_RESPONSE_QUEUE}
+      service_exception: ${RABBITMQ_SERVICE_EXCEPTION_QUEUE}
 
 menu:
   action:
