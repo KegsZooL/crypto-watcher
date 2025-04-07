@@ -48,7 +48,7 @@ public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
         try {
             executeMethod(answerMessage);
         } catch (TelegramApiException ex) {
-            	handleFailedExecution(ex, answerMessage);
+            handleFailedExecution(ex, answerMessage);
         }
     }
 

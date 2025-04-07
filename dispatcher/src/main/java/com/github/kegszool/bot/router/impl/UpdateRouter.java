@@ -49,7 +49,7 @@ public class UpdateRouter extends AbstractRouter<Update, UpdateHandler, Update> 
     }
 
     @Override
-    protected HandlerNotFoundException proccessMissingHandler(Update update, Update key) {
+    protected HandlerNotFoundException processMissingHandler(Update update, Update key) {
         String chatId = messageUtils.extractChatId(update);
         String warnMessage = "No handler was found for the update. ChatId: " + chatId;
         log.warn(warnMessage);

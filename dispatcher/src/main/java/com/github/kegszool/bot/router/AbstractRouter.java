@@ -28,7 +28,7 @@ public abstract class AbstractRouter<T, H, K> {
                 return handlers.parallelStream()
                         .filter(handler -> canHandle(handler, key))
                         .findFirst()
-                        .orElseThrow(() -> proccessMissingHandler(data, key));
+                        .orElseThrow(() -> processMissingHandler(data, key));
                 }, executor)
                 .thenApplyAsync(handler -> handle(handler, data), executor)
                 .join();
@@ -38,7 +38,7 @@ public abstract class AbstractRouter<T, H, K> {
 
     protected abstract HandlerResult handle(H handler, T data);
 
-    protected abstract HandlerNotFoundException proccessMissingHandler(T input, K key);
+    protected abstract HandlerNotFoundException processMissingHandler(T input, K key);
 
     @PreDestroy
     private void closeTreadPool() {
