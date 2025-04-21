@@ -1,22 +1,20 @@
 package com.github.kegszool.bot;
 
-import com.github.kegszool.bot.controll.TelegramBotController;
-import com.github.kegszool.exception.bot.data.method.execution.FailedExecutionMethodException;
-import com.github.kegszool.exception.bot.data.method.execution.UnsupportedExecutionMethodException;
-
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
-import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
-
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import org.telegram.telegrambots.meta.generics.TelegramClient;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
+
+import org.telegram.telegrambots.meta.generics.TelegramClient;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+
+import org.telegram.telegrambots.client.okhttp.OkHttpTelegramClient;
+import org.telegram.telegrambots.longpolling.util.LongPollingSingleThreadUpdateConsumer;
+import com.github.kegszool.bot.exception.method.UnsupportedTelegramMethodTypeException;
 
 import lombok.extern.log4j.Log4j2;
 import jakarta.annotation.PostConstruct;
@@ -29,7 +27,10 @@ public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
     private final TelegramBotController controller;
 
     @Autowired
-    public TelegramBot(@Value("${bot.token}") String botToken, TelegramBotController controller) {
+    public TelegramBot(
+            @Value("${bot.token}") String botToken,
+            TelegramBotController controller
+    ) {
         this.client = new OkHttpTelegramClient(botToken);
         this.controller = controller;
     }
@@ -44,35 +45,21 @@ public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
         controller.handleUpdate(update);
     }
 
-    public void sendAnswerMessage(PartialBotApiMethod<?> answerMessage) {
+    public void sendAnswerMessage(PartialBotApiMethod<?> msg) {
         try {
-            executeMethod(answerMessage);
+            switch (msg) {
+                case SendMessage sendMessage -> client.execute(sendMessage);
+                case EditMessageText editMessageText -> client.execute(editMessageText);
+                default -> throw createUnsupportedMethodTypeException(msg);
+            }
         } catch (TelegramApiException ex) {
-            handleFailedExecution(ex, answerMessage);
+            log.error("Error when sending a answer message: {}", msg, ex);
         }
     }
 
-    private void executeMethod(PartialBotApiMethod<?> answerMessage) throws TelegramApiException {
-        if (answerMessage instanceof EditMessageText editMessage) {
-            client.execute(editMessage);
-            log.info("EditMessage was executed:\n\n\"{}\"", editMessage);
-        } else if (answerMessage instanceof SendMessage sendMessage) {
-            client.execute((SendMessage) answerMessage);
-            log.info("SendMessage was executed:\n\n\"{}\"", sendMessage);
-        } else {
-            handleExecutionUnsupportedMethod(answerMessage);
-        }
-    }
-
-    private void handleExecutionUnsupportedMethod(PartialBotApiMethod<?> answerMessage) {
-        String unsupportedMethod = answerMessage.getMethod();
-        log.error("Unsupported method: \"{}\"", unsupportedMethod);
-        throw new UnsupportedExecutionMethodException(unsupportedMethod);
-    }
-
-    private void handleFailedExecution(TelegramApiException ex, PartialBotApiMethod<?> answerMessage) {
-        String method = answerMessage.getMethod();
-        log.error("Execution error for method \"{}\"!", method, ex);
-        throw new FailedExecutionMethodException("Failed execution for method: " + method, ex);
+    private UnsupportedTelegramMethodTypeException createUnsupportedMethodTypeException(PartialBotApiMethod<?> msg) {
+        String type = msg.getMethod();
+        log.error("Unsupported method type: \"{}\"", type);
+        return new UnsupportedTelegramMethodTypeException(type);
     }
 }
