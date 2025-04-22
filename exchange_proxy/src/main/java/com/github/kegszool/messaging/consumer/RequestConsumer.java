@@ -2,7 +2,7 @@ package com.github.kegszool.messaging.consumer;
 
 import com.github.kegszool.utils.ServiceMessageUtils;
 import com.github.kegszool.controller.RequestController;
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.dto.ServiceMessage;
 
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

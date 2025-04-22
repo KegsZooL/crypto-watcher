@@ -15,17 +15,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class MenuRegistry {
 
+    private final Map<String, Menu> menus;
+
     @Value("${menu.main.name}")
     private String DEFAULT_MENU_NAME;
 
-    private final Map<String, Menu> menus;
-
     @Autowired
     public MenuRegistry(List<Menu> menuList) {
-        this.menus = menuList.stream().collect(Collectors.
-                toMap(Menu::getName, menu -> menu));
+        this.menus = menuList.stream()
+                .collect(Collectors.toMap(
+                        Menu::getName, menu -> menu
+                ));
         logRegisteredMenus();
-
     }
 
     private void logRegisteredMenus() {

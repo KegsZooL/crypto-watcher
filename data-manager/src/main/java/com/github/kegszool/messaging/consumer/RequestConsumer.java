@@ -1,7 +1,7 @@
 package com.github.kegszool.messaging.consumer;
 
 import com.github.kegszool.controller.RequestController;
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.dto.ServiceMessage;
 import com.github.kegszool.utils.ServiceMessageUtils;
 
 import org.springframework.stereotype.Service;

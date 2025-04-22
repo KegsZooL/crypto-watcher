@@ -1,16 +1,17 @@
 package com.github.kegszool.coin.selection.menu;
 
-import com.github.kegszool.coin.selection.CoinSelectionKeyboardConfigBuilder;
+import com.github.kegszool.coin.FavoriteCoinMenu;
 import com.github.kegszool.menu.service.MenuUpdaterService;
-import com.github.kegszool.user.menu.UserDataDependentBaseMenu;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.github.kegszool.coin.selection.CoinSelectionKeyboardConfigBuilder;
+
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @Component
-public class CoinSelectionMenu extends UserDataDependentBaseMenu {
+public class CoinSelectionMenu extends FavoriteCoinMenu {
 
     @Value("${menu.coin_selection.name}")
     private String NAME;

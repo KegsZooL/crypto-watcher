@@ -1,15 +1,16 @@
 package com.github.kegszool.coin.deletion;
 
-import com.github.kegszool.menu.service.MenuUpdaterService;
-import com.github.kegszool.user.menu.UserDataDependentBaseMenu;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.github.kegszool.coin.FavoriteCoinMenu;
+import com.github.kegszool.menu.service.MenuUpdaterService;
 
 import java.util.List;
 
 @Component
-public class CoinDeletionMenu extends UserDataDependentBaseMenu {
+public class CoinDeletionMenu extends FavoriteCoinMenu {
 
     @Value("${menu.coin_deletion_menu.sections}")
     private String SECTIONS_CONFIG;
@@ -25,9 +26,6 @@ public class CoinDeletionMenu extends UserDataDependentBaseMenu {
 
     @Value("${menu.action.delete_selected}")
     private String DELETE_SELECTED_CALLBACK_DATA;
-
-    @Value("${menu.coin_deletion_menu.hint}")
-    private String HINT;
 
     @Autowired
     public CoinDeletionMenu(
@@ -56,9 +54,6 @@ public class CoinDeletionMenu extends UserDataDependentBaseMenu {
     public String getTitle() {
         return TITLE;
 
-    }
-    public String getHint() {
-        return HINT;
     }
 
     @Override

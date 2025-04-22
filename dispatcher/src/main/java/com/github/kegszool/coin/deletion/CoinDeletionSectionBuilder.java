@@ -2,7 +2,7 @@ package com.github.kegszool.coin.deletion;
 
 import com.github.kegszool.coin.dto.CoinDto;
 import com.github.kegszool.menu.util.SectionBuilder;
-import com.github.kegszool.coin.selection.state.SelectionStateBuffer;
+import com.github.kegszool.coin.selection.state.MenuSelectionBuffer;
 import com.github.kegszool.user.dto.UserData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,16 +28,16 @@ public class CoinDeletionSectionBuilder implements SectionBuilder {
     @Value("${menu.coin_deletion_menu.prefix.unselected_coin_prefix}")
     private String UNSELECTED_DELETION_PREFIX;
 
-    private final SelectionStateBuffer selectionStateBuffer;
+    private final MenuSelectionBuffer menuSelectionBuffer;
 
     @Autowired
-    public CoinDeletionSectionBuilder(SelectionStateBuffer selectionStateBuffer) {
-        this.selectionStateBuffer = selectionStateBuffer;
+    public CoinDeletionSectionBuilder(MenuSelectionBuffer menuSelectionBuffer) {
+        this.menuSelectionBuffer = menuSelectionBuffer;
     }
 
     @Override
     public String buildSectionsConfig(UserData userData) {
-        var selectedButtons = selectionStateBuffer.getSelected(COIN_DELETION_MENU_NAME);
+        var selectedButtons = menuSelectionBuffer.getSelected(COIN_DELETION_MENU_NAME);
         return userData.getFavoriteCoins().stream()
                 .map(favoriteCoin -> {
                     CoinDto coin = favoriteCoin.getCoin();

@@ -18,18 +18,17 @@ public abstract class AbstractRouter<T, H, K> {
 
     protected AbstractRouter(List<H> handlers) {
         this.handlers = handlers;
-        this.executorService = Executors.newFixedThreadPool(2);
+        this.executorService = Executors.newFixedThreadPool(4);
     }
 
     public HandlerResult routeAndHandle(T data, K key) {
-        ExecutorService executor = Executors.newCachedThreadPool();
         return CompletableFuture.supplyAsync(() -> {
-                return handlers.parallelStream()
-                        .filter(handler -> canHandle(handler, key))
-                        .findFirst()
-                        .orElseThrow(() -> processMissingHandler(data, key));
-                }, executor)
-                .thenApplyAsync(handler -> handle(handler, data), executor)
+                    return handlers.stream()
+                            .filter(handler -> canHandle(handler, key))
+                            .findFirst()
+                            .orElseThrow(() -> processMissingHandler(data, key));
+                }, executorService)
+                .thenApplyAsync(handler -> handle(handler, data), executorService)
                 .join();
     }
 

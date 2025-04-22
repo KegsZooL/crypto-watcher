@@ -1,4 +1,4 @@
-package com.github.kegszool.messaging.dto.service;
+package com.github.kegszool.messaging.dto;
 
 import lombok.Getter;
 import lombok.Setter;

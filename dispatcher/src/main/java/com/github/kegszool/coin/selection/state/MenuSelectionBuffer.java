@@ -7,25 +7,25 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Component
-public class SelectionStateBuffer {
+public class MenuSelectionBuffer {
 
-    private final Map<String, List<InlineKeyboardButton>> menuNameSelectedButtonMapping = new ConcurrentHashMap<>();
+    private final Map<String, List<InlineKeyboardButton>> menuNameToButtons = new ConcurrentHashMap<>();
 
     public void addSelected(String menuName, InlineKeyboardButton selectedButton) {
-        menuNameSelectedButtonMapping.computeIfAbsent(menuName, k -> new ArrayList<>()).add(selectedButton);
+        menuNameToButtons.computeIfAbsent(menuName, k -> new ArrayList<>()).add(selectedButton);
     }
 
     public Optional<InlineKeyboardButton> removeSelected(String menuName, InlineKeyboardButton button) {
-        return Optional.of(menuNameSelectedButtonMapping.get(menuName))
+        return Optional.of(menuNameToButtons.get(menuName))
                 .filter(list -> list.remove(button))
                 .map(removed -> button);
     }
 
     public List<InlineKeyboardButton> getSelected(String menuName) {
-        return menuNameSelectedButtonMapping.getOrDefault(menuName, Collections.emptyList());
+        return menuNameToButtons.getOrDefault(menuName, Collections.emptyList());
     }
 
-    public Optional<List<InlineKeyboardButton>> clearSelected(String menuName) {
-        return Optional.ofNullable(menuNameSelectedButtonMapping.remove(menuName));
+    public List<InlineKeyboardButton> removeSelected(String menuName) {
+        return menuNameToButtons.remove(menuName);
     }
 }

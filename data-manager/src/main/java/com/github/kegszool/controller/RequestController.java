@@ -4,7 +4,7 @@ import com.github.kegszool.utils.RequestHandlerFactory;
 import com.github.kegszool.handler.BaseRequestHandler;
 import com.github.kegszool.exception.service.ServiceException;
 
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.dto.ServiceMessage;
 import com.github.kegszool.messaging.producer.ResponseProducerService;
 
 import org.springframework.beans.factory.annotation.Autowired;
