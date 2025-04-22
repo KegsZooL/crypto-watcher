@@ -5,7 +5,7 @@ import com.github.kegszool.handler.BaseRequestHandler;
 import com.github.kegszool.exception.EntityNotFoundException;
 import com.github.kegszool.database.entity.service.impl.UserService;
 
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.dto.ServiceMessage;
 import com.github.kegszool.messaging.dto.database_entity.UserDto;
 import com.github.kegszool.messaging.dto.database_entity.UserData;
 import com.github.kegszool.messaging.dto.database_entity.FavoriteCoinDto;

@@ -9,7 +9,7 @@ import com.github.kegszool.handler.BaseRequestHandler;
 import com.github.kegszool.controller.RestCryptoController;
 
 import com.github.kegszool.messaging.dto.command_entity.PriceSnapshot;
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.dto.ServiceMessage;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestClientException;

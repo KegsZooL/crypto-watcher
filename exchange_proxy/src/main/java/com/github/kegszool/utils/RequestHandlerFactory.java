@@ -1,7 +1,7 @@
 package com.github.kegszool.utils;
 
 import com.github.kegszool.handler.BaseRequestHandler;
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.dto.ServiceMessage;
 import com.github.kegszool.exception.handler.RequestHandlerNotFoundException;
 
 import java.util.List;

@@ -1,9 +1,8 @@
 package com.github.kegszool.messaging.consumer;
 
-import com.github.kegszool.utils.ServiceMessageUtils;
-import com.github.kegszool.bot.controll.TelegramBotController;
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
-
+import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.service_message.ServiceMessageUtils;
+import com.github.kegszool.bot.TelegramBotController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

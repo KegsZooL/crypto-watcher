@@ -97,7 +97,6 @@ menu:
     service_exception: ${ANSWER_LOG_MESSAGE_ON_SERVICE_EXCEPTION}
 
 bot:
-  name: ${TELEGRAM_BOT_NAME}
   token: ${TELEGRAM_BOT_TOKEN}
 
 api:
