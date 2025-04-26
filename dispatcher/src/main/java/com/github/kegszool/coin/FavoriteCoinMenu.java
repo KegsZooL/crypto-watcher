@@ -1,13 +1,12 @@
 package com.github.kegszool.coin;
 
-import com.github.kegszool.coin.dto.CoinDto;
-import com.github.kegszool.coin.dto.FavoriteCoinDto;
-
-import com.github.kegszool.user.dto.UserDto;
-import com.github.kegszool.user.dto.UserData;
 
 import com.github.kegszool.menu.util.SectionBuilder;
 import com.github.kegszool.menu.service.MenuUpdaterService;
+import com.github.kegszool.coin.dto.CoinDto;
+import com.github.kegszool.coin.dto.FavoriteCoinDto;
+import com.github.kegszool.user.dto.UserData;
+import com.github.kegszool.user.dto.UserDto;
 import com.github.kegszool.user.menu.UserDataDependentBaseMenu;
 
 import java.util.List;

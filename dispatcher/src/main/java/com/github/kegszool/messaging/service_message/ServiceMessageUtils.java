@@ -3,7 +3,7 @@ package com.github.kegszool.messaging.service_message;
 import com.github.kegszool.messaging.service_message.exception.InvalidServiceMessagePayloadException;
 import com.github.kegszool.messaging.service_message.exception.InvalidServiceMessageException;
 import com.github.kegszool.messaging.service_message.exception.ServiceMessageSendingException;
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import org.springframework.amqp.AmqpException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 

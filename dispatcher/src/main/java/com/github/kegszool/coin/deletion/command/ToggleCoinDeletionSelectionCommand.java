@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.command.callback.CallbackCommand;
-import com.github.kegszool.coin.deletion.handler.CoinDeletionInteractionHandler;
+import com.github.kegszool.coin.deletion.handler.CoinDeletionSelectionHandler;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
@@ -13,7 +13,7 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMet
 @Component
 public class ToggleCoinDeletionSelectionCommand extends CallbackCommand {
 
-    private final CoinDeletionInteractionHandler interactionHandler;
+    private final CoinDeletionSelectionHandler interactionHandler;
 
     @Value("${menu.coin_deletion_menu.prefix.selected_coin_prefix}")
     private String SELECTED_DELETION_COIN_PREFIX;
@@ -25,7 +25,7 @@ public class ToggleCoinDeletionSelectionCommand extends CallbackCommand {
     private String COIN_DELETION_MENU_NAME;
 
     @Autowired
-    public ToggleCoinDeletionSelectionCommand(CoinDeletionInteractionHandler interactionHandler) {
+    public ToggleCoinDeletionSelectionCommand(CoinDeletionSelectionHandler interactionHandler) {
         this.interactionHandler = interactionHandler;
     }
 

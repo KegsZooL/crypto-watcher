@@ -1,16 +1,17 @@
 package com.github.kegszool.coin.price.service;
 
-import com.github.kegszool.coin.dto.CoinPrice;
+import com.github.kegszool.coin.price.CoinPrice;
 import com.github.kegszool.coin.price.model.PriceBuffer;
-import com.github.kegszool.messaging.response.BaseResponseHandler;
-import com.github.kegszool.messaging.dto.HandlerResult;
-import com.github.kegszool.messaging.dto.ServiceMessage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@Service
+import com.github.kegszool.messaging.dto.HandlerResult;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.response.BaseResponseHandler;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+
+@Component
 public class PriceResponseHandler extends BaseResponseHandler<CoinPrice> {
 
     @Value("${spring.rabbitmq.template.routing-key.coin_price_response}")

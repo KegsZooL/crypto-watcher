@@ -3,7 +3,7 @@ package com.github.kegszool.coin.price.command;
 import com.github.kegszool.command.callback.CallbackCommand;
 import com.github.kegszool.coin.exception.ParsingCoinDataException;
 import com.github.kegszool.messaging.producer.RequestProducerService;
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;

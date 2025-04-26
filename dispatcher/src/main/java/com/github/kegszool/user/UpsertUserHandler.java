@@ -1,12 +1,13 @@
 package com.github.kegszool.user;
 
-import com.github.kegszool.messaging.util.MessageUtils;
-import com.github.kegszool.messaging.producer.RequestProducerService;
-import com.github.kegszool.messaging.dto.ServiceMessage;
-import com.github.kegszool.user.dto.UserDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.github.kegszool.user.dto.UserDto;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.producer.RequestProducerService;
+import com.github.kegszool.messaging.util.MessageUtils;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.User;

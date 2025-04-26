@@ -1,6 +1,6 @@
 package com.github.kegszool.coin.price.util;
 
-import com.github.kegszool.coin.dto.CoinPrice;
+import com.github.kegszool.coin.price.CoinPrice;
 import com.github.kegszool.messaging.util.MessageUtils;
 import com.github.kegszool.coin.price.model.PriceBuffer;
 import com.github.kegszool.coin.price.model.PriceParameter;

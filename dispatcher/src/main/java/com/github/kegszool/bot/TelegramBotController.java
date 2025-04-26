@@ -2,7 +2,7 @@ package com.github.kegszool.bot;
 
 import com.github.kegszool.update.UpdateRouter;
 import com.github.kegszool.messaging.dto.HandlerResult;
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.response.ResponseRouter;
 
 import lombok.extern.log4j.Log4j2;

@@ -1,7 +1,6 @@
 package com.github.kegszool.coin.deletion;
 
 import com.github.kegszool.coin.FavoriteCoinMenu;
-import com.github.kegszool.coin.dto.FavoriteCoinDto;
 import com.github.kegszool.coin.selection.state.MenuSelectionBuffer;
 import com.github.kegszool.coin.deletion.util.CoinDeletionUserDataFactory;
 
@@ -9,9 +8,10 @@ import com.github.kegszool.menu.base.Menu;
 import com.github.kegszool.menu.service.MenuRegistry;
 import com.github.kegszool.menu.service.MenuUpdaterService;
 
-import com.github.kegszool.user.dto.UserDto;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.coin.dto.FavoriteCoinDto;
 import com.github.kegszool.user.dto.UserData;
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.user.dto.UserDto;
 import com.github.kegszool.messaging.producer.RequestProducerService;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -66,7 +66,7 @@ public class FavoriteCoinDeletionService {
 
         UserData deletionUserData = coinDeletionUserDataFactory.createFromSelected(callbackQuery, selectedButtons);
         menuSelectionBuffer.removeSelected(COIN_DELETION_MENU_NAME);
-//        produceDeleteRequest(callbackQuery, deletionUserData); //TODO STUB
+        produceDeleteRequest(callbackQuery, deletionUserData);
 
         Menu menu = menuRegistry.getMenu(COIN_SELECTION_MENU_NAME);
         if (!(menu instanceof FavoriteCoinMenu favoriteCoinMenu)) return;

@@ -1,5 +1,6 @@
 package com.github.kegszool.database.entity.base;
 
+import com.github.kegszool.messaging.dto.database_entity.Direction;
 import lombok.Setter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

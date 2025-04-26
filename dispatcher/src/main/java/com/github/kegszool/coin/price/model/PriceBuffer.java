@@ -3,7 +3,7 @@ package com.github.kegszool.coin.price.model;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.github.kegszool.coin.dto.CoinPrice;
+import com.github.kegszool.coin.price.CoinPrice;
 import lombok.extern.log4j.Log4j2;
 
 import org.springframework.stereotype.Component;
