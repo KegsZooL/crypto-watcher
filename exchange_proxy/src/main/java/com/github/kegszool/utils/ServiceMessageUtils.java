@@ -1,6 +1,6 @@
 package com.github.kegszool.utils;
 
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.exception.service_message.InvalidServiceMessageException;
 import com.github.kegszool.exception.service_message.ServiceMessageSendingException;
 

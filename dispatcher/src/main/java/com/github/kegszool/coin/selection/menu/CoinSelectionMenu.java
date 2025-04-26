@@ -2,7 +2,7 @@ package com.github.kegszool.coin.selection.menu;
 
 import com.github.kegszool.coin.FavoriteCoinMenu;
 import com.github.kegszool.menu.service.MenuUpdaterService;
-import com.github.kegszool.coin.selection.CoinSelectionKeyboardConfigBuilder;
+import com.github.kegszool.coin.selection.CoinSelectionSectionBuilder;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,13 +25,13 @@ public class CoinSelectionMenu extends FavoriteCoinMenu {
     @Value("${menu.coin_selection.max_buttons_per_row}")
     private int MAX_BUTTONS_PER_ROW;
 
-    @Value("${menu.action.open_edit_coin_sections_menu}")
+    @Value("${menu.action.display_edit_coin_sections_menu}")
     private String EDIT_COIN_SECTIONS_CALLBACK_DATA;
 
     @Autowired
     public CoinSelectionMenu(
             MenuUpdaterService menuUpdaterService,
-            CoinSelectionKeyboardConfigBuilder sectionBuilder
+            CoinSelectionSectionBuilder sectionBuilder
     ) {
         super(menuUpdaterService, sectionBuilder);
     }

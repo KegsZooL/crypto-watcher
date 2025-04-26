@@ -1,16 +1,18 @@
 package com.github.kegszool.user.response;
 
-import com.github.kegszool.messaging.response.BaseResponseHandler;
-import com.github.kegszool.messaging.dto.HandlerResult;
-import com.github.kegszool.menu.service.MenuUpdaterService;
-import com.github.kegszool.messaging.dto.ServiceMessage;
-import com.github.kegszool.user.dto.UpsertUserResponse;
-import com.github.kegszool.user.dto.UserData;
-import com.github.kegszool.user.dto.UserDto;
 import org.springframework.stereotype.Component;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.github.kegszool.user.dto.UserDto;
+import com.github.kegszool.user.dto.UserData;
+import com.github.kegszool.user.dto.UpsertUserResponse;
+import com.github.kegszool.menu.service.MenuUpdaterService;
+
+import com.github.kegszool.messaging.dto.HandlerResult;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.response.BaseResponseHandler;
+
 
 import lombok.extern.log4j.Log4j2;
 

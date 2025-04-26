@@ -10,30 +10,49 @@ spring:
     template:
       exchange: ${RABBITMQ_EXCHANGE_NAME}
       routing-key:
-        coin_price_request: ${RABBITMQ_COIN_PRICE_REQUEST_ROUTING_KEY}
-        coin_price_response: ${RABBITMQ_COIN_PRICE_RESPONSE_ROUTING_KEY}
-        service_exception: ${RABBITMQ_SERVICE_EXCEPTION_ROUTING_KEY}
         upsert_user_request: ${RABBITMQ_UPSERT_USER_REQUEST_ROUTING_KEY}
         upsert_user_response: ${RABBITMQ_UPSERT_USER_RESPONSE_ROUTING_KEY}
+
         delete_favorite_coin_request: ${RABBITMQ_DELETE_FAVORITE_COIN_REQUEST_ROUTING_KEY}
         delete_favorite_coin_response: ${RABBITMQ_DELETE_FAVORITE_COIN_RESPONSE_ROUTING_KEY}
+
+        coin_price_request: ${RABBITMQ_COIN_PRICE_REQUEST_ROUTING_KEY}
+        coin_price_response: ${RABBITMQ_COIN_PRICE_RESPONSE_ROUTING_KEY}
+
+        check_coin_exists_request: ${RABBITMQ_CHECK_COIN_EXISTS_REQUEST_ROUTING_KEY}
+        check_coin_exists_response: ${RABBITMQ_CHECK_COIN_EXISTS_RESPONSE_ROUTING_KEY}
+
+        add_coin_request: ${RABBITMQ_ADD_COIN_REQUEST_ROUTING_KEY}
+        add_coin_response: ${RABBITMQ_ADD_COIN_RESPONSE_ROUTING_KEY}
+
+        service_exception: ${RABBITMQ_SERVICE_EXCEPTION_ROUTING_KEY}
     queues:
-      request_to_exchange: ${RABBITMQ_REQUEST_TO_EXCHANGE_QUEUE}
-      request_to_database: ${RABBITMQ_REQUEST_TO_DATABASE_QUEUE}
-      response_upsert_user: ${RABBITMQ_UPSERT_USER_RESPONSE_QUEUE}
-      response_delete_favorite_coin: ${RABBITMQ_DELETE_FAVORITE_COIN_RESPONSE_QUEUE}
-      response_coin_price: ${RABBITMQ_COIN_PRICE_RESPONSE_QUEUE}
+      upsert_user_request: ${RABBITMQ_UPSERT_USER_REQUEST_QUEUE}
+      upsert_user_response: ${RABBITMQ_UPSERT_USER_RESPONSE_QUEUE}
+
+      delete_favorite_coin_request: ${RABBITMQ_DELETE_FAVORITE_COIN_REQUEST_QUEUE}
+      delete_favorite_coin_response: ${RABBITMQ_DELETE_FAVORITE_COIN_RESPONSE_QUEUE}
+
+      coin_price_request: ${RABBITMQ_COIN_PRICE_REQUEST_QUEUE}
+      coin_price_response: ${RABBITMQ_COIN_PRICE_RESPONSE_QUEUE}
+
+      check_coin_exists_request: ${RABBITMQ_CHECK_COIN_EXISTS_REQUEST_QUEUE}
+      check_coin_exists_response: ${RABBITMQ_CHECK_COIN_EXISTS_RESPONSE_QUEUE}
+
+      add_coin_request: ${RABBITMQ_ADD_COIN_REQUEST_QUEUE}
+      add_coin_response: ${RABBITMQ_ADD_COIN_RESPONSE_QUEUE}
+
       service_exception: ${RABBITMQ_SERVICE_EXCEPTION_QUEUE}
 
 menu:
   action:
       prefix: ${ACTION_PREFIX}
       back: ${MENU_ACTION_BACK}
-      open_edit_coin_sections_menu: ${MENU_ACTION_OPEN_EDIT_COIN_SECTIONS_MENU}
-      open_coin_deletion_menu: ${MENU_ACTION_DELETE_COINS}
+      display_edit_coin_sections_menu: ${MENU_ACTION_DISPLAY_EDIT_COIN_SECTIONS_MENU}
+      display_coin_deletion_menu: ${MENU_ACTION_DELETE_COINS}
       delete_selected: ${MENU_ACTION_DELETE_SELECTED}
-      selected_prefix: ${SELECTED_OBJECT_PREFIX}
-      unselected_prefix: ${UNSELECTED_OBJECT_PREFIX}
+      display_coin_addition_menu: ${MENU_ACTION_ADD_COINS}
+      noop_prefix: ${NOOP_PREFIX}
 
   main:
       name: ${MENU_MAIN}
@@ -67,6 +86,21 @@ menu:
       unselected_coin_prefix: ${UNSELECTED_DELETION_COIN_PREFIX}
       selected_coin_prefix: ${SELECTED_DELETION_COIN_PREFIX}
 
+  coin_addition:
+    name: ${MENU_COIN_ADDITION}
+    title: ${MENU_TITLE_COIN_ADDITION}
+    sections: ${MENU_SECTIONS_CONFIG_COIN_ADDITION}
+    max_buttons_per_row: ${MENU_MAX_BUTTONS_PER_ROW_ADDITION}
+    prefix:
+      unselected_coin_prefix: ${UNSELECTED_ADDITION_COIN_PREFIX}
+      selected_coin_prefix: ${SELECTED_ADDITION_COIN_PREFIX}
+    messages:
+      success: ${COINS_VALIDATION_REQUESTED}
+      error: ${NO_COINS_PROVIDED}
+      all_coins_added: ${MSG_ALL_COINS_ADDED}
+      some_coins_added: ${MSG_SOME_COINS_ADDED}
+      no_coins_added: ${MSG_NO_COINS_ADDED}
+
   settings:
     name: ${MENU_SETTINGS}
 
@@ -98,6 +132,9 @@ menu:
 
 bot:
   token: ${TELEGRAM_BOT_TOKEN}
+  command:
+    display_main_menu: ${DISPLAY_MAIN_MENU_COMMAND}
+    add_coin: ${ADD_COIN_COMMAND}
 
 api:
   exchange:

@@ -1,6 +1,6 @@
 package com.github.kegszool.coin.price.model;
 
-import com.github.kegszool.coin.dto.CoinPrice;
+import com.github.kegszool.coin.price.CoinPrice;
 import lombok.Getter;
 
 import java.util.function.Function;

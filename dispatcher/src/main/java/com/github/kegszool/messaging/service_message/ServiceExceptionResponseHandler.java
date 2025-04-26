@@ -1,8 +1,8 @@
 package com.github.kegszool.messaging.service_message;
 
 import com.github.kegszool.messaging.dto.HandlerResult;
-import com.github.kegszool.messaging.dto.ServiceException;
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.dto.service.ServiceException;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.response.BaseResponseHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;

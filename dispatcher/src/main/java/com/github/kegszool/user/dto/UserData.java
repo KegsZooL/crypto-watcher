@@ -1,8 +1,7 @@
 package com.github.kegszool.user.dto;
 
-
 import com.github.kegszool.coin.dto.FavoriteCoinDto;
-import com.github.kegszool.notification.dto.NotificationDto;
+import com.github.kegszool.notification.NotificationDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -3,7 +3,7 @@ package com.github.kegszool.messaging.response;
 import com.github.kegszool.router.AbstractRouter;
 import com.github.kegszool.router.HandlerNotFoundException;
 import com.github.kegszool.messaging.dto.HandlerResult;
-import com.github.kegszool.messaging.dto.ServiceMessage;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.response.exception.ResponseHandlerNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

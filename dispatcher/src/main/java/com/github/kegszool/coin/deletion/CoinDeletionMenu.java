@@ -1,5 +1,6 @@
 package com.github.kegszool.coin.deletion;
 
+import com.github.kegszool.coin.deletion.util.CoinDeletionSectionBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
