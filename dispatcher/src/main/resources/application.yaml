@@ -56,76 +56,73 @@ menu:
 
   main:
       name: ${MENU_MAIN}
-      title: ${MENU_TITLE_MAIN}
+      title: "Привет! 👋 Я — бот, который поможет тебе отслеживать изменения курсов криптовалют. 📈💰\n\nДля более удобного взаимодействия со мной ты можешь использовать это меню. 👇"
       sections: ${MENU_SECTIONS_CONFIG_MAIN_MENU}
-      max_buttons_per_row: ${MENU_MAX_BUTTONS_PER_ROW_MAIN}
+      max_buttons_per_row: 2
 
   coin_selection:
     name: ${MENU_COIN_SELECTION}
-    title: ${MENU_TITLE_COIN_SELECTION}
+    title: "Здесь ты можешь выбрать монету для просмотра подробной информацию о ней.\n\nЕсли хочешь изменить список доступных монет нажми кнопку <b>Редактировать монеты</b> 🛠️."
     sections: ${MENU_SECTIONS_CONFIG_COIN_SELECTION}
     prefix:
       - coin: ${COIN_PREFIX}
       - currency: ${CURRENCY_PREFIX}
-    max_buttons_per_row: ${MENU_MAX_BUTTONS_PER_ROW_COIN_SELECTION}
-    answer_message: ${MENU_COIN_SELECTIONS_ANSWER_MESSAGE}
+    max_buttons_per_row: 3
+    answer_message: "Вы выбрали монету 🪙"
 
   edit_coin_sections:
     name: ${MENU_EDIT_COIN_SECTIONS}
-    title: ${MENU_TITLE_EDIT_COIN_SECTIONS}
+    title: "Здесь ты можешь управлять своим списком монет: добавлять новые или удалять существующие.\n\nЧтобы добавить монету, просто нажми кнопку <b>Добавить</b> ✨ и следуй инструкциям.\n\nЕсли хочешь удалить одну или несколько монет, нажми кнопку <b>Удалить</b> ❌ и следуй подсказкам, чтобы завершить действие."
     sections: ${MENU_SECTIONS_CONFIG_EDIT_COIN_SECTIONS}
-    max_buttons_per_row: ${MENU_MAX_BUTTONS_PER_ROW_EDIT_COIN_SECTIONS}
+    max_buttons_per_row: 2
 
   coin_deletion_menu:
     name: ${MENU_COIN_DELETION}
-    title: ${MENU_TITLE_COIN_DELETION}
+    title: "Здесь ты можешь удалить монеты из своего списка. Чтобы выбрать монету для удаления, просто нажми на неё — появится галочка ✅.\n\nКогда выберешь все монеты, которые хочешь удалить, нажми <b>Удалить выбранные</b>, чтобы подтвердить действие."
     sections: ${MENU_SECTIONS_CONFIG_COIN_DELETION}
-    hint: ${MENU_HINT_NO_COINS_SELECTED}
-    max_buttons_per_row: ${MENU_MAX_BUTTONS_PER_ROW_COIN_SELECTION}
+    hint: "Ты не выбрал ни одной монеты для удаления. 🤔 Чтобы удалить монеты, нажми на них — появится галочка ✅, затем нажми кнопку <b>Удалить выбранные</b>, чтобы продолжить."
+    max_buttons_per_row: 3
     prefix:
       unselected_coin_prefix: ${UNSELECTED_DELETION_COIN_PREFIX}
       selected_coin_prefix: ${SELECTED_DELETION_COIN_PREFIX}
 
   coin_addition:
     name: ${MENU_COIN_ADDITION}
-    title: ${MENU_TITLE_COIN_ADDITION}
+    title: "⚠️ Чтобы добавить новую монету в список отслеживания, введите её название с помощью команды /add (например, BTC, LINK).\n\nТекущий список отслеживаемых монет отображён ниже. 👇"
     sections: ${MENU_SECTIONS_CONFIG_COIN_ADDITION}
-    max_buttons_per_row: ${MENU_MAX_BUTTONS_PER_ROW_ADDITION}
-    prefix:
-      unselected_coin_prefix: ${UNSELECTED_ADDITION_COIN_PREFIX}
-      selected_coin_prefix: ${SELECTED_ADDITION_COIN_PREFIX}
+    max_buttons_per_row: 3
     messages:
-      success: ${COINS_VALIDATION_REQUESTED}
-      error: ${NO_COINS_PROVIDED}
-      all_coins_added: ${MSG_ALL_COINS_ADDED}
-      some_coins_added: ${MSG_SOME_COINS_ADDED}
-      no_coins_added: ${MSG_NO_COINS_ADDED}
+      success: "🔎 Отправлен запрос на проверку следующих монет: "
+      error: "⚠ Вы не указали ни одной криптовалюты\nПример: /add BTC ETH"
+      all_coins_added: "✅ Все указанные монеты были успешно добавлены:\n"
+      some_coins_added: "Некоторые монеты были добавлены, но часть не найдена ⚠️\n\nДобавлены: {validCoins}\nНе найдены: {invalidCoins}"
+      no_coins_added: "❌ Ни одна из указанных монет не была найдена на бирже!"
 
   settings:
     name: ${MENU_SETTINGS}
 
   price_snapshot:
     name: ${MENU_PRICE_SNAPSHOT}
-    title: ${MENU_TITLE_COIN_PRICE_SNAPSHOT}
+    title: "⚠️ Чтобы посмотреть определённые данные по монете <b>%s</b>, нажми на соответствующую кнопку ниже. 👇"
     sections: ${MENU_SECTIONS_CONFIG_COIN_PRICE_SNAPSHOT}
-    max_buttons_per_row: ${MENU_MAX_BUTTONS_PER_ROW_PRICE_SNAPSHOT}
+    max_buttons_per_row: 3
     parameters:
       prefix: ${PRICE_SNAPSHOT_PARAMETER_PREFIX}
       last_price:
         name: ${LAST_PRICE_SNAPSHOT_PARAMETER}
-        description: ${LAST_PRICE_SNAPSHOT_PARAMETER_DESCRIPTION}
+        description: "Текущая цена"
       highest_price_24h:
         name: ${HIGHEST_PRICE_24H_SNAPSHOT_PARAMETER}
-        description: ${HIGHEST_PRICE_24H_SNAPSHOT_PARAMETER_DESCRIPTION}
+        description: "Максимальная цена за последние 24 часа"
       lowest_price_24h:
         name: ${LOWEST_PRICE_24H_SNAPSHOT_PARAMETER}
-        description: ${LOWEST_PRICE_24H_SNAPSHOT_PARAMETER_DESCRIPTION}
+        description: "Минимальная цена за последние 24 часа"
       trading_volume:
         name: ${TRADING_VOLUME_PRICE_SNAPSHOT_PARAMETER}
-        description: ${TRADING_VOLUME_PRICE_SNAPSHOT_PARAMETER_DESCRIPTION}
+        description: "Общий объём торгов за последние 24 часа"
       trading_volume_currency:
         name: ${TRADING_VOLUME_CURRENCY_PRICE_SNAPSHOT_PARAMETER}
-        description: ${TRADING_VOLUME_CURRENCY_PRICE_SNAPSHOT_PARAMETER_DESCRIPTION}
+        description: "Общий объём торгов в валюте за последние 24 часа"
 
   answer_message:
     service_exception: ${ANSWER_LOG_MESSAGE_ON_SERVICE_EXCEPTION}
@@ -133,8 +130,8 @@ menu:
 bot:
   token: ${TELEGRAM_BOT_TOKEN}
   command:
-    display_main_menu: ${DISPLAY_MAIN_MENU_COMMAND}
-    add_coin: ${ADD_COIN_COMMAND}
+    display_main_menu: "/menu"
+    add_coin: "/add"
 
 api:
   exchange:
