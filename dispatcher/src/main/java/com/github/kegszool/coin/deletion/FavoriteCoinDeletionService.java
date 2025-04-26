@@ -1,6 +1,11 @@
 package com.github.kegszool.coin.deletion;
 
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.github.kegszool.coin.FavoriteCoinMenu;
+import com.github.kegszool.coin.dto.FavoriteCoinDto;
 import com.github.kegszool.coin.selection.state.MenuSelectionBuffer;
 import com.github.kegszool.coin.deletion.util.CoinDeletionUserDataFactory;
 
@@ -8,18 +13,14 @@ import com.github.kegszool.menu.base.Menu;
 import com.github.kegszool.menu.service.MenuRegistry;
 import com.github.kegszool.menu.service.MenuUpdaterService;
 
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.coin.dto.FavoriteCoinDto;
-import com.github.kegszool.user.dto.UserData;
 import com.github.kegszool.user.dto.UserDto;
+import com.github.kegszool.user.dto.UserData;
+
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.producer.RequestProducerService;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
 import java.util.List;

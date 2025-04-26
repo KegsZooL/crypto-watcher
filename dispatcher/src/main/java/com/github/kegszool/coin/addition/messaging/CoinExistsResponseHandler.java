@@ -2,37 +2,48 @@ package com.github.kegszool.coin.addition.messaging;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.coin.dto.CoinExistenceResult;
 import com.github.kegszool.messaging.dto.HandlerResult;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.response.BaseResponseHandler;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import java.util.List;
+import com.github.kegszool.LocalizationService;
+import com.github.kegszool.coin.dto.CoinExistenceResult;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 @Component
 public class CoinExistsResponseHandler extends BaseResponseHandler<CoinExistenceResult> {
 
+    private final String menuName;
     private final String responseRoutingKey;
-    private final String messageAllCoinsAdded;
-    private final String messageSomeCoinsAdded;
-    private final String messageNoCoinsAdded;
+    private final String allCoinsAddedMsgType;
+    private final String someCoinsAddedMsgType;
+    private final String noCoinsAddedMsgType;
 
     private final AddFavoriteCoinRequestProducer requestSender;
+    private final LocalizationService localizationService;
 
+    @Autowired
     public CoinExistsResponseHandler(
+            @Value("${menu.coin_addition.name}") String menuName,
+
             @Value("${spring.rabbitmq.template.routing-key.check_coin_exists_response}") String responseRoutingKey,
-            @Value("${menu.coin_addition.messages.all_coins_added}") String messageAllCoinsAdded,
-            @Value("${menu.coin_addition.messages.some_coins_added}") String messageSomeCoinsAdded,
-            @Value("${menu.coin_addition.messages.no_coins_added}") String messageNoCoinsAdded,
-            AddFavoriteCoinRequestProducer requestSender
+            @Value("${menu.coin_addition.answer_messages.all_coins_added.msg_type}") String allCoinsAddedMsgType,
+            @Value("${menu.coin_addition.answer_messages.some_coins_added.msg_type}") String someCoinsAddedMsgType,
+            @Value("${menu.coin_addition.answer_messages.no_coins_added.msg_type}") String noCoinsAddedMsgType,
+
+            AddFavoriteCoinRequestProducer requestSender,
+            LocalizationService localizationService
     ) {
+        this.menuName = menuName;
         this.responseRoutingKey = responseRoutingKey;
-        this.messageAllCoinsAdded = messageAllCoinsAdded;
-        this.messageSomeCoinsAdded = messageSomeCoinsAdded;
-        this.messageNoCoinsAdded = messageNoCoinsAdded;
+        this.allCoinsAddedMsgType = allCoinsAddedMsgType;
+        this.someCoinsAddedMsgType = someCoinsAddedMsgType;
+        this.noCoinsAddedMsgType = noCoinsAddedMsgType;
         this.requestSender = requestSender;
+        this.localizationService = localizationService;
     }
 
     @Override
@@ -54,15 +65,17 @@ public class CoinExistsResponseHandler extends BaseResponseHandler<CoinExistence
         }
 
         if (!validCoins.isEmpty() && invalidCoins.isEmpty()) {
+            String messageAllCoinsAdded = localizationService.getAnswerMessage(menuName, allCoinsAddedMsgType);
             finalMessage = messageAllCoinsAdded + String.join(", ", validCoins);
 
         } else if (!validCoins.isEmpty()) {
+            String messageSomeCoinsAdded = localizationService.getAnswerMessage(menuName, someCoinsAddedMsgType);
             finalMessage = messageSomeCoinsAdded
                     .replace("{validCoins}", String.join(", ", validCoins))
                     .replace("{invalidCoins}", String.join(", ", invalidCoins));
 
         } else {
-            finalMessage = messageNoCoinsAdded;
+            finalMessage = localizationService.getAnswerMessage(menuName, noCoinsAddedMsgType);
         }
 
         SendMessage sendMessage = SendMessage.builder()

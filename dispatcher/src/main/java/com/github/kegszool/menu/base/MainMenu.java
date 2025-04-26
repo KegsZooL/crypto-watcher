@@ -3,8 +3,8 @@ package com.github.kegszool.menu.base;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Collections;
 
 @Component
 public class MainMenu extends BaseMenu {
@@ -12,10 +12,10 @@ public class MainMenu extends BaseMenu {
     @Value("${menu.main.name}")
     private String NAME;
 
-    @Value("${menu.main.title}")
+    @Value("${menu.main.title.ru}")
     private String TITLE;
 
-    @Value("${menu.main.sections}")
+    @Value("${menu.main.sections.ru}")
     private String MENU_SECTIONS_CONFIG;
 
     @Value("${menu.main.max_buttons_per_row}")

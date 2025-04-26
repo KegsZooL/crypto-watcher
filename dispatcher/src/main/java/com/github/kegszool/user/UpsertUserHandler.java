@@ -1,5 +1,6 @@
 package com.github.kegszool.user;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,9 @@ import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.producer.RequestProducerService;
 import com.github.kegszool.messaging.util.MessageUtils;
 
-import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
-
-import lombok.extern.log4j.Log4j2;
-
 import java.util.concurrent.atomic.AtomicBoolean;
+import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Log4j2
 @Component

@@ -21,9 +21,9 @@ public class CoinAdditionMenu extends FavoriteCoinMenu {
     @Autowired
     public CoinAdditionMenu(
             @Value("${menu.coin_addition.name}") String name,
-            @Value("${menu.coin_addition.title}") String title,
+            @Value("${menu.coin_addition.title.ru}") String title,
             @Value("${menu.coin_addition.max_buttons_per_row}") int maxButtonsPerRow,
-            @Value("${menu.coin_addition.sections}") String config,
+            @Value("${menu.coin_addition.sections.ru}") String config,
             @Value("${menu.action.back}") String callbackDataForFullWidthButton,
             MenuUpdaterService menuUpdaterService,
             CoinAdditionSectionBuilder sectionBuilder

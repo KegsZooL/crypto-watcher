@@ -1,11 +1,11 @@
 package com.github.kegszool.coin.deletion.command;
 
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+
 import com.github.kegszool.command.callback.CallbackCommand;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
-
-import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Value;
 
 @Component
 public class DisplayCoinDeletionMenu extends CallbackCommand {
@@ -14,7 +14,7 @@ public class DisplayCoinDeletionMenu extends CallbackCommand {
     private final String menuName;
 
     public DisplayCoinDeletionMenu(
-            @Value("${menu.action.display_coin_deletion_menu}") String command,
+            @Value("${menu.action.delete_coins}") String command,
             @Value("${menu.coin_deletion_menu.name}") String menuName
     ) {
         this.command = command;

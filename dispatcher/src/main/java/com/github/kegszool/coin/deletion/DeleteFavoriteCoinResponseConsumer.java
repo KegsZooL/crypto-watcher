@@ -1,12 +1,13 @@
 package com.github.kegszool.coin.deletion;
 
-import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.user.dto.UserData;
-import com.github.kegszool.user.dto.UserDto;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+
+import com.github.kegszool.user.dto.UserDto;
+import com.github.kegszool.user.dto.UserData;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
 
 @Log4j2
 @Component

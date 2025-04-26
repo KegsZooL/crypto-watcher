@@ -1,11 +1,11 @@
 package com.github.kegszool.messaging.consumer;
 
-import com.github.kegszool.messaging.dto.service.ServiceException;
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
-import lombok.extern.log4j.Log4j2;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.dto.service.ServiceException;
 
 @Log4j2
 @Service

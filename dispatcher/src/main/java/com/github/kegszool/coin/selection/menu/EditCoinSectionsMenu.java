@@ -1,11 +1,11 @@
 package com.github.kegszool.coin.selection.menu;
 
-import com.github.kegszool.menu.base.BaseMenu;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 import java.util.Collections;
+import com.github.kegszool.menu.base.BaseMenu;
 
 @Component
 public class EditCoinSectionsMenu extends BaseMenu {
@@ -13,10 +13,10 @@ public class EditCoinSectionsMenu extends BaseMenu {
     @Value("${menu.edit_coin_sections.max_buttons_per_row}")
     private int MAX_BUTTONS_PER_ROW;
 
-    @Value("${menu.edit_coin_sections.sections}")
+    @Value("${menu.edit_coin_sections.sections.ru}")
     private String SECTIONS_CONFIG;
 
-    @Value("${menu.edit_coin_sections.title}")
+    @Value("${menu.edit_coin_sections.title.ru}")
     private String TITLE;
 
     @Value("${menu.edit_coin_sections.name}")

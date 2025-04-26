@@ -16,10 +16,10 @@ public class CoinSelectionMenu extends FavoriteCoinMenu {
     @Value("${menu.coin_selection.name}")
     private String NAME;
 
-    @Value("${menu.coin_selection.title}")
+    @Value("${menu.coin_selection.title.ru}")
     private String TITLE;
 
-    @Value("${menu.coin_selection.sections}")
+    @Value("${menu.coin_selection.sections.ru}")
     private String MENU_SECTIONS_CONFIG;
 
     @Value("${menu.coin_selection.max_buttons_per_row}")

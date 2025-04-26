@@ -1,11 +1,11 @@
 package com.github.kegszool.coin.price.menu;
 
-import com.github.kegszool.menu.base.BaseMenu;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 import java.util.Collections;
+import com.github.kegszool.menu.base.BaseMenu;
 
 @Component
 public class PriceMenu extends BaseMenu {
@@ -13,10 +13,10 @@ public class PriceMenu extends BaseMenu {
     @Value("${menu.price_snapshot.name}")
     private String NAME;
 
-    @Value("${menu.price_snapshot.title}")
+    @Value("${menu.price_snapshot.title.ru}")
     private String TITLE;
 
-    @Value("${menu.price_snapshot.sections}")
+    @Value("${menu.price_snapshot.sections.ru}")
     private String MENU_SECTIONS_CONFIG;
 
     @Value("${menu.price_snapshot.max_buttons_per_row}")

@@ -1,13 +1,13 @@
 package com.github.kegszool.messaging.producer;
 
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.messaging.service_message.ServiceMessageUtils;
-import org.springframework.amqp.AmqpException;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
-
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.service_message.ServiceMessageUtils;
 
 @Service
 public class RequestProducer implements RequestProducerService {

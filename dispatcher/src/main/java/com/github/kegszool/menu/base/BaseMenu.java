@@ -1,16 +1,16 @@
 package com.github.kegszool.menu.base;
 
+import lombok.extern.log4j.Log4j2;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.github.kegszool.menu.util.KeyboardFactory;
 import com.github.kegszool.menu.exception.base.MenuException;
 import com.github.kegszool.menu.service.MenuSectionService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 import java.util.List;
 import java.util.LinkedHashMap;
-
-import lombok.extern.log4j.Log4j2;
-import jakarta.annotation.PostConstruct;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 @Log4j2
 public abstract class BaseMenu implements Menu {
@@ -23,7 +23,7 @@ public abstract class BaseMenu implements Menu {
 
     @PostConstruct
     protected void initializeMenu() throws MenuException {
-        String sectionsConfig = getSectionsConfig();
+        String sectionsConfig = getSectionsConfig().replace("\n", "");
         SECTIONS = sectionService.createSections(sectionsConfig);
         menuKeyboard = keyboardFactory.create(SECTIONS, getMaxButtonsPerRow(), getFullWidthSections());
     }

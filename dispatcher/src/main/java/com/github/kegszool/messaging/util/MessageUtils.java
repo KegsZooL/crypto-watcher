@@ -1,11 +1,12 @@
 package com.github.kegszool.messaging.util;
 
-import com.github.kegszool.menu.base.Menu;
-import com.github.kegszool.menu.service.MenuHistoryManager;
-import com.github.kegszool.menu.service.MenuRegistry;
-import com.github.kegszool.update.exception.UnsupportedExtractFieldUpdateException;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.github.kegszool.menu.base.Menu;
+import com.github.kegszool.menu.service.MenuRegistry;
+import com.github.kegszool.menu.service.MenuHistoryManager;
+import com.github.kegszool.update.exception.UnsupportedExtractFieldUpdateException;
 
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -15,9 +16,6 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
-import lombok.extern.log4j.Log4j2;
-
-@Log4j2
 @Component
 public class MessageUtils {
 

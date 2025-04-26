@@ -1,13 +1,13 @@
 package com.github.kegszool.menu.service;
 
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
+
 import com.github.kegszool.user.dto.UserData;
 import com.github.kegszool.user.menu.UserDataDependentMenu;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Service;
 
 @Log4j2
 @Service

@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 public abstract class FavoriteCoinMenu extends UserDataDependentBaseMenu {
 
-    @Value("${menu.coin_selection.prefix[1].currency}")
+    @Value("${menu.coin_selection.prefix.currency}")
     private String CURRENCY_PREFIX;
 
     protected FavoriteCoinMenu(

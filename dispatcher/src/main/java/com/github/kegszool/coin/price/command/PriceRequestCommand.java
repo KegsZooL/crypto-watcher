@@ -1,15 +1,18 @@
 package com.github.kegszool.coin.price.command;
 
-import com.github.kegszool.command.callback.CallbackCommand;
-import com.github.kegszool.coin.exception.ParsingCoinDataException;
-import com.github.kegszool.messaging.producer.RequestProducerService;
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.LocalizationService;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.producer.RequestProducerService;
+
+import com.github.kegszool.command.callback.CallbackCommand;
+import com.github.kegszool.coin.exception.ParsingCoinDataException;
+
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
+import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
@@ -19,28 +22,33 @@ import lombok.extern.log4j.Log4j2;
 @Component
 public class PriceRequestCommand extends CallbackCommand {
 
-    @Value("${menu.coin_selection.prefix[0].coin}")
-    private String COIN_PREFIX;
-
-    @Value("${menu.coin_selection.prefix[1].currency}")
-    private String CURRENCY_PREFIX;
-
-    @Value("${spring.rabbitmq.template.routing-key.coin_price_request}")
-    private String COIN_PRICE_REQUEST_ROUTING_KEY;
-
-    @Value("${menu.coin_selection.answer_message}")
-    private String ANSWER_MESSAGE_TEXT;
-
+    private final String coinPrefix;
+    private final String currencyPrefix;
+    private final String routingKey;
+    private final String menuName;
+    private final LocalizationService localizationService;
     private final RequestProducerService requestService;
 
     @Autowired
-    public PriceRequestCommand(RequestProducerService requestService) {
+    public PriceRequestCommand(
+            @Value("${menu.coin_selection.prefix.coin}") String coinPrefix,
+            @Value("${menu.coin_selection.prefix.currency}") String currencyPrefix,
+            @Value("${spring.rabbitmq.template.routing-key.coin_price_request}") String routingKey,
+            @Value("${menu.coin_selection.name}") String menuName,
+            RequestProducerService requestService,
+            LocalizationService localizationService
+    ) {
+        this.coinPrefix = coinPrefix;
+        this.currencyPrefix = currencyPrefix;
+        this.routingKey = routingKey;
+        this.menuName = menuName;
         this.requestService = requestService;
+        this.localizationService = localizationService;
     }
 
     @Override
     protected boolean canHandleCommand(String command) {
-        return command.startsWith(COIN_PREFIX);
+        return command.startsWith(coinPrefix);
     }
 
     @Override
@@ -56,7 +64,7 @@ public class PriceRequestCommand extends CallbackCommand {
     }
 
     private String extractCoinNameWithCurrency(String coinData) {
-        int beginIndex = COIN_PREFIX.length();
+        int beginIndex = coinPrefix.length();
         int endIndex = coinData.length();
 
         if (beginIndex > endIndex || beginIndex == 0) {
@@ -67,7 +75,7 @@ public class PriceRequestCommand extends CallbackCommand {
 
     private String extractCoinNameWithoutPrefixes(String coinNameWithCurrencyPrefix) {
         int beginIndex = 0;
-        int endIndex = coinNameWithCurrencyPrefix.length() - CURRENCY_PREFIX.length();
+        int endIndex = coinNameWithCurrencyPrefix.length() - currencyPrefix.length();
 
         if (endIndex < 0) {
             throw handleInvalidIndicesException(coinNameWithCurrencyPrefix, beginIndex, endIndex);
@@ -87,18 +95,19 @@ public class PriceRequestCommand extends CallbackCommand {
     }
 
     private EditMessageText createAnswerMessage(CallbackQuery query, String coinNameWithCurrencyPrefix) {
-        String text = ANSWER_MESSAGE_TEXT + String.format(" — <b>%s</b>", coinNameWithCurrencyPrefix);
-        var answerMessage = messageUtils.createEditMessage(query, text);
+        String answerMsg = localizationService.getAnswerMessage(menuName);
+        String prettyMsg = answerMsg + String.format(" — <b>%s</b>", coinNameWithCurrencyPrefix);
+        EditMessageText answerMessage = messageUtils.createEditMessage(query, prettyMsg);
         answerMessage.setParseMode(ParseMode.HTML);
         return answerMessage;
     }
 
     private void produceRequest(CallbackQuery query, String coinNameWithCurrencyPrefix, Integer messageId) {
         String chatId = messageUtils.extractChatId(query);
-        ServiceMessage<String> serviceMessage = new ServiceMessage(
+        ServiceMessage<String> serviceMessage = new ServiceMessage<>(
                 messageId, chatId, coinNameWithCurrencyPrefix
         );
-        requestService.produce(COIN_PRICE_REQUEST_ROUTING_KEY, serviceMessage);
+        requestService.produce(routingKey, serviceMessage);
         log.info("A request has been sent to receive the price snapshot of the '{}' coin", coinNameWithCurrencyPrefix);
     }
 }

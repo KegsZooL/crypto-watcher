@@ -16,7 +16,7 @@ public class CoinAdditionSectionBuilder implements SectionBuilder {
 
     public CoinAdditionSectionBuilder(
             @Value("${menu.action.noop_prefix}") String noOpPrefix,
-            @Value("${menu.coin_selection.prefix[1].currency}") String currencyPrefix
+            @Value("${menu.coin_selection.prefix.currency}") String currencyPrefix
     ) {
         this.noOpPrefix = noOpPrefix;
         this.currencyPrefix = currencyPrefix;

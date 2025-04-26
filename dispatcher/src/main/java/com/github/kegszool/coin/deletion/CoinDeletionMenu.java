@@ -1,25 +1,24 @@
 package com.github.kegszool.coin.deletion;
 
-import com.github.kegszool.coin.deletion.util.CoinDeletionSectionBuilder;
+import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.coin.FavoriteCoinMenu;
 import com.github.kegszool.menu.service.MenuUpdaterService;
-
-import java.util.List;
+import com.github.kegszool.coin.deletion.util.CoinDeletionSectionBuilder;
 
 @Component
 public class CoinDeletionMenu extends FavoriteCoinMenu {
 
-    @Value("${menu.coin_deletion_menu.sections}")
+    @Value("${menu.coin_deletion_menu.sections.ru}")
     private String SECTIONS_CONFIG;
 
     @Value("${menu.coin_deletion_menu.max_buttons_per_row}")
     private int MAX_BUTTONS_PER_ROW;
 
-    @Value("${menu.coin_deletion_menu.title}")
+    @Value("${menu.coin_deletion_menu.title.ru}")
     private String TITLE;
 
     @Value("${menu.coin_deletion_menu.name}")

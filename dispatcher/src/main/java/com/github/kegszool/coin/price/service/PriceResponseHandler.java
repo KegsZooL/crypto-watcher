@@ -46,7 +46,7 @@ public class PriceResponseHandler extends BaseResponseHandler<CoinPrice> {
 
     private EditMessageText createAnswerMessage(CoinPrice snapshot, String chatId, Integer messageId) {
         String coin = snapshot.getName();
-        var answerMessage = messageUtils.recordAndCreateEditMessageByMenuName(
+        EditMessageText answerMessage = messageUtils.recordAndCreateEditMessageByMenuName(
                 chatId, messageId, PRICE_SNAPSHOT_MENU_NAME
         );
         String currentTitle = answerMessage.getText();

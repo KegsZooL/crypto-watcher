@@ -18,7 +18,7 @@ public class DisplayCoinAdditionMenu extends CallbackCommand {
 
     @Autowired
     public DisplayCoinAdditionMenu(
-           @Value("${menu.action.display_coin_addition_menu}") String command,
+           @Value("${menu.action.add_coin}") String command,
            @Value("${menu.coin_addition.name}") String menuName,
            MessageUtils messageUtils
     ) {
