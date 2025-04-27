@@ -1,5 +1,6 @@
 package com.github.kegszool;
 
+import lombok.Getter;
 import lombok.Setter;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 @Service
 public class LocalizationService {
 
+    @Getter
     @Setter
     private String currentLocale = "ru";
 
@@ -72,11 +74,32 @@ public class LocalizationService {
     private final String COIN_ADDITION_MENU_SOME_COINS_ADDED_MSG_TYPE;
     private final String COIN_ADDITION_MENU_NO_COINS_ADDED_MSG_TYPE;
 
-//    private final String PRICE_SNAPSHOT_MENU_NAME;
-//    private final String PRICE_SNAPSHOT_MENU_TITLE_RU;
-//    private final String PRICE_SNAPSHOT_MENU_TITLE_EN;
-//    private final String PRICE_SNAPSHOT_MENU_SECTIONS_RU;
-//    private final String PRICE_SNAPSHOT_MENU_SECTIONS_EN;
+    private final String PRICE_SNAPSHOT_MENU_NAME;
+    private final String PRICE_SNAPSHOT_MENU_TITLE_RU;
+    private final String PRICE_SNAPSHOT_MENU_TITLE_EN;
+    private final String PRICE_SNAPSHOT_MENU_SECTIONS_RU;
+    private final String PRICE_SNAPSHOT_MENU_SECTIONS_EN;
+
+    private final String PRICE_SNAPSHOT_LAST_PRICE_NAME;
+    private final String PRICE_SNAPSHOT_LAST_PRICE_DESC_RU;
+    private final String PRICE_SNAPSHOT_LAST_PRICE_DESC_EN;
+
+    private final String PRICE_SNAPSHOT_HIGHEST_PRICE_NAME;
+    private final String PRICE_SNAPSHOT_HIGHEST_PRICE_DESC_RU;
+    private final String PRICE_SNAPSHOT_HIGHEST_PRICE_DESC_EN;
+
+    private final String PRICE_SNAPSHOT_LOWEST_PRICE_NAME;
+    private final String PRICE_SNAPSHOT_LOWEST_PRICE_DESC_RU;
+    private final String PRICE_SNAPSHOT_LOWEST_PRICE_DESC_EN;
+
+    private final String PRICE_SNAPSHOT_TRADING_VOLUME_NAME;
+    private final String PRICE_SNAPSHOT_TRADING_VOLUME_DESC_RU;
+    private final String PRICE_SNAPSHOT_TRADING_VOLUME_DESC_EN;
+
+    private final String PRICE_SNAPSHOT_TRADING_VOLUME_CURRENCY_NAME;
+    private final String PRICE_SNAPSHOT_TRADING_VOLUME_CURRENCY_DESC_RU;
+    private final String PRICE_SNAPSHOT_TRADING_VOLUME_CURRENCY_DESC_EN;
+
 
     public LocalizationService(
             @Value("${menu.main.name}") String MAIN_MENU_NAME,
@@ -126,7 +149,33 @@ public class LocalizationService {
             @Value("${menu.coin_addition.answer_messages.error.msg_type}") String COIN_ADDITION_MENU_ERROR_MSG_TYPE,
             @Value("${menu.coin_addition.answer_messages.all_coins_added.msg_type}") String COIN_ADDITION_MENU_ALL_COINS_ADDED_MSG_TYPE,
             @Value("${menu.coin_addition.answer_messages.some_coins_added.msg_type}") String COIN_ADDITION_MENU_SOME_COINS_ADDED_MSG_TYPE,
-            @Value("${menu.coin_addition.answer_messages.no_coins_added.msg_type}") String COIN_ADDITION_MENU_NO_COINS_ADDED_MSG_TYPE
+            @Value("${menu.coin_addition.answer_messages.no_coins_added.msg_type}") String COIN_ADDITION_MENU_NO_COINS_ADDED_MSG_TYPE,
+
+            @Value("${menu.price_snapshot.name}") String PRICE_SNAPSHOT_MENU_NAME,
+            @Value("${menu.price_snapshot.title.ru}") String PRICE_SNAPSHOT_MENU_TITLE_RU,
+            @Value("${menu.price_snapshot.title.en}") String PRICE_SNAPSHOT_MENU_TITLE_EN,
+            @Value("${menu.price_snapshot.sections.ru}") String PRICE_SNAPSHOT_MENU_SECTIONS_RU,
+            @Value("${menu.price_snapshot.sections.en}") String PRICE_SNAPSHOT_MENU_SECTIONS_EN,
+
+            @Value("${menu.price_snapshot.parameters.last_price.name}") String PRICE_SNAPSHOT_LAST_PRICE_NAME,
+            @Value("${menu.price_snapshot.parameters.last_price.description.ru}") String PRICE_SNAPSHOT_LAST_PRICE_DESC_RU,
+            @Value("${menu.price_snapshot.parameters.last_price.description.en}") String PRICE_SNAPSHOT_LAST_PRICE_DESC_EN,
+
+            @Value("${menu.price_snapshot.parameters.highest_price_24h.name}") String PRICE_SNAPSHOT_HIGHEST_PRICE_NAME,
+            @Value("${menu.price_snapshot.parameters.highest_price_24h.description.ru}") String PRICE_SNAPSHOT_HIGHEST_PRICE_DESC_RU,
+            @Value("${menu.price_snapshot.parameters.highest_price_24h.description.en}") String PRICE_SNAPSHOT_HIGHEST_PRICE_DESC_EN,
+
+            @Value("${menu.price_snapshot.parameters.lowest_price_24h.name}") String PRICE_SNAPSHOT_LOWEST_PRICE_NAME,
+            @Value("${menu.price_snapshot.parameters.lowest_price_24h.description.ru}") String PRICE_SNAPSHOT_LOWEST_PRICE_DESC_RU,
+            @Value("${menu.price_snapshot.parameters.lowest_price_24h.description.en}") String PRICE_SNAPSHOT_LOWEST_PRICE_DESC_EN,
+
+            @Value("${menu.price_snapshot.parameters.trading_volume.name}") String PRICE_SNAPSHOT_TRADING_VOLUME_NAME,
+            @Value("${menu.price_snapshot.parameters.trading_volume.description.ru}") String PRICE_SNAPSHOT_TRADING_VOLUME_DESC_RU,
+            @Value("${menu.price_snapshot.parameters.trading_volume.description.en}") String PRICE_SNAPSHOT_TRADING_VOLUME_DESC_EN,
+
+            @Value("${menu.price_snapshot.parameters.trading_volume_currency.name}") String PRICE_SNAPSHOT_TRADING_VOLUME_CURRENCY_NAME,
+            @Value("${menu.price_snapshot.parameters.trading_volume_currency.description.ru}") String PRICE_SNAPSHOT_TRADING_VOLUME_CURRENCY_DESC_RU,
+            @Value("${menu.price_snapshot.parameters.trading_volume_currency.description.en}") String PRICE_SNAPSHOT_TRADING_VOLUME_CURRENCY_DESC_EN
     ) {
         this.MAIN_MENU_NAME = MAIN_MENU_NAME;
         this.MAIN_MENU_TITLE_RU = MAIN_MENU_TITLE_RU;
@@ -176,6 +225,32 @@ public class LocalizationService {
         this.COIN_ADDITION_MENU_ALL_COINS_ADDED_MSG_TYPE = COIN_ADDITION_MENU_ALL_COINS_ADDED_MSG_TYPE;
         this.COIN_ADDITION_MENU_SOME_COINS_ADDED_MSG_TYPE = COIN_ADDITION_MENU_SOME_COINS_ADDED_MSG_TYPE;
         this.COIN_ADDITION_MENU_NO_COINS_ADDED_MSG_TYPE = COIN_ADDITION_MENU_NO_COINS_ADDED_MSG_TYPE;
+
+        this.PRICE_SNAPSHOT_MENU_NAME = PRICE_SNAPSHOT_MENU_NAME;
+        this.PRICE_SNAPSHOT_MENU_TITLE_RU = PRICE_SNAPSHOT_MENU_TITLE_RU;
+        this.PRICE_SNAPSHOT_MENU_TITLE_EN = PRICE_SNAPSHOT_MENU_TITLE_EN;
+        this.PRICE_SNAPSHOT_MENU_SECTIONS_RU = PRICE_SNAPSHOT_MENU_SECTIONS_RU;
+        this.PRICE_SNAPSHOT_MENU_SECTIONS_EN = PRICE_SNAPSHOT_MENU_SECTIONS_EN;
+
+        this.PRICE_SNAPSHOT_LAST_PRICE_NAME = PRICE_SNAPSHOT_LAST_PRICE_NAME;
+        this.PRICE_SNAPSHOT_LAST_PRICE_DESC_RU = PRICE_SNAPSHOT_LAST_PRICE_DESC_RU;
+        this.PRICE_SNAPSHOT_LAST_PRICE_DESC_EN = PRICE_SNAPSHOT_LAST_PRICE_DESC_EN;
+
+        this.PRICE_SNAPSHOT_HIGHEST_PRICE_NAME = PRICE_SNAPSHOT_HIGHEST_PRICE_NAME;
+        this.PRICE_SNAPSHOT_HIGHEST_PRICE_DESC_RU = PRICE_SNAPSHOT_HIGHEST_PRICE_DESC_RU;
+        this.PRICE_SNAPSHOT_HIGHEST_PRICE_DESC_EN = PRICE_SNAPSHOT_HIGHEST_PRICE_DESC_EN;
+
+        this.PRICE_SNAPSHOT_LOWEST_PRICE_NAME = PRICE_SNAPSHOT_LOWEST_PRICE_NAME;
+        this.PRICE_SNAPSHOT_LOWEST_PRICE_DESC_RU = PRICE_SNAPSHOT_LOWEST_PRICE_DESC_RU;
+        this.PRICE_SNAPSHOT_LOWEST_PRICE_DESC_EN = PRICE_SNAPSHOT_LOWEST_PRICE_DESC_EN;
+
+        this.PRICE_SNAPSHOT_TRADING_VOLUME_NAME = PRICE_SNAPSHOT_TRADING_VOLUME_NAME;
+        this.PRICE_SNAPSHOT_TRADING_VOLUME_DESC_RU = PRICE_SNAPSHOT_TRADING_VOLUME_DESC_RU;
+        this.PRICE_SNAPSHOT_TRADING_VOLUME_DESC_EN = PRICE_SNAPSHOT_TRADING_VOLUME_DESC_EN;
+
+        this.PRICE_SNAPSHOT_TRADING_VOLUME_CURRENCY_NAME = PRICE_SNAPSHOT_TRADING_VOLUME_CURRENCY_NAME;
+        this.PRICE_SNAPSHOT_TRADING_VOLUME_CURRENCY_DESC_RU = PRICE_SNAPSHOT_TRADING_VOLUME_CURRENCY_DESC_RU;
+        this.PRICE_SNAPSHOT_TRADING_VOLUME_CURRENCY_DESC_EN = PRICE_SNAPSHOT_TRADING_VOLUME_CURRENCY_DESC_EN;
     }
 
     @PostConstruct
@@ -285,6 +360,40 @@ public class LocalizationService {
     }
 
     private void initPriceSnapshotMenu() {
+        menuTitles.put(PRICE_SNAPSHOT_MENU_NAME, Map.of(
+                "ru", PRICE_SNAPSHOT_MENU_TITLE_RU,
+                "en", PRICE_SNAPSHOT_MENU_TITLE_EN
+        ));
+
+        sectionsConfig.put(PRICE_SNAPSHOT_MENU_NAME, Map.of(
+                "ru", PRICE_SNAPSHOT_MENU_SECTIONS_RU,
+                "en", PRICE_SNAPSHOT_MENU_SECTIONS_EN
+        ));
+
+        answerMessages.put(PRICE_SNAPSHOT_MENU_NAME + PRICE_SNAPSHOT_LAST_PRICE_NAME, Map.of(
+                "ru", PRICE_SNAPSHOT_LAST_PRICE_DESC_RU,
+                "en", PRICE_SNAPSHOT_LAST_PRICE_DESC_EN
+        ));
+
+        answerMessages.put(PRICE_SNAPSHOT_MENU_NAME + PRICE_SNAPSHOT_HIGHEST_PRICE_NAME, Map.of(
+                "ru", PRICE_SNAPSHOT_HIGHEST_PRICE_DESC_RU,
+                "en", PRICE_SNAPSHOT_HIGHEST_PRICE_DESC_EN
+        ));
+
+        answerMessages.put(PRICE_SNAPSHOT_MENU_NAME + PRICE_SNAPSHOT_LOWEST_PRICE_NAME, Map.of(
+                "ru", PRICE_SNAPSHOT_LOWEST_PRICE_DESC_RU,
+                "en", PRICE_SNAPSHOT_LOWEST_PRICE_DESC_EN
+        ));
+
+        answerMessages.put(PRICE_SNAPSHOT_MENU_NAME + PRICE_SNAPSHOT_TRADING_VOLUME_NAME, Map.of(
+                "ru", PRICE_SNAPSHOT_TRADING_VOLUME_DESC_RU,
+                "en",  PRICE_SNAPSHOT_TRADING_VOLUME_DESC_EN
+        ));
+
+        answerMessages.put(PRICE_SNAPSHOT_MENU_NAME + PRICE_SNAPSHOT_TRADING_VOLUME_CURRENCY_NAME, Map.of(
+                "ru", PRICE_SNAPSHOT_TRADING_VOLUME_CURRENCY_DESC_RU,
+                "en",  PRICE_SNAPSHOT_TRADING_VOLUME_CURRENCY_DESC_EN
+        ));
 
     }
 
@@ -294,7 +403,7 @@ public class LocalizationService {
     }
 
     public String getAnswerMessage(String menuName, String messageType) {
-        return answerMessages.getOrDefault(menuName + "_" + messageType, Map.of())
+        return answerMessages.getOrDefault(menuName + messageType, Map.of())
                 .getOrDefault(currentLocale, "Default answer msg");
     }
 

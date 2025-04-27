@@ -1,6 +1,8 @@
 package com.github.kegszool.coin.deletion;
 
 import java.util.List;
+
+import com.github.kegszool.LocalizationService;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +32,10 @@ public class CoinDeletionMenu extends FavoriteCoinMenu {
     @Autowired
     public CoinDeletionMenu(
             MenuUpdaterService menuUpdaterService,
-            CoinDeletionSectionBuilder sectionBuilder
+            CoinDeletionSectionBuilder sectionBuilder,
+            LocalizationService localizationService
     ) {
-        super(menuUpdaterService, sectionBuilder);
+        super(menuUpdaterService, sectionBuilder, localizationService);
     }
 
     @Override

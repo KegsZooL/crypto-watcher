@@ -1,10 +1,11 @@
 package com.github.kegszool.coin.price.service;
 
-import com.github.kegszool.coin.price.CoinPrice;
-import com.github.kegszool.coin.price.model.PriceBuffer;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.github.kegszool.coin.price.CoinPrice;
+import com.github.kegszool.coin.price.model.PriceBuffer;
 
 import com.github.kegszool.messaging.dto.HandlerResult;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
@@ -14,22 +15,24 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 @Component
 public class PriceResponseHandler extends BaseResponseHandler<CoinPrice> {
 
-    @Value("${spring.rabbitmq.template.routing-key.coin_price_response}")
-    private String COIN_PRICE_RESPONSE_ROUTING_KEY;
-
-    @Value("${menu.price_snapshot.name}")
-    private String PRICE_SNAPSHOT_MENU_NAME;
-
+    private final String routingKey;
+    private final String menuName;
     private final PriceBuffer priceBuffer;
 
     @Autowired
-    public PriceResponseHandler(PriceBuffer priceBuffer) {
+    public PriceResponseHandler(
+            @Value("${spring.rabbitmq.template.routing-key.coin_price_response}") String routingKey,
+         	@Value("${menu.price_snapshot.name}") String menuName,
+            PriceBuffer priceBuffer
+    ) {
         this.priceBuffer = priceBuffer;
+        this.routingKey = routingKey;
+        this.menuName = menuName;
     }
 
     @Override
     public boolean canHandle(String routingKey) {
-        return COIN_PRICE_RESPONSE_ROUTING_KEY.equals(routingKey);
+        return this.routingKey.equals(routingKey);
     }
 
     @Override
@@ -47,7 +50,7 @@ public class PriceResponseHandler extends BaseResponseHandler<CoinPrice> {
     private EditMessageText createAnswerMessage(CoinPrice snapshot, String chatId, Integer messageId) {
         String coin = snapshot.getName();
         EditMessageText answerMessage = messageUtils.recordAndCreateEditMessageByMenuName(
-                chatId, messageId, PRICE_SNAPSHOT_MENU_NAME
+                chatId, messageId, menuName
         );
         String currentTitle = answerMessage.getText();
         String newTitle = String.format(currentTitle, coin);

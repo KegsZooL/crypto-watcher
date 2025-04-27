@@ -1,14 +1,15 @@
 package com.github.kegszool.coin.selection.menu;
 
-import com.github.kegszool.coin.FavoriteCoinMenu;
-import com.github.kegszool.menu.service.MenuUpdaterService;
-import com.github.kegszool.coin.selection.CoinSelectionSectionBuilder;
-
+import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
+import com.github.kegszool.LocalizationService;
+import com.github.kegszool.menu.service.MenuUpdaterService;
+
+import com.github.kegszool.coin.FavoriteCoinMenu;
+import com.github.kegszool.coin.selection.CoinSelectionSectionBuilder;
 
 @Component
 public class CoinSelectionMenu extends FavoriteCoinMenu {
@@ -31,9 +32,10 @@ public class CoinSelectionMenu extends FavoriteCoinMenu {
     @Autowired
     public CoinSelectionMenu(
             MenuUpdaterService menuUpdaterService,
-            CoinSelectionSectionBuilder sectionBuilder
+            CoinSelectionSectionBuilder sectionBuilder,
+            LocalizationService localizationService
     ) {
-        super(menuUpdaterService, sectionBuilder);
+        super(menuUpdaterService, sectionBuilder, localizationService);
     }
 
     @Override

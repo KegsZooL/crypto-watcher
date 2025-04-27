@@ -1,17 +1,17 @@
 package com.github.kegszool.coin.price.util;
 
+import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.github.kegszool.coin.price.CoinPrice;
 import com.github.kegszool.messaging.util.MessageUtils;
 import com.github.kegszool.coin.price.model.PriceBuffer;
 import com.github.kegszool.coin.price.model.PriceParameter;
 import com.github.kegszool.coin.price.menu.PriceMenuProperties;
-import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
-
-import org.springframework.context.annotation.Lazy;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 

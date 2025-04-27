@@ -15,6 +15,7 @@ public class MenuUpdaterService {
 
     private final Map<String, UserDataDependentMenu> userDataDependentMenus = new ConcurrentHashMap<>();
 
+
     public void registerUserDataDependentMenu(String menuName, UserDataDependentMenu menu) {
         userDataDependentMenus.put(menuName, menu);
     }

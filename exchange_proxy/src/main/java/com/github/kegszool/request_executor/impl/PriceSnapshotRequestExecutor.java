@@ -1,5 +1,13 @@
 package com.github.kegszool.request_executor.impl;
 
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.function.Function;
+
 import com.github.kegszool.exception.json.InvalidJsonFormatException;
 import com.github.kegszool.exception.json.JsonFieldNotFoundException;
 import com.github.kegszool.exception.request.PriceSnapshotRequestException;
@@ -8,17 +16,9 @@ import com.github.kegszool.utils.JsonParser;
 import com.github.kegszool.rest.RestCryptoController;
 import com.github.kegszool.request_executor.BaseRequestExecutor;
 
+import org.springframework.web.client.RestClientException;
 import com.github.kegszool.messaging.dto.command_entity.PriceSnapshot;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.client.RestClientException;
-
-import java.math.BigDecimal;
-import java.util.function.Function;
-
-import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Component;
 
 @Log4j2
 @Component
@@ -44,6 +44,9 @@ public class PriceSnapshotRequestExecutor extends BaseRequestExecutor<String, Pr
 
     @Value("${api.exchange.url.market.ticker.response_parameter.trading_volume_currency}")
     private String TRADING_VOLUME_CURRENCY_FIELD;
+
+    @Value("${currency_suffix}")
+    private String CURRENCY_SUFFIX;
 
     private static final double DEFAULT_DOUBLE_VALUE = -1.0;
 
@@ -80,33 +83,59 @@ public class PriceSnapshotRequestExecutor extends BaseRequestExecutor<String, Pr
         return responseServiceMessage;
     }
 
-    private PriceSnapshot createPriceSnapshot(String response, String coinName)
-            throws JsonFieldNotFoundException, InvalidJsonFormatException
+    private PriceSnapshot createPriceSnapshot(String json, String coinName) throws JsonFieldNotFoundException, InvalidJsonFormatException
     {
-        var lastPriceStr = jsonParser.parse(response, LAST_PRICE_FIELD);
-        double lastPrice = tryParseDouble(
-                lastPriceStr, Double::parseDouble, LAST_PRICE_FIELD, DEFAULT_DOUBLE_VALUE, Double.class);
+        double lastPrice = createLastPrice(json);
+        double highestPrice = createHighestPrice(json);
+        double lowestPrice = createLowestPrice(json);
+        BigDecimal tradingVolume = createTradingVolume(json);
+        BigDecimal tradingVolumeCurrency = createTradingVolumeCurrency(json);
 
-        var highestPriceStr = jsonParser.parse(response, HIGHEST_PRICE_24H_FIELD);
-        double highestPrice = tryParseDouble(
-                highestPriceStr, Double::parseDouble, HIGHEST_PRICE_24H_FIELD, DEFAULT_DOUBLE_VALUE, Double.class);
-
-        var lowestPriceStr = jsonParser.parse(response, LOWEST_PRICE_24H_FIELD);
-        double lowestPrice = tryParseDouble(
-                lowestPriceStr, Double::parseDouble, LOWEST_PRICE_24H_FIELD, DEFAULT_DOUBLE_VALUE, Double.class);
-
-        var tradingVolumeStr = jsonParser.parse(response, TRADING_VOLUME_FIELD);
-        BigDecimal tradingVolume = tryParseDouble(
-                tradingVolumeStr, BigDecimal::new, TRADING_VOLUME_FIELD, BigDecimal.ZERO, BigDecimal.class);
-
-        var tradingVolumeCurrencyStr = jsonParser.parse(response, TRADING_VOLUME_CURRENCY_FIELD);
-        BigDecimal tradingVolumeCurrency = tryParseDouble(
-                tradingVolumeCurrencyStr, BigDecimal::new, TRADING_VOLUME_CURRENCY_FIELD, BigDecimal.ZERO, BigDecimal.class);
-
-        var snapshost = new PriceSnapshot(
-                coinName, lastPrice, highestPrice, lowestPrice, tradingVolume, tradingVolumeCurrency
+        String coinNameWithoutCurrencyPrefix = coinName.replace(CURRENCY_SUFFIX, "");
+        return new PriceSnapshot(
+                coinNameWithoutCurrencyPrefix, lastPrice, highestPrice, lowestPrice, tradingVolume, tradingVolumeCurrency
         );
-        return snapshost;
+    }
+
+    private double createLastPrice(String json) throws JsonFieldNotFoundException, InvalidJsonFormatException {
+        String value = jsonParser.parse(json, LAST_PRICE_FIELD);
+        double lastPrice = tryParseDouble(value, Double::parseDouble,
+                LAST_PRICE_FIELD, DEFAULT_DOUBLE_VALUE, Double.class);
+        return roundToTwoDecimalPlaces(lastPrice);
+    }
+
+    private double createHighestPrice(String json) throws  JsonFieldNotFoundException, InvalidJsonFormatException {
+        String value = jsonParser.parse(json, HIGHEST_PRICE_24H_FIELD);
+        double highestPrice = tryParseDouble(value, Double::parseDouble,
+                HIGHEST_PRICE_24H_FIELD, DEFAULT_DOUBLE_VALUE, Double.class);
+        return roundToTwoDecimalPlaces(highestPrice);
+    }
+
+    private double createLowestPrice(String json) throws JsonFieldNotFoundException, InvalidJsonFormatException {
+        String value = jsonParser.parse(json, LOWEST_PRICE_24H_FIELD);
+        double lowestPrice = tryParseDouble(value, Double::parseDouble,
+                LOWEST_PRICE_24H_FIELD, DEFAULT_DOUBLE_VALUE, Double.class);
+        return roundToTwoDecimalPlaces(lowestPrice);
+    }
+
+    private BigDecimal createTradingVolume(String json) throws JsonFieldNotFoundException, InvalidJsonFormatException {
+        String value = jsonParser.parse(json, TRADING_VOLUME_FIELD);
+        return tryParseDouble(value, BigDecimal::new, TRADING_VOLUME_FIELD,
+                BigDecimal.ZERO, BigDecimal.class)
+                .setScale(8, RoundingMode.HALF_UP);
+    }
+
+    private BigDecimal createTradingVolumeCurrency(String json) throws JsonFieldNotFoundException, InvalidJsonFormatException {
+        String value = jsonParser.parse(json, TRADING_VOLUME_CURRENCY_FIELD);
+        return tryParseDouble(value, BigDecimal::new, TRADING_VOLUME_CURRENCY_FIELD,
+                BigDecimal.ZERO, BigDecimal.class)
+                .setScale(8, RoundingMode.HALF_UP);
+    }
+
+    private double roundToTwoDecimalPlaces(double value) {
+        return BigDecimal.valueOf(value)
+                .setScale(12, RoundingMode.HALF_UP)
+                .doubleValue();
     }
 
     private <T> T tryParseDouble(

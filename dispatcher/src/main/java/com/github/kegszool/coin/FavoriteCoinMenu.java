@@ -1,6 +1,7 @@
 package com.github.kegszool.coin;
 
 
+import com.github.kegszool.LocalizationService;
 import com.github.kegszool.menu.util.SectionBuilder;
 import com.github.kegszool.menu.service.MenuUpdaterService;
 import com.github.kegszool.coin.dto.CoinDto;
@@ -19,9 +20,10 @@ public abstract class FavoriteCoinMenu extends UserDataDependentBaseMenu {
 
     protected FavoriteCoinMenu(
             MenuUpdaterService menuUpdaterService,
-            SectionBuilder sectionBuilder
+            SectionBuilder sectionBuilder,
+            LocalizationService localizationService
     ) {
-        super(menuUpdaterService, sectionBuilder);
+        super(menuUpdaterService, sectionBuilder, localizationService);
     }
 
     public List<FavoriteCoinDto> getAllFavoriteCoins(UserDto user) {

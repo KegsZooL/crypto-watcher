@@ -3,12 +3,16 @@ package com.github.kegszool.coin.selection.menu;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
+import com.github.kegszool.user.dto.UserData;
+import com.github.kegszool.LocalizationService;
+import com.github.kegszool.menu.service.MenuUpdaterService;
+import com.github.kegszool.user.menu.UserDataDependentBaseMenu;
+
 import java.util.List;
 import java.util.Collections;
-import com.github.kegszool.menu.base.BaseMenu;
 
 @Component
-public class EditCoinSectionsMenu extends BaseMenu {
+public class EditCoinSectionsMenu extends UserDataDependentBaseMenu {
 
     @Value("${menu.edit_coin_sections.max_buttons_per_row}")
     private int MAX_BUTTONS_PER_ROW;
@@ -21,6 +25,13 @@ public class EditCoinSectionsMenu extends BaseMenu {
 
     @Value("${menu.edit_coin_sections.name}")
     private String NAME;
+
+    public EditCoinSectionsMenu(
+            MenuUpdaterService menuUpdaterService,
+            LocalizationService localizationService
+    ) {
+        super(menuUpdaterService, null, localizationService);
+    }
 
     @Override
     protected List<String> getFullWidthSections() {
@@ -45,5 +56,10 @@ public class EditCoinSectionsMenu extends BaseMenu {
     @Override
     public String getName() {
         return NAME;
+    }
+
+    @Override
+    public boolean hasDataChanged(UserData userData) {
+        return true;
     }
 }

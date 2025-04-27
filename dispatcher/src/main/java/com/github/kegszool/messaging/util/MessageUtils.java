@@ -1,5 +1,6 @@
 package com.github.kegszool.messaging.util;
 
+import com.github.kegszool.LocalizationService;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,14 +22,17 @@ public class MessageUtils {
 
     private final MenuHistoryManager menuHistoryManager;
     private final MenuRegistry menuRegistry;
+    private final LocalizationService localizationService;
 
     @Autowired
     public MessageUtils(
             MenuHistoryManager menuHistoryManager,
-            MenuRegistry menuRegistry
+            MenuRegistry menuRegistry,
+            LocalizationService localizationService
     ) {
         this.menuRegistry = menuRegistry;
         this.menuHistoryManager = menuHistoryManager;
+        this.localizationService = localizationService;
     }
 
     public EditMessageText createEditMessage(CallbackQuery query, String text) {
@@ -60,7 +64,8 @@ public class MessageUtils {
 
     public EditMessageText createEditMessageByMenuName(CallbackQuery query, String menuName) {
         Menu menu = menuRegistry.getMenu(menuName);
-        return createEditMessage(query, menu.getTitle(), menu.getKeyboardMarkup());
+        String localizedTitle = localizationService.getTitleText(menuName);
+        return createEditMessage(query, localizedTitle, menu.getKeyboardMarkup());
     }
 
     public EditMessageText createEditMessageByMenuName(CallbackQuery query, String title, String menuName) {
@@ -70,14 +75,16 @@ public class MessageUtils {
 
     public EditMessageText createEditMessageByMenuName(String chatId, Integer messageId, String menuName) {
         Menu menu = menuRegistry.getMenu(menuName);
-        return createEditMessage(chatId, messageId, menu.getTitle(), menu.getKeyboardMarkup());
+        String localizedTitle = localizationService.getTitleText(menuName);
+        return createEditMessage(chatId, messageId, localizedTitle, menu.getKeyboardMarkup());
     }
 
     public SendMessage createMessageByMenuName(String chatId, String menuName) {
         Menu menu = menuRegistry.getMenu(menuName);
+        String localizedTitle = localizationService.getTitleText(menuName);
         return SendMessage.builder()
                 .chatId(chatId)
-                .text(menu.getTitle())
+                .text(localizedTitle)
                 .replyMarkup(menu.getKeyboardMarkup())
                 .build();
     }

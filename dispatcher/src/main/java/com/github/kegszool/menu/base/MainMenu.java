@@ -1,5 +1,9 @@
 package com.github.kegszool.menu.base;
 
+import com.github.kegszool.LocalizationService;
+import com.github.kegszool.menu.service.MenuUpdaterService;
+import com.github.kegszool.user.dto.UserData;
+import com.github.kegszool.user.menu.UserDataDependentBaseMenu;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -7,7 +11,7 @@ import java.util.List;
 import java.util.Collections;
 
 @Component
-public class MainMenu extends BaseMenu {
+public class MainMenu extends UserDataDependentBaseMenu  {
 
     @Value("${menu.main.name}")
     private String NAME;
@@ -20,6 +24,13 @@ public class MainMenu extends BaseMenu {
 
     @Value("${menu.main.max_buttons_per_row}")
     private int MAX_BUTTONS_PER_ROW;
+
+    public MainMenu(
+            MenuUpdaterService menuUpdaterService,
+            LocalizationService localizationService
+    ) {
+        super(menuUpdaterService, null, localizationService);
+    }
 
     @Override
     protected String getSectionsConfig() {
@@ -44,5 +55,12 @@ public class MainMenu extends BaseMenu {
     @Override
     public String getName() {
         return NAME;
+    }
+
+    @Override
+    public boolean hasDataChanged(UserData userData) {
+//        String currentLocale = localizationService.getCurrentLocale();
+//        return !userData.getLocale().equals(currentLocale) //TODO: dummy
+        return true;
     }
 }

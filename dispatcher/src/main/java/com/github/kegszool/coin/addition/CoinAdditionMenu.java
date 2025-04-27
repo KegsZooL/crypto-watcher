@@ -1,5 +1,6 @@
 package com.github.kegszool.coin.addition;
 
+import com.github.kegszool.LocalizationService;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +27,10 @@ public class CoinAdditionMenu extends FavoriteCoinMenu {
             @Value("${menu.coin_addition.sections.ru}") String config,
             @Value("${menu.action.back}") String callbackDataForFullWidthButton,
             MenuUpdaterService menuUpdaterService,
-            CoinAdditionSectionBuilder sectionBuilder
+            CoinAdditionSectionBuilder sectionBuilder,
+            LocalizationService localizationService
     ) {
-        super(menuUpdaterService, sectionBuilder);
+        super(menuUpdaterService, sectionBuilder, localizationService);
         this.name = name;
         this.title = title;
         this.config = config;

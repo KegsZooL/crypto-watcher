@@ -23,13 +23,13 @@ public abstract class BaseMenu implements Menu {
 
     @PostConstruct
     protected void initializeMenu() throws MenuException {
-        String sectionsConfig = getSectionsConfig().replace("\n", "");
+        String sectionsConfig = getSectionsConfig();
         SECTIONS = sectionService.createSections(sectionsConfig);
         menuKeyboard = keyboardFactory.create(SECTIONS, getMaxButtonsPerRow(), getFullWidthSections());
     }
 
     public void updateSections(String sectionsConfig, boolean saveActionButton) {
-        sectionService.updateSections(SECTIONS, sectionsConfig, saveActionButton);
+        sectionService.updateSections(SECTIONS, sectionsConfig, saveActionButton, this.getName());
         menuKeyboard = keyboardFactory.create(SECTIONS, getMaxButtonsPerRow(), getFullWidthSections());
     }
 
