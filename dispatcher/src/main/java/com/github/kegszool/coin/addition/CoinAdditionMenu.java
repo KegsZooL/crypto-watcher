@@ -1,14 +1,13 @@
 package com.github.kegszool.coin.addition;
 
-import com.github.kegszool.LocalizationService;
+import java.util.List;
+
+import com.github.kegszool.coin.addition.util.CoinAdditionSectionBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
 import com.github.kegszool.coin.FavoriteCoinMenu;
-import com.github.kegszool.menu.service.MenuUpdaterService;
-import com.github.kegszool.coin.addition.util.CoinAdditionSectionBuilder;
 
 @Component
 public class CoinAdditionMenu extends FavoriteCoinMenu {
@@ -16,6 +15,7 @@ public class CoinAdditionMenu extends FavoriteCoinMenu {
     private final String name;
     private final String title;
     private final String config;
+
     private final int maxButtonsPerRow;
     private final String callbackDataForFullWidthButton;
 
@@ -26,11 +26,9 @@ public class CoinAdditionMenu extends FavoriteCoinMenu {
             @Value("${menu.coin_addition.max_buttons_per_row}") int maxButtonsPerRow,
             @Value("${menu.coin_addition.sections.ru}") String config,
             @Value("${menu.action.back}") String callbackDataForFullWidthButton,
-            MenuUpdaterService menuUpdaterService,
-            CoinAdditionSectionBuilder sectionBuilder,
-            LocalizationService localizationService
+            CoinAdditionSectionBuilder sectionBuilder
     ) {
-        super(menuUpdaterService, sectionBuilder, localizationService);
+        super(sectionBuilder);
         this.name = name;
         this.title = title;
         this.config = config;

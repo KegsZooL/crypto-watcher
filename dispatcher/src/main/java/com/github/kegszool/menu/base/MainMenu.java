@@ -1,45 +1,41 @@
 package com.github.kegszool.menu.base;
 
-import com.github.kegszool.LocalizationService;
-import com.github.kegszool.menu.service.MenuUpdaterService;
-import com.github.kegszool.user.dto.UserData;
-import com.github.kegszool.user.menu.UserDataDependentBaseMenu;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.List;
 import java.util.Collections;
+import com.github.kegszool.user.dto.UserData;
 
 @Component
-public class MainMenu extends UserDataDependentBaseMenu  {
+public class MainMenu extends BaseMenu {
 
-    @Value("${menu.main.name}")
-    private String NAME;
-
-    @Value("${menu.main.title.ru}")
-    private String TITLE;
-
-    @Value("${menu.main.sections.ru}")
-    private String MENU_SECTIONS_CONFIG;
-
-    @Value("${menu.main.max_buttons_per_row}")
-    private int MAX_BUTTONS_PER_ROW;
+    private final String name;
+    private final String title;
+    private final String config;
+    private final int maxButtonsPerRow;
 
     public MainMenu(
-            MenuUpdaterService menuUpdaterService,
-            LocalizationService localizationService
+            @Value("${menu.main.name}") String name,
+            @Value("${menu.main.title.ru}") String title,
+            @Value("${menu.main.sections.ru}") String config,
+            @Value("${menu.main.max_buttons_per_row}") int maxButtonsPerRow
     ) {
-        super(menuUpdaterService, null, localizationService);
+        super(null);
+        this.name = name;
+        this.title = title;
+        this.config = config;
+        this.maxButtonsPerRow = maxButtonsPerRow;
     }
 
     @Override
     protected String getSectionsConfig() {
-        return MENU_SECTIONS_CONFIG;
+        return config;
     }
 
     @Override
     protected int getMaxButtonsPerRow() {
-        return MAX_BUTTONS_PER_ROW;
+        return maxButtonsPerRow;
     }
 
     @Override
@@ -49,12 +45,12 @@ public class MainMenu extends UserDataDependentBaseMenu  {
 
     @Override
     public String getTitle() {
-        return TITLE;
+        return title;
     }
 
     @Override
     public String getName() {
-        return NAME;
+        return name;
     }
 
     @Override

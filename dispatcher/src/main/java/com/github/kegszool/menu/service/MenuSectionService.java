@@ -30,7 +30,7 @@ public class MenuSectionService {
         return new LinkedHashMap<>(parseSectionConfig(sectionsConfig));
     }
 
-    public void updateSections(LinkedHashMap<String, String> current, String sectionsConfig, boolean saveActionButton, String menuName) {
+    public void update(LinkedHashMap<String, String> current, String sectionsConfig, boolean saveActionButton, String menuName) {
         LinkedHashMap<String, String> newSections = new LinkedHashMap<>();
         processSections(sectionsConfig, newSections);
         updateSectionsWithActionPriority(newSections, current,  saveActionButton, menuName);

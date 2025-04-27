@@ -1,66 +1,61 @@
 package com.github.kegszool.coin.deletion;
 
 import java.util.List;
-
-import com.github.kegszool.LocalizationService;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.coin.FavoriteCoinMenu;
-import com.github.kegszool.menu.service.MenuUpdaterService;
 import com.github.kegszool.coin.deletion.util.CoinDeletionSectionBuilder;
 
 @Component
 public class CoinDeletionMenu extends FavoriteCoinMenu {
 
-    @Value("${menu.coin_deletion_menu.sections.ru}")
-    private String SECTIONS_CONFIG;
+    private final String name;
+    private final String title;
+    private final String config;
 
-    @Value("${menu.coin_deletion_menu.max_buttons_per_row}")
-    private int MAX_BUTTONS_PER_ROW;
+    private final int maxButtonsPerRow;
+    private final String callbackDataForFullWidthButton;
 
-    @Value("${menu.coin_deletion_menu.title.ru}")
-    private String TITLE;
-
-    @Value("${menu.coin_deletion_menu.name}")
-    private String NAME;
-
-    @Value("${menu.action.delete_selected}")
-    private String DELETE_SELECTED_CALLBACK_DATA;
-
-    @Autowired
     public CoinDeletionMenu(
-            MenuUpdaterService menuUpdaterService,
-            CoinDeletionSectionBuilder sectionBuilder,
-            LocalizationService localizationService
+            @Value("${menu.coin_deletion_menu.name}") String name,
+         	@Value("${menu.coin_deletion_menu.title.ru}") String title,
+     		@Value("${menu.coin_deletion_menu.sections.ru}") String config,
+            @Value("${menu.coin_deletion_menu.max_buttons_per_row}") int maxButtonsPerRow,
+            @Value("${menu.action.delete_selected}") String callbackDataForFullWidthButton,
+            CoinDeletionSectionBuilder sectionBuilder
     ) {
-        super(menuUpdaterService, sectionBuilder, localizationService);
+        super(sectionBuilder);
+        this.name = name;
+        this.title = title;
+        this.config = config;
+        this.maxButtonsPerRow = maxButtonsPerRow;
+        this.callbackDataForFullWidthButton = callbackDataForFullWidthButton;
     }
 
     @Override
     protected String getSectionsConfig() {
-        return SECTIONS_CONFIG;
+        return config;
     }
 
     @Override
     protected int getMaxButtonsPerRow() {
-        return MAX_BUTTONS_PER_ROW;
+        return maxButtonsPerRow;
     }
 
     @Override
     protected List<String> getFullWidthSections() {
-        return List.of(DELETE_SELECTED_CALLBACK_DATA);
+        return List.of(callbackDataForFullWidthButton);
     }
 
     @Override
     public String getTitle() {
-        return TITLE;
+        return title;
 
     }
 
     @Override
     public String getName() {
-        return NAME;
+        return name;
     }
 }

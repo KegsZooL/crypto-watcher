@@ -1,29 +1,24 @@
 package com.github.kegszool.coin;
 
-
-import com.github.kegszool.LocalizationService;
-import com.github.kegszool.menu.util.SectionBuilder;
-import com.github.kegszool.menu.service.MenuUpdaterService;
-import com.github.kegszool.coin.dto.CoinDto;
-import com.github.kegszool.coin.dto.FavoriteCoinDto;
-import com.github.kegszool.user.dto.UserData;
-import com.github.kegszool.user.dto.UserDto;
-import com.github.kegszool.user.menu.UserDataDependentBaseMenu;
-
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 
-public abstract class FavoriteCoinMenu extends UserDataDependentBaseMenu {
+import com.github.kegszool.menu.base.BaseMenu;
+import com.github.kegszool.menu.util.SectionBuilder;
+
+import com.github.kegszool.coin.dto.CoinDto;
+import com.github.kegszool.coin.dto.FavoriteCoinDto;
+
+import com.github.kegszool.user.dto.UserDto;
+import com.github.kegszool.user.dto.UserData;
+
+public abstract class FavoriteCoinMenu extends BaseMenu {
 
     @Value("${menu.coin_selection.prefix.currency}")
     private String CURRENCY_PREFIX;
 
-    protected FavoriteCoinMenu(
-            MenuUpdaterService menuUpdaterService,
-            SectionBuilder sectionBuilder,
-            LocalizationService localizationService
-    ) {
-        super(menuUpdaterService, sectionBuilder, localizationService);
+    public FavoriteCoinMenu(SectionBuilder sectionBuilder) {
+        super(sectionBuilder);
     }
 
     public List<FavoriteCoinDto> getAllFavoriteCoins(UserDto user) {

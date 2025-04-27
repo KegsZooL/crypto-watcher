@@ -1,10 +1,12 @@
 package com.github.kegszool.menu.service;
 
+import com.github.kegszool.LocalizationService;
+import com.github.kegszool.menu.base.BaseMenu;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.kegszool.user.dto.UserData;
-import com.github.kegszool.user.menu.UserDataDependentMenu;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -13,15 +15,21 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class MenuUpdaterService {
 
-    private final Map<String, UserDataDependentMenu> userDataDependentMenus = new ConcurrentHashMap<>();
+    private final Map<String, BaseMenu> nameToMenu = new ConcurrentHashMap<>();
+    private final LocalizationService localizationService;
 
+    @Autowired
+    public MenuUpdaterService(LocalizationService localizationService) {
+        this.localizationService = localizationService;
+    }
 
-    public void registerUserDataDependentMenu(String menuName, UserDataDependentMenu menu) {
-        userDataDependentMenus.put(menuName, menu);
+    public void registerMenu(String menuName, BaseMenu menu) {
+        nameToMenu.put(menuName, menu);
     }
 
     public void updateMenus(UserData userData) {
-        userDataDependentMenus.values().forEach(menu -> {
+        localizationService.setCurrentLocale("en"); //TODO: dummy
+        nameToMenu.values().forEach(menu -> {
             if (menu.hasDataChanged(userData)) {
                 menu.updateMenu(userData);
             }
