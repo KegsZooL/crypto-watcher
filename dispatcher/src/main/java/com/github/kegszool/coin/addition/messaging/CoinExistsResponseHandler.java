@@ -9,7 +9,7 @@ import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.response.BaseResponseHandler;
 
 import java.util.List;
-import com.github.kegszool.LocalizationService;
+import com.github.kegszool.localization.LocalizationService;
 import com.github.kegszool.coin.dto.CoinExistenceResult;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 

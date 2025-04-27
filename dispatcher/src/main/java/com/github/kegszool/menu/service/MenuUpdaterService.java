@@ -1,6 +1,6 @@
 package com.github.kegszool.menu.service;
 
-import com.github.kegszool.LocalizationService;
+import com.github.kegszool.localization.LocalizationService;
 import com.github.kegszool.menu.base.BaseMenu;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;

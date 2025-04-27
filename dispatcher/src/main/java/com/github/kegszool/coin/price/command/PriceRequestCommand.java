@@ -1,6 +1,6 @@
 package com.github.kegszool.coin.price.command;
 
-import com.github.kegszool.LocalizationService;
+import com.github.kegszool.localization.LocalizationService;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;

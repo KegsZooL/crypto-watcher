@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.LocalizationService;
+import com.github.kegszool.localization.LocalizationService;
 import com.github.kegszool.coin.price.model.PriceParameter;
 import com.github.kegszool.coin.price.menu.PriceMenuProperties;
 
