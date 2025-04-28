@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 @Component
 public class CoinSelectionSectionBuilder implements SectionBuilder {
 
-   	@Value("${menu.coin_selection.prefix[0].coin}")
+   	@Value("${menu.coin_selection.prefix.coin}")
     private String COIN_PREFIX;
 
-    @Value("${menu.coin_selection.prefix[1].currency}")
+    @Value("${menu.coin_selection.prefix.currency}")
     private String CURRENCY_PREFIX;
 
     @Override

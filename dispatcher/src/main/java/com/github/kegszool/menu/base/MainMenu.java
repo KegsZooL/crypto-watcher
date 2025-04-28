@@ -3,32 +3,39 @@ package com.github.kegszool.menu.base;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.Collections;
 import java.util.List;
+import java.util.Collections;
+import com.github.kegszool.user.dto.UserData;
 
 @Component
 public class MainMenu extends BaseMenu {
 
-    @Value("${menu.main.name}")
-    private String NAME;
+    private final String name;
+    private final String title;
+    private final String config;
+    private final int maxButtonsPerRow;
 
-    @Value("${menu.main.title}")
-    private String TITLE;
-
-    @Value("${menu.main.sections}")
-    private String MENU_SECTIONS_CONFIG;
-
-    @Value("${menu.main.max_buttons_per_row}")
-    private int MAX_BUTTONS_PER_ROW;
+    public MainMenu(
+            @Value("${menu.main.name}") String name,
+            @Value("${menu.main.title.ru}") String title,
+            @Value("${menu.main.sections.ru}") String config,
+            @Value("${menu.main.max_buttons_per_row}") int maxButtonsPerRow
+    ) {
+        super(null);
+        this.name = name;
+        this.title = title;
+        this.config = config;
+        this.maxButtonsPerRow = maxButtonsPerRow;
+    }
 
     @Override
     protected String getSectionsConfig() {
-        return MENU_SECTIONS_CONFIG;
+        return config;
     }
 
     @Override
     protected int getMaxButtonsPerRow() {
-        return MAX_BUTTONS_PER_ROW;
+        return maxButtonsPerRow;
     }
 
     @Override
@@ -38,11 +45,16 @@ public class MainMenu extends BaseMenu {
 
     @Override
     public String getTitle() {
-        return TITLE;
+        return title;
     }
 
     @Override
     public String getName() {
-        return NAME;
+        return name;
+    }
+
+    @Override
+    public boolean hasDataChanged(UserData userData) {
+        return isLocaleChanged(userData);
     }
 }

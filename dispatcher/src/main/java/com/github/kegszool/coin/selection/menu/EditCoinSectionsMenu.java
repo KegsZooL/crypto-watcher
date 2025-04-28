@@ -1,26 +1,33 @@
 package com.github.kegszool.coin.selection.menu;
 
-import com.github.kegszool.menu.base.BaseMenu;
+import java.util.List;
+import java.util.Collections;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.List;
-import java.util.Collections;
+import com.github.kegszool.menu.base.BaseMenu;
+import com.github.kegszool.user.dto.UserData;
 
 @Component
 public class EditCoinSectionsMenu extends BaseMenu {
 
-    @Value("${menu.edit_coin_sections.max_buttons_per_row}")
-    private int MAX_BUTTONS_PER_ROW;
+    private final String name;
+    private final String title;
+    private final String config;
+    private final int maxButtonsPerRow;
 
-    @Value("${menu.edit_coin_sections.sections}")
-    private String SECTIONS_CONFIG;
-
-    @Value("${menu.edit_coin_sections.title}")
-    private String TITLE;
-
-    @Value("${menu.edit_coin_sections.name}")
-    private String NAME;
+    public EditCoinSectionsMenu(
+            @Value("${menu.edit_coin_sections.name}") String name,
+            @Value("${menu.edit_coin_sections.title.ru}") String title,
+            @Value("${menu.edit_coin_sections.sections.ru}") String config,
+            @Value("${menu.edit_coin_sections.max_buttons_per_row}") int maxButtonsPerRow
+    ) {
+        super(null);
+        this.name = name;
+        this.title = title;
+        this.config = config;
+        this.maxButtonsPerRow = maxButtonsPerRow;
+    }
 
     @Override
     protected List<String> getFullWidthSections() {
@@ -29,21 +36,26 @@ public class EditCoinSectionsMenu extends BaseMenu {
 
     @Override
     protected int getMaxButtonsPerRow() {
-        return MAX_BUTTONS_PER_ROW;
+        return maxButtonsPerRow;
     }
 
     @Override
     protected String getSectionsConfig() {
-        return SECTIONS_CONFIG;
+        return config;
     }
 
     @Override
     public String getTitle() {
-        return TITLE;
+        return title;
     }
 
     @Override
     public String getName() {
-        return NAME;
+        return name;
+    }
+
+    @Override
+    public boolean hasDataChanged(UserData userData) {
+        return true;
     }
 }

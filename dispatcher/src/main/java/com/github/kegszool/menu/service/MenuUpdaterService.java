@@ -1,29 +1,42 @@
 package com.github.kegszool.menu.service;
 
+import com.github.kegszool.localization.LocalizationService;
+import com.github.kegszool.menu.base.BaseMenu;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.github.kegszool.user.dto.UserData;
-import com.github.kegszool.user.menu.UserDataDependentMenu;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-
-import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Service;
 
 @Log4j2
 @Service
 public class MenuUpdaterService {
 
-    private final Map<String, UserDataDependentMenu> userDataDependentMenus = new ConcurrentHashMap<>();
+    private final Map<String, BaseMenu> nameToMenu = new ConcurrentHashMap<>();
+    private final LocalizationService localizationService;
 
-    public void registerUserDataDependentMenu(String menuName, UserDataDependentMenu menu) {
-        userDataDependentMenus.put(menuName, menu);
+    @Autowired
+    public MenuUpdaterService(LocalizationService localizationService) {
+        this.localizationService = localizationService;
+    }
+
+    public void registerMenu(String menuName, BaseMenu menu) {
+        nameToMenu.put(menuName, menu);
     }
 
     public void updateMenus(UserData userData) {
-        userDataDependentMenus.values().forEach(menu -> {
+        nameToMenu.values().forEach(menu -> {
             if (menu.hasDataChanged(userData)) {
                 menu.updateMenu(userData);
             }
         });
+        localizationService.setCurrentLocale(userData.getUserPreference().interfaceLanguage());
+    }
+
+    public void changeKeyboard(String config, String menuName) {
+        nameToMenu.get(menuName).changeMenuKeyboard(config);
     }
 }

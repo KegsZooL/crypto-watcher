@@ -17,7 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ExtendWith(MockitoExtension.class)
 class CoinDeletionUserDataFactoryTest {
 
-    private CoinDeletionUserDataFactory factory = new CoinDeletionUserDataFactory();
+    @Mock
+    CoinDeletionUserDataFactory factory;
 
     @Mock
     private User user;

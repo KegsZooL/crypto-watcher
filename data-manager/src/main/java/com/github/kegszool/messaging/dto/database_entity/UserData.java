@@ -1,9 +1,9 @@
 package com.github.kegszool.messaging.dto.database_entity;
 
-import lombok.AllArgsConstructor;
+import lombok.Setter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 
@@ -15,4 +15,5 @@ public class UserData {
     private UserDto user;
     private List<FavoriteCoinDto> favoriteCoins;
     private List<NotificationDto> notifications;
+    private UserPreferenceDto userPreference;
 }

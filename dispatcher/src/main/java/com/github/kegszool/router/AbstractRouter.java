@@ -1,14 +1,14 @@
 package com.github.kegszool.router;
 
-import com.github.kegszool.messaging.dto.HandlerResult;
 import jakarta.annotation.PreDestroy;
 import org.springframework.stereotype.Service;
+import com.github.kegszool.messaging.dto.HandlerResult;
 
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 public abstract class AbstractRouter<T, H, K> {

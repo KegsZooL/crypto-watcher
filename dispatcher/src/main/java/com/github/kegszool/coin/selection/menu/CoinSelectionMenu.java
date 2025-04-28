@@ -1,63 +1,60 @@
 package com.github.kegszool.coin.selection.menu;
 
-import com.github.kegszool.coin.FavoriteCoinMenu;
-import com.github.kegszool.menu.service.MenuUpdaterService;
-import com.github.kegszool.coin.selection.CoinSelectionSectionBuilder;
-
+import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
+import com.github.kegszool.coin.FavoriteCoinMenu;
+import com.github.kegszool.coin.selection.CoinSelectionSectionBuilder;
 
 @Component
 public class CoinSelectionMenu extends FavoriteCoinMenu {
 
-    @Value("${menu.coin_selection.name}")
-    private String NAME;
+    private final String name;
+    private final String title;
+    private final String config;
 
-    @Value("${menu.coin_selection.title}")
-    private String TITLE;
+    private final int maxButtonsPerRow;
+    private final String callbackDataForFullWidthRow;
 
-    @Value("${menu.coin_selection.sections}")
-    private String MENU_SECTIONS_CONFIG;
-
-    @Value("${menu.coin_selection.max_buttons_per_row}")
-    private int MAX_BUTTONS_PER_ROW;
-
-    @Value("${menu.action.display_edit_coin_sections_menu}")
-    private String EDIT_COIN_SECTIONS_CALLBACK_DATA;
-
-    @Autowired
     public CoinSelectionMenu(
-            MenuUpdaterService menuUpdaterService,
+            @Value("${menu.coin_selection.name}") String name,
+            @Value("${menu.coin_selection.title.ru}") String title,
+            @Value("${menu.coin_selection.sections.ru}") String config,
+         	@Value("${menu.coin_selection.max_buttons_per_row}") int maxButtonsPerRow,
+            @Value("${menu.action.display_edit_coin_sections_menu}") String callbackDataForFullWidthRow,
             CoinSelectionSectionBuilder sectionBuilder
     ) {
-        super(menuUpdaterService, sectionBuilder);
+        super(sectionBuilder);
+        this.name = name;
+        this.title = title;
+        this.config = config;
+        this.maxButtonsPerRow = maxButtonsPerRow;
+        this.callbackDataForFullWidthRow = callbackDataForFullWidthRow;
     }
 
     @Override
     protected String getSectionsConfig() {
-        return MENU_SECTIONS_CONFIG;
+        return config;
     }
 
     @Override
     protected int getMaxButtonsPerRow() {
-        return MAX_BUTTONS_PER_ROW;
+        return maxButtonsPerRow;
     }
 
     @Override
     protected List<String> getFullWidthSections() {
-        return List.of(EDIT_COIN_SECTIONS_CALLBACK_DATA);
+        return List.of(callbackDataForFullWidthRow);
     }
 
     @Override
     public String getTitle() {
-        return TITLE;
+        return title;
     }
 
     @Override
     public String getName() {
-        return NAME;
+        return name;
     }
 }

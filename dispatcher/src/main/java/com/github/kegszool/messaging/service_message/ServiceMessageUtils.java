@@ -1,13 +1,13 @@
 package com.github.kegszool.messaging.service_message;
 
-import com.github.kegszool.messaging.service_message.exception.InvalidServiceMessagePayloadException;
-import com.github.kegszool.messaging.service_message.exception.InvalidServiceMessageException;
-import com.github.kegszool.messaging.service_message.exception.ServiceMessageSendingException;
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.AmqpException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import lombok.extern.log4j.Log4j2;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.service_message.exception.InvalidServiceMessageException;
+import com.github.kegszool.messaging.service_message.exception.ServiceMessageSendingException;
+import com.github.kegszool.messaging.service_message.exception.InvalidServiceMessagePayloadException;
 
 @Log4j2
 public class ServiceMessageUtils {

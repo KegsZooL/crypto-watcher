@@ -1,15 +1,14 @@
 package com.github.kegszool.coin.deletion.util;
 
-import com.github.kegszool.coin.dto.CoinDto;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.stream.Collectors;
+import com.github.kegszool.coin.dto.CoinDto;
 import com.github.kegszool.user.dto.UserData;
 import com.github.kegszool.menu.util.SectionBuilder;
 import com.github.kegszool.coin.selection.state.MenuSelectionBuffer;
-
-import java.util.stream.Collectors;
 
 @Component
 public class CoinDeletionSectionBuilder implements SectionBuilder {
@@ -23,8 +22,8 @@ public class CoinDeletionSectionBuilder implements SectionBuilder {
     @Autowired
     public CoinDeletionSectionBuilder(
             @Value("${menu.coin_deletion_menu.name}") String menuName,
-            @Value("${menu.coin_selection.prefix[0].coin}") String coinPrefix,
-            @Value("${menu.coin_selection.prefix[1].currency}") String currencyPrefix,
+            @Value("${menu.coin_selection.prefix.coin}") String coinPrefix,
+            @Value("${menu.coin_selection.prefix.currency}") String currencyPrefix,
             @Value("${menu.coin_deletion_menu.prefix.selected_coin_prefix}") String selectedPrefix,
             @Value("${menu.coin_deletion_menu.prefix.unselected_coin_prefix}") String unselectedPrefix,
             MenuSelectionBuffer selectionBuffer

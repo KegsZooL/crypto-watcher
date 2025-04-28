@@ -34,4 +34,4 @@ api:
             trading_volume: ${MARKET_TICKER_TRADING_VOLUME_RESPONSE_PARAMETER}
             trading_volume_currency: ${MARKET_TICKER_TRADING_VOLUME_CURRENCY_RESPONSE_PARAMETER}
 
-currency_suffix: ${CURRENCY_PREFIX}
+currency_suffix: -USD

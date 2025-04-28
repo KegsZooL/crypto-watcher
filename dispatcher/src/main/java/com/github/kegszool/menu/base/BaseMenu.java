@@ -1,22 +1,38 @@
 package com.github.kegszool.menu.base;
 
-import com.github.kegszool.menu.util.KeyboardFactory;
-import com.github.kegszool.menu.exception.base.MenuException;
-import com.github.kegszool.menu.service.MenuSectionService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-
 import java.util.List;
 import java.util.LinkedHashMap;
-
-import lombok.extern.log4j.Log4j2;
+import jakarta.annotation.Nullable;
 import jakarta.annotation.PostConstruct;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 
-@Log4j2
+import com.github.kegszool.menu.util.KeyboardFactory;
+import com.github.kegszool.menu.util.SectionBuilder;
+
+import com.github.kegszool.menu.service.MenuUpdaterService;
+import com.github.kegszool.menu.service.MenuSectionService;
+
+import com.github.kegszool.user.dto.UserData;
+import com.github.kegszool.menu.exception.base.MenuException;
+
+import com.github.kegszool.localization.LocalizationService;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+
+@Component
 public abstract class BaseMenu implements Menu {
 
     @Autowired private KeyboardFactory keyboardFactory;
     @Autowired private MenuSectionService sectionService;
+    @Autowired private MenuUpdaterService menuUpdaterService;
+    @Autowired private LocalizationService localizationService;
+
+    @Nullable
+    private final SectionBuilder sectionBuilder;
+
+    public BaseMenu(@Nullable SectionBuilder sectionBuilder) {
+        this.sectionBuilder = sectionBuilder;
+    }
 
     protected LinkedHashMap<String, String> SECTIONS = new LinkedHashMap<>();
     protected InlineKeyboardMarkup menuKeyboard;
@@ -26,11 +42,25 @@ public abstract class BaseMenu implements Menu {
         String sectionsConfig = getSectionsConfig();
         SECTIONS = sectionService.createSections(sectionsConfig);
         menuKeyboard = keyboardFactory.create(SECTIONS, getMaxButtonsPerRow(), getFullWidthSections());
+
+        menuUpdaterService.registerMenu(getName(), this);
     }
 
-    public void updateSections(String sectionsConfig, boolean saveActionButton) {
-        sectionService.updateSections(SECTIONS, sectionsConfig, saveActionButton);
+    public void updateMenu(UserData userData) {
+        String newConfig = "";
+        if (sectionBuilder != null) {
+            newConfig = sectionBuilder.buildSectionsConfig(userData);
+        }
+        String actualLanguage = userData.getUserPreference().interfaceLanguage();
+        sectionService.update(SECTIONS, newConfig, true, getName(), actualLanguage);
         menuKeyboard = keyboardFactory.create(SECTIONS, getMaxButtonsPerRow(), getFullWidthSections());
+    }
+
+    public abstract boolean hasDataChanged(UserData userData);
+
+    public boolean isLocaleChanged(UserData userData) {
+        String currentLocale = localizationService.getCurrentLocale();
+        return !userData.getUserPreference().interfaceLanguage().equals(currentLocale);
     }
 
     protected abstract String getSectionsConfig();
@@ -40,5 +70,10 @@ public abstract class BaseMenu implements Menu {
     @Override
     public InlineKeyboardMarkup getKeyboardMarkup() {
         return menuKeyboard;
+    }
+
+    public void changeMenuKeyboard(String sectionsConfig) {
+        SECTIONS = sectionService.createSections(sectionsConfig);
+        menuKeyboard = keyboardFactory.create(SECTIONS, getMaxButtonsPerRow(), getFullWidthSections());
     }
 }

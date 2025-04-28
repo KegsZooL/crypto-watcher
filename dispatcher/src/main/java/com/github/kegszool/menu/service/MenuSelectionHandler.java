@@ -1,20 +1,22 @@
 package com.github.kegszool.menu.service;
 
+import java.util.List;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
+
 import com.github.kegszool.menu.base.Menu;
 import com.github.kegszool.messaging.util.MessageUtils;
-import com.github.kegszool.coin.selection.state.updater.SelectionDataUpdater;
+
 import com.github.kegszool.coin.selection.state.MenuSelectionBuffer;
+import com.github.kegszool.coin.selection.state.updater.SelectionDataUpdater;
 import com.github.kegszool.coin.selection.exception.SelectionButtonNotFoundException;
+
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
-import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Service;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
-
-import java.util.List;
 
 @Log4j2
 @Service

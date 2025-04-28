@@ -27,19 +27,19 @@ public class PriceMenuProperties {
     @Value("${menu.price_snapshot.parameters.trading_volume_currency.name}")
     private String TRADING_VOLUME_CURRENCY_PARAMETER;
 
-    @Value("${menu.price_snapshot.parameters.last_price.description}")
+    @Value("${menu.price_snapshot.parameters.last_price.description.ru}")
     private String LAST_PRICE_PARAMETER_DESCRIPTION;
 
-    @Value("${menu.price_snapshot.parameters.highest_price_24h.description}")
+    @Value("${menu.price_snapshot.parameters.highest_price_24h.description.ru}")
     private String HIGHEST_PRICE_24H_PARAMETER_DESCRIPTION;
 
-    @Value("${menu.price_snapshot.parameters.lowest_price_24h.description}")
+    @Value("${menu.price_snapshot.parameters.lowest_price_24h.description.ru}")
     private String LOWEST_PRICE_24H_PARAMETER_DESCRIPTION;
 
-    @Value("${menu.price_snapshot.parameters.trading_volume.description}")
+    @Value("${menu.price_snapshot.parameters.trading_volume.description.ru}")
     private String TRADING_VOLUME_PARAMETER_DESCRIPTION;
 
-    @Value("${menu.price_snapshot.parameters.trading_volume_currency.description}")
+    @Value("${menu.price_snapshot.parameters.trading_volume_currency.description.ru}")
     private String TRADING_VOLUME_CURRENCY_PARAMETER_DESCRIPTION;
 
     public String getMenuName() {

@@ -1,22 +1,31 @@
 package com.github.kegszool.coin.deletion.util;
 
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.github.kegszool.coin.dto.CoinDto;
 import com.github.kegszool.coin.dto.FavoriteCoinDto;
-import org.springframework.stereotype.Component;
 
 import com.github.kegszool.user.dto.UserDto;
 import com.github.kegszool.user.dto.UserData;
+import com.github.kegszool.user.UserDataFactory;
 
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
-
 @Component
 public class CoinDeletionUserDataFactory {
+
+    private final UserDataFactory userDataFactory;
+
+    @Autowired
+    public CoinDeletionUserDataFactory(UserDataFactory userDataFactory) {
+        this.userDataFactory = userDataFactory;
+    }
 
     public UserData createFromSelected(CallbackQuery callbackQuery, List<InlineKeyboardButton> selected) {
 
@@ -34,6 +43,6 @@ public class CoinDeletionUserDataFactory {
             CoinDto coinDto = new CoinDto(coinName);
             selectedCoins.add(new FavoriteCoinDto(userDto, coinDto));
         }
-        return new UserData(userDto, selectedCoins, Collections.emptyList());
+        return userDataFactory.create(userDto, selectedCoins, Collections.emptyList());
     }
 }

@@ -1,10 +1,11 @@
 package com.github.kegszool.coin.price.command;
 
-import com.github.kegszool.coin.price.util.PriceParameterMessageBuilder;
-import com.github.kegszool.coin.price.menu.PriceMenuProperties;
-import com.github.kegszool.command.callback.CallbackCommand;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.github.kegszool.command.callback.CallbackCommand;
+import com.github.kegszool.coin.price.menu.PriceMenuProperties;
+import com.github.kegszool.coin.price.util.PriceParameterMessageBuilder;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
