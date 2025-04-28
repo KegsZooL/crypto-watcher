@@ -55,8 +55,6 @@ public class MainMenu extends BaseMenu {
 
     @Override
     public boolean hasDataChanged(UserData userData) {
-//        String currentLocale = localizationService.getCurrentLocale();
-//        return !userData.getLocale().equals(currentLocale) //TODO: dummy
-        return true;
+        return isLocaleChanged(userData);
     }
 }

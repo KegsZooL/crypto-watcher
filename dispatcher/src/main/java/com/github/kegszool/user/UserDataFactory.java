@@ -1,0 +1,29 @@
+package com.github.kegszool.user;
+
+import java.util.List;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.github.kegszool.user.dto.UserDto;
+import com.github.kegszool.user.dto.UserData;
+import com.github.kegszool.user.dto.UserPreferenceDto;
+
+import com.github.kegszool.coin.dto.FavoriteCoinDto;
+import com.github.kegszool.notification.NotificationDto;
+import com.github.kegszool.localization.LocalizationService;
+
+@Component
+public class UserDataFactory {
+
+    private final LocalizationService localizationService;
+
+    @Autowired
+    public UserDataFactory(LocalizationService localizationService) {
+        this.localizationService = localizationService;
+    }
+
+    public UserData create(UserDto user, List<FavoriteCoinDto> favorites, List<NotificationDto> notifications) {
+        UserPreferenceDto preference = new UserPreferenceDto(user, localizationService.getCurrentLocale());
+        return new UserData(user, favorites, notifications, preference);
+    }
+}

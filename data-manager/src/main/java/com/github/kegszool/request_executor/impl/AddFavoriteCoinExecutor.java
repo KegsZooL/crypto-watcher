@@ -1,14 +1,14 @@
 package com.github.kegszool.request_executor.impl;
 
+import com.github.kegszool.messaging.dto.database_entity.UserPreferenceDto;
+import com.github.kegszool.database.entity.service.impl.UserService;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.github.kegszool.database.entity.base.Coin;
 import com.github.kegszool.database.entity.base.User;
 import com.github.kegszool.database.entity.base.FavoriteCoin;
-import com.github.kegszool.database.entity.mapper.impl.FavoriteCoinMapper;
 
-import com.github.kegszool.database.repository.impl.UserRepository;
 import com.github.kegszool.database.repository.impl.CoinRepository;
 import com.github.kegszool.database.repository.impl.FavoriteCoinRepository;
 
@@ -27,57 +27,39 @@ import java.util.stream.Collectors;
 public class AddFavoriteCoinExecutor implements RequestExecutor<UserCoinData, UserData> {
 
     private final String routingKey;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final CoinRepository coinRepository;
     private final FavoriteCoinRepository favoriteCoinRepository;
-    private final FavoriteCoinMapper favoriteCoinMapper;
 
     public AddFavoriteCoinExecutor(
-            @Value("${spring.rabbitmq.template.routing-key.add_favorite_coin.response}")
-            String routingKey,
-            UserRepository userRepository,
+            @Value("${spring.rabbitmq.template.routing-key.add_favorite_coin.response}") String routingKey,
+            UserService userService,
             CoinRepository coinRepository,
-            FavoriteCoinRepository favoriteCoinRepository,
-            FavoriteCoinMapper favoriteCoinMapper
+            FavoriteCoinRepository favoriteCoinRepository
     ) {
         this.routingKey = routingKey;
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.coinRepository = coinRepository;
         this.favoriteCoinRepository = favoriteCoinRepository;
-        this.favoriteCoinMapper = favoriteCoinMapper;
     }
 
     @Override
     public ServiceMessage<UserData> execute(ServiceMessage<UserCoinData> serviceMessage) {
-
         UserCoinData data = serviceMessage.getData();
         UserDto userDto = data.getUser();
         List<String> coinNamesToAdd = data.getCoinsToAdd();
 
-        User user = findOrCreateUser(userDto);
-        Map<String, Coin> allCoinsMap = getAllCoinsByName();
+        User user = userService.findOrCreateWithPreferences(userDto).getSecond();
 
+        Map<String, Coin> allCoinsMap = getAllCoinsByName();
         List<Coin> coinsToAdd = getOrCreateCoins(coinNamesToAdd, allCoinsMap);
         coinRepository.saveAll(coinsToAdd);
 
         addFavoriteCoins(user, coinsToAdd);
 
-        List<FavoriteCoin> userFavorites = favoriteCoinRepository.findByUser_Id(user.getId());
-        List<FavoriteCoinDto> favoriteCoinDtos = userFavorites.stream()
-                .map(favoriteCoinMapper::toDto)
-                .toList();
-
-        //TODO: notification empty
-        UserData userData = new UserData(userDto, favoriteCoinDtos, Collections.emptyList());
+        UserData userData = buildUserData(user, userDto);
 
         return new ServiceMessage<>(serviceMessage.getMessageId(), serviceMessage.getChatId(), userData);
-    }
-
-    private User findOrCreateUser(UserDto user) {
-        return userRepository.findByTelegramId(user.getTelegramId())
-                .orElseGet(() -> userRepository.save(
-                        new User(user.getTelegramId(), user.getFirstName(), user.getLastName())
-                ));
     }
 
     private Map<String, Coin> getAllCoinsByName() {
@@ -93,8 +75,7 @@ public class AddFavoriteCoinExecutor implements RequestExecutor<UserCoinData, Us
     }
 
     private void addFavoriteCoins(User user, List<Coin> coins) {
-        Set<String> existingFavorites = favoriteCoinRepository.findByUser_Id(user.getId())
-                .stream()
+        Set<String> existingFavorites = favoriteCoinRepository.findByUser_Id(user.getId()).stream()
                 .map(fc -> fc.getCoin().getName())
                 .collect(Collectors.toSet());
 
@@ -104,6 +85,15 @@ public class AddFavoriteCoinExecutor implements RequestExecutor<UserCoinData, Us
                 .toList();
 
         favoriteCoinRepository.saveAll(newFavorites);
+    }
+
+    private UserData buildUserData(User user, UserDto userDto) {
+        int userId = user.getId();
+        List<FavoriteCoinDto> favoriteCoins = userService.getUserFavoriteCoins(userId);
+        String interfaceLanguage = userService.getInterfaceLanguage(userId);
+        UserPreferenceDto userPreference = new UserPreferenceDto(userDto, interfaceLanguage);
+
+        return new UserData(userDto, favoriteCoins, Collections.emptyList(), userPreference);
     }
 
     @Override

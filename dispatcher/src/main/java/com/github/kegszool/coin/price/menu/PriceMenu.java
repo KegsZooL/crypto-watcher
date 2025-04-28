@@ -21,6 +21,7 @@ public class PriceMenu extends BaseMenu {
             @Value("${menu.price_snapshot.title.ru}") String title,
             @Value("${menu.price_snapshot.sections.ru}") String config,
             @Value("${menu.price_snapshot.max_buttons_per_row}") int maxButtonsPerRow
+
     ) {
         super(null);
         this.name = name;
@@ -56,8 +57,6 @@ public class PriceMenu extends BaseMenu {
 
     @Override
     public boolean hasDataChanged(UserData userData) {
-//        String currentLocale = localizationService.getCurrentLocale();
-//        return !userData.getLocale().equals(currentLocale) //TODO: dummy
-        return true;
+        return isLocaleChanged(userData);
     }
 }

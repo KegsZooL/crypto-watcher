@@ -1,33 +1,30 @@
-package com.github.kegszool.coin.addition;
+package com.github.kegszool.settings;
 
 import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.coin.FavoriteCoinMenu;
-import com.github.kegszool.coin.addition.util.CoinAdditionSectionBuilder;
+import com.github.kegszool.user.dto.UserData;
+import com.github.kegszool.menu.base.BaseMenu;
 
 @Component
-public class CoinAdditionMenu extends FavoriteCoinMenu {
+public class SettingsMenu extends BaseMenu {
 
     private final String name;
     private final String title;
     private final String config;
-
     private final int maxButtonsPerRow;
+
     private final String callbackDataForFullWidthButton;
 
-    @Autowired
-    public CoinAdditionMenu(
-            @Value("${menu.coin_addition.name}") String name,
-            @Value("${menu.coin_addition.title.ru}") String title,
-            @Value("${menu.coin_addition.max_buttons_per_row}") int maxButtonsPerRow,
-            @Value("${menu.coin_addition.sections.ru}") String config,
-            @Value("${menu.action.back}") String callbackDataForFullWidthButton,
-            CoinAdditionSectionBuilder sectionBuilder
+    public SettingsMenu(
+            @Value("${menu.settings.name}") String name,
+            @Value("${menu.settings.title.ru}") String title,
+            @Value("${menu.settings.sections.ru}") String config,
+            @Value("${menu.settings.max_buttons_per_row}") int maxButtonsPerRow,
+            @Value("${menu.action.back}") String callbackDataForFullWidthButton
     ) {
-        super(sectionBuilder);
+        super(null);
         this.name = name;
         this.title = title;
         this.config = config;
@@ -43,7 +40,6 @@ public class CoinAdditionMenu extends FavoriteCoinMenu {
     @Override
     public String getTitle() {
         return title;
-
     }
 
     @Override
@@ -59,5 +55,10 @@ public class CoinAdditionMenu extends FavoriteCoinMenu {
     @Override
     protected List<String> getFullWidthSections() {
         return List.of(callbackDataForFullWidthButton);
+    }
+
+    @Override
+    public boolean hasDataChanged(UserData userData) {
+        return isLocaleChanged(userData);
     }
 }

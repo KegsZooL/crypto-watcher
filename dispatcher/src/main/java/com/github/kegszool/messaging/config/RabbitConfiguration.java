@@ -80,6 +80,18 @@ public class RabbitConfiguration {
     @Value("${spring.rabbitmq.template.routing-key.add_coin_response}")
     private String ADD_COIN_RESPONSE_ROUTING_KEY;
 
+    @Value("${spring.rabbitmq.queues.change_language_request}")
+    private String CHANGE_LANGUAGE_REQUEST_QUEUE;
+
+    @Value("${spring.rabbitmq.queues.change_language_response}")
+    private String CHANGE_LANGUAGE_RESPONSE_QUEUE;
+
+    @Value("${spring.rabbitmq.template.routing-key.change_language_request}")
+    private String CHANGE_LANGUAGE_REQUEST_ROUTING_KEY;
+
+    @Value("${spring.rabbitmq.template.routing-key.change_language_response}")
+    private String CHANGE_LANGUAGE_RESPONSE_ROUTING_KEY;
+
     @Value("${spring.rabbitmq.queues.service_exception}")
     private String SERVICE_EXCEPTION_QUEUE;
 
@@ -139,6 +151,16 @@ public class RabbitConfiguration {
     @Bean
     public Queue addCoinResponseQueue() {
         return new Queue(ADD_COIN_RESPONSE_QUEUE, true, false, false, queueArgs);
+    }
+
+    @Bean
+    public Queue changeLanguageRequestQueue() {
+        return new Queue(CHANGE_LANGUAGE_REQUEST_QUEUE, true, false, false, queueArgs);
+    }
+
+    @Bean
+    public Queue changeLanguageResponseQueue() {
+        return new Queue(CHANGE_LANGUAGE_RESPONSE_QUEUE, true, false, false, queueArgs);
     }
 
     @Bean
@@ -214,6 +236,20 @@ public class RabbitConfiguration {
         return BindingBuilder.bind(addCoinResponseQueue())
                 .to(exchange())
                 .with(ADD_COIN_RESPONSE_ROUTING_KEY);
+    }
+
+    @Bean
+    public Binding bindChangeLanguageRequest() {
+        return BindingBuilder.bind(changeLanguageRequestQueue())
+                .to(exchange())
+                .with(CHANGE_LANGUAGE_REQUEST_ROUTING_KEY);
+    }
+
+    @Bean
+    public Binding bindChangeLanguageResponse() {
+        return BindingBuilder.bind(changeLanguageResponseQueue())
+                .to(exchange())
+                .with(CHANGE_LANGUAGE_RESPONSE_ROUTING_KEY);
     }
 
     @Bean

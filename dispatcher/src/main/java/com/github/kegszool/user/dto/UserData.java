@@ -17,4 +17,5 @@ public class UserData {
     private UserDto user;
     private List<FavoriteCoinDto> favoriteCoins;
     private List<NotificationDto> notifications;
+    private UserPreferenceDto userPreference;
 }

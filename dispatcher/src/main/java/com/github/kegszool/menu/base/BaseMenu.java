@@ -1,19 +1,22 @@
 package com.github.kegszool.menu.base;
 
-import com.github.kegszool.menu.util.SectionBuilder;
+import java.util.List;
+import java.util.LinkedHashMap;
 import jakarta.annotation.Nullable;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.user.dto.UserData;
-import com.github.kegszool.menu.service.MenuUpdaterService;
-
-import java.util.List;
-import java.util.LinkedHashMap;
 import com.github.kegszool.menu.util.KeyboardFactory;
+import com.github.kegszool.menu.util.SectionBuilder;
+
+import com.github.kegszool.menu.service.MenuUpdaterService;
 import com.github.kegszool.menu.service.MenuSectionService;
+
+import com.github.kegszool.user.dto.UserData;
 import com.github.kegszool.menu.exception.base.MenuException;
+
+import com.github.kegszool.localization.LocalizationService;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 @Component
@@ -22,6 +25,7 @@ public abstract class BaseMenu implements Menu {
     @Autowired private KeyboardFactory keyboardFactory;
     @Autowired private MenuSectionService sectionService;
     @Autowired private MenuUpdaterService menuUpdaterService;
+    @Autowired private LocalizationService localizationService;
 
     @Nullable
     private final SectionBuilder sectionBuilder;
@@ -52,6 +56,11 @@ public abstract class BaseMenu implements Menu {
     }
 
     public abstract boolean hasDataChanged(UserData userData);
+
+    public boolean isLocaleChanged(UserData userData) {
+        String currentLocale = localizationService.getCurrentLocale();
+        return !userData.getUserPreference().interfaceLanguage().equals(currentLocale);
+    }
 
     protected abstract String getSectionsConfig();
     protected abstract int getMaxButtonsPerRow();

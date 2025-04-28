@@ -1,5 +1,6 @@
 package com.github.kegszool.request_executor.impl;
 
+import com.github.kegszool.messaging.dto.database_entity.*;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,12 +9,7 @@ import com.github.kegszool.database.entity.base.User;
 import com.github.kegszool.database.entity.service.impl.UserService;
 
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.messaging.dto.database_entity.UserData;
 import com.github.kegszool.messaging.dto.command_entity.UpsertUserResponse;
-
-import com.github.kegszool.messaging.dto.database_entity.UserDto;
-import com.github.kegszool.messaging.dto.database_entity.NotificationDto;
-import com.github.kegszool.messaging.dto.database_entity.FavoriteCoinDto;
 
 import com.github.kegszool.request_executor.RequestExecutor;
 
@@ -26,7 +22,7 @@ import org.springframework.data.util.Pair;
 public class UpsertUserRequestExecutor implements RequestExecutor<UserDto, UpsertUserResponse> {
 
     @Value("${spring.rabbitmq.template.routing-key.upsert_user.response}")
-    private String UPSERT_USER_RESPONSE_FROM_DATABASE_ROUTING_KEY;
+    private String upsertUserResponseRoutingKey;
 
     private final UserService userService;
 
@@ -37,49 +33,37 @@ public class UpsertUserRequestExecutor implements RequestExecutor<UserDto, Upser
 
     @Override
     public String getResponseRoutingKey() {
-        return UPSERT_USER_RESPONSE_FROM_DATABASE_ROUTING_KEY;
+        return upsertUserResponseRoutingKey;
     }
 
     @Override
     public ServiceMessage<UpsertUserResponse> execute(ServiceMessage<UserDto> serviceMessage) {
         UserDto userDto = serviceMessage.getData();
-        Pair<Boolean, User> result = upsertUser(userDto);
-        return createResponseServiceMessage(serviceMessage, result, userDto);
+        Pair<Boolean, User> upsertResult = userService.findOrCreateWithPreferences(userDto);
+        return buildResponse(serviceMessage, upsertResult, userDto);
     }
 
-    private Pair<Boolean, User> upsertUser(UserDto userDto) {
-        Long telegramId = userDto.getTelegramId();
-        return userService.getUserByTelegramId(telegramId)
-                .map(user -> Pair.of(true, user))
-                .orElseGet(() -> {
-                    logNonExistentUser(userDto, telegramId);
-                    return Pair.of(false, userService.saveEntity(userDto));
-                });
-    }
-
-    private void logNonExistentUser(UserDto userDto, Long telegramId) {
-        log.info("The user=[telgeram_id= \"%s\", first_name=\"%s\", last_name=\"%s\"]" +
-                " does not exist in the database",
-                telegramId, userDto.getFirstName(), userDto.getLastName());
-    }
-
-    private ServiceMessage<UpsertUserResponse> createResponseServiceMessage(
-            ServiceMessage<UserDto> requestServiceMessage,
-            Pair<Boolean, User> upsertUserResult,
+    private ServiceMessage<UpsertUserResponse> buildResponse(
+            ServiceMessage<UserDto> request,
+            Pair<Boolean, User> upsertResult,
             UserDto userDto
     ) {
-        Boolean userExistBefore = upsertUserResult.getFirst();
-        User user = upsertUserResult.getSecond();
+        Boolean userExistedBefore = upsertResult.getFirst();
+        User user = upsertResult.getSecond();
 
-        int userId = user.getId();
-        Pair<List<FavoriteCoinDto>, List<NotificationDto>> userAdditionalData = fetchUserAdditionalData(userId);
+        UserData userData = loadUserData(user, userDto);
+        UpsertUserResponse response = new UpsertUserResponse(userExistedBefore, userData);
 
-        UserData userData = new UserData(userDto, userAdditionalData.getFirst(), userAdditionalData.getSecond());
-        UpsertUserResponse response = new UpsertUserResponse(userExistBefore, userData);
-        return new ServiceMessage<>(requestServiceMessage.getMessageId(), requestServiceMessage.getChatId(), response);
+        return new ServiceMessage<>(request.getMessageId(), request.getChatId(), response);
     }
 
-    private Pair<List<FavoriteCoinDto>, List<NotificationDto>> fetchUserAdditionalData(int userId) {
-        return Pair.of(userService.getUserFavoriteCoins(userId), userService.getUserNotifications(userId));
+    private UserData loadUserData(User user, UserDto userDto) {
+        int userId = user.getId();
+        List<FavoriteCoinDto> favoriteCoins = userService.getUserFavoriteCoins(userId);
+        List<NotificationDto> notifications = userService.getUserNotifications(userId);
+        String interfaceLanguage = userService.getInterfaceLanguage(userId);
+
+        UserPreferenceDto userPreference = new UserPreferenceDto(userDto, interfaceLanguage);
+        return new UserData(userDto, favoriteCoins, notifications, userPreference);
     }
 }

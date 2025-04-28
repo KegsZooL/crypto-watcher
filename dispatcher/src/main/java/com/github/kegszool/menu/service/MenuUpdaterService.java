@@ -28,7 +28,7 @@ public class MenuUpdaterService {
     }
 
     public void updateMenus(UserData userData) {
-        localizationService.setCurrentLocale("en"); //TODO: dummy
+        localizationService.setCurrentLocale(userData.getUserPreference().interfaceLanguage());
         nameToMenu.values().forEach(menu -> {
             if (menu.hasDataChanged(userData)) {
                 menu.updateMenu(userData);

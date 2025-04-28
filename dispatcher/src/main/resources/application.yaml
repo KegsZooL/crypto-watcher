@@ -25,6 +25,9 @@ spring:
         add_coin_request: ${RABBITMQ_ADD_COIN_REQUEST_ROUTING_KEY}
         add_coin_response: ${RABBITMQ_ADD_COIN_RESPONSE_ROUTING_KEY}
 
+        change_language_request: ${RABBITMQ_CHANGE_LANGUAGE_REQUEST_ROUTING_KEY}
+        change_language_response: ${RABBITMQ_CHANGE_LANGUAGE_RESPONSE_ROUTING_KEY}
+
         service_exception: ${RABBITMQ_SERVICE_EXCEPTION_ROUTING_KEY}
     queues:
       upsert_user_request: ${RABBITMQ_UPSERT_USER_REQUEST_QUEUE}
@@ -41,6 +44,9 @@ spring:
 
       add_coin_request: ${RABBITMQ_ADD_COIN_REQUEST_QUEUE}
       add_coin_response: ${RABBITMQ_ADD_COIN_RESPONSE_QUEUE}
+
+      change_language_request: ${RABBITMQ_CHANGE_LANGUAGE_REQUEST_QUEUE}
+      change_language_response: ${RABBITMQ_CHANGE_LANGUAGE_RESPONSE_QUEUE}
 
       service_exception: ${RABBITMQ_SERVICE_EXCEPTION_QUEUE}
 
@@ -182,14 +188,32 @@ menu:
 
   settings:
     name: "${menu.action.prefix}settings_menu"
+    title:
+      ru: "Ваши настройки:"
+      en: "Your settings:"
+    sections:
+      ru: "${menu.sections_config.settings_menu.ru}"
+      en: "${menu.sections_config.settings_menu.en}"
+    max_buttons_per_row: 1
+
+  language_change:
+    name: "${menu.action.prefix}language_change_menu"
+    title:
+      ru: "Выбранный язык: 🇷🇺 RU"
+      en: "Selected language: 🇺🇸 EN"
+    sections:
+      ru: "${menu.sections_config.language_change.ru}"
+      en: "${menu.sections_config.language_change.en}"
+    max_buttons_per_row: 2
+    prefix: "${menu.action.prefix}language_"
 
   sections_config:
     main:
       ru: "${menu.coin_selection.name}:🪙 Монеты,${menu.alerts.name}:🔔 Оповещения,${menu.settings.name}:⚙ Настройки"
       en: "${menu.coin_selection.name}:🪙 Coins,${menu.alerts.name}:🔔 Alerts,${menu.settings.name}:⚙ Settings"
     coin_selection:
-      ru: "${menu.coin_selection.prefix.coin}BTC${menu.coin_selection.prefix.currency}:BTC,${menu.coin_selection.prefix.coin}ETH${menu.coin_selection.prefix.currency}:ETH,${menu.coin_selection.prefix.coin}DOGE${menu.coin_selection.prefix.currency}:DOGE,${menu.coin_selection.prefix.coin}USDT${menu.coin_selection.prefix.currency}:USDT,${menu.coin_selection.prefix.coin}XRP${menu.coin_selection.prefix.currency}:XRP,${menu.coin_selection.prefix.coin}SOL${menu.coin_selection.prefix.currency}:SOL,${menu.coin_selection.prefix.coin}AVAX${menu.coin_selection.prefix.currency}:AVAX,${menu.coin_selection.prefix.coin}LINK${menu.coin_selection.prefix.currency}:LINK,${menu.action.display_edit_coin_sections_menu}:🛠️ Редактировать монеты,${menu.action.back}:↩️ Назад"
-      en: "${menu.coin_selection.prefix.coin}BTC${menu.coin_selection.prefix.currency}:BTC,${menu.coin_selection.prefix.coin}ETH${menu.coin_selection.prefix.currency}:ETH,${menu.coin_selection.prefix.coin}DOGE${menu.coin_selection.prefix.currency}:DOGE,${menu.coin_selection.prefix.coin}USDT${menu.coin_selection.prefix.currency}:USDT,${menu.coin_selection.prefix.coin}XRP${menu.coin_selection.prefix.currency}:XRP,${menu.coin_selection.prefix.coin}SOL${menu.coin_selection.prefix.currency}:SOL,${menu.coin_selection.prefix.coin}AVAX${menu.coin_selection.prefix.currency}:AVAX,${menu.coin_selection.prefix.coin}LINK${menu.coin_selection.prefix.currency}:LINK,${menu.action.display_edit_coin_sections_menu}:🛠️ Edit Coins,${menu.action.back}:↩️ Back"
+      ru: "${menu.action.display_edit_coin_sections_menu}:🛠️ Редактировать монеты,${menu.action.back}:↩️ Назад"
+      en: "${menu.action.display_edit_coin_sections_menu}:🛠️ Edit Coins,${menu.action.back}:↩️ Back"
 
     price_snapshot:
       ru: "${menu.price_snapshot.parameters.prefix}${menu.price_snapshot.parameters.last_price.name}:Текущая цена,${menu.price_snapshot.parameters.prefix}${menu.price_snapshot.parameters.highest_price_24h.name}:Макс. цена,${menu.price_snapshot.parameters.prefix}${menu.price_snapshot.parameters.lowest_price_24h.name}:Мин. цена,${menu.price_snapshot.parameters.prefix}${menu.price_snapshot.parameters.trading_volume.name}:Объём торгов,${menu.price_snapshot.parameters.prefix}${menu.price_snapshot.parameters.trading_volume_currency.name}:Объём торгов в валюте,${menu.action.back}:↩️ Назад"
@@ -207,6 +231,14 @@ menu:
       ru: "${menu.action.back}:↩️ Назад"
       en: "${menu.action.back}:↩️ Back"
 
+    settings_menu:
+      ru: "${menu.language_change.name}:Язык — 🇷🇺 RU,${menu.action.back}:↩️ Назад"
+      en: "${menu.language_change.name}:Language — 🇺🇸 EN,${menu.action.back}:↩️ Back"
+
+    language_change:
+      ru: "${menu.language_change.prefix}ru:RU 🇷🇺,${menu.language_change.prefix}en:EN 🇺🇸,${menu.action.back}:↩️ Назад"
+      en: "${menu.language_change.prefix}ru:RU 🇷🇺,${menu.language_change.prefix}en:EN 🇺🇸,${menu.action.back}:↩️ Back"
+
   answer_message:
     service_exception: ${ANSWER_LOG_MESSAGE_ON_SERVICE_EXCEPTION}
 
@@ -214,6 +246,8 @@ bot:
   token: ${TELEGRAM_BOT_TOKEN}
   command:
     display_main_menu: "/menu"
+    display_settings_menu: "/settings"
+    help: "/help"
     add_coin: "/add"
 
 api:

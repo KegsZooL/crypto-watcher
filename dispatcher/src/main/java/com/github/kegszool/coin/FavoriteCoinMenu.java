@@ -31,6 +31,6 @@ public abstract class FavoriteCoinMenu extends BaseMenu {
     @Override
     public boolean hasDataChanged(UserData userData) {
         List<FavoriteCoinDto> allCoins = getAllFavoriteCoins(userData.getUser());
-        return !allCoins.equals(userData.getFavoriteCoins());
+        return !allCoins.equals(userData.getFavoriteCoins()) || isLocaleChanged(userData);
     }
 }
