@@ -1,4 +1,4 @@
-package com.github.kegszool.language;
+package com.github.kegszool.language.messaging.response;
 
 import org.springframework.stereotype.Component;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

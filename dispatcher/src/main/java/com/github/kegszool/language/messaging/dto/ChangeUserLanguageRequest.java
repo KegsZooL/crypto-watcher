@@ -1,4 +1,4 @@
-package com.github.kegszool.language.dto;
+package com.github.kegszool.language.messaging.dto;
 
 import com.github.kegszool.user.dto.UserDto;
 
