@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.github.kegszool.language.MenuLanguageChanger;
 import com.github.kegszool.command.callback.CallbackCommand;
+
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
@@ -29,9 +30,6 @@ public class ChangeLanguageCommand extends CallbackCommand {
 
     @Override
     protected PartialBotApiMethod<?> handleCommand(CallbackQuery callbackQuery) {
-
-        changer.change();
-        return ;
+        return changer.change(callbackQuery);
     }
-
 }

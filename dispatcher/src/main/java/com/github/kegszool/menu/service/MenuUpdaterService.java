@@ -28,11 +28,15 @@ public class MenuUpdaterService {
     }
 
     public void updateMenus(UserData userData) {
-        localizationService.setCurrentLocale(userData.getUserPreference().interfaceLanguage());
         nameToMenu.values().forEach(menu -> {
             if (menu.hasDataChanged(userData)) {
                 menu.updateMenu(userData);
             }
         });
+        localizationService.setCurrentLocale(userData.getUserPreference().interfaceLanguage());
+    }
+
+    public void changeKeyboard(String config, String menuName) {
+        nameToMenu.get(menuName).changeMenuKeyboard(config);
     }
 }

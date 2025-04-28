@@ -23,8 +23,16 @@ public class LocalizationService {
         return localizationBuffer.get(menuName).getTitles().get(currentLocale);
     }
 
+    public String getTitleText(String menuName, String locale) {
+        return localizationBuffer.get(menuName).getTitles().get(locale);
+    }
+
     public String getSectionsConfig(String menuName) {
         return localizationBuffer.get(menuName).getSectionsConfig().get(currentLocale);
+    }
+
+    public String getSectionsConfig(String menuName, String locale) {
+        return localizationBuffer.get(menuName).getSectionsConfig().get(locale);
     }
 
     public String getAnswerMessage(String menuName) {

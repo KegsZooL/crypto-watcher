@@ -205,7 +205,7 @@ menu:
       ru: "${menu.sections_config.language_change.ru}"
       en: "${menu.sections_config.language_change.en}"
     max_buttons_per_row: 2
-    prefix: "${menu.action.prefix}language_"
+    prefix: "${menu.action.prefix}change_language_"
 
   sections_config:
     main:

@@ -30,10 +30,10 @@ public class MenuSectionService {
         return new LinkedHashMap<>(parseSectionConfig(sectionsConfig));
     }
 
-    public void update(LinkedHashMap<String, String> current, String sectionsConfig, boolean saveActionButton, String menuName) {
+    public void update(LinkedHashMap<String, String> current, String sectionsConfig, boolean saveActionButton, String menuName, String language) {
         LinkedHashMap<String, String> newSections = new LinkedHashMap<>();
         processSections(sectionsConfig, newSections);
-        updateSectionsWithActionPriority(newSections, current,  saveActionButton, menuName);
+        updateSectionsWithActionPriority(newSections, current,  saveActionButton, menuName, language);
     }
 
     private void processSections(String sectionsConfig, Map<String, String> sections) {
@@ -78,7 +78,8 @@ public class MenuSectionService {
             Map<String, String> sourceSections,
             Map<String, String> targetSections,
             boolean saveActionButton,
-            String menuName
+            String menuName,
+            String language
     ) {
         Map<String, String> result = new LinkedHashMap<>();
 
@@ -88,7 +89,7 @@ public class MenuSectionService {
             }
         });
 
-        Map<String, String> localizedSections = parseSectionConfig(localizationService.getSectionsConfig(menuName));
+        Map<String, String> localizedSections = parseSectionConfig(localizationService.getSectionsConfig(menuName, language));
 
         if (saveActionButton) {
             targetSections.forEach((key, value) -> {

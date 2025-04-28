@@ -68,6 +68,12 @@ public class MessageUtils {
         return createEditMessage(query, localizedTitle, menu.getKeyboardMarkup());
     }
 
+    public EditMessageText createEditMessageByMenuNameWithLocale(CallbackQuery query, String menuName, String locale) {
+        Menu menu = menuRegistry.getMenu(menuName);
+        String localizedTitle = localizationService.getTitleText(menuName, locale);
+        return createEditMessage(query, localizedTitle, menu.getKeyboardMarkup());
+    }
+
     public EditMessageText createEditMessageByMenuName(CallbackQuery query, String title, String menuName) {
         Menu menu = menuRegistry.getMenu(menuName);
         return createEditMessage(query, title, menu.getKeyboardMarkup());

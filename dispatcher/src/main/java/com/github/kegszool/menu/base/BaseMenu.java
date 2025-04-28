@@ -51,7 +51,8 @@ public abstract class BaseMenu implements Menu {
         if (sectionBuilder != null) {
             newConfig = sectionBuilder.buildSectionsConfig(userData);
         }
-        sectionService.update(SECTIONS, newConfig, true, getName());
+        String actualLanguage = userData.getUserPreference().interfaceLanguage();
+        sectionService.update(SECTIONS, newConfig, true, getName(), actualLanguage);
         menuKeyboard = keyboardFactory.create(SECTIONS, getMaxButtonsPerRow(), getFullWidthSections());
     }
 
@@ -69,5 +70,10 @@ public abstract class BaseMenu implements Menu {
     @Override
     public InlineKeyboardMarkup getKeyboardMarkup() {
         return menuKeyboard;
+    }
+
+    public void changeMenuKeyboard(String sectionsConfig) {
+        SECTIONS = sectionService.createSections(sectionsConfig);
+        menuKeyboard = keyboardFactory.create(SECTIONS, getMaxButtonsPerRow(), getFullWidthSections());
     }
 }

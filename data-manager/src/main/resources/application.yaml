@@ -20,6 +20,9 @@ spring:
         add_favorite_coin:
           response: ${RABBITMQ_ADD_COIN_RESPONSE_ROUTING_KEY}
 
+        change_language:
+          response: ${RABBITMQ_CHANGE_LANGUAGE_RESPONSE_ROUTING_KEY}
+
         service_exception: ${RABBITMQ_SERVICE_EXCEPTION_ROUTING_KEY}
     queues:
       upsert_user:
@@ -30,6 +33,9 @@ spring:
 
       add_favorite_coin:
         request: ${RABBITMQ_ADD_COIN_REQUEST_QUEUE}
+
+      change_language:
+        request: ${RABBITMQ_CHANGE_LANGUAGE_REQUEST_QUEUE}
 
 
 
