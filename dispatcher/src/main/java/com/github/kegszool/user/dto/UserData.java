@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 
 import java.util.List;
 import com.github.kegszool.coin.dto.FavoriteCoinDto;
-import com.github.kegszool.notification.NotificationDto;
+import com.github.kegszool.notification.dto.NotificationDto;
 
 @Getter
 @Setter

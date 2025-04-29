@@ -13,14 +13,19 @@ spring:
         coin_price_response: ${RABBITMQ_COIN_PRICE_RESPONSE_ROUTING_KEY}
         check_coin_exists_response: ${RABBITMQ_CHECK_COIN_EXISTS_RESPONSE_ROUTING_KEY}
         service_exception: ${RABBITMQ_SERVICE_EXCEPTION_ROUTING_KEY}
+        create_notification_response: ${RABBITMQ_CREATE_NOTIFICATION_RESPONSE_ROUTING_KEY}
+        delete_notification_response: ${RABBITMQ_DELETE_NOTIFICATION_RESPONSE_ROUTING_KEY}
     queues:
       coin_price_request: ${RABBITMQ_COIN_PRICE_REQUEST_QUEUE}
       check_coin_exists_request: ${RABBITMQ_CHECK_COIN_EXISTS_REQUEST_QUEUE}
+      create_notification_request: ${RABBITMQ_CREATE_NOTIFICATION_REQUEST_QUEUE}
+      delete_notification_response: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_QUEUE}
 
 api:
   exchange:
     url:
       base: ${BASE_API_EXCHANGE_URL}
+      websocket: ${WS_URL}
       market:
         base: ${MARKET_API_EXCHANGE_URL}
         instruments: ${MARKET_INSTRUMENTS_API_EXCHANGE_URL}

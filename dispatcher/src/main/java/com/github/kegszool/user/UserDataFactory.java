@@ -9,7 +9,7 @@ import com.github.kegszool.user.dto.UserData;
 import com.github.kegszool.user.dto.UserPreferenceDto;
 
 import com.github.kegszool.coin.dto.FavoriteCoinDto;
-import com.github.kegszool.notification.NotificationDto;
+import com.github.kegszool.notification.dto.NotificationDto;
 import com.github.kegszool.localization.LocalizationService;
 
 @Component

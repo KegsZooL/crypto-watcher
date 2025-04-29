@@ -1,8 +1,9 @@
 package com.github.kegszool.coin.deletion;
 
-import com.github.kegszool.coin.FavoriteCoinMenu;
+import com.github.kegszool.coin.selection.menu.BaseCoinMenu;
+import com.github.kegszool.coin.deletion.service.FavoriteCoinDeletionService;
 import com.github.kegszool.coin.deletion.util.CoinDeletionUserDataFactory;
-import com.github.kegszool.coin.selection.state.MenuSelectionBuffer;
+import com.github.kegszool.coin.selection.util.state.MenuSelectionBuffer;
 import com.github.kegszool.menu.base.Menu;
 import com.github.kegszool.menu.service.MenuRegistry;
 import com.github.kegszool.menu.service.MenuUpdaterService;
@@ -38,7 +39,7 @@ class FavoriteCoinDeletionServiceTest {
     @Mock private RequestProducerService requestProducerService;
     @Mock private CoinDeletionUserDataFactory coinDeletionUserDataFactory;
     @Mock private MenuRegistry menuRegistry;
-    @Mock private FavoriteCoinMenu favoriteCoinMenu;
+    @Mock private BaseCoinMenu baseCoinMenu;
 
     @InjectMocks
     private FavoriteCoinDeletionService service;
@@ -73,7 +74,7 @@ class FavoriteCoinDeletionServiceTest {
         when(menuSelectionBuffer.getSelected(any())).thenReturn(selectedButtons);
         when(coinDeletionUserDataFactory.createFromSelected(callbackQuery, selectedButtons))
                 .thenReturn(deletionUserData);
-        when(menuRegistry.getMenu(any())).thenReturn(favoriteCoinMenu);
+        when(menuRegistry.getMenu(any())).thenReturn(baseCoinMenu);
 
         List<FavoriteCoinDto> allCoins = List.of(
                 new FavoriteCoinDto(userDto, new CoinDto("BTC")),
@@ -81,7 +82,7 @@ class FavoriteCoinDeletionServiceTest {
                 new FavoriteCoinDto(userDto, new CoinDto("ADA"))
         );
 
-        when(favoriteCoinMenu.getAllFavoriteCoins(userDto)).thenReturn(allCoins);
+        when(baseCoinMenu.getAllFavoriteCoins(userDto)).thenReturn(allCoins);
 
         service.deleteSelectedCoins(callbackQuery);
 

@@ -1,31 +1,29 @@
-package com.github.kegszool.settings;
+package com.github.kegszool.coin.deletion.command.base;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.github.kegszool.messaging.util.MessageUtils;
 import com.github.kegszool.command.callback.CallbackCommand;
-
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
 @Component
-public class DisplaySettingsMenu extends CallbackCommand {
+public class DisplayCoinDeletionMenu extends CallbackCommand {
 
+    private final String command;
     private final String menuName;
-    private final MessageUtils messageUtils;
 
-    public DisplaySettingsMenu(
-            @Value("${menu.settings.name}") String menuName,
-            MessageUtils messageUtils
+    public DisplayCoinDeletionMenu(
+            @Value("${menu.action.delete_coins}") String command,
+            @Value("${menu.coin_deletion_menu.name}") String menuName
     ) {
+        this.command = command;
         this.menuName = menuName;
-        this.messageUtils = messageUtils;
     }
 
     @Override
     protected boolean canHandleCommand(String command) {
-        return menuName.equals(command);
+        return this.command.equals(command);
     }
 
     @Override

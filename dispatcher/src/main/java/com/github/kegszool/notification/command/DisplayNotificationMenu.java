@@ -1,22 +1,23 @@
-package com.github.kegszool.settings;
+package com.github.kegszool.notification.command;
 
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.github.kegszool.messaging.util.MessageUtils;
 import com.github.kegszool.command.callback.CallbackCommand;
-
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
 @Component
-public class DisplaySettingsMenu extends CallbackCommand {
+public class DisplayNotificationMenu extends CallbackCommand {
 
     private final String menuName;
     private final MessageUtils messageUtils;
 
-    public DisplaySettingsMenu(
-            @Value("${menu.settings.name}") String menuName,
+    @Autowired
+    public DisplayNotificationMenu(
+            @Value("${menu.notification.name}") String menuName,
             MessageUtils messageUtils
     ) {
         this.menuName = menuName;
@@ -25,7 +26,7 @@ public class DisplaySettingsMenu extends CallbackCommand {
 
     @Override
     protected boolean canHandleCommand(String command) {
-        return menuName.equals(command);
+        return menuName.startsWith(command);
     }
 
     @Override

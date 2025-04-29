@@ -1,5 +1,6 @@
 package com.github.kegszool.coin.deletion.command;
 
+import com.github.kegszool.coin.deletion.command.base.DisplayCoinDeletionMenu;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -3,6 +3,7 @@ package com.github.kegszool.coin.deletion.command;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
+import com.github.kegszool.coin.deletion.command.base.ConfirmCoinDeletionCommand;
 import org.mockito.Mock;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,7 +12,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
-import com.github.kegszool.coin.deletion.handler.ConfirmCoinDeletionCommandHandler;
 
 @ExtendWith(MockitoExtension.class)
 class ConfirmCoinDeletionCommandTest {

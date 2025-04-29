@@ -28,6 +28,12 @@ spring:
         change_language_request: ${RABBITMQ_CHANGE_LANGUAGE_REQUEST_ROUTING_KEY}
         change_language_response: ${RABBITMQ_CHANGE_LANGUAGE_RESPONSE_ROUTING_KEY}
 
+        create_notification_request: ${RABBITMQ_CREATE_NOTIFICATION_REQUEST_ROUTING_KEY}
+        create_notification_response: ${RABBITMQ_CREATE_NOTIFICATION_RESPONSE_ROUTING_KEY}
+
+        delete_notification_request: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_ROUTING_KEY}
+        delete_notification_response: ${RABBITMQ_DELETE_NOTIFICATION_RESPONSE_ROUTING_KEY}
+
         service_exception: ${RABBITMQ_SERVICE_EXCEPTION_ROUTING_KEY}
     queues:
       upsert_user_request: ${RABBITMQ_UPSERT_USER_REQUEST_QUEUE}
@@ -48,6 +54,12 @@ spring:
       change_language_request: ${RABBITMQ_CHANGE_LANGUAGE_REQUEST_QUEUE}
       change_language_response: ${RABBITMQ_CHANGE_LANGUAGE_RESPONSE_QUEUE}
 
+      create_notification_request: ${RABBITMQ_CREATE_NOTIFICATION_REQUEST_QUEUE}
+      create_notification_response: ${RABBITMQ_CREATE_NOTIFICATION_RESPONSE_QUEUE}
+
+      delete_notification_request: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_QUEUE}
+      delete_notification_response: ${RABBITMQ_DELETE_NOTIFICATION_RESPONSE_QUEUE}
+
       service_exception: ${RABBITMQ_SERVICE_EXCEPTION_QUEUE}
 
 menu:
@@ -59,6 +71,8 @@ menu:
     add_coin: ${menu.action.prefix}add_coin
     delete_selected: ${menu.action.prefix}delete_selected
     noop_prefix: noop_
+    create_one_time_notification: ${menu.action.prefix}create_one_time_notification
+    create_recurring_notification: ${menu.action.prefix}create_recurring_notification
 
   main:
     name: main_menu
@@ -183,8 +197,35 @@ menu:
           ru: "Общий объём торгов в валюте за последние 24 часа"
           en: "Total trading volume in currency over the last 24 hours"
 
-  alerts:
-    name: "${menu.action.prefix}alerts_menu"
+  notification:
+    name: "${menu.action.prefix}notification_menu"
+    title:
+      ru: "Ваши уведомления:"
+      en: "Your notifications:"
+    sections:
+      ru: "${menu.sections_config.notification.ru}"
+      en: "${menu.sections_config.notification.en}"
+    max_buttons_per_row: 2
+
+  notification_creation:
+    name: "${menu.action.prefix}creation_notification_menu"
+    title:
+      ru: "🔔 Выберите тип оповещения!\n\n• 🔂 Однократное — срабатывает один раз при достижении заданного уровня.\n\n• 🔁 Повторяемое — реагирует каждый раз, когда цена пересекает вашу отметку."
+      en: "🔔 Choose the type of notification!\n\n• 🔂 One-time — triggers once when the set level is reached.\n\n• 🔁 Recurring — triggered every time the price crosses your specified level."
+    sections:
+      ru: "${menu.sections_config.notification_creation.ru}"
+      en: "${menu.sections_config.notification_creation.en}"
+    max_buttons_per_row: 2
+
+  notification_deletion:
+    name: "${menu.action.prefix}deletion_notification_menu"
+    title:
+      ru: "🗑 Удаление оdeletionповещения\n\nНажмите на оповещение, которое хотите удалить — оно исчезнет сразу же."
+      en: "🗑 Delete Notification\n\nTap the alert you want to remove — it will be deleted instantly."
+    sections:
+      ru: "${menu.sections_config.notification_deletion.ru}"
+      en: "${menu.sections_config.notification_deletion.en}"
+    max_buttons_per_row: 2
 
   settings:
     name: "${menu.action.prefix}settings_menu"
@@ -209,8 +250,8 @@ menu:
 
   sections_config:
     main:
-      ru: "${menu.coin_selection.name}:🪙 Монеты,${menu.alerts.name}:🔔 Оповещения,${menu.settings.name}:⚙ Настройки"
-      en: "${menu.coin_selection.name}:🪙 Coins,${menu.alerts.name}:🔔 Alerts,${menu.settings.name}:⚙ Settings"
+      ru: "${menu.coin_selection.name}:🪙 Монеты,${menu.notification.name}:🔔 Оповещения,${menu.settings.name}:⚙ Настройки"
+      en: "${menu.coin_selection.name}:🪙 Coins,${menu.notification.name}:🔔 Alerts,${menu.settings.name}:⚙ Settings"
     coin_selection:
       ru: "${menu.action.display_edit_coin_sections_menu}:🛠️ Редактировать монеты,${menu.action.back}:↩️ Назад"
       en: "${menu.action.display_edit_coin_sections_menu}:🛠️ Edit Coins,${menu.action.back}:↩️ Back"
@@ -239,6 +280,18 @@ menu:
       ru: "${menu.language_change.prefix}ru:RU 🇷🇺,${menu.language_change.prefix}en:EN 🇺🇸,${menu.action.back}:↩️ Назад"
       en: "${menu.language_change.prefix}ru:RU 🇷🇺,${menu.language_change.prefix}en:EN 🇺🇸,${menu.action.back}:↩️ Back"
 
+    notification:
+      ru: "${menu.notification_creation.name}:Создать,${menu.notification_deletion.name}:Удалить,${menu.action.back}:↩️ Назад"
+      en: "${menu.notification_creation.name}:Add,${menu.notification_deletion.name}:Delete,${menu.action.back}:↩️ Back"
+
+    notification_creation:
+      ru: "${menu.action.create_one_time_notification}:Однократное,${menu.action.create_recurring_notification}:Повторяемое,${menu.action.back}:↩️ Назад"
+      en: "${menu.action.create_one_time_notification}:One-time,${menu.action.create_recurring_notification}:Recurring,${menu.action.back}:↩️ Back"
+
+    notification_deletion:
+      ru: "${menu.action.back}:↩️ Назад"
+      en: "${menu.action.back}:↩️ Back"
+
   answer_message:
     service_exception: ${ANSWER_LOG_MESSAGE_ON_SERVICE_EXCEPTION}
 
@@ -247,6 +300,7 @@ bot:
   command:
     display_main_menu: "/menu"
     display_settings_menu: "/settings"
+    display_notification_menu: "/not"
     help: "/help"
     add_coin: "/add"
 

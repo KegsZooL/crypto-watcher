@@ -8,7 +8,7 @@ import java.util.stream.Collectors;
 import com.github.kegszool.coin.dto.CoinDto;
 import com.github.kegszool.user.dto.UserData;
 import com.github.kegszool.menu.util.SectionBuilder;
-import com.github.kegszool.coin.selection.state.MenuSelectionBuffer;
+import com.github.kegszool.coin.selection.util.state.MenuSelectionBuffer;
 
 @Component
 public class CoinDeletionSectionBuilder implements SectionBuilder {

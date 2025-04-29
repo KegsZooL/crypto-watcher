@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Optional;
 
-import com.github.kegszool.localization.menu.BaseMenuLocalization;
 import com.github.kegszool.localization.exception.MenuLocalizationNotFoundException;
 
 @Log4j2

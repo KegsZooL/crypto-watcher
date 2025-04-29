@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import com.github.kegszool.menu.base.Menu;
 import com.github.kegszool.messaging.util.MessageUtils;
 
-import com.github.kegszool.coin.selection.state.MenuSelectionBuffer;
-import com.github.kegszool.coin.selection.state.updater.SelectionDataUpdater;
+import com.github.kegszool.coin.selection.util.state.MenuSelectionBuffer;
+import com.github.kegszool.coin.selection.util.state.updater.SelectionDataUpdater;
 import com.github.kegszool.coin.selection.exception.SelectionButtonNotFoundException;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;

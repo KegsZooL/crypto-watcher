@@ -1,5 +1,6 @@
 package com.github.kegszool.messaging.config;
 
+import java.util.Map;
 import org.springframework.context.annotation.Bean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -10,7 +11,7 @@ import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.DirectExchange;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 
-import java.util.Map;
+//TODO: разбить на несколько сущностей + добавить создание/удаление оповещений
 
 @Configuration
 public class RabbitConfiguration {

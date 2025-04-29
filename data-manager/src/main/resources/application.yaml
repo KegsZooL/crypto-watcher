@@ -23,6 +23,12 @@ spring:
         change_language:
           response: ${RABBITMQ_CHANGE_LANGUAGE_RESPONSE_ROUTING_KEY}
 
+        create_notification:
+          response: ${RABBITMQ_CREATE_NOTIFICATION_RESPONSE_ROUTING_KEY}
+
+        delete_notification:
+          response: ${RABBITMQ_DELETE_NOTIFICATION_RESPONSE_ROUTING_KEY}
+
         service_exception: ${RABBITMQ_SERVICE_EXCEPTION_ROUTING_KEY}
     queues:
       upsert_user:
@@ -37,7 +43,11 @@ spring:
       change_language:
         request: ${RABBITMQ_CHANGE_LANGUAGE_REQUEST_QUEUE}
 
+      create_notification:
+        request: ${RABBITMQ_CREATE_NOTIFICATION_REQUEST_QUEUE}
 
+      delete_notification:
+        request: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_QUEUE}
 
   datasource:
     url: ${DATABASE_URL}
