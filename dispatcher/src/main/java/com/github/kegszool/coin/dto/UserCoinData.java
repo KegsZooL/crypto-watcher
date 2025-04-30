@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 import java.util.List;
-import com.github.kegszool.user.dto.UserDto;
+import com.github.kegszool.user.messaging.dto.UserDto;
 
 @Getter
 @Setter

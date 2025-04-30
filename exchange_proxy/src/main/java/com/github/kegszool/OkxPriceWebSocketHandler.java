@@ -2,7 +2,7 @@ package com.github.kegszool;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.kegszool.messaging.dto.command_entity.Direction;
-import com.github.kegszool.messaging.dto.command_entity.NotificationDto;
+//import com.github.kegszool.messaging.dto.command_entity.NotificationDto;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -173,20 +173,20 @@ public class OkxPriceWebSocketHandler extends TextWebSocketHandler {
 //        }
     }
 
-    private boolean shouldNotify(NotificationDto notification, BigDecimal currentPrice) {
-        BigDecimal targetPrice = notification.getTargetPrice();
-        Direction direction = notification.getDirection();
-
-        if (targetPrice != null) {
-            switch (direction) {
-                case Up:
-                    return currentPrice.compareTo(targetPrice) >= 0;
-                case Down:
-                    return currentPrice.compareTo(targetPrice) <= 0;
-                default:
-                    return currentPrice.compareTo(targetPrice) == 0;
-            }
-        }
-        return false;
-    }
+//    private boolean shouldNotify(NotificationDto notification, BigDecimal currentPrice) {
+//        BigDecimal targetPrice = notification.getTargetPrice();
+//        Direction direction = notification.getDirection();
+//
+//        if (targetPrice != null) {
+//            switch (direction) {
+//                case Up:
+//                    return currentPrice.compareTo(targetPrice) >= 0;
+//                case Down:
+//                    return currentPrice.compareTo(targetPrice) <= 0;
+//                default:
+//                    return currentPrice.compareTo(targetPrice) == 0;
+//            }
+//        }
+//        return false;
+//    }
 }

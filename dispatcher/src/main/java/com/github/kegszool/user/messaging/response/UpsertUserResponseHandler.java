@@ -1,13 +1,13 @@
-package com.github.kegszool.user.response;
+package com.github.kegszool.user.messaging.response;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.user.dto.UserDto;
-import com.github.kegszool.user.dto.UserData;
-import com.github.kegszool.user.dto.UpsertUserResponse;
+import com.github.kegszool.user.messaging.dto.UserDto;
+import com.github.kegszool.user.messaging.dto.UserData;
+import com.github.kegszool.user.messaging.dto.UpsertUserResponse;
 import com.github.kegszool.menu.service.MenuUpdaterService;
 
 import com.github.kegszool.messaging.dto.HandlerResult;

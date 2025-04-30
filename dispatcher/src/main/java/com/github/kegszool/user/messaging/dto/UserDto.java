@@ -1,4 +1,4 @@
-package com.github.kegszool.user.dto;
+package com.github.kegszool.user.messaging.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import lombok.AllArgsConstructor;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UpsertUserResponse {
-    private boolean success;
-    private UserData userData;
+public class UserDto {
+    private Long telegramId;
+    private String firstName, lastName;
 }

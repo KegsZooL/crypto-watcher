@@ -1,7 +1,7 @@
 package com.github.kegszool.notification.menu.deletion;
 
 import com.github.kegszool.menu.base.BaseMenu;
-import com.github.kegszool.user.dto.UserData;
+import com.github.kegszool.user.messaging.dto.UserData;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

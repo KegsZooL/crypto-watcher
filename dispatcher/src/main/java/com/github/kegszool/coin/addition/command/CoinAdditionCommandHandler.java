@@ -2,7 +2,7 @@ package com.github.kegszool.coin.addition.command;
 
 import org.springframework.stereotype.Component;
 
-import com.github.kegszool.user.dto.UserDto;
+import com.github.kegszool.user.messaging.dto.UserDto;
 import com.github.kegszool.coin.dto.UserCoinData;
 import com.github.kegszool.coin.addition.messaging.check_exists.CheckCoinExistsRequestProducer;
 

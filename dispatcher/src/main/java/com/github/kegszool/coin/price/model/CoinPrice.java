@@ -1,4 +1,4 @@
-package com.github.kegszool.coin.price;
+package com.github.kegszool.coin.price.model;
 
 import lombok.Getter;
 import lombok.Setter;

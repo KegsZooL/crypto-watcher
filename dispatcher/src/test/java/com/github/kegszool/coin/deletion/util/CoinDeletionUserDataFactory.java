@@ -1,6 +1,6 @@
 package com.github.kegszool.coin.deletion.util;
 
-import com.github.kegszool.user.dto.UserData;
+import com.github.kegszool.user.messaging.dto.UserData;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

@@ -2,7 +2,7 @@ package com.github.kegszool.coin.selection.util;
 
 import com.github.kegszool.menu.util.SectionBuilder;
 import com.github.kegszool.coin.dto.CoinDto;
-import com.github.kegszool.user.dto.UserData;
+import com.github.kegszool.user.messaging.dto.UserData;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

@@ -13,7 +13,7 @@ import com.github.kegszool.menu.util.SectionBuilder;
 import com.github.kegszool.menu.service.MenuUpdaterService;
 import com.github.kegszool.menu.service.MenuSectionService;
 
-import com.github.kegszool.user.dto.UserData;
+import com.github.kegszool.user.messaging.dto.UserData;
 import com.github.kegszool.menu.exception.base.MenuException;
 
 import com.github.kegszool.localization.LocalizationService;

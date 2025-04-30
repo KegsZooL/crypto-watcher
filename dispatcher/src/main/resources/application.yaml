@@ -220,7 +220,7 @@ menu:
   notification_deletion:
     name: "${menu.action.prefix}deletion_notification_menu"
     title:
-      ru: "🗑 Удаление оdeletionповещения\n\nНажмите на оповещение, которое хотите удалить — оно исчезнет сразу же."
+      ru: "🗑 Удаление оповещения\n\nНажмите на оповещение, которое хотите удалить — оно исчезнет сразу же."
       en: "🗑 Delete Notification\n\nTap the alert you want to remove — it will be deleted instantly."
     sections:
       ru: "${menu.sections_config.notification_deletion.ru}"

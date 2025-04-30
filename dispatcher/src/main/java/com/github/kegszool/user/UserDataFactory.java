@@ -4,12 +4,12 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.user.dto.UserDto;
-import com.github.kegszool.user.dto.UserData;
-import com.github.kegszool.user.dto.UserPreferenceDto;
+import com.github.kegszool.user.messaging.dto.UserDto;
+import com.github.kegszool.user.messaging.dto.UserData;
+import com.github.kegszool.user.messaging.dto.UserPreferenceDto;
 
 import com.github.kegszool.coin.dto.FavoriteCoinDto;
-import com.github.kegszool.notification.dto.NotificationDto;
+import com.github.kegszool.notification.messaging.dto.NotificationDto;
 import com.github.kegszool.localization.LocalizationService;
 
 @Component

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.util.stream.Collectors;
-import com.github.kegszool.user.dto.UserData;
+import com.github.kegszool.user.messaging.dto.UserData;
 import com.github.kegszool.menu.util.SectionBuilder;
 
 @Component

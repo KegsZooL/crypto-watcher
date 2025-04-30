@@ -1,4 +1,4 @@
-package com.github.kegszool.user.dto;
+package com.github.kegszool.user.messaging.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,7 @@ import lombok.AllArgsConstructor;
 
 import java.util.List;
 import com.github.kegszool.coin.dto.FavoriteCoinDto;
-import com.github.kegszool.notification.dto.NotificationDto;
+import com.github.kegszool.notification.messaging.dto.NotificationDto;
 
 @Getter
 @Setter

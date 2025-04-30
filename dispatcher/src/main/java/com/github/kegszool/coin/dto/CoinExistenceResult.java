@@ -1,6 +1,6 @@
 package com.github.kegszool.coin.dto;
 
-import com.github.kegszool.user.dto.UserDto;
+import com.github.kegszool.user.messaging.dto.UserDto;
 
 import java.util.List;
 

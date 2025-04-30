@@ -13,8 +13,8 @@ import com.github.kegszool.menu.base.Menu;
 import com.github.kegszool.menu.service.MenuRegistry;
 import com.github.kegszool.menu.service.MenuUpdaterService;
 
-import com.github.kegszool.user.dto.UserDto;
-import com.github.kegszool.user.dto.UserData;
+import com.github.kegszool.user.messaging.dto.UserDto;
+import com.github.kegszool.user.messaging.dto.UserData;
 import com.github.kegszool.user.UserDataFactory;
 
 import com.github.kegszool.messaging.dto.service.ServiceMessage;

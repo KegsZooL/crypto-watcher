@@ -1,5 +1,6 @@
-package com.github.kegszool.coin.price;
+package com.github.kegszool.coin.price.messaging;
 
+import com.github.kegszool.coin.price.model.CoinPrice;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

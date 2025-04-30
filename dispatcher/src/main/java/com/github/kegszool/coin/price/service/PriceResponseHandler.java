@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.coin.price.CoinPrice;
+import com.github.kegszool.coin.price.model.CoinPrice;
 import com.github.kegszool.coin.price.model.PriceBuffer;
 
 import com.github.kegszool.messaging.dto.HandlerResult;

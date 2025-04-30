@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.kegszool.coin.dto.CoinDto;
 import com.github.kegszool.coin.dto.FavoriteCoinDto;
 
-import com.github.kegszool.user.dto.UserDto;
-import com.github.kegszool.user.dto.UserData;
+import com.github.kegszool.user.messaging.dto.UserDto;
+import com.github.kegszool.user.messaging.dto.UserData;
 import com.github.kegszool.user.UserDataFactory;
 
 import org.telegram.telegrambots.meta.api.objects.User;
