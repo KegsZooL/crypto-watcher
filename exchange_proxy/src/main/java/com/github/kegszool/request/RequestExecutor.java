@@ -1,4 +1,4 @@
-package com.github.kegszool.request_executor;
+package com.github.kegszool.request;
 
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 

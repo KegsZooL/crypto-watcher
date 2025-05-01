@@ -1,4 +1,4 @@
-package com.github.kegszool.request_executor;
+package com.github.kegszool.request;
 
 import com.github.kegszool.rest.RestCryptoController;
 import com.github.kegszool.utils.JsonParser;

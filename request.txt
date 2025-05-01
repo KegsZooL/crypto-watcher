@@ -1,0 +1,175 @@
+Как мне грамотно реализовать создание запроса на уведомления для монеты в двух случаях:
+
+1. Когда пользователь вручную вводит команду, например /not BTC +10%
+2. Когда пользователь добавляет уведомление через секции меню.
+
+В пером случаи необходимо как минимум расписать валидацию команды. Во втором случаии, как минимум,
+надо парсить callback data секции, в которой после префикса not_coin_ идет название монеты (например not_coin_BTC).
+
+Так же, для второго случая необходимо хранить выбранную монету в какой-то сущности (желательно потокобезопасно), т.к. после того как пользователь выбирает монету
+отрисовывается меню set_notification_menu, в котором уже другие callback данные. set_notification_menu подсказывает пользоватлю
+как задать targetPercentage - "Укажите, при каком процентном изменении цены вы хотите получать уведомление для монеты %s. Например: +10% или -0.5%".
+
+Нужна сущность для создания самого NotificatioDto, сущность обрабатывающая команды начинающие на +% или -% (должная наследоватся от TextCommand).
+Желательно все операции объединить в одном обработчкие NotificationHandler. При успешном создании запроса на создание уведомления необходимо отправлять отвемное сообщение,
+если пользователь ввел некорректную структуру команды, то так же должно отправлять отвеное сообщнеие. Логикой отправкой ответного сообщения должна заниматься отдельная сущность.
+
+@Component
+public class NotificationHandler {
+
+    private final CreateNotificationRequestSender requestSender;
+    private final NotificationTypeBuffer typeBuffer;
+    private final NotificationAnswerMessageBuilder messageBuilder;
+    private final NotificationCommandValidator commandValidator;
+
+    @Autowired
+    public NotificationHandler(
+            CreateNotificationRequestSender requestSender,
+            NotificationTypeBuffer typeBuffer,
+            NotificationAnswerMessageBuilder messageBuilder,
+            NotificationCommandValidator commandValidator
+    ) {
+        this.requestSender = requestSender;
+        this.typeBuffer = typeBuffer;
+        this.messageBuilder = messageBuilder;
+        this.commandValidator = commandValidator;
+    }
+
+    public SendMessage create(Message message) {
+        if (commandValidator.isValid(message.getText())) {
+//            requestSender.send();
+            return messageBuilder.createSuccessMessage();
+        }
+        return messageBuilder.createErrorMessage();
+    }
+
+    public SendMessage delete(Update data) {
+        return null;
+    }
+}
+
+
+@Component
+public class NotificationCommandValidator {
+
+    public boolean isValid(String command) {
+        return false;
+    }
+}
+
+@Component
+public class DisplaySetCoinNotificationMenu extends CallbackCommand {
+
+    private final String menuName;
+    private final String command;
+    private final MessageUtils messageUtils;
+
+    @Autowired
+    public DisplaySetCoinNotificationMenu(
+            @Value("${menu.set_coin_notification.name}") String menuName,
+            @Value("${menu.select_coin_notification.prefix}") String command,
+            MessageUtils messageUtils
+    ) {
+        this.menuName = menuName;
+        this.command = command;
+        this.messageUtils = messageUtils;
+    }
+
+    @Override
+    protected boolean canHandleCommand(String command) {
+        return command.startsWith(this.command);
+    }
+
+    @Override
+    protected PartialBotApiMethod<?> handleCommand(CallbackQuery entity) {
+        return messageUtils.recordAndCreateEditMessageByMenuName(entity, menuName);
+    }
+}
+
+
+@Component
+public class CreateNotificationRequestSender {
+
+    private final String routingKey;
+    private final RequestProducerService requestProducer;
+
+    @Autowired
+    public CreateNotificationRequestSender(
+            @Value("${spring.rabbitmq.template.routing-key.create_notification_request}") String routingKey,
+            RequestProducerService requestProducer
+    ) {
+        this.routingKey = routingKey;
+        this.requestProducer = requestProducer;
+    }
+
+    public void send(NotificationDto notificationDto ) {
+        ServiceMessage<Notification> request = new ServiceMessage();
+//        requestProducer.produce(routingKey, );
+    }
+}
+
+
+@Component
+public class NotificationTypeBuffer {
+
+    private final Map<Long, Boolean> buffer = new ConcurrentHashMap<>();
+
+    public void setType(long chatId, boolean isRecurring) {
+        buffer.put(chatId, isRecurring);
+    }
+
+    public Optional<Boolean> getType(long chatId) {
+        return Optional.ofNullable(buffer.get(chatId));
+    }
+
+    public void clear(long chatId) {
+        buffer.remove(chatId);
+    }
+}
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class NotificationDto {
+
+    private UserDto user;
+    private CoinDto coin;
+
+    private boolean isActive = true, isRecurring;
+    private BigDecimal targetPercentage;
+
+    private Direction direction;
+}
+
+Пример сущности реализующей TextCommand:
+@Component
+public class DisplayMainMenuCommand extends TextCommand {
+
+    private final String menuName;
+    private final String command;
+    private final MessageUtils messageUtils;
+
+    @Autowired
+    public DisplayMainMenuCommand(
+            @Value("${menu.main.name}") String menuName,
+            @Value("${bot.command.display_main_menu}") String command,
+            MessageUtils messageUtils
+    ) {
+        this.menuName = menuName;
+        this.command = command;
+        this.messageUtils = messageUtils;
+    }
+
+    @Override
+    protected boolean canHandleCommand(String command) {
+        return this.command.equals(command);
+    }
+
+    @Override
+    protected PartialBotApiMethod<?> handleCommand(Update update) {
+        String chatId = messageUtils.extractChatId(update);
+        return messageUtils.recordAndCreateMessageByMenuName(chatId, menuName);
+    }
+}
+

@@ -11,7 +11,7 @@ import com.github.kegszool.messaging.dto.command_entity.UserCoinData;
 import com.github.kegszool.messaging.producer.ResponseProducerService;
 
 import org.springframework.amqp.support.AmqpHeaders;
-import com.github.kegszool.request_executor.impl.AddFavoriteCoinExecutor;
+import com.github.kegszool.request.impl.AddFavoriteCoinExecutor;
 
 @Component
 public class AddFavoriteCoinConsumer extends BaseRequestConsumer<UserCoinData, AddFavoriteCoinExecutor> {

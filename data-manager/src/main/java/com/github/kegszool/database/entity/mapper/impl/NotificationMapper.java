@@ -24,7 +24,6 @@ public class NotificationMapper extends EntityMapper<Notification, NotificationD
                 coinMapper.toEntity(notificationDto.getCoin()),
                 notificationDto.isActive(),
                 notificationDto.isRecurring(),
-                notificationDto.getTargetPrice(),
                 notificationDto.getTargetPercentage(),
                 notificationDto.getDirection()
         );
@@ -37,7 +36,6 @@ public class NotificationMapper extends EntityMapper<Notification, NotificationD
                 coinMapper.toDto(notification.getCoin()),
                 notification.isActive(),
                 notification.isRecurring(),
-                notification.getTargetPrice(),
                 notification.getTargetPercentage(),
                 notification.getDirection()
         );

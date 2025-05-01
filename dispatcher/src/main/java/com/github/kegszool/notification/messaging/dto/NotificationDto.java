@@ -19,7 +19,7 @@ public class NotificationDto {
     private CoinDto coin;
 
     private boolean isActive = true, isRecurring;
-    private BigDecimal targetPrice, targetPercentage;
+    private BigDecimal targetPercentage;
 
     private Direction direction;
 }

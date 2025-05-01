@@ -19,7 +19,7 @@ spring:
       coin_price_request: ${RABBITMQ_COIN_PRICE_REQUEST_QUEUE}
       check_coin_exists_request: ${RABBITMQ_CHECK_COIN_EXISTS_REQUEST_QUEUE}
       create_notification_request: ${RABBITMQ_CREATE_NOTIFICATION_REQUEST_QUEUE}
-      delete_notification_response: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_QUEUE}
+      delete_notification_request: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_QUEUE}
 
 api:
   exchange:

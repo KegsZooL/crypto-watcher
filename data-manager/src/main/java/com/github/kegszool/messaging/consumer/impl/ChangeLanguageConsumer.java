@@ -12,7 +12,7 @@ import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.dto.command_entity.ChangeUserLanguageRequest;
 
 import org.springframework.amqp.support.AmqpHeaders;
-import com.github.kegszool.request_executor.impl.ChangeLanguageExecutor;
+import com.github.kegszool.request.impl.ChangeLanguageExecutor;
 
 @Component
 public class ChangeLanguageConsumer extends BaseRequestConsumer<ChangeUserLanguageRequest, ChangeLanguageExecutor> {

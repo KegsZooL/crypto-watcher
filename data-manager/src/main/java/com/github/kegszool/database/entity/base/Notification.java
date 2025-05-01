@@ -33,9 +33,6 @@ public class Notification {
     @Column(name = "is_recurring", nullable = false)
     private boolean isRecurring;
 
-    @Column(name = "target_price", precision = 15, scale = 9)
-    private BigDecimal targetPrice;
-
     @Column(name = "target_percentage", precision = 4, scale = 2)
     private BigDecimal targetPercentage;
 
@@ -47,14 +44,13 @@ public class Notification {
             User user,
             Coin coin,
             boolean isActive, boolean isRecurring,
-            BigDecimal targetPrice, BigDecimal targetPercentage,
+            BigDecimal targetPercentage,
             Direction direction
     ) {
         this.user = user;
         this.coin = coin;
         this.isActive = isActive;
         this.isRecurring = isRecurring;
-        this.targetPrice = targetPrice;
         this.targetPercentage = targetPercentage;
         this.direction = direction;
     }

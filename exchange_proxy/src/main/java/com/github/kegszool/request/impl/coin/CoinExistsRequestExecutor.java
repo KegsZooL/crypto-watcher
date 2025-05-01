@@ -1,4 +1,4 @@
-package com.github.kegszool.request_executor.impl;
+package com.github.kegszool.request.impl.coin;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ import java.util.List;
 import com.github.kegszool.utils.JsonParser;
 import com.github.kegszool.rest.RestCryptoController;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.request_executor.BaseRequestExecutor;
+import com.github.kegszool.request.BaseRequestExecutor;
 import org.springframework.web.client.RestClientException;
 
 @Log4j2

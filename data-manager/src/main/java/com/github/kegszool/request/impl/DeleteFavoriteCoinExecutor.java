@@ -1,10 +1,10 @@
-package com.github.kegszool.request_executor.impl;
+package com.github.kegszool.request.impl;
 
 import com.github.kegszool.database.entity.base.User;
 import com.github.kegszool.exception.EntityNotFoundException;
 import com.github.kegszool.database.entity.service.impl.UserService;
 
-import com.github.kegszool.request_executor.RequestExecutor;
+import com.github.kegszool.request.RequestExecutor;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.dto.database_entity.UserDto;
 import com.github.kegszool.messaging.dto.database_entity.UserData;

@@ -10,7 +10,7 @@ import com.github.kegszool.messaging.consumer.BaseRequestConsumer;
 import com.github.kegszool.messaging.producer.ResponseProducerService;
 
 import org.springframework.amqp.support.AmqpHeaders;
-import com.github.kegszool.request_executor.impl.UpsertUserRequestExecutor;
+import com.github.kegszool.request.impl.UpsertUserRequestExecutor;
 
 @Component
 public class UpsertUserRequestConsumer extends BaseRequestConsumer<UserDto, UpsertUserRequestExecutor> {

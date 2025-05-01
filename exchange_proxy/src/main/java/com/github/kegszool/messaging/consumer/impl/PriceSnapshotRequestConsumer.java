@@ -3,7 +3,7 @@ package com.github.kegszool.messaging.consumer.impl;
 import com.github.kegszool.messaging.consumer.BaseRequestConsumer;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.producer.ResponseProducer;
-import com.github.kegszool.request_executor.impl.PriceSnapshotRequestExecutor;
+import com.github.kegszool.request.impl.coin.PriceSnapshotRequestExecutor;
 
 import org.springframework.amqp.support.AmqpHeaders;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

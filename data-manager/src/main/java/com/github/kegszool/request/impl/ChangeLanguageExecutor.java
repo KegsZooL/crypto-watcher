@@ -1,4 +1,4 @@
-package com.github.kegszool.request_executor.impl;
+package com.github.kegszool.request.impl;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,7 +9,7 @@ import com.github.kegszool.database.entity.service.impl.UserService;
 import com.github.kegszool.database.repository.impl.UserPreferenceRepository;
 
 import org.springframework.data.util.Pair;
-import com.github.kegszool.request_executor.RequestExecutor;
+import com.github.kegszool.request.RequestExecutor;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.dto.database_entity.UserDto;
 import com.github.kegszool.messaging.dto.database_entity.UserData;

@@ -10,7 +10,7 @@ import com.github.kegszool.messaging.consumer.BaseRequestConsumer;
 import com.github.kegszool.messaging.producer.ResponseProducerService;
 
 import org.springframework.amqp.support.AmqpHeaders;
-import com.github.kegszool.request_executor.impl.DeleteFavoriteCoinExecutor;
+import com.github.kegszool.request.impl.DeleteFavoriteCoinExecutor;
 
 @Component
 public class DeleteFavoriteCoinConsumer extends BaseRequestConsumer<UserData, DeleteFavoriteCoinExecutor> {

@@ -1,33 +1,37 @@
 package com.github.kegszool.command.callback.impl;
 
-import com.github.kegszool.command.callback.CallbackCommand;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.github.kegszool.command.callback.CallbackCommand;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
-import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
 @Component
 public class DisplayCoinSectionsEditor extends CallbackCommand {
 
-    @Value("${menu.action.display_edit_coin_sections_menu}")
-    private String MENU_ACTION_EDIT_COIN_SECTIONS;
+    private final String command;
+    private final String menuName;
 
-    @Value("${menu.edit_coin_sections.name}")
-    private String EDIT_COIN_SECTIONS_MENU_NAME;
+    public DisplayCoinSectionsEditor(
+            @Value("${menu.action.display_edit_coin_sections_menu}") String command,
+            @Value("${menu.edit_coin_sections.name}") String menuName
+    ) {
+        this.command = command;
+        this.menuName = menuName;
+    }
 
     @Override
     protected boolean canHandleCommand(String command) {
-        return MENU_ACTION_EDIT_COIN_SECTIONS.equals(command);
+        return this.command.equals(command);
     }
 
     @Override
     protected PartialBotApiMethod<?> handleCommand(CallbackQuery callbackQuery) {
-        String chatId = messageUtils.extractChatId(callbackQuery);
-        Integer messageId = callbackQuery.getMessage().getMessageId();
-
-        var answerMessage = messageUtils.recordAndCreateEditMessageByMenuName(
-                chatId, messageId, EDIT_COIN_SECTIONS_MENU_NAME
+        EditMessageText answerMessage = messageUtils.recordAndCreateEditMessageByMenuName(
+                callbackQuery, menuName
         );
         answerMessage.setParseMode(ParseMode.HTML);
         return answerMessage;

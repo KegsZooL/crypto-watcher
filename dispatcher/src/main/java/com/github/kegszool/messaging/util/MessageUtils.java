@@ -15,6 +15,7 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.objects.message.MaybeInaccessibleMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 @Component
@@ -98,6 +99,13 @@ public class MessageUtils {
     public SendMessage recordAndCreateMessageByMenuName(String chatId, String menuName) {
         menuHistoryManager.recordMenu(chatId, menuName);
         return createMessageByMenuName(chatId, menuName);
+    }
+
+    public EditMessageText recordAndCreateEditMessageByMenuName(CallbackQuery callbackQuery, String menuName) {
+        MaybeInaccessibleMessage msg = callbackQuery.getMessage();
+        String chatId = msg.getChatId().toString();
+        Integer messageId = msg.getMessageId();
+        return recordAndCreateEditMessageByMenuName(chatId, messageId, menuName);
     }
 
     public EditMessageText recordAndCreateEditMessageByMenuName(String chatId, Integer messageId, String menuName) {

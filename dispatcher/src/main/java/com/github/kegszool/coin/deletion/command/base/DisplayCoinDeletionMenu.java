@@ -28,8 +28,6 @@ public class DisplayCoinDeletionMenu extends CallbackCommand {
 
     @Override
     protected PartialBotApiMethod<?> handleCommand(CallbackQuery callbackQuery) {
-        String chatId = messageUtils.extractChatId(callbackQuery);
-        Integer messageId = callbackQuery.getMessage().getMessageId();
-        return messageUtils.recordAndCreateEditMessageByMenuName(chatId, messageId, menuName);
+        return messageUtils.recordAndCreateEditMessageByMenuName(callbackQuery, menuName);
     }
 }
