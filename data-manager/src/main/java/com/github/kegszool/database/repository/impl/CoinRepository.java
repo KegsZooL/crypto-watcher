@@ -7,10 +7,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CoinRepository extends EntityRepository<Coin, Integer> {
 
     @Query("SELECT c FROM Coin c WHERE c.name IN :names")
     List<Coin> findByNameIn(@Param("names") List<String> names);
+
+    Optional<Coin> findByName(String name);
 }

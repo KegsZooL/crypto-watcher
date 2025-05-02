@@ -24,7 +24,7 @@ spring:
           response: ${RABBITMQ_CHANGE_LANGUAGE_RESPONSE_ROUTING_KEY}
 
         create_notification:
-          response: ${RABBITMQ_CREATE_NOTIFICATION_RESPONSE_ROUTING_KEY}
+          response: ${RABBITMQ_CREATE_NOTIFICATION_RESPONSE_FROM_DB_ROUTING_KEY}
 
         delete_notification:
           response: ${RABBITMQ_DELETE_NOTIFICATION_RESPONSE_ROUTING_KEY}
@@ -44,7 +44,7 @@ spring:
         request: ${RABBITMQ_CHANGE_LANGUAGE_REQUEST_QUEUE}
 
       create_notification:
-        request: ${RABBITMQ_CREATE_NOTIFICATION_REQUEST_QUEUE}
+        request: ${RABBITMQ_CREATE_NOTIFICATION_REQUEST_FOR_DB_QUEUE}
 
       delete_notification:
         request: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_QUEUE}

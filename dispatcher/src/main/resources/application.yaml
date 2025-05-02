@@ -28,8 +28,11 @@ spring:
         change_language_request: ${RABBITMQ_CHANGE_LANGUAGE_REQUEST_ROUTING_KEY}
         change_language_response: ${RABBITMQ_CHANGE_LANGUAGE_RESPONSE_ROUTING_KEY}
 
-        create_notification_request: ${RABBITMQ_CREATE_NOTIFICATION_REQUEST_ROUTING_KEY}
-        create_notification_response: ${RABBITMQ_CREATE_NOTIFICATION_RESPONSE_ROUTING_KEY}
+        create_notification_request_for_exchange: ${RABBITMQ_CREATE_NOTIFICATION_REQUEST_FOR_EXCHANGE_ROUTING_KEY}
+        create_notification_response_from_exchange: ${RABBITMQ_CREATE_NOTIFICATION_RESPONSE_FROM_EXCHANGE_ROUTING_KEY}
+
+        create_notification_request_for_db: ${RABBITMQ_CREATE_NOTIFICATION_REQUEST_FOR_DB_ROUTING_KEY}
+        create_notification_response_from_db: ${RABBITMQ_CREATE_NOTIFICATION_RESPONSE_FROM_DB_ROUTING_KEY}
 
         delete_notification_request: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_ROUTING_KEY}
         delete_notification_response: ${RABBITMQ_DELETE_NOTIFICATION_RESPONSE_ROUTING_KEY}
@@ -54,8 +57,11 @@ spring:
       change_language_request: ${RABBITMQ_CHANGE_LANGUAGE_REQUEST_QUEUE}
       change_language_response: ${RABBITMQ_CHANGE_LANGUAGE_RESPONSE_QUEUE}
 
-      create_notification_request: ${RABBITMQ_CREATE_NOTIFICATION_REQUEST_QUEUE}
-      create_notification_response: ${RABBITMQ_CREATE_NOTIFICATION_RESPONSE_QUEUE}
+      create_notification_request_for_exchange: ${RABBITMQ_CREATE_NOTIFICATION_REQUEST_FOR_EXCHANGE_QUEUE}
+      create_notification_response_from_exchange: ${RABBITMQ_CREATE_NOTIFICATION_RESPONSE_FROM_EXCHANGE_QUEUE}
+
+      create_notification_request_for_db: ${RABBITMQ_CREATE_NOTIFICATION_REQUEST_FOR_DB_QUEUE}
+      create_notification_response_from_db: ${RABBITMQ_CREATE_NOTIFICATION_RESPONSE_FROM_DB_QUEUE}
 
       delete_notification_request: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_QUEUE}
       delete_notification_response: ${RABBITMQ_DELETE_NOTIFICATION_RESPONSE_QUEUE}

@@ -40,8 +40,12 @@ public abstract class BaseRequestConsumer<I, E extends RequestExecutor> implemen
     private void processRequest(ServiceMessage<I> serviceMessage, String routingKey) {
         try {
             ServiceMessage<?> response = executor.execute(serviceMessage);
-            String responseRoutingKey = executor.getResponseRoutingKey();
-            responseProducer.produce(response, responseRoutingKey);
+
+            if (response != null) {
+                String responseRoutingKey = executor.getResponseRoutingKey();
+                responseProducer.produce(response, responseRoutingKey);
+            }
+
         } catch (RequestException ex) {
             sendServiceException(ex, routingKey, serviceMessage.getMessageId(), serviceMessage.getChatId());
         }

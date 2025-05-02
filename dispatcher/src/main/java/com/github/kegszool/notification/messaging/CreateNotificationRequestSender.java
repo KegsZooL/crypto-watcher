@@ -16,7 +16,7 @@ public class CreateNotificationRequestSender {
 
     @Autowired
     public CreateNotificationRequestSender(
-            @Value("${spring.rabbitmq.template.routing-key.create_notification_request}") String routingKey,
+            @Value("${spring.rabbitmq.template.routing-key.create_notification_request_for_exchange}") String routingKey,
             RequestProducerService requestProducer
     ) {
         this.routingKey = routingKey;

@@ -22,7 +22,6 @@ import com.github.kegszool.messaging.dto.database_entity.UserDto;
 import com.github.kegszool.messaging.dto.database_entity.FavoriteCoinDto;
 import com.github.kegszool.messaging.dto.database_entity.NotificationDto;
 
-
 @Service
 public class UserService extends EntityService<User, UserDto, Integer> {
 
@@ -63,6 +62,10 @@ public class UserService extends EntityService<User, UserDto, Integer> {
 
     public Optional<User> getUserByTelegramId(Long telegramId) {
         return userRepository.findByTelegramId(telegramId);
+    }
+
+    public Optional<UserPreference> getUserPreference(int userId) {
+        return userPreferenceRepository.findById(userId);
     }
 
     public List<FavoriteCoinDto> getUserFavoriteCoins(int id) {

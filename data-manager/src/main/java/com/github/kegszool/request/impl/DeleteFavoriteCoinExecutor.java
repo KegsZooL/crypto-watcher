@@ -55,6 +55,7 @@ public class DeleteFavoriteCoinExecutor implements RequestExecutor<UserData, Use
         List<FavoriteCoinDto> coinsToRemove = userData.getFavoriteCoins();
         List<FavoriteCoinDto> remainingCoins = userService.deleteFavoriteCoins(user.getId(), coinsToRemove);
         userData.setFavoriteCoins(remainingCoins);
+        userData.setNotifications(userService.getUserNotifications(user.getId()));
         return new ServiceMessage<>(request.getMessageId(), request.getChatId(), userData);
     }
 

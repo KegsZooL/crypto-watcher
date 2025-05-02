@@ -15,17 +15,21 @@ public class NotificationBuilder {
 
     public NotificationDto build(
             User user,
+            Integer messageId,
+            Long chatId,
             String coin,
-            boolean isActive,
             Optional<Boolean> maybeRecurring,
             BigDecimal percentage,
             Direction direction
     ) {
         return new NotificationDto(
                 new UserDto(user.getId(), user.getFirstName(), user.getLastName()),
+                messageId,
+                chatId,
                 new CoinDto(coin),
-                isActive,
                 maybeRecurring.orElse(false),
+                false,
+                0,
                 percentage,
                 direction
         );

@@ -1,9 +1,9 @@
 package com.github.kegszool.messaging.dto.database_entity;
 
-import lombok.AllArgsConstructor;
+import lombok.Setter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
 
 import java.math.BigDecimal;
 
@@ -14,10 +14,14 @@ import java.math.BigDecimal;
 public class NotificationDto {
 
     private UserDto user;
+    private Integer messageId;
+    private Long chatId;
     private CoinDto coin;
 
-    private boolean isActive = true, isRecurring;
-    private BigDecimal targetPercentage;
+    private boolean isRecurring;
+    private boolean isTriggered;
 
+    private double initialPrice;
+    private BigDecimal targetPercentage;
     private Direction direction;
 }

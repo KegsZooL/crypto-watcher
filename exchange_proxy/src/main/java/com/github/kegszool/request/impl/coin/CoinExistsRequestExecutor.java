@@ -7,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.messaging.dto.UserDto;
 import com.github.kegszool.messaging.dto.command_entity.UserCoinData;
-import com.github.kegszool.exception.request.CheckingCoinException;
-import com.github.kegszool.exception.json.JsonFieldNotFoundException;
-import com.github.kegszool.exception.json.InvalidJsonFormatException;
 import com.github.kegszool.messaging.dto.command_entity.CoinExistenceResult;
 
 import java.util.ArrayList;
@@ -18,16 +15,13 @@ import com.github.kegszool.utils.JsonParser;
 import com.github.kegszool.rest.RestCryptoController;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.request.BaseRequestExecutor;
-import org.springframework.web.client.RestClientException;
 
 @Log4j2
 @Component
 public class CoinExistsRequestExecutor extends BaseRequestExecutor<UserCoinData, CoinExistenceResult> {
 
-    private final static String SUCCESS_RESPONSE_CODE = "0";
+    private final CoinExistenceChecker existenceChecker;
     private final String responseRoutingKey;
-    private final String requestUrl;
-    private final String currencySuffix;
 
     @Autowired
     public CoinExistsRequestExecutor(
@@ -36,14 +30,11 @@ public class CoinExistsRequestExecutor extends BaseRequestExecutor<UserCoinData,
 
             @Value("${spring.rabbitmq.template.routing-key.check_coin_exists_response}")
             String responseRoutingKey,
-
-            @Value("${api.exchange.url.market.instruments}") String requestUrl,
-            @Value("${currency_suffix}") String currencySuffix
+            CoinExistenceChecker existenceChecker
     ) {
         super(restCryptoController, jsonParser);
+        this.existenceChecker = existenceChecker;
         this.responseRoutingKey = responseRoutingKey;
-        this.requestUrl = requestUrl;
-        this.currencySuffix = currencySuffix;
     }
 
     @Override
@@ -55,26 +46,16 @@ public class CoinExistsRequestExecutor extends BaseRequestExecutor<UserCoinData,
     public ServiceMessage<CoinExistenceResult> execute(ServiceMessage<UserCoinData> serviceMessage) {
 
         UserCoinData userCoinData = serviceMessage.getData();
-
         List<String> coins = userCoinData.getCoinsToAdd();
+
         List<String> validCoins = new ArrayList<>();
         List<String> invalidCoins = new ArrayList<>();
 
         for (String coin : coins) {
-            String urlWithData = requestUrl + coin + currencySuffix;
-            try {
-                String response = restCryptoController.getResponse(urlWithData);
-                String code = jsonParser.parse(response, "code");
-
-                String coinWithoutCurrencySuffix = coin.replace(currencySuffix, "");
-                if (SUCCESS_RESPONSE_CODE.equals(code)) {
-                    validCoins.add(coinWithoutCurrencySuffix);
-                } else {
-                    invalidCoins.add(coinWithoutCurrencySuffix);
-                }
-
-            } catch (RestClientException | JsonFieldNotFoundException | InvalidJsonFormatException ex) {
-                throw createException(coin);
+            if (existenceChecker.exists(coin)) {
+                validCoins.add(coin);
+            } else {
+                invalidCoins.add(coin);
             }
         }
         return createResponseMessage(validCoins, invalidCoins, serviceMessage);
@@ -93,10 +74,5 @@ public class CoinExistsRequestExecutor extends BaseRequestExecutor<UserCoinData,
         responseMessage.setChatId(serviceMessage.getChatId());
 
         return responseMessage;
-    }
-
-    private CheckingCoinException createException(String coin) {
-        log.error("Error checking the coin - '{}'", coin);
-        return new CheckingCoinException(String.format("Coin - '%s'", coin));
     }
 }

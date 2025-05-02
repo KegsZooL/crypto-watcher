@@ -23,15 +23,24 @@ public class Notification {
     @JoinColumn(name = "user_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "notification_user_id_fkey"))
     private User user;
 
+    @Column(name = "message_id")
+    private Integer messageId;
+
+    @Column(name = "chat_id")
+    private Long chatId;
+
     @ManyToOne
     @JoinColumn(name = "coin_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "notification_coin_id_fkey"))
     private Coin coin;
 
-    @Column(name = "is_active", nullable = false)
-    private boolean isActive = true;
-
     @Column(name = "is_recurring", nullable = false)
     private boolean isRecurring;
+
+    @Column(name = "is_triggered", nullable = false)
+    private boolean isTriggered = false;
+
+    @Column(name = "initial_price")
+    private double initialPrice;
 
     @Column(name = "target_percentage", precision = 4, scale = 2)
     private BigDecimal targetPercentage;
@@ -42,14 +51,21 @@ public class Notification {
 
     public Notification(
             User user,
+            Integer messageId,
+            Long chatId,
             Coin coin,
-            boolean isActive, boolean isRecurring,
+            boolean isRecurring,
+            boolean isTriggered,
+            double initialPrice,
             BigDecimal targetPercentage,
             Direction direction
     ) {
         this.user = user;
+        this.messageId = messageId;
+        this.chatId = chatId;
+        this.isTriggered = isTriggered;
+        this.initialPrice = initialPrice;
         this.coin = coin;
-        this.isActive = isActive;
         this.isRecurring = isRecurring;
         this.targetPercentage = targetPercentage;
         this.direction = direction;

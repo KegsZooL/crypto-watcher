@@ -1,9 +1,10 @@
 package com.github.kegszool.notification.messaging.config;
 
+import com.github.kegszool.messaging.config.RabbitConfiguration;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import com.github.kegszool.messaging.config.RabbitConfiguration;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.Binding;
@@ -12,44 +13,71 @@ import org.springframework.amqp.core.BindingBuilder;
 @Configuration
 public class CreationNotificationMessagingConfig extends RabbitConfiguration {
 
-    private final String requestQueue;
-    private final String responseQueue;
-    private final String requestRoutingKey;
-    private final String responseRoutingKey;
-
-    public CreationNotificationMessagingConfig(
-            @Value("${spring.rabbitmq.queues.create_notification_request}") String requestQueue,
-            @Value("${spring.rabbitmq.queues.create_notification_response}") String responseQueue,
-            @Value("${spring.rabbitmq.template.routing-key.create_notification_request}") String requestRoutingKey,
-            @Value("${spring.rabbitmq.template.routing-key.create_notification_response}") String responseRoutingKey
+    @Bean
+    public Queue createNotificationRequestQueueForDb(
+            @Value("${spring.rabbitmq.queues.create_notification_request_for_db}") String queueName
     ) {
-        this.requestQueue = requestQueue;
-        this.responseQueue = responseQueue;
-        this.requestRoutingKey = requestRoutingKey;
-        this.responseRoutingKey = responseRoutingKey;
+        return new Queue(queueName, true, false, false, queueArgs);
     }
 
     @Bean
-    public Queue createNotificationRequestQueue() {
-        return new Queue(requestQueue, true, false, false, queueArgs);
+    public Queue createNotificationResponseQueueFromDb(
+            @Value("${spring.rabbitmq.queues.create_notification_response_from_db}") String queueName
+    ) {
+        return new Queue(queueName, true, false, false, queueArgs);
     }
 
     @Bean
-    public Queue createNotificationResponseQueue() {
-        return new Queue(responseQueue, true, false, false, queueArgs);
-    }
-
-    @Bean
-    public Binding bindCreationNotificationRequest() {
-        return BindingBuilder.bind(createNotificationRequestQueue())
+    public Binding bindCreationNotificationRequestForDb(
+            @Value("${spring.rabbitmq.template.routing-key.create_notification_request_for_db}") String routingKey,
+            @Qualifier("createNotificationRequestQueueForDb") Queue queue
+    ) {
+        return BindingBuilder.bind(queue)
                 .to(exchange())
-                .with(requestRoutingKey);
+                .with(routingKey);
     }
 
     @Bean
-    public Binding bindCreationNotificationResponse() {
-        return BindingBuilder.bind(createNotificationResponseQueue())
+    public Binding bindCreationNotificationResponseFromDb(
+            @Value("${spring.rabbitmq.template.routing-key.create_notification_response_from_db}") String routingKey,
+            @Qualifier("createNotificationResponseQueueFromDb") Queue queue
+    ) {
+        return BindingBuilder.bind(queue)
                 .to(exchange())
-                .with(responseRoutingKey);
+                .with(routingKey);
+    }
+
+    @Bean
+    public Queue createNotificationRequestQueueForExchange(
+            @Value("${spring.rabbitmq.queues.create_notification_request_for_exchange}") String queueName
+    ) {
+        return new Queue(queueName, true, false, false, queueArgs);
+    }
+
+    @Bean
+    public Queue createNotificationResponseQueueFromExchange(
+            @Value("${spring.rabbitmq.queues.create_notification_response_from_exchange}") String queueName
+    ) {
+        return new Queue(queueName, true, false, false, queueArgs);
+    }
+
+    @Bean
+    public Binding bindCreationNotificationRequestForExchange(
+            @Value("${spring.rabbitmq.template.routing-key.create_notification_request_for_exchange}") String routingKey,
+            @Qualifier("createNotificationRequestQueueForExchange") Queue queue
+    ) {
+        return BindingBuilder.bind(queue)
+                .to(exchange())
+                .with(routingKey);
+    }
+
+    @Bean
+    public Binding bindCreationNotificationResponseFromExchange(
+            @Value("${spring.rabbitmq.template.routing-key.create_notification_response_from_exchange}") String routingKey,
+            @Qualifier("createNotificationResponseQueueFromExchange") Queue queue
+    ) {
+        return BindingBuilder.bind(queue)
+                .to(exchange())
+                .with(routingKey);
     }
 }

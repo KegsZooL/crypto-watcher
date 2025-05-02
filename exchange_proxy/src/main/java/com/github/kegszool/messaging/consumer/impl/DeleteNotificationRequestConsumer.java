@@ -12,7 +12,7 @@ import com.github.kegszool.messaging.consumer.BaseRequestConsumer;
 import com.github.kegszool.messaging.producer.ResponseProducerService;
 
 import org.springframework.amqp.support.AmqpHeaders;
-import com.github.kegszool.request.impl.notificaiton.DeleteNotificationRequestExecutor;
+import com.github.kegszool.request.impl.notificaiton.executor.DeleteNotificationRequestExecutor;
 
 @Component
 public class DeleteNotificationRequestConsumer extends BaseRequestConsumer<NotificationDto, DeleteNotificationRequestExecutor> {

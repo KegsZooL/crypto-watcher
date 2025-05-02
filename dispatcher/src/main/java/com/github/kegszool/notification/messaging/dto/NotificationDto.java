@@ -16,10 +16,14 @@ import com.github.kegszool.user.messaging.dto.UserDto;
 public class NotificationDto {
 
     private UserDto user;
+    private Integer messageId;
+    private Long chatId;
     private CoinDto coin;
 
-    private boolean isActive = true, isRecurring;
-    private BigDecimal targetPercentage;
+    private boolean isRecurring;
+    private boolean isTriggered;
 
+    private double initialPrice;
+    private BigDecimal targetPercentage;
     private Direction direction;
 }

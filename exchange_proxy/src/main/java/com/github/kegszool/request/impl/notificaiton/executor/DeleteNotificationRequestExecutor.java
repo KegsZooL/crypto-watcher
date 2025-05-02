@@ -1,4 +1,4 @@
-package com.github.kegszool.request.impl.notificaiton;
+package com.github.kegszool.request.impl.notificaiton.executor;
 
 import com.github.kegszool.messaging.dto.NotificationDto;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;

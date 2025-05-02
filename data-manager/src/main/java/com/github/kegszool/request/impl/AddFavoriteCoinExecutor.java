@@ -1,6 +1,6 @@
 package com.github.kegszool.request.impl;
 
-import com.github.kegszool.messaging.dto.database_entity.UserPreferenceDto;
+import com.github.kegszool.messaging.dto.database_entity.*;
 import com.github.kegszool.database.entity.service.impl.UserService;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,10 +14,7 @@ import com.github.kegszool.database.repository.impl.FavoriteCoinRepository;
 
 import com.github.kegszool.request.RequestExecutor;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.messaging.dto.database_entity.UserDto;
-import com.github.kegszool.messaging.dto.database_entity.UserData;
 import com.github.kegszool.messaging.dto.command_entity.UserCoinData;
-import com.github.kegszool.messaging.dto.database_entity.FavoriteCoinDto;
 
 import java.util.*;
 import java.util.function.Function;
@@ -93,7 +90,8 @@ public class AddFavoriteCoinExecutor implements RequestExecutor<UserCoinData, Us
         String interfaceLanguage = userService.getInterfaceLanguage(userId);
         UserPreferenceDto userPreference = new UserPreferenceDto(userDto, interfaceLanguage);
 
-        return new UserData(userDto, favoriteCoins, Collections.emptyList(), userPreference);
+        List<NotificationDto> notifications = userService.getUserNotifications(userId);
+        return new UserData(userDto, favoriteCoins, notifications, userPreference);
     }
 
     @Override
