@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.kegszool.messaging.util.MessageUtils;
 import com.github.kegszool.command.callback.CallbackCommand;
 
+import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
@@ -41,6 +42,10 @@ public class DisplaySetCoinNotificationMenu extends CallbackCommand {
     protected PartialBotApiMethod<?> handleCommand(CallbackQuery callbackQuery) {
         String coin = callbackQuery.getData().substring(prefix.length());
         contextBuffer.setCoin(callbackQuery.getMessage().getChatId(), coin);
-        return messageUtils.recordAndCreateEditMessageByMenuName(callbackQuery, menuName);
+        EditMessageText editMsg = messageUtils.recordAndCreateEditMessageByMenuNameWitCurrentLocal(callbackQuery, menuName);
+
+        String prettyText = editMsg.getText().replace("{coin}", coin);
+        editMsg.setText(prettyText);
+        return editMsg;
     }
 }

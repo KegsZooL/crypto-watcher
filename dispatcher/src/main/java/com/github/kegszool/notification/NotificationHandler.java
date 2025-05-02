@@ -1,20 +1,22 @@
 package com.github.kegszool.notification;
 
-import com.github.kegszool.coin.dto.CoinDto;
-import com.github.kegszool.notification.messaging.CreateNotificationRequestSender;
+import java.util.Optional;
+import java.math.BigDecimal;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.github.kegszool.notification.messaging.dto.Direction;
 import com.github.kegszool.notification.messaging.dto.NotificationDto;
-import com.github.kegszool.notification.util.NotificationAnswerMessageBuilder;
+import com.github.kegszool.notification.messaging.CreateNotificationRequestSender;
+
+import com.github.kegszool.notification.util.NotificationBuilder;
 import com.github.kegszool.notification.util.NotificationCommandParser;
-import com.github.kegszool.user.messaging.dto.UserDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import com.github.kegszool.notification.util.NotificationAnswerMessageBuilder;
+
 import org.telegram.telegrambots.meta.api.objects.Update;
-import org.telegram.telegrambots.meta.api.objects.User;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
-import java.util.Optional;
 
 @Component
 public class NotificationHandler {
@@ -22,6 +24,7 @@ public class NotificationHandler {
     private final CreateNotificationRequestSender requestSender;
     private final NotificationContextBuffer contextBuffer;
     private final NotificationAnswerMessageBuilder messageBuilder;
+    private final NotificationBuilder notificationBuilder;
     private final NotificationCommandParser notificationParser;
 
     @Autowired
@@ -29,39 +32,73 @@ public class NotificationHandler {
             CreateNotificationRequestSender requestSender,
             NotificationContextBuffer contextBuffer,
             NotificationAnswerMessageBuilder messageBuilder,
+            NotificationBuilder notificationBuilder,
             NotificationCommandParser notificationParser
     ) {
         this.requestSender = requestSender;
         this.contextBuffer = contextBuffer;
         this.messageBuilder = messageBuilder;
+        this.notificationBuilder = notificationBuilder;
         this.notificationParser = notificationParser;
     }
 
-    public SendMessage createByFullCommand(Message message) {
+    public SendMessage createByFullCommand(Message msg) {
 
-        String text = message.getText();
-        Long chatId = message.getChatId();
+        String text = msg.getText();
+        Long chatId = msg.getChatId();
 
-        Optional<ParsedNotificationCommand> maybeParsedNotification = notificationParser.parseIfValid(text);
-        if (maybeParsedNotification.isPresent()) {
-            ParsedNotificationCommand cmd = maybeParsedNotification.get();
-            NotificationDto notification = new NotificationDto();
-
-            User user = message.getFrom();
-
-            notification.setCoin(new CoinDto(cmd.getCoin()));
-            notification.setUser(new UserDto(user.getId(), user.getFirstName(), user.getLastName()));
-
-            notification.setTargetPercentage(cmd.getPercentage());
-            notification.setDirection(contextBuffer.getType(chatId).);
-        }
-
-        return messageBuilder.createErrorMessage();
+        return notificationParser.parseIfValid(text)
+                .map(cmd -> {
+                    BigDecimal percentage = cmd.getPercentage();
+                    String coin = cmd.getCoin();
+                    NotificationDto notification = notificationBuilder.build(
+                            msg.getFrom(),
+                            cmd.getCoin(),
+                            true,
+                            contextBuffer.getType(chatId),
+                            percentage.abs(),
+                            percentage.signum() > 0 ? Direction.Up : Direction.Down
+                    );
+                    sendAndClear(notification, msg.getMessageId(), chatId);
+                    return messageBuilder.createSuccessMsgFromCommand(chatId, coin);
+                })
+                .orElse(messageBuilder.createErrorMsgFromCommand(chatId));
     }
 
+    public SendMessage createByPercentageInput(Message msg) {
 
-    public SendMessage createByPercentageInput() {
-        return null;
+        Long chatId = msg.getChatId();
+        Optional<String> selectedCoin = contextBuffer.getCoin(chatId);
+
+        if (selectedCoin.isEmpty()) {
+            return messageBuilder.createCoinNotSelectedMsgFromMenu(chatId);
+        }
+
+        try {
+            String text = msg.getText().replace("%", "").replace("+", "").trim();
+            BigDecimal percentage = new BigDecimal(text);
+            Direction direction = text.startsWith("-") ? Direction.Down : Direction.Up;
+
+            String coin = selectedCoin.get();
+
+            NotificationDto notification = notificationBuilder.build(
+                    msg.getFrom(),
+                    coin,
+                    true,
+                    contextBuffer.getType(chatId),
+                    percentage.abs(),
+                    direction
+            );
+            sendAndClear(notification, msg.getMessageId(), chatId);
+            return messageBuilder.createSuccessMsgFromMenu(chatId, coin);
+        } catch (NumberFormatException ex) {
+            return messageBuilder.createInvalidPercentageMsgFromMenu(chatId);
+        }
+    }
+
+    private void sendAndClear(NotificationDto notification, Integer msgId, Long chatId) {
+        requestSender.send(notification, msgId, chatId.toString());
+        contextBuffer.clear(chatId);
     }
 
     public SendMessage delete(Update data) {

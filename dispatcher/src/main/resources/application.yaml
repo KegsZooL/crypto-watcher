@@ -258,16 +258,41 @@ menu:
       en: "${menu.sections_config.select_coin_notification.en}"
     max_buttons_per_row: 3
     prefix: "not_coin_"
+    regex: "${bot.command.create_notification} (\\w{2,10}) ([+-]?\\d+(\\.\\d+)?%)"
 
   set_coin_notification:
     name: "${menu.action.prefix}set_coin_notification"
     title:
-      ru: "📊 Укажите, при каком процентном изменении цены вы хотите получать уведомление для монеты 🪙 %s.\n\nНапример: +10% или -0.5%"
-      en: "📊 Specify the percentage change at which you want to receive a notification for 🪙 %s.\n\nExample: +10% or -0.5%"
+      ru: "📊 Укажите, при каком процентном изменении цены вы хотите получать уведомление для монеты 🪙 {coin}.\n\nНапример: +10% или -0.5%"
+      en: "📊 Specify the percentage change at which you want to receive a notification for 🪙 {coin}.\n\nExample: +10% or -0.5%"
     sections:
       ru: "${menu.sections_config.set_coin_notification.ru}"
       en: "${menu.sections_config.set_coin_notification.en}"
     max_buttons_per_row: 1
+    answer_messages:
+      from_command:
+        success:
+          ru: "✅ Отправлен запрос на добавление уведомления для монеты 🪙 – {coin}"
+          en: "✅ Sent request to add a notification for coin 🪙 – {coin}"
+          msg_type: "_success"
+        error:
+          ru: "❌ Неверная команда. Пример: /not BTC +10%"
+          en: "❌ Invalid command. Example: /not BTC +10%"
+          msg_type: "_error"
+
+      from_menu:
+        created:
+          ru: "✅ Уведомление успешно создано для монеты 🪙 – {coin}"
+          en: "✅ Notification created successfully for coin 🪙 – {coin}"
+          msg_type: "_created"
+        invalid_percentage:
+          ru: "❌ Неверный формат процента. Пример: +5% или -2.5%"
+          en: "❌ Invalid percentage format. Example: +5% or -2.5%"
+          msg_type: "_invalid_percentage"
+        coin_not_selected:
+          ru: "❌ Монета не выбрана. Повторите попытку."
+          en: "❌ Coin not selected. Please try again."
+          msg_type: "_coin_not_selected"
 
   sections_config:
     main:

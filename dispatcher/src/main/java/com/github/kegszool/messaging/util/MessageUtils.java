@@ -15,7 +15,6 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.objects.message.MaybeInaccessibleMessage;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 @Component
@@ -41,58 +40,30 @@ public class MessageUtils {
     }
 
     public EditMessageText createEditMessage(CallbackQuery query, String text, InlineKeyboardMarkup keyboard) {
-        var message = query.getMessage();
-        Long chatId = message.getChatId();
-        Integer messageId = message.getMessageId();
-        return EditMessageText.builder()
-                .text(text)
-                .chatId(chatId)
-                .messageId(messageId)
-                .replyMarkup(keyboard)
-                .parseMode(ParseMode.HTML)
-                .build();
+        return createEditMessage(
+                query.getMessage().getChatId().toString(),
+                query.getMessage().getMessageId(),
+                text,
+                keyboard
+        );
     }
 
     public EditMessageText createEditMessage(String chatId, Integer messageId, String text, InlineKeyboardMarkup keyboard) {
         return EditMessageText.builder()
-                .text(text)
                 .chatId(chatId)
                 .messageId(messageId)
+                .text(text)
                 .replyMarkup(keyboard)
                 .parseMode(ParseMode.HTML)
                 .build();
     }
 
-    public EditMessageText createEditMessageByMenuName(CallbackQuery query, String menuName) {
-        Menu menu = menuRegistry.getMenu(menuName);
-        String localizedTitle = localizationService.getTitleText(menuName);
-        return createEditMessage(query, localizedTitle, menu.getKeyboardMarkup());
-    }
-
-    public EditMessageText createEditMessageByMenuNameWithLocale(CallbackQuery query, String menuName, String locale) {
-        Menu menu = menuRegistry.getMenu(menuName);
-        String localizedTitle = localizationService.getTitleText(menuName, locale);
-        return createEditMessage(query, localizedTitle, menu.getKeyboardMarkup());
-    }
-
-    public EditMessageText createEditMessageByMenuName(CallbackQuery query, String title, String menuName) {
-        Menu menu = menuRegistry.getMenu(menuName);
-        return createEditMessage(query, title, menu.getKeyboardMarkup());
-    }
-
-    public EditMessageText createEditMessageByMenuName(String chatId, Integer messageId, String menuName) {
-        Menu menu = menuRegistry.getMenu(menuName);
-        String localizedTitle = localizationService.getTitleText(menuName);
-        return createEditMessage(chatId, messageId, localizedTitle, menu.getKeyboardMarkup());
-    }
-
     public SendMessage createMessageByMenuName(String chatId, String menuName) {
-        Menu menu = menuRegistry.getMenu(menuName);
-        String localizedTitle = localizationService.getTitleText(menuName);
+        var menuData = getMenuWithTitle(menuName);
         return SendMessage.builder()
                 .chatId(chatId)
-                .text(localizedTitle)
-                .replyMarkup(menu.getKeyboardMarkup())
+                .text(menuData.localizedTitle())
+                .replyMarkup(menuData.menu().getKeyboardMarkup())
                 .build();
     }
 
@@ -101,11 +72,30 @@ public class MessageUtils {
         return createMessageByMenuName(chatId, menuName);
     }
 
-    public EditMessageText recordAndCreateEditMessageByMenuName(CallbackQuery callbackQuery, String menuName) {
-        MaybeInaccessibleMessage msg = callbackQuery.getMessage();
-        String chatId = msg.getChatId().toString();
-        Integer messageId = msg.getMessageId();
-        return recordAndCreateEditMessageByMenuName(chatId, messageId, menuName);
+    public EditMessageText createEditMessageByMenuName(CallbackQuery query, String menuName) {
+        var menuData = getMenuWithTitle(menuName);
+        return createEditMessage(query, menuData.localizedTitle(), menuData.menu().getKeyboardMarkup());
+    }
+
+    public EditMessageText createEditMessageByMenuNameWithLocale(CallbackQuery query, String menuName, String locale) {
+        var menu = menuRegistry.getMenu(menuName);
+        var title = localizationService.getTitleText(menuName, locale);
+        return createEditMessage(query, title, menu.getKeyboardMarkup());
+    }
+
+    public EditMessageText createEditMessageByMenuName(CallbackQuery query, String title, String menuName) {
+        var menu = menuRegistry.getMenu(menuName);
+        return createEditMessage(query, title, menu.getKeyboardMarkup());
+    }
+
+    public EditMessageText createEditMessageByMenuName(String chatId, Integer messageId, String menuName) {
+        var menuData = getMenuWithTitle(menuName);
+        return createEditMessage(chatId, messageId, menuData.localizedTitle(), menuData.menu().getKeyboardMarkup());
+    }
+
+    public EditMessageText recordAndCreateEditMessageByMenuName(CallbackQuery query, String menuName) {
+        var msg = query.getMessage();
+        return recordAndCreateEditMessageByMenuName(msg.getChatId().toString(), msg.getMessageId(), menuName);
     }
 
     public EditMessageText recordAndCreateEditMessageByMenuName(String chatId, Integer messageId, String menuName) {
@@ -113,11 +103,16 @@ public class MessageUtils {
         return createEditMessageByMenuName(chatId, messageId, menuName);
     }
 
+    public EditMessageText recordAndCreateEditMessageByMenuNameWitCurrentLocal(CallbackQuery query, String menuName) {
+        menuHistoryManager.recordMenu(extractChatId(query), menuName);
+        return createEditMessageByMenuNameWithLocale(query, menuName, localizationService.getCurrentLocale());
+    }
+
     public String extractChatId(Update update) {
         if (update.hasMessage()) {
             return update.getMessage().getChatId().toString();
         } else if (update.hasCallbackQuery()) {
-            return update.getCallbackQuery().getMessage().getChatId().toString();
+            return extractChatId(update.getCallbackQuery());
         }
         throw new UnsupportedExtractFieldUpdateException("Cannot extract chatId from the given Update type");
     }
@@ -132,6 +127,14 @@ public class MessageUtils {
     }
 
     public String extractChatId(CallbackQuery query) {
-       return query.getMessage().getChatId().toString();
+        return query.getMessage().getChatId().toString();
+    }
+
+    private record MenuData(Menu menu, String localizedTitle) {}
+
+    private MenuData getMenuWithTitle(String menuName) {
+        Menu menu = menuRegistry.getMenu(menuName);
+        String title = localizationService.getTitleText(menuName);
+        return new MenuData(menu, title);
     }
 }

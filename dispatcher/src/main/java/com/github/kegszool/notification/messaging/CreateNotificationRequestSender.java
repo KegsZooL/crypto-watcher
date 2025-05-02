@@ -1,13 +1,12 @@
 package com.github.kegszool.notification.messaging;
 
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.notification.messaging.dto.NotificationDto;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.github.kegszool.messaging.producer.RequestProducerService;
 
-import javax.management.Notification;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.producer.RequestProducerService;
+import com.github.kegszool.notification.messaging.dto.NotificationDto;
 
 @Component
 public class CreateNotificationRequestSender {
@@ -24,9 +23,11 @@ public class CreateNotificationRequestSender {
         this.requestProducer = requestProducer;
     }
 
-    public void send(NotificationDto notificationDto) {
-        ServiceMessage<Notification> request = new ServiceMessage(
-
+    public void send(NotificationDto notification, Integer msgId, String chatId) {
+        ServiceMessage<NotificationDto> request = new ServiceMessage<>(
+                msgId,
+                chatId,
+                notification
         );
         requestProducer.produce(routingKey, request);
     }
