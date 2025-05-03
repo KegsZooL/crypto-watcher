@@ -5,10 +5,12 @@ import java.util.Collections;
 
 import com.github.kegszool.notification.menu.BaseNotificationMenu;
 import com.github.kegszool.notification.util.CoinNotificationSectionBuilder;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 @Component
+@Scope("prototype")
 public class SelectCoinNotificationMenu extends BaseNotificationMenu {
 
     private final String name;

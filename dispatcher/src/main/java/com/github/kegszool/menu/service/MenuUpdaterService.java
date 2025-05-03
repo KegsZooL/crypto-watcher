@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class MenuUpdaterService {
 
-    private final Map<String, BaseMenu> nameToMenu = new ConcurrentHashMap<>();
+    private final Map<String, Map<> BaseMenu> nameToMenu = new ConcurrentHashMap<>();
     private final LocalizationService localizationService;
 
     @Autowired

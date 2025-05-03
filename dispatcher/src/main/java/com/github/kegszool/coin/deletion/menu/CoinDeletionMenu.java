@@ -1,6 +1,8 @@
 package com.github.kegszool.coin.deletion.menu;
 
 import java.util.List;
+
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -8,6 +10,7 @@ import com.github.kegszool.coin.selection.menu.BaseCoinMenu;
 import com.github.kegszool.coin.deletion.util.CoinDeletionSectionBuilder;
 
 @Component
+@Scope("prototype")
 public class CoinDeletionMenu extends BaseCoinMenu {
 
     private final String name;

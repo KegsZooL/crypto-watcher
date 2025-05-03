@@ -29,6 +29,9 @@ spring:
         delete_notification:
           response: ${RABBITMQ_DELETE_NOTIFICATION_RESPONSE_ROUTING_KEY}
 
+        get_active_notification:
+          response: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_RESPONSE_ROUTING_KEY}
+
         service_exception: ${RABBITMQ_SERVICE_EXCEPTION_ROUTING_KEY}
     queues:
       upsert_user:
@@ -48,6 +51,9 @@ spring:
 
       delete_notification:
         request: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_QUEUE}
+
+      get_active_notification:
+        request: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_REQUEST_QUEUE}
 
   datasource:
     url: ${DATABASE_URL}

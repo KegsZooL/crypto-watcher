@@ -14,9 +14,10 @@ import com.github.kegszool.messaging.dto.database_entity.NotificationDto;
 import com.github.kegszool.messaging.dto.database_entity.UserData;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.request.RequestExecutor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
 
@@ -55,7 +56,7 @@ public class CreateNotificationRequestExecutor implements RequestExecutor<Notifi
         Long telegramId = dto.getUser().getTelegramId();
 
         User user = userRepository.findByTelegramId(telegramId)
-                .orElseThrow(() -> new IllegalStateException("User must exist but was not found by Telegram ID: " + telegramId));
+                .orElseThrow(() -> new IllegalStateException("User must exist but was not found by Telegram ID: " + telegramId)); //TODO: dummy
 
         Coin coin = coinRepository.findByName(dto.getCoin().getName())
                 .orElseGet(() -> coinRepository.save(new Coin(dto.getCoin().getName())));
@@ -73,7 +74,7 @@ public class CreateNotificationRequestExecutor implements RequestExecutor<Notifi
             UserPreference userPreference = maybeUserPreference.get();
             userData.setUserPreference(userPreferenceMapper.toDto(userPreference));
         } else {
-
+            //TODO: dummy
         }
         return new ServiceMessage<>(serviceMessage.getMessageId(), serviceMessage.getChatId(), userData);
     }

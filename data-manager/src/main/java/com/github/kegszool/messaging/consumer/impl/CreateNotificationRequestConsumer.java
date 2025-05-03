@@ -29,5 +29,4 @@ public class CreateNotificationRequestConsumer extends BaseRequestConsumer<Notif
     ) {
         super.consume(serviceMessage, routingKey);
     }
-
 }

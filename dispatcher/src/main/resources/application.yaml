@@ -37,6 +37,11 @@ spring:
         delete_notification_request: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_ROUTING_KEY}
         delete_notification_response: ${RABBITMQ_DELETE_NOTIFICATION_RESPONSE_ROUTING_KEY}
 
+        get_active_notification_request: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_REQUEST_ROUTING_KEY}
+        get_active_notification_response: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_RESPONSE_ROUTING_KEY}
+
+        triggered_notification: ${RABBITMQ_TRIGGERED_NOTIFICATION_ROUTING_KEY}
+
         service_exception: ${RABBITMQ_SERVICE_EXCEPTION_ROUTING_KEY}
     queues:
       upsert_user_request: ${RABBITMQ_UPSERT_USER_REQUEST_QUEUE}
@@ -65,6 +70,11 @@ spring:
 
       delete_notification_request: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_QUEUE}
       delete_notification_response: ${RABBITMQ_DELETE_NOTIFICATION_RESPONSE_QUEUE}
+
+      get_active_notification_request: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_REQUEST_QUEUE}
+      get_active_notification_response: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_RESPONSE_QUEUE}
+
+      triggered_notification: ${RABBITMQ_TRIGGERED_NOTIFICATION_QUEUE}
 
       service_exception: ${RABBITMQ_SERVICE_EXCEPTION_QUEUE}
 
@@ -212,6 +222,16 @@ menu:
       ru: "${menu.sections_config.notification.ru}"
       en: "${menu.sections_config.notification.en}"
     max_buttons_per_row: 2
+    answer_messages:
+      up:
+        ru: "🚀 Монета <b>{coin}</b> подоражала на <b>+{change}%</b>!\nТекущая цена: <b>{price}</b> 💰"
+        en: "🚀 Coin <b>{coin}</b> has increased by <b>+{change}%</b>!\nCurrent price: <b>{price}</b> 💰"
+        msg_type: "_up"
+      down:
+        ru: "🔻 Монета <b>{coin}</b> подешевела на <b>-{change}%</b>!\nТекущая цена: <b>{price}</b> "
+        en: "🔻 Coin <b>{coin}</b> has decreased by <b>-{change}%</b>!\nCurrent price: <b>{price}</b> 💰"
+        msg_type: "_down"
+
 
   notification_creation:
     name: "${menu.action.prefix}creation_notification_menu"

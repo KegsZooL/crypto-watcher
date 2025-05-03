@@ -24,5 +24,4 @@ public class CreateNotificationResponseConsumer extends BaseResponseConsumer<Use
     @Override
     protected void logReceivedData(ServiceMessage<UserData> serviceMessage, String routingKey) {
     }
-
 }

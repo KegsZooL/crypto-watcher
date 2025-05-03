@@ -1,6 +1,7 @@
 package com.github.kegszool.language.menu;
 
 import java.util.List;
+
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 

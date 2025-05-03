@@ -2,9 +2,10 @@ package com.github.kegszool.websocket;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.kegszool.request.impl.notificaiton.NotificationCheckerService;
+import com.github.kegszool.notificaiton.active.util.NotificationTriggerChecker;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,12 +13,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Component
 public class WebSocketMessageHandler {
 
-    private final NotificationCheckerService notificationChecker;
+    private final String currencySuffix;
+    private final NotificationTriggerChecker notificationChecker;
 
     @Autowired
     public WebSocketMessageHandler(
-            NotificationCheckerService notificationChecker
+            @Value("${currency_suffix}") String currencySuffix,
+            NotificationTriggerChecker notificationChecker
     ) {
+        this.currencySuffix = currencySuffix;
         this.notificationChecker = notificationChecker;
     }
 
@@ -43,7 +47,8 @@ public class WebSocketMessageHandler {
 
             double price = Double.parseDouble(last);
 
-            notificationChecker.check(instId, price);
+            String coinName = instId.substring(0, currencySuffix.length() - 1);
+            notificationChecker.check(coinName, price);
 
         } catch (Exception e) {
             log.warn("Error handling WebSocket message: {}", message, e);

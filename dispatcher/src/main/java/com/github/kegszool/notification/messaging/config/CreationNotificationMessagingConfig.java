@@ -1,14 +1,14 @@
 package com.github.kegszool.notification.messaging.config;
 
-import com.github.kegszool.messaging.config.RabbitConfiguration;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
+import com.github.kegszool.messaging.config.RabbitConfiguration;
 
 @Configuration
 public class CreationNotificationMessagingConfig extends RabbitConfiguration {

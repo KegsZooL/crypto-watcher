@@ -1,15 +1,16 @@
 package com.github.kegszool.notification.menu.main;
 
 import java.util.List;
+
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.github.kegszool.user.messaging.dto.UserData;
 import com.github.kegszool.menu.base.BaseMenu;
 
-//TODO: реализация смены title на основе List<NotificationDto>
-
 @Component
+@Scope("prototype")
 public class NotificationMenu extends BaseMenu {
 
     private final String name;

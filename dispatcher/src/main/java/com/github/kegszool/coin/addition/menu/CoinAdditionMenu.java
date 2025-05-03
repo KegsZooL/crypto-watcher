@@ -1,6 +1,8 @@
 package com.github.kegszool.coin.addition.menu;
 
 import java.util.List;
+
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import com.github.kegszool.coin.selection.menu.BaseCoinMenu;
 import com.github.kegszool.coin.addition.util.CoinAdditionSectionBuilder;
 
 @Component
+@Scope("prototype")
 public class CoinAdditionMenu extends BaseCoinMenu {
 
     private final String name;

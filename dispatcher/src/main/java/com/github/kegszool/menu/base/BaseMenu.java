@@ -2,6 +2,9 @@ package com.github.kegszool.menu.base;
 
 import java.util.List;
 import java.util.LinkedHashMap;
+
+import com.github.kegszool.menu.base.main.UserMenuFactory;
+import com.github.kegszool.menu.service.MenuUpdaterService;
 import jakarta.annotation.Nullable;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
@@ -10,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.kegszool.menu.util.KeyboardFactory;
 import com.github.kegszool.menu.util.SectionBuilder;
 
-import com.github.kegszool.menu.service.MenuUpdaterService;
 import com.github.kegszool.menu.service.MenuSectionService;
 
 import com.github.kegszool.user.messaging.dto.UserData;
