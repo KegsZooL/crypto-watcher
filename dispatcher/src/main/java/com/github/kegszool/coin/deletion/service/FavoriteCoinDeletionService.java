@@ -70,7 +70,9 @@ public class FavoriteCoinDeletionService {
         this.routingKey = routingKey;
     }
 
+
     public void deleteSelectedCoins(CallbackQuery callbackQuery) {
+
         List<InlineKeyboardButton> selectedButtons = menuSelectionBuffer.getSelected(coinDeletionMenuName);
         if (selectedButtons.isEmpty()) return;
 
@@ -78,11 +80,12 @@ public class FavoriteCoinDeletionService {
         menuSelectionBuffer.removeSelected(coinDeletionMenuName);
         produceDeleteRequest(callbackQuery, deletionUserData);
 
-        Menu menu = menuRegistry.getMenu(coinSelectionMenuName);
+        Menu menu = menuRegistry.getMenu(coinSelectionMenuName, callbackQuery.getMessage().getChatId().toString());
         if (!(menu instanceof BaseCoinMenu baseCoinMenu)) return;
 
         UserDto userDto = deletionUserData.getUser();
-        List<FavoriteCoinDto> allCoins = baseCoinMenu.getAllFavoriteCoins(userDto);
+        String chatId = callbackQuery.getMessage().getChatId().toString();
+        List<FavoriteCoinDto> allCoins = baseCoinMenu.getAllFavoriteCoins(userDto, chatId);
 
         Set<String> coinsToDelete = deletionUserData.getFavoriteCoins().stream()
                 .map(fc -> fc.getCoin().getName())
@@ -95,8 +98,8 @@ public class FavoriteCoinDeletionService {
                 remainingCoins.add(coin);
             }
         }
-        UserData data = userDataFactory.create(userDto, remainingCoins, Collections.emptyList());
-        menuUpdater.updateMenus(data);
+        UserData data = userDataFactory.create(userDto, remainingCoins, Collections.emptyList(), chatId);
+        menuUpdater.updateMenus(data, chatId);
     }
 
     private void produceDeleteRequest(CallbackQuery callbackQuery, UserData userData) {

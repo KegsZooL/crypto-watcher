@@ -30,17 +30,19 @@ public class CoinAdditionMessageBuilder {
     }
 
     public SendMessage buildSuccessMessage(Message msg, List<String> coins) {
-        String successMsg = localizationService.getAnswerMessage(menuName, successMsgType);
+        Long chatId = msg.getChatId();
+        String successMsg = localizationService.getAnswerMessage(menuName, successMsgType, chatId.toString());
         return SendMessage.builder()
-                .chatId(msg.getChatId())
+                .chatId(chatId)
                 .text(successMsg + String.join(", ", coins))
                 .build();
     }
 
     public SendMessage buildErrorMessage(Message msg) {
-        String errorMsg = localizationService.getAnswerMessage(menuName, errorMsgType);
+        Long chatId = msg.getChatId();
+        String errorMsg = localizationService.getAnswerMessage(menuName, errorMsgType, chatId.toString());
         return SendMessage.builder()
-                .chatId(msg.getChatId())
+                .chatId(chatId)
                 .text(errorMsg)
                 .build();
     }

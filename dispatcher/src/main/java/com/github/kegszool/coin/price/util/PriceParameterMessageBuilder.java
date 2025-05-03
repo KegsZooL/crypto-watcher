@@ -44,7 +44,7 @@ public class PriceParameterMessageBuilder {
         String parameterWithoutPrefix = getParameterWithoutPrefix(callbackQuery, snapshotProperties);
 
         CoinPrice snapshot = snapshotRepository.getSnapshot(chatId);
-        Map<String, PriceParameter> snapshotParameterMap = snapshotParametersRegistry.createParameterMap(snapshotProperties);
+        Map<String, PriceParameter> snapshotParameterMap = snapshotParametersRegistry.createParameterMap(snapshotProperties, chatId);
 
         String title = createTittleByParameter(parameterWithoutPrefix, snapshotParameterMap, snapshot);
         EditMessageText message = messageUtils.createEditMessageByMenuName(callbackQuery, title, snapshotProperties.getMenuName());

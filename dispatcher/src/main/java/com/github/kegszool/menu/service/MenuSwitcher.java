@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.kegszool.command.callback.CallbackCommand;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
+import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Log4j2
 @Component
@@ -22,8 +23,19 @@ public class MenuSwitcher extends CallbackCommand {
     }
 
     @Override
+    public boolean canHandle(Update update) {
+        if (!update.hasCallbackQuery()) {
+            return false;
+        }
+
+        String chatId = messageUtils.extractChatId(update);
+        String command = update.getCallbackQuery().getData();
+        return menuRegistry.isContained(command, chatId);
+    }
+
+    @Override
     protected boolean canHandleCommand(String command) {
-        return menuRegistry.isContained(command);
+        return true;
     }
 
     @Override

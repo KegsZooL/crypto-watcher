@@ -22,8 +22,8 @@ public class UserDataFactory {
         this.localizationService = localizationService;
     }
 
-    public UserData create(UserDto user, List<FavoriteCoinDto> favorites, List<NotificationDto> notifications) {
-        UserPreferenceDto preference = new UserPreferenceDto(user, localizationService.getCurrentLocale());
+    public UserData create(UserDto user, List<FavoriteCoinDto> favorites, List<NotificationDto> notifications, String chatId) {
+        UserPreferenceDto preference = new UserPreferenceDto(user, localizationService.getLocale(chatId));
         return new UserData(user, favorites, notifications, preference);
     }
 }

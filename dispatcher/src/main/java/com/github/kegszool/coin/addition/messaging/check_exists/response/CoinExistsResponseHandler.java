@@ -60,23 +60,24 @@ public class CoinExistsResponseHandler extends BaseResponseHandler<CoinExistence
         List<String> invalidCoins = result.invalidCoins();
 
         String finalMessage;
+        String chatId = serviceMessage.getChatId();
 
         if (!validCoins.isEmpty()) {
-            requestSender.send(result.user(), validCoins, serviceMessage.getMessageId(), serviceMessage.getChatId());
+            requestSender.send(result.user(), validCoins, serviceMessage.getMessageId(), chatId);
         }
 
         if (!validCoins.isEmpty() && invalidCoins.isEmpty()) {
-            String messageAllCoinsAdded = localizationService.getAnswerMessage(menuName, allCoinsAddedMsgType);
+            String messageAllCoinsAdded = localizationService.getAnswerMessage(menuName, allCoinsAddedMsgType, chatId);
             finalMessage = messageAllCoinsAdded + String.join(", ", validCoins);
 
         } else if (!validCoins.isEmpty()) {
-            String messageSomeCoinsAdded = localizationService.getAnswerMessage(menuName, someCoinsAddedMsgType);
+            String messageSomeCoinsAdded = localizationService.getAnswerMessage(menuName, someCoinsAddedMsgType, chatId);
             finalMessage = messageSomeCoinsAdded
                     .replace("{validCoins}", String.join(", ", validCoins))
                     .replace("{invalidCoins}", String.join(", ", invalidCoins));
 
         } else {
-            finalMessage = localizationService.getAnswerMessage(menuName, noCoinsAddedMsgType);
+            finalMessage = localizationService.getAnswerMessage(menuName, noCoinsAddedMsgType, chatId);
         }
 
         SendMessage sendMessage = SendMessage.builder()

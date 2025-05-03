@@ -50,30 +50,30 @@ public class NotificationAnswerMessageBuilder {
 
     public SendMessage createSuccessMsgFromCommand(Long chatId, String coin) {
         String localizedText = localizationService
-                .getAnswerMessage(menuName, fromCommandSuccessMsgType)
+                .getAnswerMessage(menuName, fromCommandSuccessMsgType, chatId.toString())
                 .replace("{coin}", coin);
         return buildMessage(chatId, localizedText);
     }
 
     public SendMessage createErrorMsgFromCommand(Long chatId) {
-        String localizedText = localizationService.getAnswerMessage(menuName, fromCommandErrorMsgType);
+        String localizedText = localizationService.getAnswerMessage(menuName, fromCommandErrorMsgType, chatId.toString());
         return buildMessage(chatId, localizedText);
     }
 
     public SendMessage createSuccessMsgFromMenu(Long chatId, String coin) {
         String localizedText = localizationService
-                .getAnswerMessage(menuName, fromMenuSuccessMsgType)
+                .getAnswerMessage(menuName, fromMenuSuccessMsgType, chatId.toString())
                 .replace("{coin}", coin);
         return buildMessage(chatId, localizedText);
     }
 
     public SendMessage createInvalidPercentageMsgFromMenu(Long chatId) {
-        String localizedText = localizationService.getAnswerMessage(menuName, fromMenuInvalidPercentageMsgType);
+        String localizedText = localizationService.getAnswerMessage(menuName, fromMenuInvalidPercentageMsgType, chatId.toString());
         return buildMessage(chatId, localizedText);
     }
 
     public SendMessage createCoinNotSelectedMsgFromMenu(Long chatId) {
-        String localizedText = localizationService.getAnswerMessage(menuName, fromMenuCoinNotSelectedMsgType);
+        String localizedText = localizationService.getAnswerMessage(menuName, fromMenuCoinNotSelectedMsgType, chatId.toString());
         return buildMessage(chatId, localizedText);
     }
 

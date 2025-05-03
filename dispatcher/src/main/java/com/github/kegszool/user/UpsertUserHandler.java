@@ -1,5 +1,6 @@
 package com.github.kegszool.user;
 
+import com.github.kegszool.menu.service.MenuRegistry;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +11,8 @@ import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.producer.RequestProducerService;
 import com.github.kegszool.messaging.util.MessageUtils;
 
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import org.telegram.telegrambots.meta.api.objects.User;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
@@ -26,19 +28,35 @@ public class UpsertUserHandler {
 
     private final RequestProducerService requestProducer;
     private final MessageUtils messageUtils;
+    private final MenuRegistry menuRegistry;
 
-    private final AtomicBoolean isVerified = new AtomicBoolean(false);
+    private final Set<String> verifiedChats = ConcurrentHashMap.newKeySet();
 
     @Autowired
-    public UpsertUserHandler(RequestProducerService requestProducer, MessageUtils messageUtils) {
+    public UpsertUserHandler(
+            RequestProducerService requestProducer,
+            MessageUtils messageUtils,
+            MenuRegistry menuRegistry
+    ) {
         this.requestProducer = requestProducer;
         this.messageUtils = messageUtils;
+        this.menuRegistry = menuRegistry;
     }
 
     public void handle(Update update) {
-        if (isVerified.compareAndSet(false, true)) {
+        String chatId = messageUtils.extractChatId(update);
+        if (verifiedChats.add(chatId)) {
+            registerAllMenusForChat(chatId);
             produceRequest(update);
         }
+    }
+
+    private void registerAllMenusForChat(String chatId) {
+        menuRegistry.getMenuNameToInstance().forEach((menuName, menuInstance) -> {
+            menuRegistry.registerMenu(menuName, chatId);
+            menuInstance.initializeMenuForChat(chatId);
+        });
+        log.info("All menus registered and initialized for chat id: '{}'", chatId);
     }
 
     private void produceRequest(Update update) {
@@ -55,14 +73,11 @@ public class UpsertUserHandler {
 
     private UserDto createUserDto(Update update) {
         User user = update.getMessage().getFrom();
-
         Long telegramId = user.getId();
         String firstName = user.getFirstName();
         String lastName = user.getLastName();
 
         log.info(LOG_MESSAGE, telegramId, firstName, lastName);
-        return new UserDto(
-                telegramId, firstName, lastName
-        );
+        return new UserDto(telegramId, firstName, lastName);
     }
 }

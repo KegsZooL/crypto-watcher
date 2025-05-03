@@ -95,7 +95,7 @@ public class PriceRequestCommand extends CallbackCommand {
     }
 
     private EditMessageText createAnswerMessage(CallbackQuery query, String coinNameWithCurrencyPrefix) {
-        String answerMsg = localizationService.getAnswerMessage(menuName);
+        String answerMsg = localizationService.getAnswerMessage(menuName, messageUtils.extractChatId(query));
         String prettyMsg = answerMsg + String.format(" — <b>%s</b>", coinNameWithCurrencyPrefix);
         EditMessageText answerMessage = messageUtils.createEditMessage(query, prettyMsg);
         answerMessage.setParseMode(ParseMode.HTML);

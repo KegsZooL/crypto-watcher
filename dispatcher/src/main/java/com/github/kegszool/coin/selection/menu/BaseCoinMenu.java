@@ -1,6 +1,8 @@
 package com.github.kegszool.coin.selection.menu;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Value;
 
 import com.github.kegszool.menu.base.BaseMenu;
@@ -21,16 +23,21 @@ public abstract class BaseCoinMenu extends BaseMenu {
         super(sectionBuilder);
     }
 
-    public List<FavoriteCoinDto> getAllFavoriteCoins(UserDto user) {
-        return SECTIONS.keySet().stream()
-                .filter(k -> k.endsWith(CURRENCY_PREFIX))
-                .map(k -> new FavoriteCoinDto(user, new CoinDto(SECTIONS.get(k))))
+    public List<FavoriteCoinDto> getAllFavoriteCoins(UserDto user, String chatId) {
+        LinkedHashMap<String, String> sections = menuStateStorage.getSections(getName(), chatId);
+        if (sections == null) {
+            return List.of();
+        }
+
+        return sections.keySet().stream()
+                .filter(key -> key.endsWith(CURRENCY_PREFIX))
+                .map(key -> new FavoriteCoinDto(user, new CoinDto(sections.get(key))))
                 .toList();
     }
 
     @Override
-    public boolean hasDataChanged(UserData userData) {
-        List<FavoriteCoinDto> allCoins = getAllFavoriteCoins(userData.getUser());
-        return !allCoins.equals(userData.getFavoriteCoins()) || isLocaleChanged(userData);
+    public boolean hasDataChanged(UserData userData, String chatId) {
+        List<FavoriteCoinDto> allCoins = getAllFavoriteCoins(userData.getUser(), chatId);
+        return !allCoins.equals(userData.getFavoriteCoins()) || isLocaleChanged(userData, chatId);
     }
 }

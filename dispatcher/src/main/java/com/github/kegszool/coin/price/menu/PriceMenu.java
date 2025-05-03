@@ -57,7 +57,7 @@ public class PriceMenu extends BaseMenu {
     }
 
     @Override
-    public boolean hasDataChanged(UserData userData) {
-        return isLocaleChanged(userData);
+    public boolean hasDataChanged(UserData userData, String chatId) {
+        return isLocaleChanged(userData, chatId);
     }
 }

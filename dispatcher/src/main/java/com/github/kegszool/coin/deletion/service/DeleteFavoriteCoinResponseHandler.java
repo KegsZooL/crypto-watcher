@@ -26,8 +26,7 @@ public class DeleteFavoriteCoinResponseHandler extends BaseResponseHandler<UserD
 
     @Override
     public HandlerResult handle(ServiceMessage<UserData> serviceMessage) {
-        UserData userData = serviceMessage.getData();
-        menuUpdaterService.updateMenus(userData);
+        menuUpdaterService.updateMenus(serviceMessage.getData(), serviceMessage.getChatId());
         return new HandlerResult.NoResponse();
     }
 

@@ -1,42 +1,41 @@
 package com.github.kegszool.menu.service;
 
-import com.github.kegszool.localization.LocalizationService;
-import com.github.kegszool.menu.base.BaseMenu;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
+import com.github.kegszool.menu.base.BaseMenu;
 import com.github.kegszool.user.messaging.dto.UserData;
-
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import com.github.kegszool.localization.LocalizationService;
 
 @Log4j2
 @Service
 public class MenuUpdaterService {
 
-    private final Map<String, Map<> BaseMenu> nameToMenu = new ConcurrentHashMap<>();
     private final LocalizationService localizationService;
+    private final MenuRegistry menuRegistry;
 
     @Autowired
-    public MenuUpdaterService(LocalizationService localizationService) {
+    public MenuUpdaterService(
+            LocalizationService localizationService,
+            MenuRegistry menuRegistry
+    ) {
+        this.menuRegistry = menuRegistry;
         this.localizationService = localizationService;
     }
 
-    public void registerMenu(String menuName, BaseMenu menu) {
-        nameToMenu.put(menuName, menu);
-    }
-
-    public void updateMenus(UserData userData) {
-        nameToMenu.values().forEach(menu -> {
-            if (menu.hasDataChanged(userData)) {
-                menu.updateMenu(userData);
+    public void updateMenus(UserData userData, String chatId) {
+        menuRegistry.getNameToChatMenu().forEach((menuName, userMenu) -> {
+            BaseMenu menu = userMenu.get(chatId);
+            if (menu.hasDataChanged(userData, chatId)) {
+                menu.updateMenu(userData, chatId);
             }
         });
-        localizationService.setCurrentLocale(userData.getUserPreference().interfaceLanguage());
+        String locale = userData.getUserPreference().interfaceLanguage();
+        localizationService.setLocale(chatId, locale);
     }
 
-    public void changeKeyboard(String config, String menuName) {
-        nameToMenu.get(menuName).changeMenuKeyboard(config);
+    public void changeKeyboard(String config, String menuName, String chatId) {
+        menuRegistry.getMenu(menuName, chatId).changeMenuKeyboard(config, chatId);
     }
 }

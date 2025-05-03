@@ -33,9 +33,10 @@ public class TriggeredNotificationMessageBuilder {
 
     public SendMessage build(NotificationDto notification) {
 
+        String chatId = notification.getChatId().toString();
         String localizedText = switch (notification.getDirection()) {
-            case Up -> localizationService.getAnswerMessage(menuName, increasedMsgType);
-            case Down -> localizationService.getAnswerMessage(menuName, decreasedMsgType);
+            case Up -> localizationService.getAnswerMessage(menuName, increasedMsgType, chatId);
+            case Down -> localizationService.getAnswerMessage(menuName, decreasedMsgType, chatId);
         };
 
         localizedText = localizedText.replace("{coin}", notification.getCoin().getName())

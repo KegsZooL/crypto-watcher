@@ -3,10 +3,9 @@ package com.github.kegszool.menu.base;
 import java.util.List;
 import java.util.LinkedHashMap;
 
-import com.github.kegszool.menu.base.main.UserMenuFactory;
-import com.github.kegszool.menu.service.MenuUpdaterService;
+
+import com.github.kegszool.menu.MenuStateStorage;
 import jakarta.annotation.Nullable;
-import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,7 +15,6 @@ import com.github.kegszool.menu.util.SectionBuilder;
 import com.github.kegszool.menu.service.MenuSectionService;
 
 import com.github.kegszool.user.messaging.dto.UserData;
-import com.github.kegszool.menu.exception.base.MenuException;
 
 import com.github.kegszool.localization.LocalizationService;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
@@ -26,8 +24,8 @@ public abstract class BaseMenu implements Menu {
 
     @Autowired private KeyboardFactory keyboardFactory;
     @Autowired private MenuSectionService sectionService;
-    @Autowired private MenuUpdaterService menuUpdaterService;
     @Autowired private LocalizationService localizationService;
+    @Autowired protected MenuStateStorage menuStateStorage;
 
     @Nullable
     private final SectionBuilder sectionBuilder;
@@ -36,32 +34,38 @@ public abstract class BaseMenu implements Menu {
         this.sectionBuilder = sectionBuilder;
     }
 
-    protected LinkedHashMap<String, String> SECTIONS = new LinkedHashMap<>();
-    protected InlineKeyboardMarkup menuKeyboard;
+    public void initializeMenuForChat(String chatId) {
+        String config = getSectionsConfig();
+        LinkedHashMap<String, String> sections = sectionService.createSections(config);
+        InlineKeyboardMarkup keyboard = keyboardFactory.create(sections, getMaxButtonsPerRow(), getFullWidthSections());
 
-    @PostConstruct
-    protected void initializeMenu() throws MenuException {
-        String sectionsConfig = getSectionsConfig();
-        SECTIONS = sectionService.createSections(sectionsConfig);
-        menuKeyboard = keyboardFactory.create(SECTIONS, getMaxButtonsPerRow(), getFullWidthSections());
-
-        menuUpdaterService.registerMenu(getName(), this);
+        menuStateStorage.saveSections(getName(), chatId, sections);
+        menuStateStorage.saveKeyboard(getName(), chatId, keyboard);
     }
 
-    public void updateMenu(UserData userData) {
+    public void updateMenu(UserData userData, String chatId) {
         String newConfig = "";
         if (sectionBuilder != null) {
             newConfig = sectionBuilder.buildSectionsConfig(userData);
         }
+
+        LinkedHashMap<String, String> sections = menuStateStorage.getSections(getName(), chatId);
+        if (sections == null) {
+            initializeMenuForChat(chatId);
+            return;
+        }
+
         String actualLanguage = userData.getUserPreference().interfaceLanguage();
-        sectionService.update(SECTIONS, newConfig, true, getName(), actualLanguage);
-        menuKeyboard = keyboardFactory.create(SECTIONS, getMaxButtonsPerRow(), getFullWidthSections());
+        sectionService.update(sections, newConfig, true, getName(), actualLanguage);
+
+        InlineKeyboardMarkup newKeyboard = keyboardFactory.create(sections, getMaxButtonsPerRow(), getFullWidthSections());
+        menuStateStorage.saveKeyboard(getName(), chatId, newKeyboard);
     }
 
-    public abstract boolean hasDataChanged(UserData userData);
+    public abstract boolean hasDataChanged(UserData userData, String chatId);
 
-    public boolean isLocaleChanged(UserData userData) {
-        String currentLocale = localizationService.getCurrentLocale();
+    public boolean isLocaleChanged(UserData userData, String chatId) {
+        String currentLocale = localizationService.getLocale(chatId);
         return !userData.getUserPreference().interfaceLanguage().equals(currentLocale);
     }
 
@@ -70,12 +74,15 @@ public abstract class BaseMenu implements Menu {
     protected abstract List<String> getFullWidthSections();
 
     @Override
-    public InlineKeyboardMarkup getKeyboardMarkup() {
-        return menuKeyboard;
+    public InlineKeyboardMarkup getKeyboardMarkup(String chatId) {
+        return menuStateStorage.getKeyboard(getName(), chatId);
     }
 
-    public void changeMenuKeyboard(String sectionsConfig) {
-        SECTIONS = sectionService.createSections(sectionsConfig);
-        menuKeyboard = keyboardFactory.create(SECTIONS, getMaxButtonsPerRow(), getFullWidthSections());
+    public void changeMenuKeyboard(String sectionsConfig, String chatId) {
+        LinkedHashMap<String, String> sections = sectionService.createSections(sectionsConfig);
+        menuStateStorage.saveSections(getName(), chatId, sectionService.createSections(sectionsConfig));
+
+        InlineKeyboardMarkup keyboard = keyboardFactory.create(sections, getMaxButtonsPerRow(), getFullWidthSections());
+        menuStateStorage.saveKeyboard(getName(), chatId, keyboard);
     }
 }

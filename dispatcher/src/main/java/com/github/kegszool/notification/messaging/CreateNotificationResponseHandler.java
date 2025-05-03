@@ -31,7 +31,7 @@ public class CreateNotificationResponseHandler extends BaseResponseHandler<UserD
 
     @Override
     public HandlerResult handle(ServiceMessage<UserData> serviceMessage) {
-        menuUpdater.updateMenus(serviceMessage.getData());
+        menuUpdater.updateMenus(serviceMessage.getData(), serviceMessage.getChatId());
         return new HandlerResult.NoResponse();
     }
 }

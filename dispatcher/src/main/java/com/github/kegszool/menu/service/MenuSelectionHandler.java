@@ -52,8 +52,11 @@ public abstract class MenuSelectionHandler {
     }
 
     private InlineKeyboardButton extractSelectedButton(CallbackQuery callback, String menuName) {
-        Menu menu = menuRegistry.getMenu(menuName);
-        InlineKeyboardMarkup keyboardMarkup = menu.getKeyboardMarkup();
+
+        String chatId = messageUtils.extractChatId(callback);
+
+        Menu menu = menuRegistry.getMenu(menuName, chatId);
+        InlineKeyboardMarkup keyboardMarkup = menu.getKeyboardMarkup(chatId);
         List<InlineKeyboardRow> keyboard = keyboardMarkup.getKeyboard();
 
         if (keyboard.isEmpty()) {

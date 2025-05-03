@@ -3,7 +3,6 @@ package com.github.kegszool.coin.selection.menu.base;
 import java.util.List;
 import java.util.Collections;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -11,7 +10,6 @@ import com.github.kegszool.menu.base.BaseMenu;
 import com.github.kegszool.user.messaging.dto.UserData;
 
 @Component
-@Scope("prototype")
 public class EditCoinSectionsMenu extends BaseMenu {
 
     private final String name;
@@ -58,7 +56,7 @@ public class EditCoinSectionsMenu extends BaseMenu {
     }
 
     @Override
-    public boolean hasDataChanged(UserData userData) {
-        return true;
+    public boolean hasDataChanged(UserData userData, String chatId) {
+        return isLocaleChanged(userData, chatId);
     }
 }

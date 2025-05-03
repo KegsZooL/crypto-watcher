@@ -29,6 +29,7 @@ public class CoinDeletionUserDataFactory {
 
     public UserData createFromSelected(CallbackQuery callbackQuery, List<InlineKeyboardButton> selected) {
 
+        String chatId = callbackQuery.getMessage().getChatId().toString();
         User user  = callbackQuery.getFrom();
         UserDto userDto = new UserDto(user.getId(), user.getFirstName(), user.getLastName());
 
@@ -43,6 +44,6 @@ public class CoinDeletionUserDataFactory {
             CoinDto coinDto = new CoinDto(coinName);
             selectedCoins.add(new FavoriteCoinDto(userDto, coinDto));
         }
-        return userDataFactory.create(userDto, selectedCoins, Collections.emptyList());
+        return userDataFactory.create(userDto, selectedCoins, Collections.emptyList(),chatId); //TODO NOTIFICATION EMPTY
     }
 }

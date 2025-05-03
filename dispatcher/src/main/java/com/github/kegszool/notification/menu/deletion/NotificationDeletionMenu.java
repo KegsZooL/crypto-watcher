@@ -59,7 +59,7 @@ public class NotificationDeletionMenu extends BaseMenu {
     }
 
     @Override
-    public boolean hasDataChanged(UserData userData) {
-        return isLocaleChanged(userData); //TODO: так же проверка новых оповещений
+    public boolean hasDataChanged(UserData userData, String chatId) {
+        return isLocaleChanged(userData, chatId); //TODO: так же проверка новых оповещений
     }
 }

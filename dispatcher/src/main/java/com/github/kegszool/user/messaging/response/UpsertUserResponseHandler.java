@@ -48,7 +48,7 @@ public class UpsertUserResponseHandler extends BaseResponseHandler<UpsertUserRes
         }
         logByResponseStatus(responseStatus, user);
         if (responseStatus) {
-            menuUpdaterService.updateMenus(userData);
+            menuUpdaterService.updateMenus(userData, serviceMessage.getChatId());
         }
         return new HandlerResult.NoResponse();
     }
