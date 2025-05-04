@@ -30,9 +30,4 @@ public class WebSocketSubscriptionTracker {
         }
         return false;
     }
-
-    public int getCount(String instId) {
-        AtomicInteger count = activeSubscriptions.get(instId);
-        return count == null ? 0 : count.get();
-    }
 }

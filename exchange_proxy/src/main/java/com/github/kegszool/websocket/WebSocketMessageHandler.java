@@ -2,11 +2,12 @@ package com.github.kegszool.websocket;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.kegszool.notificaiton.active.util.NotificationTriggerChecker;
+import com.github.kegszool.notificaiton.util.NotificationTriggerChecker;
 
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Log4j2
@@ -25,6 +26,7 @@ public class WebSocketMessageHandler {
         this.notificationChecker = notificationChecker;
     }
 
+    @Async
     public void handle(String message) {
         try {
             JsonNode root = new ObjectMapper().readTree(message);
@@ -47,7 +49,7 @@ public class WebSocketMessageHandler {
 
             double price = Double.parseDouble(last);
 
-            String coinName = instId.substring(0, currencySuffix.length() - 1);
+            String coinName = instId.replace(currencySuffix, "");
             notificationChecker.check(coinName, price);
 
         } catch (Exception e) {

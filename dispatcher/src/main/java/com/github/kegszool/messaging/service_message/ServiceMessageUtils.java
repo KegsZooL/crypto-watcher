@@ -42,9 +42,9 @@ public class ServiceMessageUtils {
         return new InvalidServiceMessageException(serviceMessageData);
     }
 
-    private static String fetchServiceMessageData(ServiceMessage<?> serviceMessage, String routinKey) {
+    private static String fetchServiceMessageData(ServiceMessage<?> serviceMessage, String routingKey) {
         return String.format("Routing key: \"%s\", Data: \"%s\", ChatId: \"%s\", MessageId: \"%s\"",
-                routinKey, serviceMessage.getData().toString(),
+                routingKey, serviceMessage.getData().toString(),
                 serviceMessage.getChatId(), serviceMessage.getMessageId().toString());
     }
 

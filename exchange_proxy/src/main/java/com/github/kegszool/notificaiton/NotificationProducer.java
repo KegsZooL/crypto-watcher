@@ -1,14 +1,13 @@
 package com.github.kegszool.notificaiton;
 
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.messaging.producer.ServiceMessageProducer;
 import com.github.kegszool.messaging.dto.NotificationDto;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-
-import java.util.List;
+import com.github.kegszool.messaging.producer.ServiceMessageProducer;
 
 @Service
 public class NotificationProducer {
@@ -17,18 +16,21 @@ public class NotificationProducer {
     private final String routingKeyForCreation;
     private final String routingKeyForActive;
     private final String routingKeyForTriggered;
+    private final String routingKeyForUpdating;
 
     @Autowired
     public NotificationProducer(
             ServiceMessageProducer producer,
             @Value("${spring.rabbitmq.template.routing-key.create_notification_request}") String routingKeyForCreation,
             @Value("${spring.rabbitmq.template.routing-key.get_activate_notification_request}") String routingKeyForActive,
-            @Value("${spring.rabbitmq.template.routing-key.triggered_notification}") String routingKeyForTriggered
+            @Value("${spring.rabbitmq.template.routing-key.triggered_notification}") String routingKeyForTriggered,
+            @Value("${spring.rabbitmq.template.routing-key.update_notification_request}") String routingKeyForUpdating
     ) {
         this.producer = producer;
         this.routingKeyForCreation = routingKeyForCreation;
         this.routingKeyForActive = routingKeyForActive;
         this.routingKeyForTriggered = routingKeyForTriggered;
+        this.routingKeyForUpdating = routingKeyForUpdating;
     }
 
     public void sendCreationRequest(ServiceMessage<NotificationDto> serviceMessage) {
@@ -54,11 +56,11 @@ public class NotificationProducer {
     }
 
     public void sendUpdateNotificationRequest(List<NotificationDto> notifications) {
-//        Integer stubMessageId = notifications.get(0) .getMessageId();
-//        String stubChatId = notifications.get(0).getChatId().toString();
-//        ServiceMessage<List<NotificationDto>> request = new ServiceMessage<>(
-//                stubMessageId, stubChatId, notifications
-//        );
-//        producer.produce(request,);
+        Integer stubMessageId = notifications.get(0) .getMessageId();
+        String stubChatId = notifications.get(0).getChatId().toString();
+        ServiceMessage<List<NotificationDto>> request = new ServiceMessage<>(
+                stubMessageId, stubChatId, notifications
+        );
+        producer.produce(request, routingKeyForUpdating);
     }
 }

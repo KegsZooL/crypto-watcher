@@ -1,24 +1,22 @@
 package com.github.kegszool.notificaiton.active;
 
-import com.github.kegszool.messaging.dto.NotificationDto;
+import java.util.List;
 import org.springframework.stereotype.Component;
+import com.github.kegszool.messaging.dto.NotificationDto;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
+import org.springframework.amqp.support.AmqpHeaders;
+import com.github.kegszool.messaging.producer.ProducerService;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.consumer.BaseRequestConsumer;
 
-import org.springframework.amqp.support.AmqpHeaders;
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.messaging.producer.ProducerService;
-
-import java.util.List;
-
 @Component
-public class ActiveNotificationConsumer extends BaseRequestConsumer<List<NotificationDto>, ActiveNotificationResponseExecutor> {
+public class ActiveNotificationConsumer extends BaseRequestConsumer<List<NotificationDto>, ActiveNotificationExecutor> {
 
     public ActiveNotificationConsumer(
             ProducerService responseProducer,
-            ActiveNotificationResponseExecutor executor
+            ActiveNotificationExecutor executor
     ) {
         super(responseProducer, executor);
     }

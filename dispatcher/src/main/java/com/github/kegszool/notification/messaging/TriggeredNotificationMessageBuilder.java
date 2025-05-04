@@ -33,10 +33,10 @@ public class TriggeredNotificationMessageBuilder {
 
     public SendMessage build(NotificationDto notification) {
 
-        String chatId = notification.getChatId().toString();
+        Long chatId = notification.getChatId();
         String localizedText = switch (notification.getDirection()) {
-            case Up -> localizationService.getAnswerMessage(menuName, increasedMsgType, chatId);
-            case Down -> localizationService.getAnswerMessage(menuName, decreasedMsgType, chatId);
+            case Up -> localizationService.getAnswerMessage(menuName, increasedMsgType, chatId.toString());
+            case Down -> localizationService.getAnswerMessage(menuName, decreasedMsgType, chatId.toString());
         };
 
         localizedText = localizedText.replace("{coin}", notification.getCoin().getName())
@@ -44,7 +44,7 @@ public class TriggeredNotificationMessageBuilder {
                 .replace("{price}", Double.toString(notification.getInitialPrice()));
 
         return SendMessage.builder()
-                .chatId(notification.getChatId())
+                .chatId(chatId)
                 .text(localizedText)
                 .parseMode(ParseMode.HTML)
                 .build();

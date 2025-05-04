@@ -1,6 +1,5 @@
 package com.github.kegszool.request.impl;
 
-import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.github.kegszool.database.entity.base.User;
@@ -15,9 +14,10 @@ import com.github.kegszool.messaging.dto.database_entity.UserDto;
 import com.github.kegszool.messaging.dto.database_entity.UserData;
 import com.github.kegszool.messaging.dto.database_entity.UserPreferenceDto;
 import com.github.kegszool.messaging.dto.command_entity.ChangeUserLanguageRequest;
+import org.springframework.stereotype.Service;
 
 
-@Component
+@Service
 public class ChangeLanguageExecutor implements RequestExecutor<ChangeUserLanguageRequest, UserData> {
 
     private final String routingKey;

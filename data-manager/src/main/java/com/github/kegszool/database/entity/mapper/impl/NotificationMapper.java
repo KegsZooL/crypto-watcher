@@ -62,6 +62,4 @@ public class NotificationMapper extends EntityMapper<Notification, NotificationD
                 dto.getDirection()
         );
     }
-
-
 }

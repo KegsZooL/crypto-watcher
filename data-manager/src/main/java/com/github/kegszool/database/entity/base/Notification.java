@@ -42,7 +42,7 @@ public class Notification {
     @Column(name = "initial_price")
     private double initialPrice;
 
-    @Column(name = "target_percentage", precision = 4, scale = 4)
+    @Column(name = "target_percentage", precision = 8, scale = 4)
     private BigDecimal targetPercentage;
 
     @Enumerated(EnumType.STRING)

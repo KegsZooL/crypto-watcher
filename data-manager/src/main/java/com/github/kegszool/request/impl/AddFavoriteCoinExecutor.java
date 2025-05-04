@@ -2,7 +2,6 @@ package com.github.kegszool.request.impl;
 
 import com.github.kegszool.messaging.dto.database_entity.*;
 import com.github.kegszool.database.entity.service.impl.UserService;
-import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.github.kegszool.database.entity.base.Coin;
@@ -15,12 +14,13 @@ import com.github.kegszool.database.repository.impl.FavoriteCoinRepository;
 import com.github.kegszool.request.RequestExecutor;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.dto.command_entity.UserCoinData;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-@Component
+@Service
 public class AddFavoriteCoinExecutor implements RequestExecutor<UserCoinData, UserData> {
 
     private final String routingKey;

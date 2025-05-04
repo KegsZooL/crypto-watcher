@@ -10,17 +10,17 @@ import com.github.kegszool.messaging.dto.database_entity.UserDto;
 import com.github.kegszool.messaging.dto.database_entity.UserData;
 import com.github.kegszool.messaging.dto.database_entity.FavoriteCoinDto;
 
-import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Log4j2
-@Component
+@Service
 public class DeleteFavoriteCoinExecutor implements RequestExecutor<UserData, UserData> {
 
     @Value("${spring.rabbitmq.template.routing-key.delete_favorite_coin.response}")

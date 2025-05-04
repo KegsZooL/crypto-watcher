@@ -12,13 +12,13 @@ import com.github.kegszool.messaging.dto.NotificationDto;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 
 @Component
-public class NotificationCreationRequestExecutor extends BaseRequestExecutor<NotificationDto, NotificationDto> {
+public class NotificationCreationExecutor extends BaseRequestExecutor<NotificationDto, NotificationDto> {
 
     private final String routingKey;
     private final NotificationCreationService creationService;
 
     @Autowired
-    public NotificationCreationRequestExecutor(
+    public NotificationCreationExecutor(
             RestCryptoController restCryptoController,
             JsonParser jsonParser,
             @Value("${spring.rabbitmq.template.routing-key.create_notification_response}") String routingKey,

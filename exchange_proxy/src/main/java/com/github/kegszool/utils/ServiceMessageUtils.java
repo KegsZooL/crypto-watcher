@@ -1,12 +1,10 @@
 package com.github.kegszool.utils;
 
+import lombok.extern.log4j.Log4j2;
+import org.springframework.amqp.AmqpException;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.exception.service_message.InvalidServiceMessageException;
 import com.github.kegszool.exception.service_message.ServiceMessageSendingException;
-
-import org.springframework.amqp.AmqpException;
-
-import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class ServiceMessageUtils {

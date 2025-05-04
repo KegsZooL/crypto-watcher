@@ -13,16 +13,18 @@ import com.github.kegszool.database.repository.impl.UserRepository;
 import com.github.kegszool.messaging.dto.database_entity.NotificationDto;
 import com.github.kegszool.messaging.dto.database_entity.UserData;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.producer.ResponseProducer;
+import com.github.kegszool.notification.NotifierCreatedNotification;
 import com.github.kegszool.request.RequestExecutor;
 
-import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Component
-public class CreateNotificationRequestExecutor implements RequestExecutor<NotificationDto, UserData> {
+@Service
+public class CreateNotificationExecutor implements RequestExecutor<NotificationDto, UserData> {
 
     private final String responseRoutingKey;
     private final NotificationRepository notificationRepository;
@@ -31,16 +33,19 @@ public class CreateNotificationRequestExecutor implements RequestExecutor<Notifi
     private final UserPreferenceMapper userPreferenceMapper;
     private final CoinRepository coinRepository;
     private final UserRepository userRepository;
+    private final NotifierCreatedNotification notifierCreatedNotification;
 
     @Autowired
-    public CreateNotificationRequestExecutor(
+    public CreateNotificationExecutor(
             @Value("${spring.rabbitmq.template.routing-key.create_notification.response}") String responseRoutingKey,
             NotificationRepository notificationRepository,
             UserService userService,
             NotificationMapper notificationMapper,
             UserPreferenceMapper userPreferenceMapper,
             CoinRepository coinRepository,
-            UserRepository userRepository) {
+            UserRepository userRepository,
+            NotifierCreatedNotification notifierCreatedNotification
+    ) {
         this.responseRoutingKey = responseRoutingKey;
         this.notificationRepository = notificationRepository;
         this.userService = userService;
@@ -48,18 +53,21 @@ public class CreateNotificationRequestExecutor implements RequestExecutor<Notifi
         this.userPreferenceMapper = userPreferenceMapper;
         this.coinRepository = coinRepository;
         this.userRepository = userRepository;
+        this.notifierCreatedNotification = notifierCreatedNotification;
     }
 
     @Override
     public ServiceMessage<UserData> execute(ServiceMessage<NotificationDto> serviceMessage) {
+
         NotificationDto dto = serviceMessage.getData();
         Long telegramId = dto.getUser().getTelegramId();
 
         User user = userRepository.findByTelegramId(telegramId)
-                .orElseThrow(() -> new IllegalStateException("User must exist but was not found by Telegram ID: " + telegramId)); //TODO: dummy
+                .orElseThrow(() -> new IllegalStateException("User must exist but was not found by Telegram ID: " + telegramId));
 
-        Coin coin = coinRepository.findByName(dto.getCoin().getName())
-                .orElseGet(() -> coinRepository.save(new Coin(dto.getCoin().getName())));
+        String coinName = dto.getCoin().getName();
+        Coin coin = coinRepository.findByName(coinName)
+                .orElseGet(() -> coinRepository.save(new Coin(coinName)));
 
         Notification notification = notificationMapper.toEntity(dto, user, coin);
         notificationRepository.save(notification);
@@ -76,6 +84,7 @@ public class CreateNotificationRequestExecutor implements RequestExecutor<Notifi
         } else {
             //TODO: dummy
         }
+        notifierCreatedNotification.notify(coinName);
         return new ServiceMessage<>(serviceMessage.getMessageId(), serviceMessage.getChatId(), userData);
     }
 

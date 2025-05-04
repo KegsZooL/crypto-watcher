@@ -58,7 +58,6 @@ public class NotificationCreationService {
         notificationProducer.sendCreationRequest(serviceMessage);
 
         if (subscriptionTracker.increment(coinName)) {
-            notificationProducer.sendUploadRequestForActive(coinName, serviceMessage);
             webSocketConnector.connect(fullCoinName);
         }
     }

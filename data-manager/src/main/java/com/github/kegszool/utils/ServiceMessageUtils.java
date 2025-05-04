@@ -1,19 +1,13 @@
 package com.github.kegszool.utils;
 
+import lombok.extern.log4j.Log4j2;
+import org.springframework.amqp.AmqpException;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.exception.messaging.conversion.DataConversionException;
 import com.github.kegszool.exception.service_message.InvalidServiceMessageException;
 import com.github.kegszool.exception.service_message.ServiceMessageSendingException;
 
-import org.springframework.amqp.AmqpException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import lombok.extern.log4j.Log4j2;
-
 @Log4j2
 public class ServiceMessageUtils {
-
-    private final static ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     public static boolean isDataValid(ServiceMessage<?> serviceMessage, String routingKey) {
         String chatId = serviceMessage.getChatId();
@@ -67,24 +61,5 @@ public class ServiceMessageUtils {
         String classOfDataInServiceMessage = serviceMessage.getData().getClass().getSimpleName();
         log.info("Service message containing data of type \"{}\" sent with routing key \"{}\"",
                 classOfDataInServiceMessage, routingKey);
-    }
-
-    public static <T> ServiceMessage<T> mapToServiceMessage(ServiceMessage<?> serviceMessage, Class<T> targetClass) {
-        Object serviceMessageData = serviceMessage.getData();
-        try {
-            T mappedData = OBJECT_MAPPER.convertValue(serviceMessageData, targetClass);
-            return new ServiceMessage<>(
-                    serviceMessage.getMessageId(), serviceMessage.getChatId(), mappedData
-            );
-        } catch (IllegalArgumentException ex) {
-            throw handleConversionError(serviceMessageData, targetClass);
-        }
-    }
-
-    public static <T> DataConversionException handleConversionError(Object serviceMessageData, Class<T> targetClass) {
-        Class<?> dataClass = serviceMessageData.getClass();
-        log.error("Error converting object of type \"{}\" to type \"{}\".",
-                dataClass, targetClass);
-        return new DataConversionException("Failed to convert service message data.");
     }
 }

@@ -17,13 +17,14 @@ spring:
         create_notification_request: ${RABBITMQ_CREATE_NOTIFICATION_REQUEST_FOR_DB_ROUTING_KEY}
         get_activate_notification_request: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_REQUEST_ROUTING_KEY}
         delete_notification_response: ${RABBITMQ_DELETE_NOTIFICATION_RESPONSE_ROUTING_KEY}
+        update_notification_request: ${RABBITMQ_UPDATE_NOTIFICATION_REQUEST_ROUTING_KEY}
         triggered_notification: ${RABBITMQ_TRIGGERED_NOTIFICATION_ROUTING_KEY}
     queues:
       coin_price_request: ${RABBITMQ_COIN_PRICE_REQUEST_QUEUE}
       check_coin_exists_request: ${RABBITMQ_CHECK_COIN_EXISTS_REQUEST_QUEUE}
       create_notification_request: ${RABBITMQ_CREATE_NOTIFICATION_REQUEST_FOR_EXCHANGE_QUEUE}
+      notification_created: ${RABBITMQ_NOTIFY_NOTIFICATION_HAS_BEEN_CREATED_QUEUE}
       get_active_notification_response: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_RESPONSE_QUEUE}
-      triggered_notification: ${RABBITMQ_TRIGGERED_NOTIFICATION_QUEUE}
       delete_notification_request: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_QUEUE}
 
 api:

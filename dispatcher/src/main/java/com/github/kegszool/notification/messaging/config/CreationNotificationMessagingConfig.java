@@ -80,4 +80,20 @@ public class CreationNotificationMessagingConfig extends RabbitConfiguration {
                 .to(exchange())
                 .with(routingKey);
     }
+
+    @Bean
+    public Queue createNotifyCreatedNotificationQueue(@Value("${spring.rabbitmq.queues.notify_created_notification}") String queueName
+    ) {
+        return new Queue(queueName, true, false, false, queueArgs);
+    }
+
+    @Bean
+    public Binding bindNotifyCreatedNotification(
+            @Value("${spring.rabbitmq.template.routing-key.notify_created_notification}") String routingKey,
+            @Qualifier("createNotifyCreatedNotificationQueue") Queue queue
+    ) {
+        return BindingBuilder.bind(queue)
+                .to(exchange())
+                .with(routingKey);
+    }
 }

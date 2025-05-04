@@ -1,7 +1,6 @@
 package com.github.kegszool.request.impl;
 
 import com.github.kegszool.messaging.dto.database_entity.*;
-import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,10 +15,11 @@ import com.github.kegszool.request.RequestExecutor;
 import java.util.List;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.util.Pair;
+import org.springframework.stereotype.Service;
 
 @Log4j2
-@Component
-public class UpsertUserRequestExecutor implements RequestExecutor<UserDto, UpsertUserResponse> {
+@Service
+public class UpsertUserExecutor implements RequestExecutor<UserDto, UpsertUserResponse> {
 
     @Value("${spring.rabbitmq.template.routing-key.upsert_user.response}")
     private String upsertUserResponseRoutingKey;
@@ -27,7 +27,7 @@ public class UpsertUserRequestExecutor implements RequestExecutor<UserDto, Upser
     private final UserService userService;
 
     @Autowired
-    public UpsertUserRequestExecutor(UserService userService) {
+    public UpsertUserExecutor(UserService userService) {
         this.userService = userService;
     }
 
