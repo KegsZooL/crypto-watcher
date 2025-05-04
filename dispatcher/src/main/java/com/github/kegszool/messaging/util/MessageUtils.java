@@ -1,7 +1,7 @@
 package com.github.kegszool.messaging.util;
 
-import com.github.kegszool.localization.LocalizationService;
 import org.springframework.stereotype.Component;
+import com.github.kegszool.localization.LocalizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.menu.base.Menu;

@@ -89,7 +89,7 @@ public class MenuSectionService {
             }
         });
 
-        Map<String, String> localizedSections = parseSectionConfig(localizationService.getSectionsConfig(menuName, language));
+        Map<String, String> localizedSections = parseSectionConfig(localizationService.getSectionsConfigByLocal(menuName, language));
 
         if (saveActionButton) {
             targetSections.forEach((key, value) -> {

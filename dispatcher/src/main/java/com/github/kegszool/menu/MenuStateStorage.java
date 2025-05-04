@@ -32,8 +32,4 @@ public class MenuStateStorage {
     public InlineKeyboardMarkup getKeyboard(String menuName, String chatId) {
         return chatToMenuKeyboards.getOrDefault(menuName, Map.of()).get(chatId);
     }
-
-    public boolean hasMenuForChat(String menuName, String chatId) {
-        return chatToMenuSections.getOrDefault(menuName, Map.of()).containsKey(chatId);
-    }
 }

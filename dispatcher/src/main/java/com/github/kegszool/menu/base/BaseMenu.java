@@ -3,17 +3,14 @@ package com.github.kegszool.menu.base;
 import java.util.List;
 import java.util.LinkedHashMap;
 
-
-import com.github.kegszool.menu.MenuStateStorage;
 import jakarta.annotation.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.menu.util.KeyboardFactory;
+import com.github.kegszool.menu.MenuStateStorage;
 import com.github.kegszool.menu.util.SectionBuilder;
-
+import com.github.kegszool.menu.util.KeyboardFactory;
 import com.github.kegszool.menu.service.MenuSectionService;
-
 import com.github.kegszool.user.messaging.dto.UserData;
 
 import com.github.kegszool.localization.LocalizationService;

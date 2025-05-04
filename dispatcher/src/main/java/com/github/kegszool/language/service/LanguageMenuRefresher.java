@@ -32,7 +32,6 @@ public class LanguageMenuRefresher {
 
     public EditMessageText refreshAndGetRefreshedMenu(CallbackQuery callbackQuery, String selectedLanguage) {
         String chatId = messageUtils.extractChatId(callbackQuery);
-        localizationService.setLocale(chatId, selectedLanguage);
 
         String localizedConfig = localizationService.getSectionsConfigByLocal(menuName, selectedLanguage);
         menuUpdaterService.changeKeyboard(localizedConfig, menuName, chatId);
