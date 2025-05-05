@@ -1,15 +1,12 @@
 package com.github.kegszool.notificaiton.util;
 
-import java.math.RoundingMode;
 import java.util.List;
-import java.math.BigDecimal;
-
-import com.github.kegszool.notificaiton.NotificationActionExecutor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.messaging.dto.NotificationDto;
+import com.github.kegszool.notificaiton.NotificationActionExecutor;
 import com.github.kegszool.notificaiton.active.ActiveNotificationCacheService;
 
 @Log4j2
@@ -56,6 +53,6 @@ public class NotificationTriggerChecker {
 
         log.info("Notification check | Coin: {} | Chat ID: {} | Direction: {} | Initial: {} | %: {} | Target: {} | Current: {}",
                 coinName, notification.getChatId(), notification.getDirection(),
-                initialPrice, targetPercent, String.format("%.2f", targetPrice), currentPrice);
+                initialPrice, targetPercent, targetPrice, currentPrice);
     }
 }

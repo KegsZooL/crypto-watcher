@@ -29,6 +29,6 @@ public class NotificationTextPercentageCommand extends TextCommand {
 
     @Override
     protected PartialBotApiMethod<?> handleCommand(Update update) {
-        return notificationHandler.createByPercentageInput(update.getMessage());
+        return notificationHandler.createAndSendByPercentageInput(update.getMessage());
     }
 }

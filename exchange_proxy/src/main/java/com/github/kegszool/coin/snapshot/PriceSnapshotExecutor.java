@@ -22,7 +22,7 @@ import com.github.kegszool.messaging.dto.service.ServiceMessage;
 
 @Log4j2
 @Component
-public class PriceSnapshotRequestExecutor extends BaseRequestExecutor<String, PriceSnapshot> {
+public class PriceSnapshotExecutor extends BaseRequestExecutor<String, PriceSnapshot> {
 
     @Value("${api.exchange.url.market.ticker.base}")
     private String BASE_REQUEST_URL;
@@ -50,7 +50,7 @@ public class PriceSnapshotRequestExecutor extends BaseRequestExecutor<String, Pr
 
     private static final double DEFAULT_DOUBLE_VALUE = -1.0;
 
-    public PriceSnapshotRequestExecutor(
+    public PriceSnapshotExecutor(
             RestCryptoController restCryptoController,
             JsonParser jsonParser
     ) {
@@ -83,11 +83,10 @@ public class PriceSnapshotRequestExecutor extends BaseRequestExecutor<String, Pr
         return responseServiceMessage;
     }
 
-    private PriceSnapshot createPriceSnapshot(String json, String coinName) throws JsonFieldNotFoundException, InvalidJsonFormatException
-    {
-        double lastPrice = createLastPrice(json);
-        double highestPrice = createHighestPrice(json);
-        double lowestPrice = createLowestPrice(json);
+    private PriceSnapshot createPriceSnapshot(String json, String coinName) throws JsonFieldNotFoundException, InvalidJsonFormatException {
+        BigDecimal lastPrice = createLastPrice(json);
+        BigDecimal highestPrice = createHighestPrice(json);
+        BigDecimal lowestPrice = createLowestPrice(json);
         BigDecimal tradingVolume = createTradingVolume(json);
         BigDecimal tradingVolumeCurrency = createTradingVolumeCurrency(json);
 
@@ -97,25 +96,22 @@ public class PriceSnapshotRequestExecutor extends BaseRequestExecutor<String, Pr
         );
     }
 
-    private double createLastPrice(String json) throws JsonFieldNotFoundException, InvalidJsonFormatException {
+    private BigDecimal createLastPrice(String json) throws JsonFieldNotFoundException, InvalidJsonFormatException {
         String value = jsonParser.parse(json, LAST_PRICE_FIELD);
-        double lastPrice = tryParseDouble(value, Double::parseDouble,
-                LAST_PRICE_FIELD, DEFAULT_DOUBLE_VALUE, Double.class);
-        return roundToTwoDecimalPlaces(lastPrice);
+        return tryParseDouble(value, BigDecimal::new,
+                LAST_PRICE_FIELD, BigDecimal.valueOf(DEFAULT_DOUBLE_VALUE), BigDecimal.class);
     }
 
-    private double createHighestPrice(String json) throws  JsonFieldNotFoundException, InvalidJsonFormatException {
+    private BigDecimal createHighestPrice(String json) throws  JsonFieldNotFoundException, InvalidJsonFormatException {
         String value = jsonParser.parse(json, HIGHEST_PRICE_24H_FIELD);
-        double highestPrice = tryParseDouble(value, Double::parseDouble,
-                HIGHEST_PRICE_24H_FIELD, DEFAULT_DOUBLE_VALUE, Double.class);
-        return roundToTwoDecimalPlaces(highestPrice);
+        return tryParseDouble(value, BigDecimal::new,
+                HIGHEST_PRICE_24H_FIELD, BigDecimal.valueOf(DEFAULT_DOUBLE_VALUE), BigDecimal.class);
     }
 
-    private double createLowestPrice(String json) throws JsonFieldNotFoundException, InvalidJsonFormatException {
+    private BigDecimal createLowestPrice(String json) throws JsonFieldNotFoundException, InvalidJsonFormatException {
         String value = jsonParser.parse(json, LOWEST_PRICE_24H_FIELD);
-        double lowestPrice = tryParseDouble(value, Double::parseDouble,
-                LOWEST_PRICE_24H_FIELD, DEFAULT_DOUBLE_VALUE, Double.class);
-        return roundToTwoDecimalPlaces(lowestPrice);
+        return tryParseDouble(value, BigDecimal::new,
+                LOWEST_PRICE_24H_FIELD, BigDecimal.valueOf( DEFAULT_DOUBLE_VALUE), BigDecimal.class);
     }
 
     private BigDecimal createTradingVolume(String json) throws JsonFieldNotFoundException, InvalidJsonFormatException {
@@ -130,12 +126,6 @@ public class PriceSnapshotRequestExecutor extends BaseRequestExecutor<String, Pr
         return tryParseDouble(value, BigDecimal::new, TRADING_VOLUME_CURRENCY_FIELD,
                 BigDecimal.ZERO, BigDecimal.class)
                 .setScale(8, RoundingMode.HALF_UP);
-    }
-
-    private double roundToTwoDecimalPlaces(double value) {
-        return BigDecimal.valueOf(value)
-                .setScale(12, RoundingMode.HALF_UP)
-                .doubleValue();
     }
 
     private <T> T tryParseDouble(

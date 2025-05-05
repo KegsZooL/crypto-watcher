@@ -25,7 +25,6 @@ public class WebSocketClient {
     @OnOpen
     public void onOpen(Session session) {
         sessionManager.addSession(instId, session);
-        log.info("WebSocket opened for '{}'", instId);
     }
 
     @OnMessage
@@ -35,12 +34,11 @@ public class WebSocketClient {
 
     @OnError
     public void onError(Session session, Throwable throwable) {
-        log.error("WebSocket error for '{}': {}", instId, throwable.getMessage());
+        log.error("WebSocket error for instId'{}': {}", instId, throwable.getMessage());
     }
 
     @OnClose
     public void onClose(Session session, CloseReason closeReason) {
         sessionManager.removeSession(instId);
-        log.info("WebSocket closed for '{}'", instId);
     }
 }

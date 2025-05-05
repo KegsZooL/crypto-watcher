@@ -30,6 +30,6 @@ public class CreateNotificationCommand extends TextCommand {
 
     @Override
     protected PartialBotApiMethod<?> handleCommand(Update update) {
-        return notificationHandler.createByFullCommand(update.getMessage());
+        return notificationHandler.createAndSendByFullCommand(update.getMessage());
     }
 }

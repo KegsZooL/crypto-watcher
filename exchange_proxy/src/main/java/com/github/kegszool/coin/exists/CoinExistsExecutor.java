@@ -1,31 +1,31 @@
 package com.github.kegszool.coin.exists;
 
+import java.util.List;
+import java.util.ArrayList;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.messaging.dto.UserDto;
-import com.github.kegszool.messaging.dto.command_entity.UserCoinData;
-import com.github.kegszool.messaging.dto.command_entity.CoinExistenceResult;
-import com.github.kegszool.coin.util.CoinExistenceChecker;
-
-import java.util.List;
-import java.util.ArrayList;
-import com.github.kegszool.utils.JsonParser;
-import com.github.kegszool.rest.RestCryptoController;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.executor.BaseRequestExecutor;
+import com.github.kegszool.messaging.dto.command_entity.UserCoinData;
+import com.github.kegszool.messaging.dto.command_entity.CoinExistenceResult;
+
+import com.github.kegszool.utils.JsonParser;
+import com.github.kegszool.rest.RestCryptoController;
+import com.github.kegszool.coin.util.CoinExistenceChecker;
 
 @Log4j2
 @Component
-public class CoinExistsRequestExecutor extends BaseRequestExecutor<UserCoinData, CoinExistenceResult> {
+public class CoinExistsExecutor extends BaseRequestExecutor<UserCoinData, CoinExistenceResult> {
 
     private final CoinExistenceChecker existenceChecker;
     private final String responseRoutingKey;
 
     @Autowired
-    public CoinExistsRequestExecutor(
+    public CoinExistsExecutor(
             RestCryptoController restCryptoController,
             JsonParser jsonParser,
 

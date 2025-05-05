@@ -1,12 +1,12 @@
 package com.github.kegszool.coin.price.util;
 
+import com.github.kegszool.coin.price.model.PriceSnapshot;
+import com.github.kegszool.coin.price.model.PriceSnapshotBuffer;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.coin.price.model.CoinPrice;
 import com.github.kegszool.messaging.util.MessageUtils;
-import com.github.kegszool.coin.price.model.PriceBuffer;
 import com.github.kegszool.coin.price.model.PriceParameter;
 import com.github.kegszool.coin.price.menu.PriceMenuProperties;
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
@@ -18,19 +18,19 @@ import java.util.Map;
 @Component
 public class PriceParameterMessageBuilder {
 
-    private final PriceBuffer snapshotRepository;
+    private final PriceSnapshotBuffer priceBuffer;
     private final PriceParameterBuilder snapshotParametersRegistry;
     private final PriceParameterFormatter snapshotParameterFormater;
     private final MessageUtils messageUtils;
 
     @Autowired
     public PriceParameterMessageBuilder(
-            @Lazy PriceBuffer snapshotRepository,
+            @Lazy PriceSnapshotBuffer priceBuffer,
             PriceParameterBuilder snapshotParametersRegistry,
             PriceParameterFormatter snapshotParameterFormater,
             MessageUtils messageUtils
     ) {
-        this.snapshotRepository = snapshotRepository;
+        this.priceBuffer = priceBuffer;
         this.snapshotParametersRegistry = snapshotParametersRegistry;
         this.snapshotParameterFormater = snapshotParameterFormater;
         this.messageUtils = messageUtils;
@@ -43,7 +43,7 @@ public class PriceParameterMessageBuilder {
         String chatId = messageUtils.extractChatId(callbackQuery);
         String parameterWithoutPrefix = getParameterWithoutPrefix(callbackQuery, snapshotProperties);
 
-        CoinPrice snapshot = snapshotRepository.getSnapshot(chatId);
+        PriceSnapshot snapshot = priceBuffer.getSnapshot(chatId);
         Map<String, PriceParameter> snapshotParameterMap = snapshotParametersRegistry.createParameterMap(snapshotProperties, chatId);
 
         String title = createTittleByParameter(parameterWithoutPrefix, snapshotParameterMap, snapshot);
@@ -60,12 +60,12 @@ public class PriceParameterMessageBuilder {
     private String createTittleByParameter(
             String parameter,
             Map<String, PriceParameter> snapshotParameterMap,
-            CoinPrice coinPrice
+            PriceSnapshot priceSnapshot
     ) {
 
         PriceParameter parameterInfo = snapshotParameterMap.get(parameter);
-        String coinName = coinPrice.getName();
-        String parameterValue = parameterInfo.getValue(coinPrice);
+        String coinName = priceSnapshot.getName();
+        String parameterValue = parameterInfo.getValue(priceSnapshot);
         String description = parameterInfo.getDescription();
 
         return snapshotParameterFormater.formatTitle(coinName, parameterValue, description);

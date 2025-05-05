@@ -8,17 +8,17 @@ public class PriceParameter {
 
     @Getter
     private final String description;
-    private final Function<CoinPrice, String> valueProvider;
+    private final Function<PriceSnapshot, String> valueProvider;
 
     public PriceParameter(
             String description,
-            Function<CoinPrice, String> valueProvider
+            Function<PriceSnapshot, String> valueProvider
     ) {
         this.description = description;
         this.valueProvider = valueProvider;
     }
 
-    public String getValue(CoinPrice coinPrice) {
-        return valueProvider.apply(coinPrice);
+    public String getValue(PriceSnapshot priceSnapshot) {
+        return valueProvider.apply(priceSnapshot);
     }
 }

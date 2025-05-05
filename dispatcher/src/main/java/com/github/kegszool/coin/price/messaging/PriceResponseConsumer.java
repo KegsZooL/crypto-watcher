@@ -1,6 +1,6 @@
 package com.github.kegszool.coin.price.messaging;
 
-import com.github.kegszool.coin.price.model.CoinPrice;
+import com.github.kegszool.coin.price.model.PriceSnapshot;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -10,22 +10,22 @@ import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
 
 @Log4j2
 @Service
-public class PriceResponseConsumer extends BaseResponseConsumer<CoinPrice> {
+public class PriceResponseConsumer extends BaseResponseConsumer<PriceSnapshot> {
 
     @Override
     @RabbitListener(queues = "${spring.rabbitmq.queues.coin_price_response}")
-    public void consume(ServiceMessage<CoinPrice> serviceMessage, String routingKey) {
+    public void consume(ServiceMessage<PriceSnapshot> serviceMessage, String routingKey) {
         super.consume(serviceMessage, routingKey);
     }
 
     @Override
-    protected Class<CoinPrice> getDataClass() {
-        return CoinPrice.class;
+    protected Class<PriceSnapshot> getDataClass() {
+        return PriceSnapshot.class;
     }
 
     @Override
-    protected void logReceivedData(ServiceMessage<CoinPrice> serviceMessage, String routingKey) {
-        CoinPrice receivedSnapshot = serviceMessage.getData();
+    protected void logReceivedData(ServiceMessage<PriceSnapshot> serviceMessage, String routingKey) {
+        PriceSnapshot receivedSnapshot = serviceMessage.getData();
         String coinName = receivedSnapshot.getName();
         log.info("Received a response to the price snapshot for coin \"{}\"", coinName);
     }

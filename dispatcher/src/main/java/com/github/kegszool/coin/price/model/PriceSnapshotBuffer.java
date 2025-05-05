@@ -9,16 +9,16 @@ import org.springframework.stereotype.Component;
 
 @Log4j2
 @Component
-public class PriceBuffer {
+public class PriceSnapshotBuffer {
 
-    private final Map<String, CoinPrice> chatIdSnapshotMapping = new ConcurrentHashMap<>();
+    private final Map<String, PriceSnapshot> chatIdSnapshotMapping = new ConcurrentHashMap<>();
 
-    public void saveSnapshot(String chatId, CoinPrice snapshot) {
+    public void saveSnapshot(String chatId, PriceSnapshot snapshot) {
         chatIdSnapshotMapping.put(chatId, snapshot);
         log.info("Saved snapshot for chat_id \"{}\". Snapshot: {}", chatId, snapshot);
     }
 
-    public CoinPrice getSnapshot(String chatId) {
+    public PriceSnapshot getSnapshot(String chatId) {
         return chatIdSnapshotMapping.get(chatId);
     }
 }

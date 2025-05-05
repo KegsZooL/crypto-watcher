@@ -1,12 +1,12 @@
 package com.github.kegszool.notificaiton;
 
+import java.util.List;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.github.kegszool.messaging.dto.NotificationDto;
 import com.github.kegszool.notificaiton.active.ActiveNotificationCacheService;
-import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Log4j2
 @Component

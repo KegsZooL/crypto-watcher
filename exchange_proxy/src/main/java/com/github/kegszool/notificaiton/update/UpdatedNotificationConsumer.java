@@ -1,4 +1,4 @@
-package com.github.kegszool.notificaiton;
+package com.github.kegszool.notificaiton.update;
 
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -9,7 +9,6 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
 import com.github.kegszool.messaging.dto.NotificationDto;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.notificaiton.update.NotificationUpdateConfirmationHandler;
 
 @Component
 public class UpdatedNotificationConsumer {

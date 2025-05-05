@@ -13,9 +13,9 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class PriceSnapshot {
     private String name;
-    private double lastPrice;
-    private double maxPrice24h;
-    private double minPrice24h;
+    private BigDecimal lastPrice;
+    private BigDecimal maxPrice24h;
+    private BigDecimal minPrice24h;
     private BigDecimal tradingVolume24h;
     private BigDecimal tradingVolumeCurrency24h;
 }

@@ -1,4 +1,4 @@
-package com.github.kegszool.notification.messaging;
+package com.github.kegszool.notification.creation;
 
 import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;

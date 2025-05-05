@@ -12,11 +12,11 @@ import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.producer.ProducerService;
 
 @Component
-public class CoinExistsRequestConsumer extends BaseRequestConsumer<UserCoinData, CoinExistsRequestExecutor> {
+public class CoinExistsConsumer extends BaseRequestConsumer<UserCoinData, CoinExistsExecutor> {
 
-    public CoinExistsRequestConsumer(
+    public CoinExistsConsumer(
             ProducerService responseProducer,
-            CoinExistsRequestExecutor executor
+            CoinExistsExecutor executor
     ) {
         super(responseProducer, executor);
     }

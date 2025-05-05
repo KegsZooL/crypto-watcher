@@ -1,15 +1,17 @@
 package com.github.kegszool.coin.util;
 
-import com.github.kegszool.exception.json.InvalidJsonFormatException;
-import com.github.kegszool.exception.json.JsonFieldNotFoundException;
-import com.github.kegszool.exception.request.CheckingCoinException;
-import com.github.kegszool.rest.RestCryptoController;
-import com.github.kegszool.utils.JsonParser;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+
+import com.github.kegszool.utils.JsonParser;
+import com.github.kegszool.rest.RestCryptoController;
 import org.springframework.web.client.RestClientException;
+
+import com.github.kegszool.exception.request.CheckingCoinException;
+import com.github.kegszool.exception.json.InvalidJsonFormatException;
+import com.github.kegszool.exception.json.JsonFieldNotFoundException;
 
 @Log4j2
 @Component

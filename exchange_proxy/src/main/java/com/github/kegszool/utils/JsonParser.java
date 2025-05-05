@@ -1,16 +1,15 @@
 package com.github.kegszool.utils;
 
+import java.util.Stack;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import com.github.kegszool.exception.json.InvalidJsonFormatException;
 import com.github.kegszool.exception.json.JsonFieldNotFoundException;
-
-import org.springframework.stereotype.Component;
-
-import java.util.Stack;
-import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Component

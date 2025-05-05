@@ -30,16 +30,16 @@ spring:
 
 api:
   exchange:
+    websocket:
+        subscribe-template: >
+          {"op":"subscribe","args":[{"channel":"tickers","instId":"%s"}]}
     url:
-      base: ${BASE_API_EXCHANGE_URL}
       websocket: ${WS_URL}
       market:
-        base: ${MARKET_API_EXCHANGE_URL}
         instruments: ${MARKET_INSTRUMENTS_API_EXCHANGE_URL}
         ticker:
           base: ${MARKET_TICKER_API_EXCHANGE_URL}
           response_parameter:
-            coin: ${MARKET_TICKER_COIN_RESPONSE_PARAMETER}
             last_price: ${MARKET_TICKER_LAST_PRICE_RESPONSE_PARAMETER}
             highest_price_24h: ${MARKET_TICKER_HIGHEST_PRICE_RESPONSE_PARAMETER}
             lowest_price_24h: ${MARKET_TICKER_LOWEST_PRICE_RESPONSE_PARAMETER}

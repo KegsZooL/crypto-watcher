@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.localization.LocalizationService;
+import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 @Component
@@ -82,6 +83,7 @@ public class NotificationAnswerMessageBuilder {
                 .builder()
                 .chatId(chatId)
                 .text(text)
+                .parseMode(ParseMode.HTML)
                 .build();
     }
 }

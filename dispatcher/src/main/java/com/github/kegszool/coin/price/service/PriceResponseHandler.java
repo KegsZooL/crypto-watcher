@@ -4,8 +4,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.coin.price.model.CoinPrice;
-import com.github.kegszool.coin.price.model.PriceBuffer;
+import com.github.kegszool.coin.price.model.PriceSnapshot;
+import com.github.kegszool.coin.price.model.PriceSnapshotBuffer;
 
 import com.github.kegszool.messaging.dto.HandlerResult;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
@@ -13,17 +13,17 @@ import com.github.kegszool.messaging.response.BaseResponseHandler;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 
 @Component
-public class PriceResponseHandler extends BaseResponseHandler<CoinPrice> {
+public class PriceResponseHandler extends BaseResponseHandler<PriceSnapshot> {
 
     private final String routingKey;
     private final String menuName;
-    private final PriceBuffer priceBuffer;
+    private final PriceSnapshotBuffer priceBuffer;
 
     @Autowired
     public PriceResponseHandler(
             @Value("${spring.rabbitmq.template.routing-key.coin_price_response}") String routingKey,
          	@Value("${menu.price_snapshot.name}") String menuName,
-            PriceBuffer priceBuffer
+            PriceSnapshotBuffer priceBuffer
     ) {
         this.priceBuffer = priceBuffer;
         this.routingKey = routingKey;
@@ -36,18 +36,18 @@ public class PriceResponseHandler extends BaseResponseHandler<CoinPrice> {
     }
 
     @Override
-    public HandlerResult handle(ServiceMessage<CoinPrice> serviceMessage) {
+    public HandlerResult handle(ServiceMessage<PriceSnapshot> serviceMessage) {
         String chatId = serviceMessage.getChatId();
         Integer messageId = serviceMessage.getMessageId();
 
-        CoinPrice snapshot = serviceMessage.getData();
+        PriceSnapshot snapshot = serviceMessage.getData();
         priceBuffer.saveSnapshot(chatId, snapshot);
 
         EditMessageText answerMessage = createAnswerMessage(snapshot, chatId, messageId);
         return new HandlerResult.Success(answerMessage);
     }
 
-    private EditMessageText createAnswerMessage(CoinPrice snapshot, String chatId, Integer messageId) {
+    private EditMessageText createAnswerMessage(PriceSnapshot snapshot, String chatId, Integer messageId) {
         String coin = snapshot.getName();
         EditMessageText answerMessage = messageUtils.recordAndCreateEditMessageByMenuName(
                 chatId, messageId, menuName

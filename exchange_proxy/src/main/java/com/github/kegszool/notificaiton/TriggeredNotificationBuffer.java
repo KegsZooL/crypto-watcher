@@ -17,9 +17,7 @@ import com.github.kegszool.messaging.dto.NotificationDto;
 public class TriggeredNotificationBuffer {
 
     private final ReentrantLock lock = new ReentrantLock();
-
     private final ConcurrentMap<String, Queue<NotificationDto>> buffer = new ConcurrentHashMap<>();
-    private final ConcurrentMap<String, NotificationDto> pendingConfirmations = new ConcurrentHashMap<>();
 
     public void add(NotificationDto notification) {
         String key = buildKey(notification);
@@ -31,7 +29,6 @@ public class TriggeredNotificationBuffer {
             existingQueue.add(notification);
             return existingQueue;
         });
-        pendingConfirmations.put(key, notification);
     }
 
     public List<NotificationDto> drain() {
@@ -53,14 +50,9 @@ public class TriggeredNotificationBuffer {
         try {
             String key = buildKey(notification);
             log.info("Removing notification with key: {}", key);
-            pendingConfirmations.remove(key);
         } finally {
             lock.unlock();
         }
-    }
-
-    public List<NotificationDto> getPendingConfirmations() {
-        return new ArrayList<>(pendingConfirmations.values());
     }
 
     private String buildKey(NotificationDto not) {

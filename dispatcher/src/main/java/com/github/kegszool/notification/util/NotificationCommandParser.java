@@ -12,11 +12,9 @@ import com.github.kegszool.notification.ParsedNotificationCommand;
 public class NotificationCommandParser {
 
     private final Pattern pattern;
-    private final String commandRegex;
 
     public NotificationCommandParser(@Value("${menu.select_coin_notification.regex}")
                                      String commandRegex) {
-        this.commandRegex = commandRegex;
         pattern = Pattern.compile(commandRegex);
     }
 

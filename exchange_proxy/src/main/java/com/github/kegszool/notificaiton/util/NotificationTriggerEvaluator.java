@@ -7,6 +7,7 @@ import com.github.kegszool.messaging.dto.NotificationDto;
 public class NotificationTriggerEvaluator {
 
     public boolean isTriggered(NotificationDto notification, double currentPrice) {
+
         double initialPrice = notification.getInitialPrice();
         double targetPercent = notification.getTargetPercentage().doubleValue();
 

@@ -11,11 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.messaging.handler.annotation.Header;
 
 @Service
-public class PriceSnapshotRequestConsumer extends BaseRequestConsumer<String, PriceSnapshotRequestExecutor> {
+public class PriceSnapshotConsumer extends BaseRequestConsumer<String, PriceSnapshotExecutor> {
 
-    public PriceSnapshotRequestConsumer(
+    public PriceSnapshotConsumer(
             ServiceMessageProducer producer,
-            PriceSnapshotRequestExecutor executor
+            PriceSnapshotExecutor executor
     ) {
         super(producer, executor);
     }
