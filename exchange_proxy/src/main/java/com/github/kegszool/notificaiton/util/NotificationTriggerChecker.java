@@ -31,35 +31,31 @@ public class NotificationTriggerChecker {
         this.actionExecutor = actionExecutor;
     }
 
-    public void check(String coinName, double currentPriceDouble) {
-        BigDecimal currentPrice = BigDecimal.valueOf(currentPriceDouble);
+    public void check(String coinName, double currentPrice) {
         List<NotificationDto> notifications = activeNotificationCache.getNotifications(coinName);
 
         for (NotificationDto notification : notifications) {
-
             if (notification.isTriggered() && !notification.isRecurring()) continue;
 
             logNotificationDetails(notification, coinName, currentPrice);
 
             if (evaluator.isTriggered(notification, currentPrice)) {
-               actionExecutor.execute(notification, coinName, currentPrice);
+                actionExecutor.execute(notification, coinName, currentPrice);
             }
         }
     }
 
-    private void logNotificationDetails(NotificationDto notification, String coinName, BigDecimal currentPrice) {
-        BigDecimal initialPrice = BigDecimal.valueOf(notification.getInitialPrice());
-        BigDecimal targetPercent = notification.getTargetPercentage();
-        BigDecimal targetChange = initialPrice
-                .multiply(targetPercent)
-                .divide(BigDecimal.valueOf(100), 8, RoundingMode.HALF_UP);
-        BigDecimal targetPrice = switch (notification.getDirection()) {
-            case Up -> initialPrice.add(targetChange);
-            case Down -> initialPrice.subtract(targetChange);
+    private void logNotificationDetails(NotificationDto notification, String coinName, double currentPrice) {
+        double initialPrice = notification.getInitialPrice();
+        double targetPercent = notification.getTargetPercentage().doubleValue();
+        double targetChange = initialPrice * targetPercent / 100.0;
+        double targetPrice = switch (notification.getDirection()) {
+            case Up -> initialPrice + targetChange;
+            case Down -> initialPrice - targetChange;
         };
 
-        log.info("🔍 Notification check | Coin: {} | Chat ID: {} | Direction: {} | Initial: {} | %: {} | Target: {} | Current: {}",
+        log.info("Notification check | Coin: {} | Chat ID: {} | Direction: {} | Initial: {} | %: {} | Target: {} | Current: {}",
                 coinName, notification.getChatId(), notification.getDirection(),
-                initialPrice, targetPercent, targetPrice, currentPrice);
+                initialPrice, targetPercent, String.format("%.2f", targetPrice), currentPrice);
     }
 }

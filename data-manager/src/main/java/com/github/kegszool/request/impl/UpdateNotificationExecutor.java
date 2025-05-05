@@ -1,5 +1,6 @@
 package com.github.kegszool.request.impl;
 
+import com.github.kegszool.database.entity.base.Notification;
 import com.github.kegszool.database.repository.impl.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,6 @@ import com.github.kegszool.database.entity.base.UserPreference;
 import com.github.kegszool.request.RequestExecutor;
 import com.github.kegszool.messaging.dto.database_entity.*;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-
 
 @Log4j2
 @Service
@@ -37,6 +37,7 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
     private final UserPreferenceRepository userPreferenceRepository;
     private final UserPreferenceMapper userPreferenceMapper;
     private final CoinRepository coinRepository;
+    private final NotificationUpdatedSender notificationUpdatedSender;
 
     @Autowired
     public UpdateNotificationExecutor(
@@ -45,7 +46,14 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
             UserRepository userRepository,
             NotificationMapper notificationMapper,
             CoinMapper coinMapper,
-            UserMapper userMapper, FavoriteCoinRepository favoriteCoinRepository, FavoriteCoinMapper favoriteCoinMapper, UserPreferenceRepository userPreferenceRepository, UserPreferenceMapper userPreferenceMapper, CoinRepository coinRepository) {
+            UserMapper userMapper,
+            FavoriteCoinRepository favoriteCoinRepository,
+            FavoriteCoinMapper favoriteCoinMapper,
+            UserPreferenceRepository userPreferenceRepository,
+            UserPreferenceMapper userPreferenceMapper,
+            CoinRepository coinRepository,
+            NotificationUpdatedSender notificationUpdatedSender
+    ) {
         this.routingKey = routingKey;
         this.notificationRepository = notificationRepository;
         this.userRepository = userRepository;
@@ -57,6 +65,7 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
         this.userPreferenceRepository = userPreferenceRepository;
         this.userPreferenceMapper = userPreferenceMapper;
         this.coinRepository = coinRepository;
+        this.notificationUpdatedSender = notificationUpdatedSender;
     }
 
     @Override
@@ -67,6 +76,7 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
                 .collect(Collectors.groupingBy(dto -> dto.getUser().getTelegramId()));
 
         Set<UserData> userDataSet = new HashSet<>();
+        List<NotificationDto> updated = new ArrayList<>();
 
         for (Map.Entry<Long, List<NotificationDto>> entry : groupedByTelegramId.entrySet()) {
 
@@ -80,18 +90,26 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
 
             User user = maybeUser.get();
 
-            entry.getValue().stream()
-                    .map(dto -> {
-                        Optional<Coin> maybeCoin = coinRepository.findByName(dto.getCoin().getName());
-                        Coin coin =  maybeCoin.orElseGet(() ->
-                                coinRepository.save(coinMapper.toEntity(dto.getCoin()))
+            for (NotificationDto dto : entry.getValue()) {
+                Coin coin = coinRepository.findByName(dto.getCoin().getName())
+                        .orElseGet(() -> coinRepository.save(coinMapper.toEntity(dto.getCoin())));
+
+                Optional<Notification> maybeNotification = notificationRepository
+                        .findByUser_IdAndCoin_IdAndInitialPriceAndTargetPercentageAndDirectionAndIsRecurring(
+                                user.getId(),
+                                coin.getId(),
+                                dto.getInitialPrice(),
+                                dto.getTargetPercentage(),
+                                dto.getDirection(),
+                                dto.isRecurring()
                         );
-                        return notificationMapper.toEntity(dto, user, coin);
-                    })
-                    .forEach(notification -> {
-                       notification.setTriggered(true);
-                       notificationRepository.save(notification);
-                    });
+
+                Notification notification = maybeNotification.orElseGet(() ->
+                        notificationMapper.toEntity(dto, user, coin));
+
+                notification.setTriggered(true);
+                notificationRepository.save(notification);
+            }
 
             int userId = user.getId();
             UserDto userDto = userMapper.toDto(user);
@@ -103,6 +121,8 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
                     .map(notificationMapper::toDto)
                     .toList();
 
+            updated.addAll(updatedNotifications);
+
             Optional<UserPreference> userPreference = userPreferenceRepository.findById(userId);
             UserPreferenceDto userPreferenceDto = userPreference
                     .map(userPreferenceMapper::toDto)
@@ -111,6 +131,7 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
             UserData userData = new UserData(userDto, favoriteCoins, updatedNotifications, userPreferenceDto);
             userDataSet.add(userData);
         }
+        notificationUpdatedSender.send(updated);
         return new ServiceMessage<>(STUB_MESSAGE_ID, STUB_CHAT_ID, new ArrayList<>(userDataSet));
     }
 

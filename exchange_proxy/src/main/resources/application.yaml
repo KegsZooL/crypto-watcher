@@ -24,6 +24,7 @@ spring:
       check_coin_exists_request: ${RABBITMQ_CHECK_COIN_EXISTS_REQUEST_QUEUE}
       create_notification_request: ${RABBITMQ_CREATE_NOTIFICATION_REQUEST_FOR_EXCHANGE_QUEUE}
       notification_created: ${RABBITMQ_NOTIFY_NOTIFICATION_HAS_BEEN_CREATED_QUEUE}
+      notification_updated: ${RABBITMQ_UPDATE_CONFIRMATION_NOTIFICATION_QUEUE}
       get_active_notification_response: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_RESPONSE_QUEUE}
       delete_notification_request: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_QUEUE}
 

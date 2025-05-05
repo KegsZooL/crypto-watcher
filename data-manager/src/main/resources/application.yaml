@@ -32,6 +32,7 @@ spring:
 
         update_notification:
           response: ${RABBITMQ_UPDATE_NOTIFICATION_RESPONSE_ROUTING_KEY}
+          confirm: ${RABBITMQ_UPDATE_CONFIRMATION_NOTIFICATION_ROUTING_KEY}
 
         get_active_notification:
           response: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_RESPONSE_ROUTING_KEY}

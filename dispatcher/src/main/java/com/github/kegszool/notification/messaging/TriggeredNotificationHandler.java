@@ -1,6 +1,5 @@
 package com.github.kegszool.notification.messaging;
 
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;

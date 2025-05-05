@@ -1,6 +1,10 @@
 package com.github.kegszool.database.repository.impl;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
+
+import com.github.kegszool.messaging.dto.database_entity.Direction;
 import org.springframework.stereotype.Repository;
 
 import com.github.kegszool.database.entity.base.Notification;
@@ -11,4 +15,6 @@ public interface NotificationRepository extends EntityRepository<Notification, I
     List<Notification> findByUser_Id(int userId);
     List<Notification> findByCoin_NameAndIsTriggeredFalse(String coinName);
     List<Notification> findByUser_IdAndIsTriggeredFalse(int userId);
+    Optional<Notification> findByUser_IdAndCoin_IdAndInitialPriceAndTargetPercentageAndDirectionAndIsRecurring(
+            int userId, int coinId, double initialPrice, BigDecimal targetPercentage, Direction direction, boolean isRecurring);
 }

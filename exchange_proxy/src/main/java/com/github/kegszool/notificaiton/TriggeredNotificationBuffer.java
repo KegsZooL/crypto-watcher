@@ -8,18 +8,22 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import com.github.kegszool.messaging.dto.NotificationDto;
 
+@Log4j2
 @Component
 public class TriggeredNotificationBuffer {
 
     private final ReentrantLock lock = new ReentrantLock();
 
     private final ConcurrentMap<String, Queue<NotificationDto>> buffer = new ConcurrentHashMap<>();
+    private final ConcurrentMap<String, NotificationDto> pendingConfirmations = new ConcurrentHashMap<>();
 
     public void add(NotificationDto notification) {
         String key = buildKey(notification);
+        log.debug("Adding notification with key: {}", key);
         buffer.compute(key, (k, existingQueue) -> {
             if (existingQueue == null) {
                 existingQueue = new ConcurrentLinkedQueue<>();
@@ -27,6 +31,7 @@ public class TriggeredNotificationBuffer {
             existingQueue.add(notification);
             return existingQueue;
         });
+        pendingConfirmations.put(key, notification);
     }
 
     public List<NotificationDto> drain() {
@@ -41,6 +46,21 @@ public class TriggeredNotificationBuffer {
         } finally {
             lock.unlock();
         }
+    }
+
+    public void confirmUpdate(NotificationDto notification) {
+        lock.lock();
+        try {
+            String key = buildKey(notification);
+            log.info("Removing notification with key: {}", key);
+            pendingConfirmations.remove(key);
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public List<NotificationDto> getPendingConfirmations() {
+        return new ArrayList<>(pendingConfirmations.values());
     }
 
     private String buildKey(NotificationDto not) {

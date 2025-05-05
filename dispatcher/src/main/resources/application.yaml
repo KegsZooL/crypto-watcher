@@ -35,6 +35,7 @@ spring:
         create_notification_response_from_db: ${RABBITMQ_CREATE_NOTIFICATION_RESPONSE_FROM_DB_ROUTING_KEY}
 
         notify_created_notification: ${RABBITMQ_NOTIFY_NOTIFICATION_HAS_BEEN_CREATED_ROUTING_KEY}
+        notify_notification_updated: ${RABBITMQ_UPDATE_CONFIRMATION_NOTIFICATION_ROUTING_KEY}
 
         delete_notification_request: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_ROUTING_KEY}
         delete_notification_response: ${RABBITMQ_DELETE_NOTIFICATION_RESPONSE_ROUTING_KEY}
@@ -74,6 +75,7 @@ spring:
       create_notification_response_from_db: ${RABBITMQ_CREATE_NOTIFICATION_RESPONSE_FROM_DB_QUEUE}
 
       notify_created_notification: ${RABBITMQ_NOTIFY_NOTIFICATION_HAS_BEEN_CREATED_QUEUE}
+      notify_notification_updated: ${RABBITMQ_UPDATE_CONFIRMATION_NOTIFICATION_QUEUE}
 
       delete_notification_request: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_QUEUE}
       delete_notification_response: ${RABBITMQ_DELETE_NOTIFICATION_RESPONSE_QUEUE}

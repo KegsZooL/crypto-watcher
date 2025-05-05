@@ -6,7 +6,6 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Log4j2
@@ -28,7 +27,7 @@ public class NotificationActionExecutor {
         this.triggeredBuffer = triggeredBuffer;
     }
 
-    public void execute(NotificationDto notification, String coinName, BigDecimal currentPrice) {
+    public void execute(NotificationDto notification, String coinName, double currentPrice) {
         notification.setTriggered(true);
         producer.sendTriggeredNotification(notification);
 
@@ -42,8 +41,8 @@ public class NotificationActionExecutor {
         }
     }
 
-    private void handleRecurring(NotificationDto notification, String coinName, BigDecimal currentPrice) {
-        notification.setInitialPrice(currentPrice.doubleValue());
+    private void handleRecurring(NotificationDto notification, String coinName, double currentPrice) {
+        notification.setInitialPrice(currentPrice);
         notification.setTriggered(false);
         activeNotificationCache.add(coinName, List.of(notification));
         log.info("Recurring updated | Coin: {} | New base price: {} | Chat ID: {}",
