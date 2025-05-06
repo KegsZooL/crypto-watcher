@@ -2,12 +2,12 @@ package com.github.kegszool.menu.base;
 
 import java.util.List;
 import java.util.LinkedHashMap;
-
 import jakarta.annotation.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.menu.MenuStateStorage;
+import com.github.kegszool.menu.util.TitleBuilder;
 import com.github.kegszool.menu.util.SectionBuilder;
 import com.github.kegszool.menu.util.KeyboardFactory;
 import com.github.kegszool.menu.service.MenuSectionService;
@@ -24,11 +24,12 @@ public abstract class BaseMenu implements Menu {
     @Autowired private LocalizationService localizationService;
     @Autowired protected MenuStateStorage menuStateStorage;
 
-    @Nullable
     private final SectionBuilder sectionBuilder;
+    private final TitleBuilder titleBuilder;
 
-    public BaseMenu(@Nullable SectionBuilder sectionBuilder) {
+    public BaseMenu(@Nullable SectionBuilder sectionBuilder, @Nullable TitleBuilder titleBuilder) {
         this.sectionBuilder = sectionBuilder;
+        this.titleBuilder = titleBuilder;
     }
 
     public void initializeMenuForChat(String chatId) {
@@ -41,9 +42,16 @@ public abstract class BaseMenu implements Menu {
     }
 
     public void updateMenu(UserData userData, String chatId) {
+
+        String actualLanguage = userData.getUserPreference().interfaceLanguage();
+        if (titleBuilder != null) {
+            String newTitle = titleBuilder.buildTitle(userData,  actualLanguage);
+            menuStateStorage.saveTitle(getName(), chatId, newTitle);
+        }
+
         String newConfig = "";
         if (sectionBuilder != null) {
-            newConfig = sectionBuilder.buildSectionsConfig(userData);
+            newConfig = sectionBuilder.buildSectionsConfig(userData, actualLanguage);
         }
 
         LinkedHashMap<String, String> sections = menuStateStorage.getSections(getName(), chatId);
@@ -51,10 +59,7 @@ public abstract class BaseMenu implements Menu {
             initializeMenuForChat(chatId);
             return;
         }
-
-        String actualLanguage = userData.getUserPreference().interfaceLanguage();
         sectionService.update(sections, newConfig, true, getName(), actualLanguage);
-
         InlineKeyboardMarkup newKeyboard = keyboardFactory.create(sections, getMaxButtonsPerRow(), getFullWidthSections());
         menuStateStorage.saveKeyboard(getName(), chatId, newKeyboard);
     }
@@ -81,5 +86,9 @@ public abstract class BaseMenu implements Menu {
 
         InlineKeyboardMarkup keyboard = keyboardFactory.create(sections, getMaxButtonsPerRow(), getFullWidthSections());
         menuStateStorage.saveKeyboard(getName(), chatId, keyboard);
+    }
+
+    public boolean hasTitleBuilder() {
+        return titleBuilder != null;
     }
 }

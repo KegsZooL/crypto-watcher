@@ -8,7 +8,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.consumer.BaseRequestConsumer;
 import com.github.kegszool.messaging.dto.command_entity.UserCoinData;
-import com.github.kegszool.messaging.producer.ResponseProducerService;
+import com.github.kegszool.messaging.producer.ProducerService;
 
 import org.springframework.amqp.support.AmqpHeaders;
 import com.github.kegszool.request.impl.AddFavoriteCoinExecutor;
@@ -18,7 +18,7 @@ public class AddFavoriteCoinConsumer extends BaseRequestConsumer<UserCoinData, A
 
     @Autowired
     public AddFavoriteCoinConsumer(
-            ResponseProducerService responseProducer,
+            ProducerService responseProducer,
             AddFavoriteCoinExecutor executor
     ) {
         super(responseProducer, executor);

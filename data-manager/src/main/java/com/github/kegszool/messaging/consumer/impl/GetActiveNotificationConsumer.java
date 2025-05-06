@@ -2,7 +2,7 @@ package com.github.kegszool.messaging.consumer.impl;
 
 import com.github.kegszool.messaging.consumer.BaseRequestConsumer;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.messaging.producer.ResponseProducerService;
+import com.github.kegszool.messaging.producer.ProducerService;
 import com.github.kegszool.request.impl.GetActiveNotificationExecutor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
@@ -15,7 +15,7 @@ public class GetActiveNotificationConsumer extends BaseRequestConsumer<String, G
 
     @Autowired
     public GetActiveNotificationConsumer(
-            ResponseProducerService responseProducer,
+            ProducerService responseProducer,
             GetActiveNotificationExecutor executor
     ) {
         super(responseProducer, executor);

@@ -7,7 +7,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.dto.database_entity.UserData;
 import com.github.kegszool.messaging.consumer.BaseRequestConsumer;
-import com.github.kegszool.messaging.producer.ResponseProducerService;
+import com.github.kegszool.messaging.producer.ProducerService;
 
 import org.springframework.amqp.support.AmqpHeaders;
 import com.github.kegszool.request.impl.DeleteFavoriteCoinExecutor;
@@ -16,7 +16,7 @@ import com.github.kegszool.request.impl.DeleteFavoriteCoinExecutor;
 public class DeleteFavoriteCoinConsumer extends BaseRequestConsumer<UserData, DeleteFavoriteCoinExecutor> {
 
     public DeleteFavoriteCoinConsumer(
-            ResponseProducerService responseProducer,
+            ProducerService responseProducer,
             DeleteFavoriteCoinExecutor executor
     ) {
         super(responseProducer, executor);

@@ -25,7 +25,7 @@ public class LanguageChangeMenu extends BaseMenu {
             @Value("${menu.language_change.max_buttons_per_row}") int maxButtonsPerRow,
             @Value("${menu.action.back}") String callbackDataForFullWidthButton
     ) {
-        super(null);
+        super(null, null);
         this.name = name;
         this.title = title;
         this.config = config;

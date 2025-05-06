@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
-public class ResponseProducer implements ResponseProducerService {
+public class ServiceMessageProducer implements ProducerService {
 
     @Value("${spring.rabbitmq.template.exchange}")
     private String EXCHANGE_NAME;
@@ -19,7 +19,7 @@ public class ResponseProducer implements ResponseProducerService {
     private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    public ResponseProducer(RabbitTemplate rabbitTemplate) {
+    public ServiceMessageProducer(RabbitTemplate rabbitTemplate) {
         this.rabbitTemplate = rabbitTemplate;
     }
 

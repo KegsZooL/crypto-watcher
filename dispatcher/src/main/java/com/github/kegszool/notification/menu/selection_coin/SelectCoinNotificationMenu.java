@@ -25,7 +25,7 @@ public class SelectCoinNotificationMenu extends BaseNotificationMenu {
             @Value("${menu.select_coin_notification.max_buttons_per_row}") int maxButtonsPerRow,
             CoinNotificationSectionBuilder sectionBuilder
     ) {
-        super(sectionBuilder);
+        super(sectionBuilder, null);
         this.name = name;
         this.title = title;
         this.config = config;

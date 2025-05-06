@@ -27,6 +27,7 @@ spring:
       notification_updated: ${RABBITMQ_UPDATE_CONFIRMATION_NOTIFICATION_QUEUE}
       get_active_notification_response: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_RESPONSE_QUEUE}
       delete_notification_request: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_QUEUE}
+      notification_websocket_subscription: ${RABBITMQ_NOTIFICATION_WEBSOCKET_SUBSCRIPTION_QUEUE}
 
 api:
   exchange:

@@ -1,5 +1,6 @@
 package com.github.kegszool.request.impl;
 
+import com.github.kegszool.notification.NotificationSubscriptionSender;
 import com.github.kegszool.messaging.dto.database_entity.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,19 +22,24 @@ import org.springframework.stereotype.Service;
 @Service
 public class UpsertUserExecutor implements RequestExecutor<UserDto, UpsertUserResponse> {
 
-    @Value("${spring.rabbitmq.template.routing-key.upsert_user.response}")
-    private String upsertUserResponseRoutingKey;
-
+    private final String routingKey;
     private final UserService userService;
+    private final NotificationSubscriptionSender notificationSender;
 
     @Autowired
-    public UpsertUserExecutor(UserService userService) {
+    public UpsertUserExecutor(
+            @Value("${spring.rabbitmq.template.routing-key.upsert_user.response}") String routingKey,
+            UserService userService,
+            NotificationSubscriptionSender notificationSender
+    ) {
+        this.routingKey = routingKey;
         this.userService = userService;
+        this.notificationSender = notificationSender;
     }
 
     @Override
     public String getResponseRoutingKey() {
-        return upsertUserResponseRoutingKey;
+        return routingKey;
     }
 
     @Override
@@ -54,6 +60,7 @@ public class UpsertUserExecutor implements RequestExecutor<UserDto, UpsertUserRe
         UserData userData = loadUserData(user, userDto);
         UpsertUserResponse response = new UpsertUserResponse(userExistedBefore, userData);
 
+        notificationSender.send(userData.getNotifications());
         return new ServiceMessage<>(request.getMessageId(), request.getChatId(), response);
     }
 

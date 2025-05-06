@@ -10,7 +10,7 @@ import com.github.kegszool.request.RequestExecutor;
 import com.github.kegszool.exception.request.RequestException;
 import com.github.kegszool.messaging.dto.service.ServiceException;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.messaging.producer.ResponseProducerService;
+import com.github.kegszool.messaging.producer.ProducerService;
 
 @Log4j2
 public abstract class BaseRequestConsumer<I, E extends RequestExecutor> implements RequestConsumer<I> {
@@ -18,10 +18,10 @@ public abstract class BaseRequestConsumer<I, E extends RequestExecutor> implemen
     @Value("${spring.rabbitmq.template.routing-key.service_exception}")
     private String SERVICE_EXCEPTION_ROUTING_KEY;
 
-    private final ResponseProducerService responseProducer;
+    private final ProducerService responseProducer;
     private final E executor;
 
-    public BaseRequestConsumer(ResponseProducerService responseProducer, E executor) {
+    public BaseRequestConsumer(ProducerService responseProducer, E executor) {
         this.responseProducer = responseProducer;
         this.executor = executor;
     }

@@ -37,6 +37,8 @@ spring:
         get_active_notification:
           response: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_RESPONSE_ROUTING_KEY}
 
+        notification_websocket_subscription: ${RABBITMQ_NOTIFICATION_WEBSOCKET_SUBSCRIPTION_ROUTING_KEY}
+
         service_exception: ${RABBITMQ_SERVICE_EXCEPTION_ROUTING_KEY}
     queues:
       upsert_user:
@@ -72,4 +74,4 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update

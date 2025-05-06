@@ -2,16 +2,17 @@ package com.github.kegszool.notification.menu.main;
 
 import java.util.List;
 
-import org.springframework.context.annotation.Scope;
+import com.github.kegszool.notification.menu.BaseNotificationMenu;
 import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Scope;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.user.messaging.dto.UserData;
-import com.github.kegszool.menu.base.BaseMenu;
+import com.github.kegszool.notification.util.NotificationTitleBuilder;
 
 @Component
 @Scope("prototype")
-public class NotificationMenu extends BaseMenu {
+public class NotificationMenu extends BaseNotificationMenu {
 
     private final String name;
     private final String title;
@@ -20,14 +21,16 @@ public class NotificationMenu extends BaseMenu {
     private final int maxButtonsPerRow;
     private final String callbackDataForFullWidthButton;
 
+    @Autowired
     public NotificationMenu(
+            NotificationTitleBuilder titleBuilder,
             @Value("${menu.notification.name}") String name,
             @Value("${menu.notification.title.ru}") String title,
             @Value("${menu.notification.max_buttons_per_row}") int maxButtonsPerRow,
             @Value("${menu.notification.sections.ru}") String config,
             @Value("${menu.action.back}") String callbackDataForFullWidthButton
     ) {
-        super(null);
+        super(null, titleBuilder);
         this.name = name;
         this.title = title;
         this.config = config;
@@ -59,10 +62,5 @@ public class NotificationMenu extends BaseMenu {
     @Override
     protected List<String> getFullWidthSections() {
         return List.of(callbackDataForFullWidthButton);
-    }
-
-    @Override
-    public boolean hasDataChanged(UserData userData, String chatId) {
-        return isLocaleChanged(userData, chatId);
     }
 }

@@ -6,6 +6,7 @@ import com.github.kegszool.coin.dto.FavoriteCoinDto;
 import com.github.kegszool.menu.base.BaseMenu;
 import com.github.kegszool.menu.util.SectionBuilder;
 
+import com.github.kegszool.menu.util.TitleBuilder;
 import com.github.kegszool.user.messaging.dto.UserData;
 import com.github.kegszool.notification.messaging.dto.NotificationDto;
 
@@ -21,8 +22,8 @@ public abstract class BaseNotificationMenu extends BaseMenu {
     @Value("${menu.coin_selection.prefix.currency}")
     private String CURRENCY_PREFIX;
 
-    public BaseNotificationMenu(SectionBuilder sectionBuilder) {
-        super(sectionBuilder);
+    public BaseNotificationMenu(SectionBuilder sectionBuilder, TitleBuilder titleBuilder) {
+        super(sectionBuilder, titleBuilder);
     }
 
     private boolean isCoinSetEqualToSections(List<CoinDto> coinsFromUserData, String chatId) {

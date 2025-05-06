@@ -13,7 +13,6 @@ import com.github.kegszool.database.repository.impl.UserRepository;
 import com.github.kegszool.messaging.dto.database_entity.NotificationDto;
 import com.github.kegszool.messaging.dto.database_entity.UserData;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.messaging.producer.ResponseProducer;
 import com.github.kegszool.notification.NotifierCreatedNotification;
 import com.github.kegszool.request.RequestExecutor;
 

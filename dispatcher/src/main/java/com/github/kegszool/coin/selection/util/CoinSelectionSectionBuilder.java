@@ -18,7 +18,7 @@ public class CoinSelectionSectionBuilder implements SectionBuilder {
     private String CURRENCY_PREFIX;
 
     @Override
-    public String buildSectionsConfig(UserData userData) {
+    public String buildSectionsConfig(UserData userData, String locale) {
         return userData.getFavoriteCoins().stream()
                 .map(favoriteCoin -> {
                     CoinDto coin = favoriteCoin.getCoin();

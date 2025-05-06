@@ -24,7 +24,7 @@ public class NotificationCreationMenu extends BaseMenu {
             @Value("${menu.notification_creation.sections.ru}") String config,
             @Value("${menu.action.back}") String callbackDataForFullWidthButton
     ) {
-        super(null);
+        super(null, null);
         this.name = name;
         this.title = title;
         this.config = config;

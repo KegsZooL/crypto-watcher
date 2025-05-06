@@ -22,7 +22,7 @@ public class MainMenu extends BaseMenu {
             @Value("${menu.main.sections.ru}") String config,
             @Value("${menu.main.max_buttons_per_row}") int maxButtonsPerRow
     ) {
-        super(null);
+        super(null, null);
         this.name = name;
         this.title = title;
         this.config = config;

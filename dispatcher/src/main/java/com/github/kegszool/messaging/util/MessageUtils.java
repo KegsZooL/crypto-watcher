@@ -1,10 +1,11 @@
 package com.github.kegszool.messaging.util;
 
+import com.github.kegszool.menu.base.BaseMenu;
 import org.springframework.stereotype.Component;
 import com.github.kegszool.localization.LocalizationService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.menu.base.Menu;
+import com.github.kegszool.menu.MenuStateStorage;
 import com.github.kegszool.menu.service.MenuRegistry;
 import com.github.kegszool.menu.service.MenuHistoryManager;
 import com.github.kegszool.update.exception.UnsupportedExtractFieldUpdateException;
@@ -23,13 +24,16 @@ public class MessageUtils {
     private final MenuHistoryManager menuHistoryManager;
     private final MenuRegistry menuRegistry;
     private final LocalizationService localizationService;
+    private final MenuStateStorage menuStateStorage;
 
     @Autowired
     public MessageUtils(
+            MenuStateStorage menuStateStorage,
             MenuHistoryManager menuHistoryManager,
             MenuRegistry menuRegistry,
             LocalizationService localizationService
     ) {
+        this.menuStateStorage = menuStateStorage;
         this.menuRegistry = menuRegistry;
         this.menuHistoryManager = menuHistoryManager;
         this.localizationService = localizationService;
@@ -134,12 +138,17 @@ public class MessageUtils {
         return query.getMessage().getChatId().toString();
     }
 
-    private record MenuData(Menu menu, String localizedTitle) {}
-
+    private record MenuData(BaseMenu menu, String localizedTitle) {}
 
     private MenuData getMenuWithTitle(String menuName, String chatId) {
-        Menu menu = menuRegistry.getMenu(menuName, chatId);
-        String title = localizationService.getTitleText(menuName, chatId);
+        BaseMenu menu = menuRegistry.getMenu(menuName, chatId);
+
+        String title;
+        if (menu.hasTitleBuilder()) {
+            title = menuStateStorage.getTitle(menuName, chatId);
+        } else {
+        	title = localizationService.getTitleText(menuName, chatId);
+        }
         return new MenuData(menu, title);
     }
 }

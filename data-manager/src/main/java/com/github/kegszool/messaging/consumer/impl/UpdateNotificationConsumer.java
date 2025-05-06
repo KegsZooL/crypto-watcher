@@ -3,7 +3,7 @@ package com.github.kegszool.messaging.consumer.impl;
 import com.github.kegszool.messaging.consumer.BaseRequestConsumer;
 import com.github.kegszool.messaging.dto.database_entity.NotificationDto;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.messaging.producer.ResponseProducerService;
+import com.github.kegszool.messaging.producer.ProducerService;
 import com.github.kegszool.request.impl.UpdateNotificationExecutor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
@@ -18,7 +18,7 @@ public class UpdateNotificationConsumer extends BaseRequestConsumer<List<Notific
 
     @Autowired
     public UpdateNotificationConsumer(
-            ResponseProducerService responseProducer,
+            ProducerService responseProducer,
             UpdateNotificationExecutor executor
     ) {
         super(responseProducer, executor);

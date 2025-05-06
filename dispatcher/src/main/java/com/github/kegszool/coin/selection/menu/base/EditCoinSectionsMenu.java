@@ -23,7 +23,7 @@ public class EditCoinSectionsMenu extends BaseMenu {
             @Value("${menu.edit_coin_sections.sections.ru}") String config,
             @Value("${menu.edit_coin_sections.max_buttons_per_row}") int maxButtonsPerRow
     ) {
-        super(null);
+        super(null, null);
         this.name = name;
         this.title = title;
         this.config = config;

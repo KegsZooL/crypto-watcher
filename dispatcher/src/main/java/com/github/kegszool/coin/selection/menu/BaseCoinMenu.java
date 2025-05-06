@@ -20,7 +20,7 @@ public abstract class BaseCoinMenu extends BaseMenu {
     private String CURRENCY_PREFIX;
 
     public BaseCoinMenu(SectionBuilder sectionBuilder) {
-        super(sectionBuilder);
+        super(sectionBuilder, null);
     }
 
     public List<FavoriteCoinDto> getAllFavoriteCoins(UserDto user, String chatId) {

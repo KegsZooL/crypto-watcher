@@ -76,7 +76,7 @@ public class UserService extends EntityService<User, UserDto, Integer> {
     }
 
     public List<NotificationDto> getUserNotifications(int id) {
-        List<Notification> notifications = notificationRepository.findByUser_Id(id);
+        List<Notification> notifications = notificationRepository.findByUser_IdAndIsTriggeredFalse(id);
         return notifications.stream()
                 .map(notificationMapper::toDto)
                 .collect(Collectors.toList());

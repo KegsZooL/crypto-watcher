@@ -22,7 +22,7 @@ public class SetCoinNotificationMenu extends BaseMenu {
             @Value("${menu.sections_config.set_coin_notification.ru}") String config,
             @Value("${menu.set_coin_notification.max_buttons_per_row}") int maxButtonsPerRow
     ) {
-        super(null);
+        super(null, null);
         this.name = name;
         this.title = title;
         this.config = config;

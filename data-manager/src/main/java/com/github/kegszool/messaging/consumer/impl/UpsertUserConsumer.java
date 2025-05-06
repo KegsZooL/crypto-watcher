@@ -7,7 +7,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.consumer.BaseRequestConsumer;
-import com.github.kegszool.messaging.producer.ResponseProducerService;
+import com.github.kegszool.messaging.producer.ProducerService;
 
 import org.springframework.amqp.support.AmqpHeaders;
 import com.github.kegszool.request.impl.UpsertUserExecutor;
@@ -16,7 +16,7 @@ import com.github.kegszool.request.impl.UpsertUserExecutor;
 public class UpsertUserConsumer extends BaseRequestConsumer<UserDto, UpsertUserExecutor> {
 
     public UpsertUserConsumer(
-            ResponseProducerService responseProducer,
+            ProducerService responseProducer,
             UpsertUserExecutor executor
     ) {
         super(responseProducer, executor);

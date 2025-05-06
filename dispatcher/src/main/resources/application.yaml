@@ -48,6 +48,8 @@ spring:
 
         triggered_notification: ${RABBITMQ_TRIGGERED_NOTIFICATION_ROUTING_KEY}
 
+        notification_websocket_subscription: ${RABBITMQ_NOTIFICATION_WEBSOCKET_SUBSCRIPTION_ROUTING_KEY}
+
         service_exception: ${RABBITMQ_SERVICE_EXCEPTION_ROUTING_KEY}
     queues:
       upsert_user_request: ${RABBITMQ_UPSERT_USER_REQUEST_QUEUE}
@@ -87,6 +89,7 @@ spring:
       get_active_notification_response: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_RESPONSE_QUEUE}
 
       triggered_notification: ${RABBITMQ_TRIGGERED_NOTIFICATION_QUEUE}
+      notification_websocket_subscription: ${RABBITMQ_NOTIFICATION_WEBSOCKET_SUBSCRIPTION_QUEUE}
 
       service_exception: ${RABBITMQ_SERVICE_EXCEPTION_QUEUE}
 
@@ -230,6 +233,19 @@ menu:
     title:
       ru: "Ваши уведомления:"
       en: "Your notifications:"
+      recurringTitle:
+        ru: "🔁 Повторяющиеся:"
+        en: "🔁 Recurring:"
+      oneTimeTitle:
+        ru: "🔂 Однократные:"
+        en: "🔂 One-time:"
+      emptyTitle:
+        ru: "⚠️️ У вас пока нет активных уведомлений."
+        en: "⚠️️ You don't have any active notifications yet."
+      entryFormat:
+        ru: "🪙 <b>%-10s</b> | %s <b>%8s%%</b> от <b>$%s</b>"
+        en: "🪙 <b>%-10s</b> | %s <b>%8s%%</b> from <b>$%s</b>"
+
     sections:
       ru: "${menu.sections_config.notification.ru}"
       en: "${menu.sections_config.notification.en}"
@@ -243,7 +259,6 @@ menu:
         ru: "🔻 Монета <b>{coin}</b> подешевела на <b>-{change}%</b>!\nТекущая цена: <b>{price}</b> "
         en: "🔻 Coin <b>{coin}</b> has decreased by <b>-{change}%</b>!\nCurrent price: <b>{price}</b> 💰"
         msg_type: "_down"
-
 
   notification_creation:
     name: "${menu.action.prefix}creation_notification_menu"
@@ -260,10 +275,13 @@ menu:
     title:
       ru: "🗑 Удаление оповещения\n\nНажмите на оповещение, которое хотите удалить — оно исчезнет сразу же."
       en: "🗑 Delete Notification\n\nTap the alert you want to remove — it will be deleted instantly."
+      entryFormat:
+        ru: "🪙 %-12s | %s %8s%% от $%-15s"
+        en: "🪙 %-12s | %s %8s%% from $%-15s"
     sections:
       ru: "${menu.sections_config.notification_deletion.ru}"
       en: "${menu.sections_config.notification_deletion.en}"
-    max_buttons_per_row: 2
+    max_buttons_per_row: 1
 
   settings:
     name: "${menu.action.prefix}settings_menu"

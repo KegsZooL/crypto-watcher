@@ -26,7 +26,7 @@ public class CoinNotificationSectionBuilder implements SectionBuilder {
     }
 
     @Override
-    public String buildSectionsConfig(UserData userData) {
+    public String buildSectionsConfig(UserData userData, String locale) {
 
         Set<String> addedCoins = new HashSet<>();
         List<String> sections = new ArrayList<>();

@@ -12,6 +12,17 @@ public class MenuStateStorage {
 
     private final Map<String, Map<String, LinkedHashMap<String, String>>> chatToMenuSections = new ConcurrentHashMap<>();
     private final Map<String, Map<String, InlineKeyboardMarkup>> chatToMenuKeyboards = new ConcurrentHashMap<>();
+    private final Map<String, Map<String, String>> chatToMenuTitle = new ConcurrentHashMap<>();
+
+    public void saveTitle(String menuName, String chatId, String title) {
+        chatToMenuTitle
+                .computeIfAbsent(menuName, k -> new ConcurrentHashMap<>())
+                .put(chatId, title);
+    }
+
+    public String getTitle(String menuName, String chatId) {
+        return chatToMenuTitle.getOrDefault(menuName, Map.of()).getOrDefault(chatId, "");
+    }
 
     public void saveSections(String menuName, String chatId, LinkedHashMap<String, String> sections) {
         chatToMenuSections

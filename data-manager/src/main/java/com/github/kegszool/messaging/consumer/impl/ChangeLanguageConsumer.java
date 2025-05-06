@@ -6,7 +6,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 import com.github.kegszool.messaging.consumer.BaseRequestConsumer;
-import com.github.kegszool.messaging.producer.ResponseProducerService;
+import com.github.kegszool.messaging.producer.ProducerService;
 
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.dto.command_entity.ChangeUserLanguageRequest;
@@ -19,7 +19,7 @@ public class ChangeLanguageConsumer extends BaseRequestConsumer<ChangeUserLangua
 
     @Autowired
     public ChangeLanguageConsumer(
-            ResponseProducerService responseProducer,
+            ProducerService responseProducer,
             ChangeLanguageExecutor executor
     ) {
         super(responseProducer, executor);

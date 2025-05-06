@@ -1,14 +1,14 @@
 package com.github.kegszool.notification.menu.deletion;
 
-import com.github.kegszool.menu.base.BaseMenu;
-import com.github.kegszool.user.messaging.dto.UserData;
+import com.github.kegszool.notification.menu.BaseNotificationMenu;
+import com.github.kegszool.notification.util.NotificationDeletionSectionBuilder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class NotificationDeletionMenu extends BaseMenu {
+public class NotificationDeletionMenu extends BaseNotificationMenu {
 
     private final String name;
     private final String title;
@@ -18,13 +18,14 @@ public class NotificationDeletionMenu extends BaseMenu {
     private final String callbackDataForFullWidthButton;
 
     public NotificationDeletionMenu(
+            NotificationDeletionSectionBuilder sectionBuilder,
             @Value("${menu.notification_deletion.name}") String name,
             @Value("${menu.notification_deletion.title.ru}") String title,
             @Value("${menu.notification_deletion.max_buttons_per_row}") int maxButtonsPerRow,
             @Value("${menu.notification_deletion.sections.ru}") String config,
             @Value("${menu.action.back}") String callbackDataForFullWidthButton
     ) {
-        super(null); //TODO: дописать section builder, который будет изменять кнопки на основе List<NotificationDto>
+        super(sectionBuilder, null);
         this.name = name;
         this.title = title;
         this.config = config;
@@ -56,10 +57,5 @@ public class NotificationDeletionMenu extends BaseMenu {
     @Override
     protected List<String> getFullWidthSections() {
         return List.of(callbackDataForFullWidthButton);
-    }
-
-    @Override
-    public boolean hasDataChanged(UserData userData, String chatId) {
-        return isLocaleChanged(userData, chatId); //TODO: так же проверка новых оповещений
     }
 }

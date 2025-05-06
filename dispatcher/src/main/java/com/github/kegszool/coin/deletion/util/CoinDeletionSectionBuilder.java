@@ -37,7 +37,7 @@ public class CoinDeletionSectionBuilder implements SectionBuilder {
     }
 
     @Override
-    public String buildSectionsConfig(UserData userData) {
+    public String buildSectionsConfig(UserData userData, String locale) {
         var selectedButtons = selectionBuffer.getSelected(menuName);
         return userData.getFavoriteCoins().stream()
                 .map(favoriteCoin -> {

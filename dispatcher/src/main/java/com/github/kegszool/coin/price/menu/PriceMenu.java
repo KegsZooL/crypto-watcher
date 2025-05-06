@@ -24,7 +24,7 @@ public class PriceMenu extends BaseMenu {
             @Value("${menu.price_snapshot.max_buttons_per_row}") int maxButtonsPerRow
 
     ) {
-        super(null);
+        super(null, null);
         this.name = name;
         this.title = title;
         this.config = config;

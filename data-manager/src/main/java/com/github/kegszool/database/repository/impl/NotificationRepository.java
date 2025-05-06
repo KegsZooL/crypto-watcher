@@ -12,7 +12,6 @@ import com.github.kegszool.database.repository.EntityRepository;
 
 @Repository
 public interface NotificationRepository extends EntityRepository<Notification, Integer> {
-    List<Notification> findByUser_Id(int userId);
     List<Notification> findByCoin_NameAndIsTriggeredFalse(String coinName);
     List<Notification> findByUser_IdAndIsTriggeredFalse(int userId);
     Optional<Notification> findByUser_IdAndCoin_IdAndInitialPriceAndTargetPercentageAndDirectionAndIsRecurring(
