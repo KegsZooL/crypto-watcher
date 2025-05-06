@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.notification.messaging.dto.Direction;
 import com.github.kegszool.notification.messaging.dto.NotificationDto;
-import com.github.kegszool.notification.creation.CreateNotificationRequestSender;
+import com.github.kegszool.notification.creation.messaging.CreateNotificationRequestSender;
 
 import com.github.kegszool.notification.util.NotificationBuilder;
 import com.github.kegszool.notification.util.NotificationCommandParser;

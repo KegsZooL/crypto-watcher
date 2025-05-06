@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
-import com.github.kegszool.notification.ParsedNotificationCommand;
+import com.github.kegszool.notification.command.model.ParsedNotificationCommand;
 
 @Component
 public class NotificationCommandParser {

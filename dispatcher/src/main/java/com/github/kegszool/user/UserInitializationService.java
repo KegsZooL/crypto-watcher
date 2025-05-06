@@ -1,16 +1,16 @@
 package com.github.kegszool.user;
 
-import com.github.kegszool.menu.service.MenuRegistry;
-import com.github.kegszool.user.messaging.UpsertUserSender;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import org.telegram.telegrambots.meta.api.objects.Update;
+
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.messaging.util.MessageUtils;
-
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import org.telegram.telegrambots.meta.api.objects.Update;
+import com.github.kegszool.menu.service.MenuRegistry;
+import com.github.kegszool.user.messaging.UpsertUserSender;
 
 @Log4j2
 @Component
