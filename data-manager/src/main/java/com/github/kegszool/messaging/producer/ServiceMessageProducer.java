@@ -1,6 +1,6 @@
 package com.github.kegszool.messaging.producer;
 
-import com.github.kegszool.utils.ServiceMessageUtils;
+import com.github.kegszool.messaging.util.ServiceMessageUtils;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 
 import org.springframework.amqp.AmqpException;

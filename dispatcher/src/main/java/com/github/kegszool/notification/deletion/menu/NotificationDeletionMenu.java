@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.github.kegszool.notification.menu.BaseNotificationMenu;
-import com.github.kegszool.notification.deletion.NotificationDeletionSectionBuilder;
+import com.github.kegszool.notification.deletion.util.NotificationDeletionSectionBuilder;
 
 @Component
 public class NotificationDeletionMenu extends BaseNotificationMenu {

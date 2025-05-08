@@ -1,4 +1,4 @@
-package com.github.kegszool.notification.creation;
+package com.github.kegszool.notification.deletion.messaging;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,15 +12,15 @@ import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.response.BaseResponseHandler;
 
 @Component
-public class CreateNotificationResponseHandler extends BaseResponseHandler<UserData> {
+public class NotificationDeletionResponseHandler extends BaseResponseHandler<UserData> {
 
     private final String routingKey;
     private final MenuUpdaterService menuUpdater;
 
     @Autowired
-    public CreateNotificationResponseHandler(
-            @Value("${spring.rabbitmq.template.routing-key.create_notification_response_from_db}") String routingKey,
-             MenuUpdaterService menuUpdater
+    public NotificationDeletionResponseHandler(
+            @Value("${spring.rabbitmq.template.routing-key.delete_notification_response}") String routingKey,
+            MenuUpdaterService menuUpdater
     ) {
         this.routingKey = routingKey;
         this.menuUpdater = menuUpdater;

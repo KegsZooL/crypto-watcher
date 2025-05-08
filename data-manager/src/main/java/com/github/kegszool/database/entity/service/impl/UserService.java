@@ -104,7 +104,7 @@ public class UserService extends EntityService<User, UserDto, Integer> {
                 .orElse("ru");
     }
 
-    public Pair<Boolean, User> findOrCreateWithPreferences(UserDto userDto) {
+    public Pair<Boolean, User> findOrCreate(UserDto userDto) {
         return userRepository.findByTelegramId(userDto.getTelegramId())
                 .map(user -> Pair.of(true, user))
                 .orElseGet(() -> {

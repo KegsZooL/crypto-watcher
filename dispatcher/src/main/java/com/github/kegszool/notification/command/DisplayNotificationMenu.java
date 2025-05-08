@@ -32,5 +32,5 @@ public class DisplayNotificationMenu extends CallbackCommand {
     @Override
     protected PartialBotApiMethod<?> handleCommand(CallbackQuery callbackQuery) {
         return messageUtils.recordAndCreateEditMessageByMenuName(callbackQuery, menuName);
-    }
 }
+    }

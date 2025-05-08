@@ -27,6 +27,7 @@ public abstract class BaseNotificationMenu extends BaseMenu {
     }
 
     private boolean isCoinSetEqualToSections(List<CoinDto> coinsFromUserData, String chatId) {
+
         LinkedHashMap<String, String> sections = menuStateStorage.getSections(getName(), chatId);
         if (sections == null) {
             return coinsFromUserData.isEmpty();

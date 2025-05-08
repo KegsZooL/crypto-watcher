@@ -5,8 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.messaging.handler.annotation.Header;
 
 import org.springframework.amqp.support.AmqpHeaders;
-import com.github.kegszool.utils.ServiceMessageUtils;
-import com.github.kegszool.request.RequestExecutor;
+import com.github.kegszool.messaging.util.ServiceMessageUtils;
+import com.github.kegszool.messaging.RequestExecutor;
 import com.github.kegszool.exception.request.RequestException;
 import com.github.kegszool.messaging.dto.service.ServiceException;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;

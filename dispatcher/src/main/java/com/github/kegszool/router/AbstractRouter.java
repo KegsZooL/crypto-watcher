@@ -1,6 +1,7 @@
 package com.github.kegszool.router;
 
 import jakarta.annotation.PreDestroy;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import com.github.kegszool.messaging.dto.HandlerResult;
 
@@ -10,6 +11,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.CompletableFuture;
 
+@Log4j2
 @Service
 public abstract class AbstractRouter<T, H, K> {
 
@@ -29,6 +31,10 @@ public abstract class AbstractRouter<T, H, K> {
                             .orElseThrow(() -> processMissingHandler(data, key));
                 }, executorService)
                 .thenApplyAsync(handler -> handle(handler, data), executorService)
+                .exceptionally(ex -> {
+                    log.error("Error handling message", ex);
+                    return new HandlerResult.NoResponse();
+                })
                 .join();
     }
 
@@ -42,7 +48,7 @@ public abstract class AbstractRouter<T, H, K> {
     private void closeThreadPool() {
         executorService.shutdownNow();
         try {
-            if (!executorService.awaitTermination(30, TimeUnit.SECONDS)) {
+            if (!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
                 executorService.shutdownNow();
                 Thread.currentThread().interrupt();
             }

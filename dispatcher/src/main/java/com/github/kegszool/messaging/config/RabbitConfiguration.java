@@ -11,7 +11,7 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 @Configuration
 public abstract class RabbitConfiguration {
 
-    protected final Map<String, Object> queueArgs = Map.of("x-expires", 36000);
+    protected final Map<String, Object> queueArgs = Map.of("x-expires", 300000);
 
     @Value("${spring.rabbitmq.template.exchange}")
     private String EXCHANGE_NAME;
