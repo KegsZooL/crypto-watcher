@@ -11,6 +11,7 @@ import com.github.kegszool.user.UserDataBuilder;
 import com.github.kegszool.database.repository.impl.*;
 import com.github.kegszool.database.entity.base.Notification;
 
+
 import com.github.kegszool.database.entity.base.Coin;
 import com.github.kegszool.database.entity.base.User;
 import com.github.kegszool.database.entity.mapper.impl.*;
@@ -81,7 +82,7 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
                 Coin coin = coinRepository.findByName(dto.getCoin().getName())
                         .orElseGet(() -> coinRepository.save(coinMapper.toEntity(dto.getCoin())));
 
-                Optional<Notification> maybeNotification = notificationRepository
+                List<Notification> updatedNotifications = notificationRepository
                         .findByUser_IdAndCoin_IdAndInitialPriceAndTargetPercentageAndDirectionAndIsRecurring(
                                 user.getId(),
                                 coin.getId(),
@@ -90,12 +91,16 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
                                 dto.getDirection(),
                                 dto.isRecurring()
                         );
-                Notification notification = maybeNotification.orElseGet(() ->
-                        notificationMapper.toEntity(dto, user, coin)
-                );
-                notification.setTriggered(true);
-                notificationRepository.save(notification);
-            }
+                if (updatedNotifications.isEmpty()) {
+                    Notification notification = notificationMapper.toEntity(dto, user, coin);
+                    notification.setTriggered(true);
+                    notificationRepository.save(notification);
+                } else {
+                    for (Notification n : updatedNotifications) {
+                        n.setTriggered(true);
+                        notificationRepository.save(n);
+                    }
+                }            }
             UserData userData = userDataBuilder.buildUserData(user);
             userDataSet.add(userData);
         }

@@ -2,6 +2,8 @@ package com.github.kegszool.notification.delete;
 
 import java.util.Optional;
 
+import com.github.kegszool.database.entity.mapper.impl.NotificationMapper;
+import com.github.kegszool.notification.UnsubscriptionNotificationSender;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,9 +33,11 @@ public class DeleteNotificationExecutor implements RequestExecutor<NotificationI
 
     private final String routingKey;
     private final UserService userService;
+    private final NotificationMapper notificationMapper;
     private final UserDataBuilder userDataBuilder;
     private final CoinRepository coinRepository;
     private final NotificationRepository notificationRepository;
+    private final UnsubscriptionNotificationSender unsubscriptionNotificationSender;
 
     @Autowired
     public DeleteNotificationExecutor(
@@ -41,13 +45,17 @@ public class DeleteNotificationExecutor implements RequestExecutor<NotificationI
             UserService userService,
             CoinRepository coinRepository,
             NotificationRepository notificationRepository,
-            UserDataBuilder userDataBuilder
+            NotificationMapper notificationMapper,
+            UserDataBuilder userDataBuilder,
+            UnsubscriptionNotificationSender unsubscriptionNotificationSender
     ) {
         this.routingKey = routingKey;
         this.userService = userService;
         this.coinRepository = coinRepository;
         this.notificationRepository = notificationRepository;
+        this.notificationMapper = notificationMapper;
         this.userDataBuilder = userDataBuilder;
+        this.unsubscriptionNotificationSender = unsubscriptionNotificationSender;
     }
 
     @Override
@@ -82,12 +90,16 @@ public class DeleteNotificationExecutor implements RequestExecutor<NotificationI
         maybeNotification.ifPresentOrElse(
                 notification -> {
                     notification.setTriggered(true);
+        			unsubscriptionNotificationSender.send(
+                            notificationMapper.toDto(notification),
+                            serviceMessage.getMessageId(),
+                            serviceMessage.getChatId()
+                    );
                     notificationRepository.save(notification);
                 },
                 () -> log.error("Notification not found for userId: {}, messageId: {}, chatId: {}, coinName: {}",
                         user.getId(), dto.getMessageId(), dto.getChatId(), coinName)
         );
-
         UserData userData = userDataBuilder.buildUserData(user);
         return new ServiceMessage<>(serviceMessage.getMessageId(), serviceMessage.getChatId(), userData);
     }

@@ -43,6 +43,7 @@ public class NotificationTriggerChecker {
     }
 
     private void logNotificationDetails(NotificationDto notification, String coinName, double currentPrice) {
+
         double initialPrice = notification.getInitialPrice();
         double targetPercent = notification.getTargetPercentage().doubleValue();
         double targetChange = initialPrice * targetPercent / 100.0;

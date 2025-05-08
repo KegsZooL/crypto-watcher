@@ -15,7 +15,7 @@ public interface NotificationRepository extends EntityRepository<Notification, I
     List<Notification> findByCoin_NameAndIsTriggeredFalse(String coinName);
     List<Notification> findByUser_IdAndIsTriggeredFalse(int userId);
 
-    Optional<Notification> findByUser_IdAndCoin_IdAndInitialPriceAndTargetPercentageAndDirectionAndIsRecurring(
+    List<Notification> findByUser_IdAndCoin_IdAndInitialPriceAndTargetPercentageAndDirectionAndIsRecurring(
             int userId,
             int coinId,
             double initialPrice,

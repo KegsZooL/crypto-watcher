@@ -1,6 +1,7 @@
 package com.github.kegszool.notificaiton.active;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -25,18 +26,34 @@ public class ActiveNotificationCacheService {
             if (existing == null) {
                 return new CopyOnWriteArrayList<>(notifications);
             } else {
-                existing.addAll(notifications);
-                return existing;
+                for (NotificationDto newNotification : notifications) {
+                    boolean alreadyExists = existing.stream()
+                            .anyMatch(existingNotification -> isSameNotification(existingNotification, newNotification));
+                    if (!alreadyExists) {
+                        existing.add(newNotification);
+                    }
+                }
+                return  existing;
             }
         });
     }
 
-    public void remove(String coinName, NotificationDto triggered) {
-        pendingRemovals.put(buildKey(triggered), triggered);
+    public void remove(String coinName, NotificationDto notification) {
+        if (notification.isTriggered()) {
+        	pendingRemovals.put(buildKey(notification), notification);
+        }
         cache.computeIfPresent(coinName, (k, list) -> {
-            list.remove(triggered);
+            list.removeIf(not -> isSameNotification(not, notification));
             return list;
         });
+    }
+
+    private boolean isSameNotification(NotificationDto a, NotificationDto b) {
+        return Objects.equals(a.getChatId(), b.getChatId()) &&
+                Objects.equals(a.getCoin().getName(), b.getCoin().getName()) &&
+                Objects.equals(a.getMessageId(), b.getMessageId()) &&
+                Objects.equals(a.getTargetPercentage(), b.getTargetPercentage()) &&
+                a.getDirection() == b.getDirection();
     }
 
     public void confirmRemoval(NotificationDto notification) {

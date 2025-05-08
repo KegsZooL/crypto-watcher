@@ -37,7 +37,11 @@ spring:
         get_active_notification:
           response: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_RESPONSE_ROUTING_KEY}
 
+        after_triggered_notification:
+          response: ${RABBITMQ_GET_USER_DATA_AFTER_TRIGGERED_NOTIFICATION_RESPONSE_ROUTING_KEY}
+
         notification_websocket_subscription: ${RABBITMQ_NOTIFICATION_WEBSOCKET_SUBSCRIPTION_ROUTING_KEY}
+        notification_websocket_unsubscription: ${RABBITMQ_NOTIFICATION_WEBSOCKET_UNSUBSCRIPTION_ROUTING_KEY}
 
         service_exception: ${RABBITMQ_SERVICE_EXCEPTION_ROUTING_KEY}
     queues:
@@ -64,6 +68,9 @@ spring:
 
       get_active_notification:
         request: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_REQUEST_QUEUE}
+
+      after_triggered_notification:
+        request: ${RABBITMQ_GET_USER_DATA_AFTER_TRIGGERED_NOTIFICATION_REQUEST_QUEUE}
 
   datasource:
     url: ${DATABASE_URL}

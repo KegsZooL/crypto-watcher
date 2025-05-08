@@ -48,7 +48,11 @@ spring:
 
         triggered_notification: ${RABBITMQ_TRIGGERED_NOTIFICATION_ROUTING_KEY}
 
+        get_user_data_after_triggered_notification_request: ${RABBITMQ_GET_USER_DATA_AFTER_TRIGGERED_NOTIFICATION_REQUEST_ROUTING_KEY}
+        get_user_data_after_triggered_notification_response: ${RABBITMQ_GET_USER_DATA_AFTER_TRIGGERED_NOTIFICATION_RESPONSE_ROUTING_KEY}
+
         notification_websocket_subscription: ${RABBITMQ_NOTIFICATION_WEBSOCKET_SUBSCRIPTION_ROUTING_KEY}
+        notification_websocket_unsubscription: ${RABBITMQ_NOTIFICATION_WEBSOCKET_UNSUBSCRIPTION_ROUTING_KEY}
 
         service_exception: ${RABBITMQ_SERVICE_EXCEPTION_ROUTING_KEY}
     queues:
@@ -89,7 +93,12 @@ spring:
       get_active_notification_response: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_RESPONSE_QUEUE}
 
       triggered_notification: ${RABBITMQ_TRIGGERED_NOTIFICATION_QUEUE}
+
+      get_user_data_after_triggered_notification_request: ${RABBITMQ_GET_USER_DATA_AFTER_TRIGGERED_NOTIFICATION_REQUEST_QUEUE}
+      get_user_data_after_triggered_notification_response: ${RABBITMQ_GET_USER_DATA_AFTER_TRIGGERED_NOTIFICATION_RESPONSE_QUEUE}
+
       notification_websocket_subscription: ${RABBITMQ_NOTIFICATION_WEBSOCKET_SUBSCRIPTION_QUEUE}
+      notification_websocket_unsubscription: ${RABBITMQ_NOTIFICATION_WEBSOCKET_UNSUBSCRIPTION_QUEUE}
 
       service_exception: ${RABBITMQ_SERVICE_EXCEPTION_QUEUE}
 

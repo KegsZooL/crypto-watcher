@@ -21,10 +21,18 @@ public class NotificationWebSocketSubscriptionConsumer {
     }
 
     @RabbitListener(queues = "${spring.rabbitmq.queues.notification_websocket_subscription}")
-    public void listen(
+    public void listenSubscribe(
             ServiceMessage<List<NotificationDto>> serviceMessage,
             @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey
     ) {
         notificationSubscriber.subscribe(serviceMessage.getData());
+    }
+
+    @RabbitListener(queues = "${spring.rabbitmq.queues.notification_websocket_unsubscription}")
+    public void listenUnsubscribe(
+            ServiceMessage<NotificationDto> serviceMessage,
+            @Header(AmqpHeaders.RECEIVED_ROUTING_KEY) String routingKey
+    ) {
+        notificationSubscriber.unsubscribe(serviceMessage.getData());
     }
 }

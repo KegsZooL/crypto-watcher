@@ -1,6 +1,8 @@
 package com.github.kegszool.notificaiton;
 
 import java.util.List;
+
+import com.github.kegszool.messaging.dto.UserDto;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ public class NotificationProducer {
     private final String routingKeyForCreation;
     private final String routingKeyForActive;
     private final String routingKeyForTriggered;
+    private final String routingKeyAfterTriggered;
     private final String routingKeyForUpdating;
 
     @Autowired
@@ -24,12 +27,14 @@ public class NotificationProducer {
             @Value("${spring.rabbitmq.template.routing-key.create_notification_request}") String routingKeyForCreation,
             @Value("${spring.rabbitmq.template.routing-key.get_activate_notification_request}") String routingKeyForActive,
             @Value("${spring.rabbitmq.template.routing-key.triggered_notification}") String routingKeyForTriggered,
+            @Value("${spring.rabbitmq.template.routing-key.after_triggered_notification}") String routingKeyAfterTriggered,
             @Value("${spring.rabbitmq.template.routing-key.update_notification_request}") String routingKeyForUpdating
     ) {
         this.producer = producer;
         this.routingKeyForCreation = routingKeyForCreation;
         this.routingKeyForActive = routingKeyForActive;
         this.routingKeyForTriggered = routingKeyForTriggered;
+        this.routingKeyAfterTriggered = routingKeyAfterTriggered;
         this.routingKeyForUpdating = routingKeyForUpdating;
     }
 
@@ -53,6 +58,15 @@ public class NotificationProducer {
                 notification
         );
         producer.produce(request, routingKeyForTriggered);
+    }
+
+    public void sendAfterTriggeredNotification(NotificationDto notification) {
+        ServiceMessage<NotificationDto> request = new ServiceMessage<>(
+                notification.getMessageId(),
+                notification.getChatId().toString(),
+                notification
+        );
+        producer.produce(request, routingKeyAfterTriggered);
     }
 
     public void sendUpdateNotificationRequest(List<NotificationDto> notifications) {
