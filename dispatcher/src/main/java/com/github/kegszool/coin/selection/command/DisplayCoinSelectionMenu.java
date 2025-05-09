@@ -1,4 +1,4 @@
-package com.github.kegszool.coin.selection;
+package com.github.kegszool.coin.selection.command;
 
 import com.github.kegszool.command.callback.CallbackCommand;
 import com.github.kegszool.messaging.util.MessageUtils;

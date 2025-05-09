@@ -1,4 +1,4 @@
-package com.github.kegszool.command.callback.impl;
+package com.github.kegszool.coin.selection.command;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;

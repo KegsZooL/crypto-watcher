@@ -1,6 +1,6 @@
 package com.github.kegszool.notification.creation.command;
 
-import com.github.kegszool.command.text.TextCommand;
+import com.github.kegszool.command.TextCommand;
 import com.github.kegszool.notification.NotificationHandler;
 
 import org.springframework.stereotype.Component;

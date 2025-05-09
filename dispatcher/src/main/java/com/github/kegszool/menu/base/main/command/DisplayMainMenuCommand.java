@@ -1,5 +1,6 @@
-package com.github.kegszool.command.text;
+package com.github.kegszool.menu.base.main.command;
 
+import com.github.kegszool.command.TextCommand;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
