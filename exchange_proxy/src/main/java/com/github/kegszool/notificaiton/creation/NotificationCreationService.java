@@ -42,13 +42,13 @@ public class NotificationCreationService {
         this.webSocketConnector = webSocketConnector;
     }
     
-    public void processCreationRequest(ServiceMessage<NotificationDto> serviceMessage) {
+    public boolean processCreationRequest(ServiceMessage<NotificationDto> serviceMessage) {
         NotificationDto notification = serviceMessage.getData();
         String fullCoinName = notification.getCoin().getName();
         String coinName = fullCoinName.replace(currencySuffix, "");
         
         if (!coinExistenceChecker.exists(coinName)) {
-            return;
+            return false;
         }
         double initialPrice = coinPriceFetcher.getPrice(fullCoinName);
         notification.setInitialPrice(initialPrice);
@@ -60,5 +60,6 @@ public class NotificationCreationService {
         if (subscriptionTracker.increment(coinName)) {
             webSocketConnector.connect(fullCoinName);
         }
+        return true;
     }
 }

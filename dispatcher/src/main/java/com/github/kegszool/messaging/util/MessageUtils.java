@@ -39,6 +39,15 @@ public class MessageUtils {
         this.localizationService = localizationService;
     }
 
+    public SendMessage createSendMessage(String menuName, String answerMsgType, String chatId) {
+        String title = localizationService.getAnswerMessage(menuName, answerMsgType, chatId);
+        return SendMessage.builder()
+                .text(title)
+                .chatId(chatId)
+                .parseMode(ParseMode.HTML)
+                .build();
+    }
+
     public EditMessageText createEditMessage(CallbackQuery query, String text) {
         return createEditMessage(query, text, null);
     }

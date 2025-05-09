@@ -1,10 +1,11 @@
 package com.github.kegszool.notification.creation.messaging;
 
-import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.user.messaging.dto.UserData;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+
+import com.github.kegszool.user.messaging.dto.UserData;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
 
 @Component
 public class CreateNotificationResponseConsumer extends BaseResponseConsumer<UserData> {

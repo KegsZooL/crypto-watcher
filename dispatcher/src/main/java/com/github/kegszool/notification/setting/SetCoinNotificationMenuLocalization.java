@@ -26,14 +26,23 @@ public class SetCoinNotificationMenuLocalization extends BaseMenuLocalization {
             @Value("${menu.set_coin_notification.answer_messages.from_command.success.msg_type}")
             String fromCommandSuccessMsgType,
 
-            @Value("${menu.set_coin_notification.answer_messages.from_command.error.ru}")
+            @Value("${menu.set_coin_notification.answer_messages.from_command.invalid_command.ru}")
             String fromCommandErrorRu,
 
-            @Value("${menu.set_coin_notification.answer_messages.from_command.error.en}")
+            @Value("${menu.set_coin_notification.answer_messages.from_command.invalid_command.en}")
             String fromCommandErrorEn,
 
-            @Value("${menu.set_coin_notification.answer_messages.from_command.error.msg_type}")
+            @Value("${menu.set_coin_notification.answer_messages.from_command.invalid_command.msg_type}")
             String fromCommandErrorMsgType,
+
+            @Value("${menu.set_coin_notification.answer_messages.from_command.not_exists.ru}")
+            String fromCommandNotExistsRu,
+
+            @Value("${menu.set_coin_notification.answer_messages.from_command.not_exists.en}")
+            String fromCommandNotExiststEn,
+
+            @Value("${menu.set_coin_notification.answer_messages.from_command.not_exists.msg_type}")
+            String fromCommandNotExistsMsgType,
 
             @Value("${menu.set_coin_notification.answer_messages.from_menu.created.ru}")
             String fromMenuSuccessCreatedRu,
@@ -92,6 +101,10 @@ public class SetCoinNotificationMenuLocalization extends BaseMenuLocalization {
                         fromMenuCoinNotSelectedMsgType, Map.of(
                                 "ru", fromMenuCoinNotSelectedRu,
                                 "en", fromMenuCoinNotSelectedEn
+                        ),
+                        fromCommandNotExistsMsgType, Map.of(
+                                "ru", fromCommandNotExistsRu,
+                                "en", fromCommandNotExiststEn
                         )
                 )
         );

@@ -25,7 +25,7 @@ public class NotificationAnswerMessageBuilder {
             @Value("${menu.set_coin_notification.answer_messages.from_command.success.msg_type}")
             String fromCommandSuccessMsgType,
 
-            @Value("${menu.set_coin_notification.answer_messages.from_command.error.msg_type}")
+            @Value("${menu.set_coin_notification.answer_messages.from_command.invalid_command.msg_type}")
             String fromCommandErrorMsgType,
 
             @Value("${menu.set_coin_notification.answer_messages.from_menu.created.msg_type}")
