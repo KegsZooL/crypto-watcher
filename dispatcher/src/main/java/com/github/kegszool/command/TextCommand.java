@@ -1,6 +1,5 @@
-package com.github.kegszool.command.text;
+package com.github.kegszool.command;
 
-import com.github.kegszool.command.Command;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 public abstract class TextCommand extends Command<Update> {

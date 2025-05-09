@@ -3,7 +3,7 @@ package com.github.kegszool.notification.command;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.command.text.TextCommand;
+import com.github.kegszool.command.TextCommand;
 import com.github.kegszool.notification.NotificationHandler;
 
 import org.telegram.telegrambots.meta.api.objects.Update;

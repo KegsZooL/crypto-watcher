@@ -346,8 +346,8 @@ menu:
           en: "❌ Invalid command. Example: /not BTC +10%"
           msg_type: "_invalid"
         not_exists:
-          ru: "⚠️ Монета не найдена или не поддерживает отслеживание через WebSocket. Пожалуйста, убедитесь в корректности названия и попробуйте снова."
-          en: "⚠️ Coin was not found or is not supported for tracking via WebSocket. Please check the coin name and try again."
+          ru: "⚠️ Монета не найдена или не поддерживает отслеживание. Пожалуйста, убедитесь в корректности названия и попробуйте снова."
+          en: "⚠️ Coin was not found or is not supported for tracking. Please check the coin name and try again."
           msg_type: "_not_found"
 
       from_menu:

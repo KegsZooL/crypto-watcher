@@ -1,13 +1,15 @@
 package com.github.kegszool.bot;
 
-import com.github.kegszool.update.UpdateRouter;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.github.kegszool.messaging.dto.HandlerResult;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.response.ResponseRouter;
 
-import lombok.extern.log4j.Log4j2;
-import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.github.kegszool.update.UpdateRouter;
+import com.github.kegszool.menu.service.MenuCommandConfigurationService;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
 @Log4j2
@@ -19,20 +21,24 @@ public class TelegramBotController {
     private final BotRegistrationService botRegistrationService;
 
     private TelegramBot bot;
+    private MenuCommandConfigurationService menuCommandConfigurationService;
 
     @Autowired
     public TelegramBotController(
         UpdateRouter updateRouter,
         ResponseRouter responseRouter,
-        BotRegistrationService botRegistrationService
+        BotRegistrationService botRegistrationService,
+        MenuCommandConfigurationService menuCommandConfigurationService
     ) {
         this.updateRouter = updateRouter;
         this.responseRouter = responseRouter;
         this.botRegistrationService = botRegistrationService;
+        this.menuCommandConfigurationService = menuCommandConfigurationService;
     }
 
     public void registerBot(TelegramBot bot) {
         this.bot = botRegistrationService.register(bot);
+        menuCommandConfigurationService.init(bot);
     }
 
     public void handleUpdate(Update update) {
@@ -56,7 +62,7 @@ public class TelegramBotController {
 
     private void processResult(HandlerResult result) {
         if (result instanceof HandlerResult.Success success) {
-            bot.sendAnswerMessage(success.response());
+            bot.executeMsg(success.response());
         }
     }
 }

@@ -1,10 +1,9 @@
 package com.github.kegszool.localization;
 
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class LocalizationService {
@@ -27,31 +26,36 @@ public class LocalizationService {
 
     public String getTitleText(String menuName, String chatId) {
         String currentLocale = getLocale(chatId);
-        return localizationBuffer.get(menuName).getTitles().get(currentLocale);
+        return localizationBuffer.getMenu(menuName).getTitles().get(currentLocale);
     }
 
     public String getTitleTextByLocale(String menuName, String locale) {
-        return localizationBuffer.get(menuName).getTitles().get(locale);
+        return localizationBuffer.getMenu(menuName).getTitles().get(locale);
     }
 
     public String getSectionsConfig(String menuName, String chatId) {
         String currentLocale = getLocale(chatId);
-        return localizationBuffer.get(menuName).getSectionsConfig().get(currentLocale);
+        return localizationBuffer.getMenu(menuName).getSectionsConfig().get(currentLocale);
     }
 
     public String getSectionsConfigByLocal(String menuName, String locale) {
-        return localizationBuffer.get(menuName).getSectionsConfig().get(locale);
+        return localizationBuffer.getMenu(menuName).getSectionsConfig().get(locale);
     }
 
     public String getAnswerMessage(String menuName, String chatId) {
         String currentLocale = getLocale(chatId);
-        return localizationBuffer.get(menuName).getAnswerMessages()
+        return localizationBuffer.getMenu(menuName).getAnswerMessages()
                 .get("default").get(currentLocale);
     }
 
     public String getAnswerMessage(String menuName, String messageType, String chatId) {
         String currentLocale = getLocale(chatId);
-        return localizationBuffer.get(menuName).getAnswerMessages()
+        return localizationBuffer.getMenu(menuName).getAnswerMessages()
                 .get(messageType).get(currentLocale);
+    }
+
+    public String getCommandDescription(String command, String locale) {
+        return localizationBuffer.getDescriptionForCommand(command)
+                .getLocaleToDescription().get(locale);
     }
 }

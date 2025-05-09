@@ -3,7 +3,7 @@ package com.github.kegszool.coin.addition.command.base;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.github.kegszool.command.text.TextCommand;
+import com.github.kegszool.command.TextCommand;
 import com.github.kegszool.coin.addition.command.CoinAdditionCommandHandler;
 
 import org.telegram.telegrambots.meta.api.objects.Update;

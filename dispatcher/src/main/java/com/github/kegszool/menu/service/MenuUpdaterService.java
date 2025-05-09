@@ -14,14 +14,17 @@ public class MenuUpdaterService {
 
     private final LocalizationService localizationService;
     private final MenuRegistry menuRegistry;
+    private final MenuCommandConfigurationService commandConfigurationService;
 
     @Autowired
     public MenuUpdaterService(
             LocalizationService localizationService,
-            MenuRegistry menuRegistry
+            MenuRegistry menuRegistry,
+            MenuCommandConfigurationService commandConfigurationService
     ) {
         this.menuRegistry = menuRegistry;
         this.localizationService = localizationService;
+        this.commandConfigurationService = commandConfigurationService;
     }
 
     public void updateMenus(UserData userData, String chatId) {
@@ -31,8 +34,12 @@ public class MenuUpdaterService {
                 menu.updateMenu(userData, chatId);
             }
         });
-        String locale = userData.getUserPreference().interfaceLanguage();
+        processLocale(userData.getUserPreference().interfaceLanguage(), chatId);
+    }
+
+    private void processLocale(String locale, String chatId) {
         localizationService.setLocale(chatId, locale);
+        commandConfigurationService.executeCommand(locale);
     }
 
     public void changeKeyboard(String config, String menuName, String chatId) {
