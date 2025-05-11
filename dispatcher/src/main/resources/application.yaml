@@ -123,6 +123,11 @@ menu:
       ru: "${menu.sections_config.main.ru}"
       en: "${menu.sections_config.main.en}"
     max_buttons_per_row: 2
+    answer_messages:
+      not_supported_command:
+        ru: "Неизвестная команда. Пожалуйста, используйте команду /menu."
+        en: "Unknown command. Please use the /menu command."
+        msg_type: "not_supported_command"
 
   coin_selection:
     name: "${menu.action.prefix}selection_menu"

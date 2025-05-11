@@ -15,7 +15,11 @@ public class MainMenuLocalization extends BaseMenuLocalization {
             @Value("${menu.main.title.en}") String titleEn,
 
             @Value("${menu.main.sections.ru}") String sectionsRu,
-            @Value("${menu.main.sections.en}") String sectionsEn
+            @Value("${menu.main.sections.en}") String sectionsEn,
+
+            @Value("${menu.main.answer_messages.not_supported_command.ru}") String notSupportedRu,
+            @Value("${menu.main.answer_messages.not_supported_command.en}") String notSupportedEn,
+            @Value("${menu.main.answer_messages.not_supported_command.msg_type}") String notSupportedMsgType
     ) {
         super(
                 name,
@@ -27,7 +31,12 @@ public class MainMenuLocalization extends BaseMenuLocalization {
                         "ru", sectionsRu,
                         "en", sectionsEn
                 ),
-                null
+                Map.of(
+                        notSupportedMsgType, Map.of(
+                                "ru", notSupportedRu,
+                                "en", notSupportedEn
+                        )
+                )
         );
     }
 }

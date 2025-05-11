@@ -41,8 +41,7 @@ public class UpdateRouter extends AbstractRouter<Update, UpdateHandler, Update> 
     }
 
     @Override
-    protected HandlerResult handle(UpdateHandler handler, Update update)
-    {
+    protected HandlerResult handle(UpdateHandler handler, Update update) {
         userInitializationService.initializeIfFirstInteraction(update);
         PartialBotApiMethod<?> response = handler.handle(update);
         return new HandlerResult.Success(response);

@@ -1,0 +1,35 @@
+package com.github.kegszool;
+
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.github.kegszool.messaging.dto.HandlerResult;
+import com.github.kegszool.messaging.util.MessageUtils;
+import org.telegram.telegrambots.meta.api.objects.Update;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+
+@Component
+public class NotSupportedMessageBuilder {
+
+    private final String mainMenuName;
+    private final String msgType;
+    private final MessageUtils messageUtils;
+
+    @Autowired
+    public NotSupportedMessageBuilder(
+            @Value("${menu.main.name}") String mainMenuName,
+            @Value("${menu.main.answer_messages.not_supported_command.msg_type}") String msgType,
+            MessageUtils messageUtils
+    ) {
+        this.mainMenuName = mainMenuName;
+        this.msgType = msgType;
+        this.messageUtils = messageUtils;
+    }
+
+    public HandlerResult.Success build(Update update) {
+        String chatId = update.getMessage().getChatId().toString();
+        SendMessage fallbackMessage = messageUtils.createSendMessage(mainMenuName, msgType, chatId);
+        return new HandlerResult.Success(fallbackMessage);
+    }
+}
