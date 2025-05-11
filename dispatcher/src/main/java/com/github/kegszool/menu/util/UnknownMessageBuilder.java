@@ -1,4 +1,4 @@
-package com.github.kegszool;
+package com.github.kegszool.menu.util;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,14 +10,14 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 @Component
-public class NotSupportedMessageBuilder {
+public class UnknownMessageBuilder {
 
     private final String mainMenuName;
     private final String msgType;
     private final MessageUtils messageUtils;
 
     @Autowired
-    public NotSupportedMessageBuilder(
+    public UnknownMessageBuilder(
             @Value("${menu.main.name}") String mainMenuName,
             @Value("${menu.main.answer_messages.not_supported_command.msg_type}") String msgType,
             MessageUtils messageUtils

@@ -11,9 +11,9 @@ import jakarta.annotation.PreDestroy;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.NotSupportedMessageBuilder;
 import com.github.kegszool.messaging.dto.HandlerResult;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import com.github.kegszool.menu.util.UnknownMessageBuilder;
 import com.github.kegszool.update.exception.UpdateHandlerNotFoundException;
 
 @Log4j2
@@ -24,7 +24,7 @@ public abstract class AbstractRouter<T, H, K> {
     private final ExecutorService executorService;
 
     @Autowired
-    private NotSupportedMessageBuilder notSupportedMessageBuilder;
+    private UnknownMessageBuilder msgBuilder;
 
     @Autowired
     protected AbstractRouter(List<H> handlers) {
@@ -40,7 +40,7 @@ public abstract class AbstractRouter<T, H, K> {
                 .thenApplyAsync(handler -> handle(handler, data), executorService)
                 .exceptionally(ex -> {
                     if (ex.getCause() instanceof UpdateHandlerNotFoundException) {
-                        return notSupportedMessageBuilder.build((Update)data);
+                        return msgBuilder.build((Update)data);
                     }
                     log.error("Error handling message", ex);
                     return new HandlerResult.NoResponse();
