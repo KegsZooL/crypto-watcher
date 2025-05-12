@@ -33,19 +33,44 @@ public class ActiveNotificationCacheService {
                         existing.add(newNotification);
                     }
                 }
-                return  existing;
+                return existing;
             }
         });
     }
 
-    public void remove(String coinName, NotificationDto notification) {
+    public void remove(NotificationDto notification) {
         if (notification.isTriggered()) {
         	pendingRemovals.put(buildKey(notification), notification);
         }
-        cache.computeIfPresent(coinName, (k, list) -> {
-            list.removeIf(not -> isSameNotification(not, notification));
+        removeFromCache(notification);
+    }
+
+    public void confirmRemoval(NotificationDto notification) {
+        String key = buildKey(notification);
+        NotificationDto removed = pendingRemovals.remove(key);
+
+        if (removed == null) {
+        	log.error("Received confirmation for non-pending removal: {}", key);
+        } else {
+            removeFromCache(notification);
+            log.info("Cache size after removal confirmation: {}", cache.get(
+                    notification.getCoin().getName()
+            ).size());
+        }
+    }
+
+    private void removeFromCache(NotificationDto notification) {
+        String coinName = notification.getCoin().getName();
+        cache.computeIfPresent(coinName, (key, list) -> {
+            list.removeIf(existing -> isSameNotification(existing, notification));
             return list;
         });
+    }
+
+    private String buildKey(NotificationDto not) {
+        return not.getChatId() + "_" + not.getCoin().getName() + "_"
+                + not.getMessageId() + "_" + not.getTargetPercentage() + "_"
+                + not.getDirection();
     }
 
     private boolean isSameNotification(NotificationDto a, NotificationDto b) {
@@ -54,19 +79,5 @@ public class ActiveNotificationCacheService {
                 Objects.equals(a.getMessageId(), b.getMessageId()) &&
                 Objects.equals(a.getTargetPercentage(), b.getTargetPercentage()) &&
                 a.getDirection() == b.getDirection();
-    }
-
-    public void confirmRemoval(NotificationDto notification) {
-        String key = buildKey(notification);
-        NotificationDto removed = pendingRemovals.remove(key);
-        if (removed == null) {
-            log.warn("Received confirmation for non-pending removal: {}", key);
-        }
-    }
-
-    private String buildKey(NotificationDto not) {
-        return not.getChatId() + "_" + not.getCoin().getName() + "_"
-                + not.getMessageId() + "_" + not.getTargetPercentage() + "_"
-                + not.getDirection();
     }
 }

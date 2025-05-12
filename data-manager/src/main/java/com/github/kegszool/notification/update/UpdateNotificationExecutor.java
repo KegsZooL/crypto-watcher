@@ -65,7 +65,6 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
                 .collect(Collectors.groupingBy(dto -> dto.getUser().getTelegramId()));
 
         Set<UserData> userDataSet = new HashSet<>();
-        List<NotificationDto> updated = new ArrayList<>();
 
         for (Map.Entry<Long, List<NotificationDto>> entry : groupedByTelegramId.entrySet()) {
 
@@ -100,11 +99,12 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
                         n.setTriggered(true);
                         notificationRepository.save(n);
                     }
-                }            }
+                }
+            }
             UserData userData = userDataBuilder.buildUserData(user);
             userDataSet.add(userData);
         }
-        updatedNotificationSender.send(updated);
+        updatedNotificationSender.send(serviceMessage.getData());
         return new ServiceMessage<>(STUB_MESSAGE_ID, STUB_CHAT_ID, new ArrayList<>(userDataSet));
     }
 

@@ -45,16 +45,6 @@ public class TriggeredNotificationBuffer {
         }
     }
 
-    public void confirmUpdate(NotificationDto notification) {
-        lock.lock();
-        try {
-            String key = buildKey(notification);
-            log.info("Removing notification with key: {}", key);
-        } finally {
-            lock.unlock();
-        }
-    }
-
     private String buildKey(NotificationDto not) {
         return not.getChatId() + "_" + not.getCoin().getName() + "_"
                 + not.getMessageId() + "_" + not.getTargetPercentage() + "_"

@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.messaging.dto.NotificationDto;
 import com.github.kegszool.websocket.connection.OkxWebSocketConnector;
-import com.github.kegszool.websocket.util.WebSocketSubscriptionTracker;
 
+import com.github.kegszool.websocket.util.WebSocketSubscriptionTracker;
 @Service
 public class NotificationWebSocketSubscriber {
 
@@ -58,10 +58,9 @@ public class NotificationWebSocketSubscriber {
         String coinName = deleted.getCoin().getName();
         String fullCoinName = coinName + currencySuffix;
 
-        deleted.setTriggered(false);
         if (subscriptionTracker.decrement(coinName)) {
             webSocketConnector.disconnect(fullCoinName);
         }
-        activeNotifications.remove(coinName, deleted);
+        activeNotifications.remove( deleted);
     }
 }

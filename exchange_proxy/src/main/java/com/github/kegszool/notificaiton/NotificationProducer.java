@@ -1,8 +1,6 @@
 package com.github.kegszool.notificaiton;
 
 import java.util.List;
-
-import com.github.kegszool.messaging.dto.UserDto;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
