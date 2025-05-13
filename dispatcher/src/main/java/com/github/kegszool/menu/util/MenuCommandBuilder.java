@@ -16,7 +16,7 @@ public class MenuCommandBuilder {
 
     @Autowired
     public MenuCommandBuilder(
-            @Value("${bot.command.display_main_menu}") String menuCommand,
+            @Value("${menu.main.command}") String menuCommand,
             LocalizationService localizationService
     ) {
         this.menuCommand = menuCommand;

@@ -27,7 +27,10 @@ public abstract class BaseMenu implements Menu {
     private final SectionBuilder sectionBuilder;
     private final TitleBuilder titleBuilder;
 
-    public BaseMenu(@Nullable SectionBuilder sectionBuilder, @Nullable TitleBuilder titleBuilder) {
+    public BaseMenu(
+            @Nullable SectionBuilder sectionBuilder,
+            @Nullable TitleBuilder titleBuilder
+    ) {
         this.sectionBuilder = sectionBuilder;
         this.titleBuilder = titleBuilder;
     }

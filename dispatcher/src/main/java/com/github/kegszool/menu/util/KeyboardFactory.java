@@ -9,8 +9,11 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardRow;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
 
 
 @Log4j2
@@ -60,6 +63,26 @@ public class KeyboardFactory {
         if (backButton != null) {
             rows.add(new InlineKeyboardRow(backButton));
         }
-        return new InlineKeyboardMarkup(rows);
+        return InlineKeyboardMarkup.builder()
+                .keyboard(rows)
+                .build();
+    }
+
+    public ReplyKeyboardMarkup createReplyKeyboard() {
+
+        List<KeyboardRow> rows = new ArrayList<>();
+
+        KeyboardRow row_1 = new KeyboardRow(new KeyboardButton("Настройки"));
+        KeyboardRow row_2 = new KeyboardRow(new KeyboardButton("Монеты"));
+        KeyboardRow row_3 = new KeyboardRow(new KeyboardButton("Уведомления"));
+
+        rows.addAll(List.of(row_1, row_2, row_3));
+
+        return ReplyKeyboardMarkup.builder()
+                .resizeKeyboard(true)
+                .oneTimeKeyboard(true)
+                .selective(true)
+                .keyboard(rows)
+                .build();
     }
 }

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 public class MenuCommandDescription extends BaseMenuCommandDescription {
 
     public MenuCommandDescription(
-            @Value("${bot.command.display_main_menu}") String command
+            @Value("${menu.main.command}") String command
     ) {
         super(command, Map.of(
                 "ru", "Открыть главное меню",

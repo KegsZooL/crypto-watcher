@@ -15,7 +15,7 @@ public class AddCoinCommand extends TextCommand {
     private final String command;
     private final CoinAdditionCommandHandler handler;
 
-    public AddCoinCommand(@Value("${bot.command.add_coin}") String command,
+    public AddCoinCommand(@Value("${menu.coin_addition.command}") String command,
                           CoinAdditionCommandHandler handler) {
         this.command = command;
         this.handler = handler;

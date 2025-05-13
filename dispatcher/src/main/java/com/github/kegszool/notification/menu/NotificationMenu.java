@@ -1,6 +1,7 @@
 package com.github.kegszool.notification.menu;
 
 import java.util.List;
+import com.github.kegszool.menu.CalledMenu;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,7 +11,7 @@ import com.github.kegszool.notification.util.NotificationTitleBuilder;
 
 @Component
 @Scope("prototype")
-public class NotificationMenu extends BaseNotificationMenu {
+public class NotificationMenu extends BaseNotificationMenu implements CalledMenu {
 
     private final String name;
     private final String title;
@@ -18,6 +19,7 @@ public class NotificationMenu extends BaseNotificationMenu {
 
     private final int maxButtonsPerRow;
     private final String callbackDataForFullWidthButton;
+    private final List<String> namesOfMenuSequence;
 
     @Autowired
     public NotificationMenu(
@@ -26,7 +28,8 @@ public class NotificationMenu extends BaseNotificationMenu {
             @Value("${menu.notification.title.ru}") String title,
             @Value("${menu.notification.max_buttons_per_row}") int maxButtonsPerRow,
             @Value("${menu.notification.sections.ru}") String config,
-            @Value("${menu.action.back}") String callbackDataForFullWidthButton
+            @Value("${menu.action.back}") String callbackDataForFullWidthButton,
+            @Value("${menu.notification.sequence}") List<String> namesOfMenuSequence
     ) {
         super(null, titleBuilder);
         this.name = name;
@@ -34,6 +37,7 @@ public class NotificationMenu extends BaseNotificationMenu {
         this.config = config;
         this.maxButtonsPerRow = maxButtonsPerRow;
         this.callbackDataForFullWidthButton = callbackDataForFullWidthButton;
+        this.namesOfMenuSequence = namesOfMenuSequence;
     }
 
     @Override
@@ -60,5 +64,10 @@ public class NotificationMenu extends BaseNotificationMenu {
     @Override
     protected List<String> getFullWidthSections() {
         return List.of(callbackDataForFullWidthButton);
+    }
+
+    @Override
+    public List<String> getMenuSequence() {
+        return namesOfMenuSequence;
     }
 }

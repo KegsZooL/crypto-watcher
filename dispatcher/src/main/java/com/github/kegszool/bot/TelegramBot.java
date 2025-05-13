@@ -1,5 +1,6 @@
 package com.github.kegszool.bot;
 
+import com.github.kegszool.menu.util.KeyboardFactory;
 import lombok.extern.log4j.Log4j2;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
@@ -12,6 +13,7 @@ import org.telegram.telegrambots.meta.api.methods.commands.SetMyCommands;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -25,15 +27,17 @@ public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
 
     private final TelegramClient client;
     private final TelegramBotController controller;
+    private final ReplyKeyboardMarkup keyboard;
 
     @Autowired
     public TelegramBot(
             @Value("${bot.token}") String botToken,
-            TelegramBotController controller
+            TelegramBotController controller,
+            KeyboardFactory keyboardFactory
     ) {
         this.client = new OkHttpTelegramClient(botToken);
         this.controller = controller;
-
+        this.keyboard = keyboardFactory.createReplyKeyboard();
     }
     @PostConstruct
     public void init() {
@@ -48,7 +52,12 @@ public class TelegramBot implements LongPollingSingleThreadUpdateConsumer {
     public void executeMsg(PartialBotApiMethod<?> msg) {
         try {
             switch (msg) {
-                case SendMessage sendMessage -> client.execute(sendMessage);
+                case SendMessage sendMessage -> {
+                    if (sendMessage.getReplyMarkup() == null) {
+                        sendMessage.setReplyMarkup(keyboard);
+                    }
+                    client.execute(sendMessage);
+                }
                 case EditMessageText editMessageText -> client.execute(editMessageText);
                 case SetMyCommands commands -> client.execute(commands);
                 default -> throw createUnsupportedMethodTypeException(msg);

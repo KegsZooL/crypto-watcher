@@ -1,6 +1,7 @@
 package com.github.kegszool.messaging.util;
 
 import com.github.kegszool.menu.base.BaseMenu;
+import com.github.kegszool.menu.service.CalledMenuManager;
 import org.springframework.stereotype.Component;
 import com.github.kegszool.localization.LocalizationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,18 +26,21 @@ public class MessageUtils {
     private final MenuRegistry menuRegistry;
     private final LocalizationService localizationService;
     private final MenuStateStorage menuStateStorage;
+    private final CalledMenuManager calledMenuManager;
 
     @Autowired
     public MessageUtils(
             MenuStateStorage menuStateStorage,
             MenuHistoryManager menuHistoryManager,
             MenuRegistry menuRegistry,
-            LocalizationService localizationService
+            LocalizationService localizationService,
+            CalledMenuManager calledMenuManager
     ) {
         this.menuStateStorage = menuStateStorage;
         this.menuRegistry = menuRegistry;
         this.menuHistoryManager = menuHistoryManager;
         this.localizationService = localizationService;
+        this.calledMenuManager = calledMenuManager;
     }
 
     public SendMessage createSendMessage(String menuName, String answerMsgType, String chatId) {
@@ -80,8 +84,9 @@ public class MessageUtils {
                 .build();
     }
 
-    public SendMessage recordAndCreateMessageByMenuName(String chatId, String menuName) {
-        menuHistoryManager.recordMenu(chatId, menuName);
+    public SendMessage applyMenuSequenceAndCreateMessage(Update update, String menuName) {
+        String chatId = extractChatId(update);
+        calledMenuManager.applySequence(chatId, menuName);
         return createMessageByMenuName(chatId, menuName);
     }
 

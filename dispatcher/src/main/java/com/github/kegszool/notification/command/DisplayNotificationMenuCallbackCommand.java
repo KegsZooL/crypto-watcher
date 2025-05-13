@@ -10,13 +10,13 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
 @Component
-public class DisplayNotificationMenu extends CallbackCommand {
+public class DisplayNotificationMenuCallbackCommand extends CallbackCommand {
 
     private final String menuName;
     private final MessageUtils messageUtils;
 
     @Autowired
-    public DisplayNotificationMenu(
+    public DisplayNotificationMenuCallbackCommand(
             @Value("${menu.notification.name}") String menuName,
             MessageUtils messageUtils
     ) {
@@ -32,5 +32,5 @@ public class DisplayNotificationMenu extends CallbackCommand {
     @Override
     protected PartialBotApiMethod<?> handleCommand(CallbackQuery callbackQuery) {
         return messageUtils.recordAndCreateEditMessageByMenuName(callbackQuery, menuName);
+	}
 }
-    }

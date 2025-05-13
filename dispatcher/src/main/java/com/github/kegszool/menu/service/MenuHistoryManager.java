@@ -36,6 +36,12 @@ public class MenuHistoryManager {
         return currentMenuName != null ? currentMenuName : DEFAULT_MENU_NAME;
     }
 
+    public void setQueue(String chatId, Deque<String> queueOfMenuNames) {
+        menuHistory.clear();
+        menuHistory.put(chatId, queueOfMenuNames);
+        logHistory(chatId, "Applied menu sequence for chat id: " + chatId);
+    }
+
     private void logHistory(String chatId, String msg) {
         Deque<String> stack = menuHistory.get(chatId);
         String stackState = stack != null ? stack.toString() : "[]";

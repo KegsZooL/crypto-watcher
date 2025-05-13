@@ -10,16 +10,16 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
 @Component
-public class DisplayMainMenuCommand extends TextCommand {
+public class DisplayMainMenu extends TextCommand {
 
     private final String menuName;
     private final String command;
     private final MessageUtils messageUtils;
 
     @Autowired
-    public DisplayMainMenuCommand(
+    public DisplayMainMenu(
             @Value("${menu.main.name}") String menuName,
-            @Value("${bot.command.display_main_menu}") String command,
+            @Value("${menu.main.command}") String command,
             MessageUtils messageUtils
     ) {
         this.menuName = menuName;
@@ -34,7 +34,6 @@ public class DisplayMainMenuCommand extends TextCommand {
 
     @Override
     protected PartialBotApiMethod<?> handleCommand(Update update) {
-        String chatId = messageUtils.extractChatId(update);
-        return messageUtils.recordAndCreateMessageByMenuName(chatId, menuName);
+        return messageUtils.applyMenuSequenceAndCreateMessage(update, menuName);
     }
 }
