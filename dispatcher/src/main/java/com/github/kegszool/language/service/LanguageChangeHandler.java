@@ -3,8 +3,8 @@ package com.github.kegszool.language.service;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import com.github.kegszool.language.messaging.ChangeLanguageRequestSender;
 
 @Component
@@ -19,7 +19,7 @@ public class LanguageChangeHandler {
         this.refresher = refresher;
     }
 
-    public EditMessageText handle(CallbackQuery callbackQuery, String selectedLanguage) {
+    public SendMessage handle(CallbackQuery callbackQuery, String selectedLanguage) {
         requestSender.send(callbackQuery, selectedLanguage);
         return refresher.refreshAndGetRefreshedMenu(callbackQuery, selectedLanguage);
     }

@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import com.github.kegszool.database.entity.base.Coin;
 import com.github.kegszool.database.entity.base.User;
 import com.github.kegszool.database.entity.base.FavoriteCoin;
-import com.github.kegszool.database.entity.service.impl.UserService;
+import com.github.kegszool.database.entity.service.UserService;
 
 import com.github.kegszool.database.repository.impl.CoinRepository;
 import com.github.kegszool.database.repository.impl.FavoriteCoinRepository;

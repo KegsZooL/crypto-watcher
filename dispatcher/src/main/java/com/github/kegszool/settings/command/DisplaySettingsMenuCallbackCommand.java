@@ -1,22 +1,22 @@
-package com.github.kegszool.notification.creation.command;
+package com.github.kegszool.settings.command;
 
-import com.github.kegszool.command.callback.CallbackCommand;
-import com.github.kegszool.messaging.util.MessageUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.github.kegszool.messaging.util.MessageUtils;
+import com.github.kegszool.command.callback.CallbackCommand;
+
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
 @Component
-public class DisplayCreationNotificationMenu extends CallbackCommand {
+public class DisplaySettingsMenuCallbackCommand extends CallbackCommand {
 
     private final String menuName;
     private final MessageUtils messageUtils;
 
-    @Autowired
-    public DisplayCreationNotificationMenu(
-            @Value("${menu.notification_creation.name}") String menuName,
+    public DisplaySettingsMenuCallbackCommand(
+            @Value("${menu.settings.name}") String menuName,
             MessageUtils messageUtils
     ) {
         this.menuName = menuName;

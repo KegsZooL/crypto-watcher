@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.kegszool.menu.MenuStateStorage;
 import com.github.kegszool.menu.util.TitleBuilder;
 import com.github.kegszool.menu.util.SectionBuilder;
-import com.github.kegszool.menu.util.KeyboardFactory;
+import com.github.kegszool.menu.util.InlineKeyboardFactory;
 import com.github.kegszool.menu.service.MenuSectionService;
 import com.github.kegszool.user.messaging.dto.UserData;
 
@@ -19,7 +19,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 @Component
 public abstract class BaseMenu implements Menu {
 
-    @Autowired private KeyboardFactory keyboardFactory;
+    @Autowired private InlineKeyboardFactory inlineKeyboardFactory;
     @Autowired private MenuSectionService sectionService;
     @Autowired private LocalizationService localizationService;
     @Autowired protected MenuStateStorage menuStateStorage;
@@ -38,10 +38,14 @@ public abstract class BaseMenu implements Menu {
     public void initializeMenuForChat(String chatId) {
         String config = getSectionsConfig();
         LinkedHashMap<String, String> sections = sectionService.createSections(config);
-        InlineKeyboardMarkup keyboard = keyboardFactory.create(sections, getMaxButtonsPerRow(), getFullWidthSections());
+        InlineKeyboardMarkup keyboard = inlineKeyboardFactory.create(sections, getMaxButtonsPerRow(), getFullWidthSections());
 
         menuStateStorage.saveSections(getName(), chatId, sections);
         menuStateStorage.saveKeyboard(getName(), chatId, keyboard);
+
+        if (titleBuilder != null) {
+            menuStateStorage.saveTitle(getName(), chatId, titleBuilder.getDefaultTitle());
+        }
     }
 
     public void updateMenu(UserData userData, String chatId) {
@@ -63,7 +67,7 @@ public abstract class BaseMenu implements Menu {
             return;
         }
         sectionService.update(sections, newConfig, true, getName(), actualLanguage);
-        InlineKeyboardMarkup newKeyboard = keyboardFactory.create(sections, getMaxButtonsPerRow(), getFullWidthSections());
+        InlineKeyboardMarkup newKeyboard = inlineKeyboardFactory.create(sections, getMaxButtonsPerRow(), getFullWidthSections());
         menuStateStorage.saveKeyboard(getName(), chatId, newKeyboard);
     }
 
@@ -87,7 +91,7 @@ public abstract class BaseMenu implements Menu {
         LinkedHashMap<String, String> sections = sectionService.createSections(sectionsConfig);
         menuStateStorage.saveSections(getName(), chatId, sectionService.createSections(sectionsConfig));
 
-        InlineKeyboardMarkup keyboard = keyboardFactory.create(sections, getMaxButtonsPerRow(), getFullWidthSections());
+        InlineKeyboardMarkup keyboard = inlineKeyboardFactory.create(sections, getMaxButtonsPerRow(), getFullWidthSections());
         menuStateStorage.saveKeyboard(getName(), chatId, keyboard);
     }
 

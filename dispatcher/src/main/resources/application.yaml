@@ -114,6 +114,14 @@ menu:
     create_one_time_notification: ${menu.action.prefix}create_one_time_notification
     create_recurring_notification: ${menu.action.prefix}create_recurring_notification
 
+  collapsible:
+    first_row_titles:
+      ru: ${menu.coin_selection.command_for_collapsible.ru}, ${menu.notification.command_for_collapsible.ru}, ${menu.settings.command_for_collapsible.ru}
+      en: ${menu.coin_selection.command_for_collapsible.en}, ${menu.notification.command_for_collapsible.en}, ${menu.settings.command_for_collapsible.en}
+    second_row_titles:
+      ru: ${menu.main.command_for_collapsible.ru}
+      en: ${menu.main.command_for_collapsible.en}
+
   main:
     name: main_menu
     title:
@@ -130,6 +138,12 @@ menu:
         msg_type: "not_supported_command"
     sequence: ${menu.main.name}
     command: "/menu"
+    command_for_collapsible:
+      ru: "🏠 Меню"
+      en: "🏠 Menu"
+    command_description:
+      ru: "Открыть главное меню"
+      en: "Open the main menu"
 
   coin_selection:
     name: "${menu.action.prefix}selection_menu"
@@ -147,6 +161,13 @@ menu:
       ru: "Вы выбрали монету 🪙"
       en: "You selected a coin 🪙"
     sequence: ${menu.coin_selection.name},${menu.main.name}
+    command: "/coins"
+    command_for_collapsible:
+      ru: "🪙 Монеты"
+      en: "🪙 Coins"
+    command_description:
+      ru: "Открыть ваши избранные монеты"
+      en: "Show your favorite coins"
 
   edit_coin_sections:
     name: edit_coin_sections_menu
@@ -157,8 +178,11 @@ menu:
       ru: "${menu.sections_config.edit_coin_sections.ru}"
       en: "${menu.sections_config.edit_coin_sections.en}"
     max_buttons_per_row: 2
-  sequence: ${menu.edit_coin_sections.name},${menu.coin_selection.sequence}
-  command: "/change_coins"
+    sequence: ${menu.edit_coin_sections.name},${menu.coin_selection.sequence}
+    command: "/change_coins"
+    command_description:
+      ru: "Изменить избранные монеты"
+      en: "Change your favorite coins"
 
   coin_deletion_menu:
     name: coin_deletion_menu
@@ -267,6 +291,12 @@ menu:
         en: "🪙 <b>%-10s</b> | %s <b>%8s%%</b> from <b>$%s</b>"
     sequence: ${menu.notification.name},${menu.main.name}
     command: "/nots"
+    command_for_collapsible:
+      ru: "🔔 Уведомления"
+      en: "🔔 Alerts"
+    command_description:
+      ru: "Открыть свои уведомления"
+      en: "Open your notifications"
 
     sections:
       ru: "${menu.sections_config.notification.ru}"
@@ -293,6 +323,10 @@ menu:
     max_buttons_per_row: 2
     sequence: ${menu.notification_creation.name},${menu.notification.sequence}
     command: "/not"
+    command_description:
+      ru: "Открыть меню добавления уведомления"
+      en: "Open the creation notification menu"
+    display_menu_command: "/create_not"
 
   notification_deletion:
     name: "${menu.action.prefix}deletion_notification_menu"
@@ -300,13 +334,19 @@ menu:
       ru: "🗑 Удаление оповещения\n\nНажмите на оповещение, которое хотите удалить — оно исчезнет сразу же."
       en: "🗑 Delete Notification\n\nTap the alert you want to remove — it will be deleted instantly."
       entryFormat:
-        ru: "🪙 %-12s | %s %8s%% от $%-15s"
-        en: "🪙 %-12s | %s %8s%% from $%-15s"
+#        ru: "🪙 %-12s | %s %8s%% от $%-15s"
+#        en: "🪙 %-12s | %s %8s%% from $%-15s"
+        ru: "🪙 %s | %s %s%% от $%s"
+        en: "🪙 %s | %s %s%% from $%s"
     sections:
       ru: "${menu.sections_config.notification_deletion.ru}"
       en: "${menu.sections_config.notification_deletion.en}"
     max_buttons_per_row: 1
     prefix: delete_notification_
+    command: "/delete_not"
+    command_description:
+      ru: "Открыть меню удаления уведомлений"
+      en: "Open the deleteion notification menu"
     sequence: ${menu.notification_deletion.name},${menu.notification.sequence}
 
   settings:
@@ -318,6 +358,13 @@ menu:
       ru: "${menu.sections_config.settings_menu.ru}"
       en: "${menu.sections_config.settings_menu.en}"
     max_buttons_per_row: 1
+    command: "/settings"
+    command_for_collapsible:
+      ru: "⚙ Настройки"
+      en: "⚙ Settings"
+    command_description:
+      ru: "Открыть меню настроек"
+      en: "Open the settings menu"
     sequence: ${menu.settings.name},${menu.main.name}
 
   language_change:
@@ -330,7 +377,6 @@ menu:
       en: "${menu.sections_config.language_change.en}"
     max_buttons_per_row: 2
     prefix: "${menu.action.prefix}change_language_"
-    sequence: ${menu.language_change.name},${menu.settings.sequence}
 
   select_coin_notification:
     name: "${menu.action.prefix}select_coin_notification"

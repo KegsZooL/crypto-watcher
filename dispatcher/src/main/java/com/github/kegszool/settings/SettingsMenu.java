@@ -2,15 +2,15 @@ package com.github.kegszool.settings;
 
 import java.util.List;
 
-import org.springframework.context.annotation.Scope;
+import com.github.kegszool.menu.CalledMenu;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.github.kegszool.user.messaging.dto.UserData;
 import com.github.kegszool.menu.base.BaseMenu;
+import com.github.kegszool.user.messaging.dto.UserData;
 
 @Component
-public class SettingsMenu extends BaseMenu {
+public class SettingsMenu extends BaseMenu implements CalledMenu {
 
     private final String name;
     private final String title;
@@ -18,13 +18,15 @@ public class SettingsMenu extends BaseMenu {
     private final int maxButtonsPerRow;
 
     private final String callbackDataForFullWidthButton;
+    private final List<String> namesOfMenuSequence;
 
     public SettingsMenu(
             @Value("${menu.settings.name}") String name,
             @Value("${menu.settings.title.ru}") String title,
             @Value("${menu.settings.sections.ru}") String config,
             @Value("${menu.settings.max_buttons_per_row}") int maxButtonsPerRow,
-            @Value("${menu.action.back}") String callbackDataForFullWidthButton
+            @Value("${menu.action.back}") String callbackDataForFullWidthButton,
+            @Value("${menu.settings.sequence}") List<String> namesOfMenuSequence
     ) {
         super(null, null);
         this.name = name;
@@ -32,6 +34,7 @@ public class SettingsMenu extends BaseMenu {
         this.config = config;
         this.maxButtonsPerRow = maxButtonsPerRow;
         this.callbackDataForFullWidthButton = callbackDataForFullWidthButton;
+        this.namesOfMenuSequence = namesOfMenuSequence;
     }
 
     @Override
@@ -62,5 +65,10 @@ public class SettingsMenu extends BaseMenu {
     @Override
     public boolean hasDataChanged(UserData userData, String chatId) {
         return isLocaleChanged(userData, chatId);
+    }
+
+    @Override
+    public List<String> getMenuSequence() {
+        return namesOfMenuSequence;
     }
 }

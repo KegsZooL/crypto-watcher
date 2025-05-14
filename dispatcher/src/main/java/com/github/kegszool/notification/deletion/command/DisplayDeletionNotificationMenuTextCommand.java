@@ -1,4 +1,4 @@
-package com.github.kegszool.menu.base.main.command;
+package com.github.kegszool.notification.deletion.command;
 
 import com.github.kegszool.command.TextCommand;
 import org.springframework.stereotype.Component;
@@ -10,36 +10,26 @@ import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
 @Component
-public class DisplayMainMenu extends TextCommand {
-
-    private final static String START_COMMAND = "/start";
+public class DisplayDeletionNotificationMenuTextCommand extends TextCommand {
 
     private final String menuName;
     private final String command;
-    private final String collapsibleCommandRu;
-    private final String collapsibleCommandEn;
     private final MessageUtils messageUtils;
 
     @Autowired
-    public DisplayMainMenu(
-            @Value("${menu.main.name}") String menuName,
-            @Value("${menu.main.command}") String command,
-            @Value("${menu.main.command_for_collapsible.ru}") String collapsibleCommandRu,
-            @Value("${menu.main.command_for_collapsible.en}") String collapsibleCommandEn,
+    public DisplayDeletionNotificationMenuTextCommand(
+            @Value("${menu.notification_deletion.name}") String menuName,
+            @Value("${menu.notification_deletion.command}") String command,
             MessageUtils messageUtils
     ) {
         this.menuName = menuName;
         this.command = command;
-        this.collapsibleCommandRu = collapsibleCommandRu;
-        this.collapsibleCommandEn = collapsibleCommandEn;
         this.messageUtils = messageUtils;
     }
 
     @Override
     protected boolean canHandleCommand(String command) {
-        return this.command.equals(command) || START_COMMAND.equals(command) ||
-                collapsibleCommandRu.equals(command) ||
-                collapsibleCommandEn.equals(command);
+        return this.command.equals(command);
     }
 
     @Override

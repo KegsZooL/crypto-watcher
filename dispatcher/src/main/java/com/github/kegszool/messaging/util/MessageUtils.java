@@ -81,6 +81,7 @@ public class MessageUtils {
                 .chatId(chatId)
                 .text(menuData.localizedTitle())
                 .replyMarkup(menuData.menu().getKeyboardMarkup(chatId))
+                .parseMode(ParseMode.HTML)
                 .build();
     }
 

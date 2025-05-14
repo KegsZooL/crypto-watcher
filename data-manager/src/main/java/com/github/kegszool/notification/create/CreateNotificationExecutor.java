@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.kegszool.database.entity.base.Coin;
 import com.github.kegszool.database.entity.base.User;
 import com.github.kegszool.database.entity.base.Notification;
-import com.github.kegszool.database.entity.service.impl.UserService;
+import com.github.kegszool.database.entity.service.UserService;
 import com.github.kegszool.database.entity.mapper.impl.NotificationMapper;
 
 import com.github.kegszool.database.repository.impl.CoinRepository;

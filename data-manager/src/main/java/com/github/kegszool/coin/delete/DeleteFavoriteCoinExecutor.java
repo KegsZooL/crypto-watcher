@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.database.entity.base.User;
 import com.github.kegszool.exception.EntityNotFoundException;
-import com.github.kegszool.database.entity.service.impl.UserService;
+import com.github.kegszool.database.entity.service.UserService;
 
 import com.github.kegszool.messaging.RequestExecutor;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;

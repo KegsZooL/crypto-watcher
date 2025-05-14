@@ -1,21 +1,23 @@
 package com.github.kegszool.coin.selection.command;
 
-import com.github.kegszool.command.callback.CallbackCommand;
-import com.github.kegszool.messaging.util.MessageUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.github.kegszool.messaging.util.MessageUtils;
+import com.github.kegszool.command.callback.CallbackCommand;
+
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
 @Component
-public class DisplayCoinSelectionMenu extends CallbackCommand {
+public class DisplayCoinSelectionMenuCallbackCommand extends CallbackCommand {
 
     private final String menuName;
     private final MessageUtils messageUtils;
 
     @Autowired
-    public DisplayCoinSelectionMenu(
+    public DisplayCoinSelectionMenuCallbackCommand(
             @Value("${menu.coin_selection.name}") String menuName,
             MessageUtils messageUtils
     ) {

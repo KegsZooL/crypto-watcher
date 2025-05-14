@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.github.kegszool.database.entity.base.User;
 import com.github.kegszool.database.entity.base.UserPreference;
-import com.github.kegszool.database.entity.service.impl.UserService;
+import com.github.kegszool.database.entity.service.UserService;
 import com.github.kegszool.database.repository.impl.UserPreferenceRepository;
 
 import com.github.kegszool.messaging.RequestExecutor;

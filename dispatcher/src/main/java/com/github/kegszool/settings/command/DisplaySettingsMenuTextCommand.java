@@ -1,35 +1,35 @@
-package com.github.kegszool.notification.command;
+package com.github.kegszool.settings.command;
 
 import com.github.kegszool.command.TextCommand;
 import org.springframework.stereotype.Component;
+import com.github.kegszool.messaging.util.MessageUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.messaging.util.MessageUtils;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
 @Component
-public class DisplayNotificationMenuTextCommand extends TextCommand {
+public class DisplaySettingsMenuTextCommand extends TextCommand {
 
-    private final String command;
     private final String menuName;
+    private final String command;
     private final String collapsibleCommandRu;
     private final String collapsibleCommandEn;
     private final MessageUtils messageUtils;
 
     @Autowired
-    public DisplayNotificationMenuTextCommand(
-            @Value("${menu.notification.command}") String command,
-            @Value("${menu.notification.command_for_collapsible.ru}") String collapsibleCommandRu,
-            @Value("${menu.notification.command_for_collapsible.en}") String collapsibleCommandEn,
-            @Value("${menu.notification.name}") String menuName,
+    public DisplaySettingsMenuTextCommand(
+            @Value("${menu.settings.name}") String menuName,
+            @Value("${menu.settings.command}") String command,
+            @Value("${menu.settings.command_for_collapsible.ru}") String collapsibleCommandRu,
+            @Value("${menu.settings.command_for_collapsible.en}") String collapsibleCommandEn,
             MessageUtils messageUtils
     ) {
+        this.menuName = menuName;
         this.command = command;
         this.collapsibleCommandRu = collapsibleCommandRu;
         this.collapsibleCommandEn = collapsibleCommandEn;
-        this.menuName = menuName;
         this.messageUtils = messageUtils;
     }
 

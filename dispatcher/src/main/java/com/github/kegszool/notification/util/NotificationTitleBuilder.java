@@ -113,4 +113,9 @@ public class NotificationTitleBuilder implements TitleBuilder {
         String entryFormat = "ru".equals(locale) ? entryFormatRu : entryFormatEn;
         return String.format(entryFormat, coinName, directionArrow, formattedPercentage, formattedPrice);
     }
+
+    @Override
+    public String getDefaultTitle() {
+        return emptyTitleRu;
+    }
 }

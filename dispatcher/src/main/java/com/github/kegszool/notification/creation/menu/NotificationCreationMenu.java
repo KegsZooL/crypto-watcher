@@ -1,6 +1,7 @@
 package com.github.kegszool.notification.creation.menu;
 
 import java.util.List;
+import com.github.kegszool.menu.CalledMenu;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -8,7 +9,7 @@ import com.github.kegszool.user.messaging.dto.UserData;
 import com.github.kegszool.menu.base.BaseMenu;
 
 @Component
-public class NotificationCreationMenu extends BaseMenu {
+public class NotificationCreationMenu extends BaseMenu implements CalledMenu {
 
     private final String name;
     private final String title;
@@ -16,13 +17,15 @@ public class NotificationCreationMenu extends BaseMenu {
 
     private final int maxButtonsPerRow;
     private final String callbackDataForFullWidthButton;
+    private final List<String> namesOfMenuSequence;
 
     public NotificationCreationMenu(
             @Value("${menu.notification_creation.name}") String name,
             @Value("${menu.notification_creation.title.ru}") String title,
             @Value("${menu.notification_creation.max_buttons_per_row}") int maxButtonsPerRow,
             @Value("${menu.notification_creation.sections.ru}") String config,
-            @Value("${menu.action.back}") String callbackDataForFullWidthButton
+            @Value("${menu.action.back}") String callbackDataForFullWidthButton,
+            @Value("${menu.notification_creation.sequence}") List<String> namesOfMenuSequence
     ) {
         super(null, null);
         this.name = name;
@@ -30,6 +33,7 @@ public class NotificationCreationMenu extends BaseMenu {
         this.config = config;
         this.maxButtonsPerRow = maxButtonsPerRow;
         this.callbackDataForFullWidthButton = callbackDataForFullWidthButton;
+        this.namesOfMenuSequence = namesOfMenuSequence;
     }
 
     @Override
@@ -61,5 +65,10 @@ public class NotificationCreationMenu extends BaseMenu {
     @Override
     public boolean hasDataChanged(UserData userData, String chatId) {
         return isLocaleChanged(userData, chatId);
+    }
+
+    @Override
+    public List<String> getMenuSequence() {
+        return namesOfMenuSequence;
     }
 }

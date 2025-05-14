@@ -7,13 +7,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.database.entity.base.User;
-import com.github.kegszool.database.entity.service.impl.UserService;
+import com.github.kegszool.database.entity.service.UserService;
 
 import com.github.kegszool.messaging.RequestExecutor;
 import com.github.kegszool.messaging.dto.database_entity.*;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.dto.command_entity.UpsertUserResponse;
-import com.github.kegszool.notification.NotificationSubscriptionSender;
 
 @Log4j2
 @Service
@@ -21,19 +20,16 @@ public class UpsertUserExecutor implements RequestExecutor<UserDto, UpsertUserRe
 
     private final String routingKey;
     private final UserService userService;
-    private final NotificationSubscriptionSender notificationSender;
     private final UserDataBuilder userDataBuilder;
 
     @Autowired
     public UpsertUserExecutor(
             @Value("${spring.rabbitmq.template.routing-key.upsert_user.response}") String routingKey,
             UserService userService,
-            NotificationSubscriptionSender notificationSender,
             UserDataBuilder userDataBuilder
     ) {
         this.routingKey = routingKey;
         this.userService = userService;
-        this.notificationSender = notificationSender;
         this.userDataBuilder = userDataBuilder;
     }
 
@@ -55,7 +51,6 @@ public class UpsertUserExecutor implements RequestExecutor<UserDto, UpsertUserRe
 
         UserData userData = userDataBuilder.buildUserData(user);
         UpsertUserResponse response = new UpsertUserResponse(userExistedBefore, userData);
-        notificationSender.send(userData.getNotifications());
 
         return new ServiceMessage<>(request.getMessageId(), request.getChatId(), response);
     }

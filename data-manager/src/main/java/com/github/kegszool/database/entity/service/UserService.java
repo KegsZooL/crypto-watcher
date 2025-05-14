@@ -1,18 +1,13 @@
-package com.github.kegszool.database.entity.service.impl;
+package com.github.kegszool.database.entity.service;
 
-import java.util.Map;
 import java.util.List;
 import java.util.Optional;
-import java.util.ArrayList;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.database.entity.base.*;
-import com.github.kegszool.database.entity.service.EntityService;
-import com.github.kegszool.database.entity.mapper.impl.UserMapper;
 import com.github.kegszool.database.entity.mapper.impl.NotificationMapper;
 import com.github.kegszool.database.entity.mapper.impl.FavoriteCoinMapper;
 
@@ -23,13 +18,7 @@ import com.github.kegszool.messaging.dto.database_entity.FavoriteCoinDto;
 import com.github.kegszool.messaging.dto.database_entity.NotificationDto;
 
 @Service
-public class UserService extends EntityService<User, UserDto, Integer> {
-
-    private final static List<String> DEFAULT_COIN_NAMES = List.of(
-            "BTC", "ETH", "DOGE",
-            "USDT", "XRP", "SOL",
-            "AVAX", "LINK"
-    );
+public class UserService{
 
     private final FavoriteCoinRepository favoriteCoinRepository;
     private final FavoriteCoinMapper favoriteCoinMapper;
@@ -37,35 +26,26 @@ public class UserService extends EntityService<User, UserDto, Integer> {
     private final NotificationMapper notificationMapper;
     private final UserRepository userRepository;
     private final UserPreferenceRepository userPreferenceRepository;
-    private final CoinRepository coinRepository;
 
     @Autowired
     public UserService(
             UserRepository userRepository,
             UserPreferenceRepository userPreferenceRepository,
-            UserMapper userMapper,
             FavoriteCoinRepository favoriteCoinRepository,
             FavoriteCoinMapper favoriteCoinMapper,
             NotificationRepository notificationRepository,
-            NotificationMapper notificationMapper,
-            CoinRepository coinRepository
+            NotificationMapper notificationMapper
     ) {
-        super(userRepository, userMapper);
         this.favoriteCoinRepository = favoriteCoinRepository;
         this.favoriteCoinMapper = favoriteCoinMapper;
         this.notificationRepository = notificationRepository;
         this.notificationMapper = notificationMapper;
         this.userRepository = userRepository;
         this.userPreferenceRepository = userPreferenceRepository;
-        this.coinRepository = coinRepository;
     }
 
     public Optional<User> getUserByTelegramId(Long telegramId) {
         return userRepository.findByTelegramId(telegramId);
-    }
-
-    public Optional<UserPreference> getUserPreference(int userId) {
-        return userPreferenceRepository.findById(userId);
     }
 
     public List<FavoriteCoinDto> getUserFavoriteCoins(int id) {
@@ -114,36 +94,7 @@ public class UserService extends EntityService<User, UserDto, Integer> {
                     UserPreference preference = new UserPreference(savedUser, "ru");
                     userPreferenceRepository.save(preference);
 
-                    addDefaultFavoriteCoins(savedUser);
-
                     return Pair.of(false, savedUser);
                 });
-    }
-
-    private void addDefaultFavoriteCoins(User user) {
-
-        List<Coin> existingCoins = coinRepository.findByNameIn(DEFAULT_COIN_NAMES);
-        Map<String, Coin> existingCoinMap = existingCoins.stream()
-                .collect(Collectors.toMap(Coin::getName, Function.identity()));
-
-        List<Coin> coinsToSave = new ArrayList<>();
-
-        for (String coinName : DEFAULT_COIN_NAMES) {
-            if (!existingCoinMap.containsKey(coinName)) {
-                Coin newCoin = new Coin(coinName);
-                coinsToSave.add(newCoin);
-                existingCoinMap.put(coinName, newCoin);
-            }
-        }
-
-        if (!coinsToSave.isEmpty()) {
-            coinRepository.saveAll(coinsToSave);
-        }
-
-        List<FavoriteCoin> favoriteCoins = DEFAULT_COIN_NAMES.stream()
-                .map(name -> new FavoriteCoin(user, existingCoinMap.get(name)))
-                .collect(Collectors.toList());
-
-        favoriteCoinRepository.saveAll(favoriteCoins);
     }
 }

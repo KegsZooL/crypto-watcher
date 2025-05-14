@@ -10,12 +10,12 @@ import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageTe
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
 @Component
-public class DisplayCoinSectionsEditor extends CallbackCommand {
+public class DisplayCoinSectionsEditorCallbackCommand extends CallbackCommand {
 
     private final String command;
     private final String menuName;
 
-    public DisplayCoinSectionsEditor(
+    public DisplayCoinSectionsEditorCallbackCommand(
             @Value("${menu.action.display_edit_coin_sections_menu}") String command,
             @Value("${menu.edit_coin_sections.name}") String menuName
     ) {

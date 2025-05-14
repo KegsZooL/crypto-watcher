@@ -9,8 +9,8 @@ import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.response.ResponseRouter;
 
 import com.github.kegszool.update.UpdateRouter;
-import com.github.kegszool.menu.service.MenuCommandConfigurationService;
 import org.telegram.telegrambots.meta.api.objects.Update;
+import com.github.kegszool.menu.service.MenuCommandConfigurationService;
 
 @Log4j2
 @Component

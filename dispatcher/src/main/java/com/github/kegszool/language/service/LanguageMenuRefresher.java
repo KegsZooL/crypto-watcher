@@ -1,41 +1,40 @@
 package com.github.kegszool.language.service;
 
 import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Value;
-
 import com.github.kegszool.messaging.util.MessageUtils;
-import com.github.kegszool.menu.service.MenuUpdaterService;
-import com.github.kegszool.localization.LocalizationService;
+import com.github.kegszool.menu.util.ReplyKeyboardService;
 
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
-import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 
 @Component
 public class LanguageMenuRefresher {
 
-    private final String menuName;
-    private final LocalizationService localizationService;
-    private final MenuUpdaterService menuUpdaterService;
     private final MessageUtils messageUtils;
+    private final ReplyKeyboardService keyboardService;
 
     public LanguageMenuRefresher(
-            @Value("${menu.language_change.name}") String menuName,
-            LocalizationService localizationService,
-            MenuUpdaterService menuUpdaterService,
-            MessageUtils messageUtils
+            MessageUtils messageUtils,
+            ReplyKeyboardService keyboardService
     ) {
-        this.menuName = menuName;
-        this.localizationService = localizationService;
-        this.menuUpdaterService = menuUpdaterService;
         this.messageUtils = messageUtils;
+        this.keyboardService = keyboardService;
     }
 
-    public EditMessageText refreshAndGetRefreshedMenu(CallbackQuery callbackQuery, String selectedLanguage) {
+    public SendMessage refreshAndGetRefreshedMenu(CallbackQuery callbackQuery, String selectedLanguage) {
+
         String chatId = messageUtils.extractChatId(callbackQuery);
+        String text = switch (selectedLanguage) {
+            case "en" -> "Язык был успешно изменён!";
+            default -> "The language has been successfully changed!";
+        };
 
-        String localizedConfig = localizationService.getSectionsConfigByLocal(menuName, selectedLanguage);
-        menuUpdaterService.changeKeyboard(localizedConfig, menuName, chatId);
+        SendMessage msg = SendMessage.builder()
+                .chatId(chatId)
+                .text(text)
+                .build();
 
-        return messageUtils.createEditMessageByMenuNameWithLocale(callbackQuery, menuName, selectedLanguage);
+        keyboardService.attachKeyboard(msg, chatId, selectedLanguage);
+        return msg;
     }
 }

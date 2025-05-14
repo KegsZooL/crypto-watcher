@@ -2,10 +2,9 @@ package com.github.kegszool.notification.deletion.util;
 
 import java.util.List;
 import java.util.ArrayList;
-
-import com.github.kegszool.notification.util.NotificationValueFormatter;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
+import com.github.kegszool.notification.util.NotificationValueFormatter;
 
 import com.github.kegszool.coin.dto.CoinDto;
 import com.github.kegszool.menu.util.SectionBuilder;
