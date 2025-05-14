@@ -5,7 +5,6 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.messaging.dto.NotificationDto;
-import com.github.kegszool.notificaiton.NotificationProducer;
 import com.github.kegszool.notificaiton.TriggeredNotificationBuffer;
 import com.github.kegszool.notificaiton.subscription.NotificationWebSocketSubscriber;
 
@@ -14,17 +13,14 @@ public class OneTimeNotificationHandler implements NotificationHandler {
 
     private final NotificationWebSocketSubscriber subscriber;
     private final TriggeredNotificationBuffer buffer;
-    private final NotificationProducer producer;
 
     @Autowired
     public OneTimeNotificationHandler(
             @Lazy NotificationWebSocketSubscriber subscriber,
-            TriggeredNotificationBuffer buffer,
-            NotificationProducer producer
+            TriggeredNotificationBuffer buffer
     ) {
         this.subscriber = subscriber;
         this.buffer = buffer;
-        this.producer = producer;
     }
 
     @Override
@@ -36,6 +32,5 @@ public class OneTimeNotificationHandler implements NotificationHandler {
     public void handle(NotificationDto notification, String coinName, double currentPrice) {
         subscriber.unsubscribe(notification);
         buffer.add(notification);
-        producer.sendAfterTriggeredNotification(notification);
     }
 }

@@ -1,5 +1,6 @@
 package com.github.kegszool.coin.addition.messaging.check_exists.response;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.kegszool.coin.dto.CoinExistenceResult;
 import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
@@ -18,8 +19,8 @@ public class CoinExistsResponseConsumer extends BaseResponseConsumer<CoinExisten
     }
 
     @Override
-    protected Class<CoinExistenceResult> getDataClass() {
-        return CoinExistenceResult.class;
+    protected TypeReference<CoinExistenceResult> getTypeReference() {
+        return new TypeReference<>(){};
     }
 
     @Override

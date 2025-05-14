@@ -18,11 +18,11 @@ public abstract class BaseRequestConsumer<I, E extends RequestExecutor> implemen
     @Value("${spring.rabbitmq.template.routing-key.service_exception}")
     private String SERVICE_EXCEPTION_ROUTING_KEY;
 
-    private final ProducerService responseProducer;
+    private final ProducerService producer;
     private final E executor;
 
-    public BaseRequestConsumer(ProducerService responseProducer, E executor) {
-        this.responseProducer = responseProducer;
+    public BaseRequestConsumer(ProducerService producer, E executor) {
+        this.producer = producer;
         this.executor = executor;
     }
 
@@ -41,7 +41,7 @@ public abstract class BaseRequestConsumer<I, E extends RequestExecutor> implemen
             ServiceMessage<?> response = executor.execute(serviceMessage);
             if (response != null) {
                 String responseRoutingKey = executor.getResponseRoutingKey();
-                responseProducer.produce(response, responseRoutingKey);
+                producer.produce(response, responseRoutingKey);
             }
         } catch (RequestException ex) {
             sendServiceException(ex, routingKey, serviceMessage.getMessageId(), serviceMessage.getChatId());
@@ -56,6 +56,6 @@ public abstract class BaseRequestConsumer<I, E extends RequestExecutor> implemen
         var serviceException = new ServiceException(exceptionName, exceptionMessage);
 
         ServiceMessage<ServiceException> serviceMessage = new ServiceMessage<>(messageId, chatId, serviceException);
-        responseProducer.produce(serviceMessage, SERVICE_EXCEPTION_ROUTING_KEY);
+        producer.produce(serviceMessage, SERVICE_EXCEPTION_ROUTING_KEY);
     }
 }

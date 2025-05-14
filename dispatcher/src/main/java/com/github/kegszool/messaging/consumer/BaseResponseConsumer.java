@@ -1,5 +1,6 @@
 package com.github.kegszool.messaging.consumer;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -12,18 +13,18 @@ public abstract class BaseResponseConsumer<T> implements ResponseConsumerService
 
     @Autowired
     protected TelegramBotController botController;
+    protected abstract TypeReference<T> getTypeReference();
 
     @Override
     public void consume(ServiceMessage<T> serviceMessage, String routingKey) {
         if (ServiceMessageUtils.isDataValid(serviceMessage, routingKey)) {
-            ServiceMessage<T> mappedMessage = ServiceMessageUtils.mapToServiceMessage(serviceMessage, getDataClass());
+            ServiceMessage<T> mappedMessage = ServiceMessageUtils.mapToServiceMessage(serviceMessage, getTypeReference());
             handleResponse(mappedMessage, routingKey);
         } else {
             throw ServiceMessageUtils.handleInvalidServiceMessage(serviceMessage, routingKey);
         }
     }
 
-    protected abstract Class<T> getDataClass();
     protected abstract void logReceivedData(ServiceMessage<T> serviceMessage, String routingKey);
 
     private void handleResponse(ServiceMessage<T> mappedMessage, String routingKey) {

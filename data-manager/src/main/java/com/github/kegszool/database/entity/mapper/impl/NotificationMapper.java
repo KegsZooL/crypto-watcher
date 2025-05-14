@@ -1,8 +1,8 @@
 package com.github.kegszool.database.entity.mapper.impl;
 
 import com.github.kegszool.database.entity.base.Coin;
-import com.github.kegszool.database.entity.base.Notification;
 import com.github.kegszool.database.entity.base.User;
+import com.github.kegszool.database.entity.base.Notification;
 import com.github.kegszool.database.entity.mapper.EntityMapper;
 
 import org.springframework.stereotype.Component;
@@ -29,7 +29,21 @@ public class NotificationMapper extends EntityMapper<Notification, NotificationD
                 dto.isRecurring(),
                 dto.isTriggered(),
                 dto.getInitialPrice(),
-                dto.getTriggeredPrice(),
+                dto.getTargetPercentage(),
+                dto.getDirection(),
+                dto.getLastTriggeredTime()
+        );
+    }
+
+    public Notification toEntity(NotificationDto dto, User user, Coin coin) {
+        return new Notification(
+                user,
+                dto.getMessageId(),
+                dto.getChatId(),
+                coin,
+                dto.isRecurring(),
+                dto.isTriggered(),
+                dto.getInitialPrice(),
                 dto.getTargetPercentage(),
                 dto.getDirection(),
                 dto.getLastTriggeredTime()
@@ -46,26 +60,10 @@ public class NotificationMapper extends EntityMapper<Notification, NotificationD
                 entity.isRecurring(),
                 entity.isTriggered(),
                 entity.getInitialPrice(),
-                entity.getTriggeredPrice(),
+                0,
                 entity.getTargetPercentage(),
                 entity.getDirection(),
                 entity.getLastTriggeredTime()
-        );
-    }
-
-    public Notification toEntity(NotificationDto dto, User user, Coin coin) {
-        return new Notification(
-                user,
-                dto.getMessageId(),
-                dto.getChatId(),
-                coin,
-                dto.isRecurring(),
-                dto.isTriggered(),
-                dto.getInitialPrice(),
-                dto.getTriggeredPrice(),
-                dto.getTargetPercentage(),
-                dto.getDirection(),
-                dto.getLastTriggeredTime()
         );
     }
 }

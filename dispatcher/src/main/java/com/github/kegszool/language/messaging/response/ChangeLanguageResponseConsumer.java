@@ -1,5 +1,6 @@
 package com.github.kegszool.language.messaging.response;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
@@ -17,8 +18,8 @@ public class ChangeLanguageResponseConsumer extends BaseResponseConsumer<UserDat
     }
 
     @Override
-    protected Class<UserData> getDataClass() {
-        return UserData.class;
+    protected TypeReference<UserData> getTypeReference() {
+        return new TypeReference<>(){};
     }
 
     @Override

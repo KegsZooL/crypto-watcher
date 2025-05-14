@@ -1,5 +1,6 @@
 package com.github.kegszool.coin.price.messaging;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.kegszool.coin.price.model.PriceSnapshot;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,8 @@ public class PriceResponseConsumer extends BaseResponseConsumer<PriceSnapshot> {
     }
 
     @Override
-    protected Class<PriceSnapshot> getDataClass() {
-        return PriceSnapshot.class;
+    protected TypeReference<PriceSnapshot> getTypeReference() {
+        return new TypeReference<>(){};
     }
 
     @Override

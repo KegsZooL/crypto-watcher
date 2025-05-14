@@ -15,7 +15,6 @@ import com.github.kegszool.messaging.dto.NotificationDto;
 public class ActiveNotificationCacheService {
 
     private final ConcurrentMap<String, CopyOnWriteArrayList<NotificationDto>> cache = new ConcurrentHashMap<>();
-    private final ConcurrentMap<String, NotificationDto> pendingRemovals = new ConcurrentHashMap<>();
 
     public List<NotificationDto> getNotifications(String coinName) {
         return cache.getOrDefault(coinName, new CopyOnWriteArrayList<>());
@@ -47,39 +46,11 @@ public class ActiveNotificationCacheService {
     }
 
     public void remove(NotificationDto notification) {
-        if (notification.isTriggered()) {
-        	pendingRemovals.put(buildKey(notification), notification);
-        }
-        removeFromCache(notification);
-    }
-
-    public void confirmRemoval(NotificationDto notification) {
-        String key = buildKey(notification);
-        NotificationDto removed = pendingRemovals.remove(key);
-
-        if (removed == null) {
-        	log.error("Received confirmation for non-pending removal: {}", key);
-        } else {
-            removeFromCache(notification);
-            log.info("Cache size after removal confirmation: {}", cache.get(
-                    notification.getCoin().getName()
-            ).size());
-            add(notification.getCoin().getName(), List.of(notification));
-        }
-    }
-
-    private void removeFromCache(NotificationDto notification) {
         String coinName = notification.getCoin().getName();
         cache.computeIfPresent(coinName, (key, list) -> {
             list.removeIf(existing -> isSameNotification(existing, notification));
             return list;
         });
-    }
-
-    private String buildKey(NotificationDto not) {
-        return not.getChatId() + "_" + not.getCoin().getName() + "_"
-                + not.getMessageId() + "_" + not.getTargetPercentage() + "_"
-                + not.getDirection();
     }
 
     private boolean isSameNotification(NotificationDto a, NotificationDto b) {

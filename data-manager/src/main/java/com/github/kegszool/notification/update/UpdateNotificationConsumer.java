@@ -1,16 +1,17 @@
 package com.github.kegszool.notification.update;
 
+import java.util.List;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+
 import com.github.kegszool.messaging.consumer.BaseRequestConsumer;
 import com.github.kegszool.messaging.dto.database_entity.NotificationDto;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.producer.ProducerService;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.handler.annotation.Header;
-import org.springframework.stereotype.Component;
 
-import java.util.List;
 
 @Component
 public class UpdateNotificationConsumer extends BaseRequestConsumer<List<NotificationDto>, UpdateNotificationExecutor> {

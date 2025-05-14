@@ -1,5 +1,6 @@
 package com.github.kegszool.notification.deletion.messaging;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.user.messaging.dto.UserData;
@@ -16,8 +17,8 @@ public class NotificationDeletionConsumer extends BaseResponseConsumer<UserData>
     }
 
     @Override
-    protected Class<UserData> getDataClass() {
-        return UserData.class;
+    protected TypeReference<UserData> getTypeReference() {
+        return new TypeReference<>(){};
     }
 
     @Override

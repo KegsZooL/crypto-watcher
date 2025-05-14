@@ -1,5 +1,6 @@
 package com.github.kegszool.notification.creation.messaging;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -15,8 +16,8 @@ public class NotificationCreationStatusConsumer extends BaseResponseConsumer<Boo
     }
 
     @Override
-    protected Class<Boolean> getDataClass() {
-        return Boolean.class;
+    protected TypeReference<Boolean> getTypeReference() {
+        return new TypeReference<>(){};
     }
 
     @Override

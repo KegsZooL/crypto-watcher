@@ -1,8 +1,8 @@
 package com.github.kegszool.notification.update;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import lombok.extern.log4j.Log4j2;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,6 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
     private final UserRepository userRepository;
     private final CoinMapper coinMapper;
     private final CoinRepository coinRepository;
-    private final UpdatedNotificationSender updatedNotificationSender;
     private final UserDataBuilder userDataBuilder;
     private final NotificationMapper notificationMapper;
 
@@ -43,7 +42,6 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
             UserRepository userRepository,
             CoinMapper coinMapper,
             CoinRepository coinRepository,
-            UpdatedNotificationSender updatedNotificationSender,
             UserDataBuilder userDataBuilder,
             NotificationMapper notificationMapper
     ) {
@@ -53,7 +51,6 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
         this.coinMapper = coinMapper;
         this.coinRepository = coinRepository;
         this.userDataBuilder = userDataBuilder;
-        this.updatedNotificationSender = updatedNotificationSender;
         this.notificationMapper = notificationMapper;
     }
 
@@ -102,6 +99,7 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
                         } else {
                             notification.setTriggered(true);
                         }
+
                         notificationRepository.save(notification);
                     }
                 }
@@ -109,7 +107,6 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
             UserData userData = userDataBuilder.buildUserData(user);
             userDataSet.add(userData);
         }
-        updatedNotificationSender.send(updated);
         return new ServiceMessage<>(STUB_MESSAGE_ID, STUB_CHAT_ID, new ArrayList<>(userDataSet));
     }
 

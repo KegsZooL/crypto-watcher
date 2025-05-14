@@ -1,5 +1,6 @@
 package com.github.kegszool.user.messaging.response;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -20,8 +21,8 @@ public class UpsertUserResponseConsumer extends BaseResponseConsumer<UpsertUserR
     }
 
     @Override
-    protected Class<UpsertUserResponse> getDataClass() {
-        return UpsertUserResponse.class;
+    protected TypeReference<UpsertUserResponse> getTypeReference() {
+        return new TypeReference<>(){};
     }
 
     @Override

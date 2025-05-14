@@ -1,5 +1,6 @@
 package com.github.kegszool.notification.triggered;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
@@ -17,8 +18,8 @@ public class TriggeredNotificationConsumer extends BaseResponseConsumer<Notifica
     }
 
     @Override
-    protected Class<NotificationDto> getDataClass() {
-        return NotificationDto.class;
+    protected TypeReference<NotificationDto> getTypeReference() {
+        return new TypeReference<>(){};
     }
 
     //TODO: dummy

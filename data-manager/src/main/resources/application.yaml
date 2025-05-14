@@ -32,13 +32,9 @@ spring:
 
         update_notification:
           response: ${RABBITMQ_UPDATE_NOTIFICATION_RESPONSE_ROUTING_KEY}
-          confirm: ${RABBITMQ_UPDATE_CONFIRMATION_NOTIFICATION_ROUTING_KEY}
 
         get_active_notification:
           response: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_RESPONSE_ROUTING_KEY}
-
-        after_triggered_notification:
-          response: ${RABBITMQ_GET_USER_DATA_AFTER_TRIGGERED_NOTIFICATION_RESPONSE_ROUTING_KEY}
 
         notification_websocket_subscription: ${RABBITMQ_NOTIFICATION_WEBSOCKET_SUBSCRIPTION_ROUTING_KEY}
         notification_websocket_unsubscription: ${RABBITMQ_NOTIFICATION_WEBSOCKET_UNSUBSCRIPTION_ROUTING_KEY}
@@ -69,9 +65,6 @@ spring:
       get_active_notification:
         request: ${RABBITMQ_GET_ACTIVATE_NOTIFICATION_REQUEST_QUEUE}
 
-      after_triggered_notification:
-        request: ${RABBITMQ_GET_USER_DATA_AFTER_TRIGGERED_NOTIFICATION_REQUEST_QUEUE}
-
   datasource:
     url: ${DATABASE_URL}
     username: ${DATABASE_USERNAME}
@@ -81,4 +74,4 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
