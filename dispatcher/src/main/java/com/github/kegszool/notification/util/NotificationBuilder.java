@@ -27,8 +27,10 @@ public class NotificationBuilder {
                 isRecurring,
                 false,
                 0,
+                0,
                 percentage,
-                direction
+                direction,
+                0
         );
     }
 }

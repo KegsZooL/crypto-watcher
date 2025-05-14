@@ -42,6 +42,12 @@ public class Notification {
     @Column(name = "initial_price")
     private double initialPrice;
 
+    @Column(name = "triggered_price")
+    private double triggeredPrice;
+
+    @Column(name = "last_triggered_time")
+    private long lastTriggeredTime;
+
     @Column(name = "target_percentage", precision = 8, scale = 4)
     private BigDecimal targetPercentage;
 
@@ -57,17 +63,21 @@ public class Notification {
             boolean isRecurring,
             boolean isTriggered,
             double initialPrice,
+            double triggeredPrice,
             BigDecimal targetPercentage,
-            Direction direction
+            Direction direction,
+            long lastTriggeredTime
     ) {
         this.user = user;
         this.messageId = messageId;
         this.chatId = chatId;
         this.isTriggered = isTriggered;
         this.initialPrice = initialPrice;
+        this.triggeredPrice = triggeredPrice;
         this.coin = coin;
         this.isRecurring = isRecurring;
         this.targetPercentage = targetPercentage;
         this.direction = direction;
+        this.lastTriggeredTime = lastTriggeredTime;
     }
 }

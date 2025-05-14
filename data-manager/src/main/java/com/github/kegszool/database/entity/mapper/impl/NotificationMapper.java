@@ -20,32 +20,36 @@ public class NotificationMapper extends EntityMapper<Notification, NotificationD
     }
 
     @Override
-    public Notification toEntity(NotificationDto notificationDto) {
+    public Notification toEntity(NotificationDto dto) {
         return new Notification(
-                userMapper.toEntity(notificationDto.getUser()),
-                notificationDto.getMessageId(),
-                notificationDto.getChatId(),
-                coinMapper.toEntity(notificationDto.getCoin()),
-                notificationDto.isRecurring(),
-                notificationDto.isTriggered(),
-                notificationDto.getInitialPrice(),
-                notificationDto.getTargetPercentage(),
-                notificationDto.getDirection()
+                userMapper.toEntity(dto.getUser()),
+                dto.getMessageId(),
+                dto.getChatId(),
+                coinMapper.toEntity(dto.getCoin()),
+                dto.isRecurring(),
+                dto.isTriggered(),
+                dto.getInitialPrice(),
+                dto.getTriggeredPrice(),
+                dto.getTargetPercentage(),
+                dto.getDirection(),
+                dto.getLastTriggeredTime()
         );
     }
 
     @Override
-    public NotificationDto toDto(Notification notification) {
+    public NotificationDto toDto(Notification entity) {
         return new NotificationDto(
-                userMapper.toDto(notification.getUser()),
-                notification.getMessageId(),
-                notification.getChatId(),
-                coinMapper.toDto(notification.getCoin()),
-                notification.isRecurring(),
-                notification.isTriggered(),
-                notification.getInitialPrice(),
-                notification.getTargetPercentage(),
-                notification.getDirection()
+                userMapper.toDto(entity.getUser()),
+                entity.getMessageId(),
+                entity.getChatId(),
+                coinMapper.toDto(entity.getCoin()),
+                entity.isRecurring(),
+                entity.isTriggered(),
+                entity.getInitialPrice(),
+                entity.getTriggeredPrice(),
+                entity.getTargetPercentage(),
+                entity.getDirection(),
+                entity.getLastTriggeredTime()
         );
     }
 
@@ -58,8 +62,10 @@ public class NotificationMapper extends EntityMapper<Notification, NotificationD
                 dto.isRecurring(),
                 dto.isTriggered(),
                 dto.getInitialPrice(),
+                dto.getTriggeredPrice(),
                 dto.getTargetPercentage(),
-                dto.getDirection()
+                dto.getDirection(),
+                dto.getLastTriggeredTime()
         );
     }
 }

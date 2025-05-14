@@ -22,6 +22,9 @@ public class NotificationDto {
     private boolean isTriggered;
 
     private double initialPrice;
+    private double triggeredPrice;
     private BigDecimal targetPercentage;
     private Direction direction;
+
+    private long lastTriggeredTime;
 }

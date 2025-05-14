@@ -1,11 +1,12 @@
 package com.github.kegszool.notificaiton.handler;
 
+import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.github.kegszool.messaging.dto.NotificationDto;
 import com.github.kegszool.notificaiton.NotificationProducer;
 import com.github.kegszool.notificaiton.TriggeredNotificationBuffer;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Autowired;
-import com.github.kegszool.messaging.dto.NotificationDto;
 import com.github.kegszool.notificaiton.subscription.NotificationWebSocketSubscriber;
 
 @Component

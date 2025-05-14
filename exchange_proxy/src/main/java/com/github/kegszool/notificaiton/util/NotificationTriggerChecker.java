@@ -13,6 +13,8 @@ import com.github.kegszool.notificaiton.active.ActiveNotificationCacheService;
 @Component
 public class NotificationTriggerChecker {
 
+    private final static int DELAY = 60000;
+
     private final ActiveNotificationCacheService activeNotificationCache;
     private final NotificationTriggerEvaluator evaluator;
     private final NotificationActionExecutor actionExecutor;
@@ -30,13 +32,22 @@ public class NotificationTriggerChecker {
 
     public void check(String coinName, double currentPrice) {
         List<NotificationDto> notifications = activeNotificationCache.getNotifications(coinName);
+        long now = System.currentTimeMillis();
 
         for (NotificationDto notification : notifications) {
-            if (notification.isTriggered() && !notification.isRecurring()) continue;
+            if (notification.isTriggered()) continue;
+
+            long lastTime = notification.getLastTriggeredTime();
+            if (lastTime > 0 && (now - lastTime) < DELAY) {
+                log.info("Skipping notification due to debounce | Chat: {} | Delay: {}ms",
+                        notification.getChatId(), DELAY);
+                continue;
+            }
 
             logNotificationDetails(notification, coinName, currentPrice);
 
             if (evaluator.isTriggered(notification, currentPrice)) {
+                notification.setLastTriggeredTime(now);
                 actionExecutor.execute(notification, coinName, currentPrice);
             }
         }

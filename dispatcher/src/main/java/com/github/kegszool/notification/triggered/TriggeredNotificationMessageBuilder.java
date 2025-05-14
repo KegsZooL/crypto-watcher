@@ -4,11 +4,11 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.localization.LocalizationService;
-import com.github.kegszool.notification.messaging.dto.NotificationDto;
-
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+
+import com.github.kegszool.localization.LocalizationService;
+import com.github.kegszool.notification.messaging.dto.NotificationDto;
 
 @Component
 public class TriggeredNotificationMessageBuilder {
@@ -39,9 +39,15 @@ public class TriggeredNotificationMessageBuilder {
             case Down -> localizationService.getAnswerMessage(menuName, decreasedMsgType, chatId.toString());
         };
 
+        double initialPrice = notification.getInitialPrice();
+        double triggeredPrice = notification.getTriggeredPrice();
+
+        double actualChange = ((triggeredPrice - initialPrice) / initialPrice) * 100.0;
+        String changeFormatted = String.format("%.2f", actualChange);
+
         localizedText = localizedText.replace("{coin}", notification.getCoin().getName())
-                .replace("{change}", notification.getTargetPercentage().toString())
-                .replace("{price}", Double.toString(notification.getInitialPrice()));
+                .replace("{change}", changeFormatted)
+                .replace("{price}", Double.toString(triggeredPrice));
 
         return SendMessage.builder()
                 .chatId(chatId)

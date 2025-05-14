@@ -304,12 +304,12 @@ menu:
     max_buttons_per_row: 2
     answer_messages:
       up:
-        ru: "🚀 Монета <b>{coin}</b> подоражала на <b>+{change}%</b>!\nТекущая цена: <b>{price}</b> 💰"
-        en: "🚀 Coin <b>{coin}</b> has increased by <b>+{change}%</b>!\nCurrent price: <b>{price}</b> 💰"
+        ru: "🚀 Монета <b>{coin}</b> подоражала на <b>{change}%</b>!\nТекущая цена: <b>{price}</b> 💰"
+        en: "🚀 Coin <b>{coin}</b> has increased by <b>{change}%</b>!\nCurrent price: <b>{price}</b> 💰"
         msg_type: "_up"
       down:
-        ru: "🔻 Монета <b>{coin}</b> подешевела на <b>-{change}%</b>!\nТекущая цена: <b>{price}</b> "
-        en: "🔻 Coin <b>{coin}</b> has decreased by <b>-{change}%</b>!\nCurrent price: <b>{price}</b> 💰"
+        ru: "🔻 Монета <b>{coin}</b> подешевела на <b>{change}%</b>!\nТекущая цена: <b>{price}</b> "
+        en: "🔻 Coin <b>{coin}</b> has decreased by <b>{change}%</b>!\nCurrent price: <b>{price}</b> 💰"
         msg_type: "_down"
 
   notification_creation:

@@ -1,10 +1,11 @@
 package com.github.kegszool.notification.triggered;
 
-import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.notification.messaging.dto.NotificationDto;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
+import com.github.kegszool.notification.messaging.dto.NotificationDto;
 
 @Component
 public class TriggeredNotificationConsumer extends BaseResponseConsumer<NotificationDto> {

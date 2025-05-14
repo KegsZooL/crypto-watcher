@@ -15,7 +15,6 @@ import com.github.kegszool.notification.util.NotificationBuilder;
 import com.github.kegszool.notification.util.NotificationCommandParser;
 import com.github.kegszool.notification.util.NotificationAnswerMessageBuilder;
 
-import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 
@@ -133,9 +132,5 @@ public class NotificationHandler {
             return false;
         }
         return true;
-    }
-
-    public SendMessage delete(Update data) {
-        return null;
     }
 }

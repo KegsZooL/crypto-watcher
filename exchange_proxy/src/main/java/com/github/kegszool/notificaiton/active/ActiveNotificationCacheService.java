@@ -24,15 +24,23 @@ public class ActiveNotificationCacheService {
     public void add(String coinName, List<NotificationDto> notifications) {
         cache.compute(coinName, (k, existing) -> {
             if (existing == null) {
+                log.info("Cache initialized for coin '{}': {} notifications added", coinName, notifications.size());
                 return new CopyOnWriteArrayList<>(notifications);
             } else {
+                int addedCount = 0;
                 for (NotificationDto newNotification : notifications) {
                     boolean alreadyExists = existing.stream()
                             .anyMatch(existingNotification -> isSameNotification(existingNotification, newNotification));
                     if (!alreadyExists) {
                         existing.add(newNotification);
+                        addedCount++;
+                        log.info("New notification added: {}", newNotification);
+                    } else {
+                        log.info("Duplicate notification skipped: {}", newNotification);
                     }
                 }
+                log.info("For coin '{}': {} new notifications added, total now {}",
+                        coinName, addedCount, existing.size());
                 return existing;
             }
         });
@@ -56,6 +64,7 @@ public class ActiveNotificationCacheService {
             log.info("Cache size after removal confirmation: {}", cache.get(
                     notification.getCoin().getName()
             ).size());
+            add(notification.getCoin().getName(), List.of(notification));
         }
     }
 

@@ -1,13 +1,12 @@
 package com.github.kegszool.notificaiton;
 
 import java.util.List;
-
-import com.github.kegszool.notificaiton.handler.NotificationHandler;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.messaging.dto.NotificationDto;
+import com.github.kegszool.notificaiton.handler.NotificationHandler;
 
 @Log4j2
 @Component
@@ -26,7 +25,9 @@ public class NotificationActionExecutor {
     }
 
     public void execute(NotificationDto notification, String coinName, double currentPrice) {
+
         notification.setTriggered(true);
+        notification.setTriggeredPrice(currentPrice);
         producer.sendTriggeredNotification(notification);
 
         log.info("Notification triggered | Coin: {} | Chat ID: {} | Current price: {}",

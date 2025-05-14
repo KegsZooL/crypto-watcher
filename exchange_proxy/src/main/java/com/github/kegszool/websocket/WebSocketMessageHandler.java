@@ -40,7 +40,7 @@ public class WebSocketMessageHandler {
             JsonNode dataNode = root.path("data");
 
             if (!argNode.has("instId") || !dataNode.isArray() || dataNode.isEmpty()) {
-                log.debug("Invalid ticker message structure: {}", message);
+                log.error("Invalid ticker message structure: {}", message);
                 return;
             }
 
