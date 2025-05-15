@@ -1,10 +1,11 @@
 package com.github.kegszool.database.entity.mapper.impl;
 
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.github.kegszool.database.entity.base.FavoriteCoin;
 import com.github.kegszool.database.entity.mapper.EntityMapper;
 import com.github.kegszool.messaging.dto.database_entity.FavoriteCoinDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 @Component
 public class FavoriteCoinMapper extends EntityMapper<FavoriteCoin, FavoriteCoinDto> {

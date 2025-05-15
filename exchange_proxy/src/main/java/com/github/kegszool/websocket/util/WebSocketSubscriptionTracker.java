@@ -1,9 +1,8 @@
 package com.github.kegszool.websocket.util;
 
 import java.util.Map;
-import org.springframework.stereotype.Component;
-
 import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.stereotype.Component;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Component

@@ -7,12 +7,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.menu.MenuStateStorage;
+import com.github.kegszool.menu.service.MenuSectionService;
+
 import com.github.kegszool.menu.util.TitleBuilder;
 import com.github.kegszool.menu.util.SectionBuilder;
-import com.github.kegszool.menu.util.InlineKeyboardFactory;
-import com.github.kegszool.menu.service.MenuSectionService;
-import com.github.kegszool.user.messaging.dto.UserData;
+import com.github.kegszool.menu.util.keyboard.InlineKeyboardFactory;
 
+import com.github.kegszool.user.messaging.dto.UserData;
 import com.github.kegszool.localization.LocalizationService;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 

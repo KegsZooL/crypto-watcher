@@ -4,8 +4,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.github.kegszool.coin.dto.UserCoinData;
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
+
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.producer.RequestProducerService;
 
 @Component
@@ -31,4 +32,3 @@ public class CheckCoinExistsRequestProducer {
         producer.produce(routingKey, serviceMsg);
     }
 }
-

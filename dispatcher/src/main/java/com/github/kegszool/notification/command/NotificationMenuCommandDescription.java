@@ -10,12 +10,12 @@ public class NotificationMenuCommandDescription extends BaseMenuCommandDescripti
 
     public NotificationMenuCommandDescription(
             @Value("${menu.notification.command}") String command,
-            @Value("${menu.notification.command_description.ru}") String descirptionRu,
-            @Value("${menu.notification.command_description.en}") String descirptionEn
+            @Value("${menu.notification.command_description.ru}") String descriptionRu,
+            @Value("${menu.notification.command_description.en}") String descriptionEn
     ) {
         super(command, Map.of(
-                "ru", descirptionRu,
-                "en", descirptionEn
+                "ru", descriptionRu,
+                "en", descriptionEn
             )
         );
     }

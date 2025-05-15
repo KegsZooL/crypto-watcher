@@ -3,7 +3,6 @@ package com.github.kegszool.notification.selection;
 import java.util.Map;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
-
 import com.github.kegszool.localization.BaseMenuLocalization;
 
 @Component
@@ -31,5 +30,4 @@ public class SelectCoinNotificationMenuLocalization extends BaseMenuLocalization
                 null
         );
     }
-
 }

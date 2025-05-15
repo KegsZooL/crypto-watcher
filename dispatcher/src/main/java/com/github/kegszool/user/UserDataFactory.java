@@ -9,8 +9,8 @@ import com.github.kegszool.user.messaging.dto.UserData;
 import com.github.kegszool.user.messaging.dto.UserPreferenceDto;
 
 import com.github.kegszool.coin.dto.FavoriteCoinDto;
-import com.github.kegszool.notification.messaging.dto.NotificationDto;
 import com.github.kegszool.localization.LocalizationService;
+import com.github.kegszool.notification.messaging.dto.NotificationDto;
 
 @Component
 public class UserDataFactory {

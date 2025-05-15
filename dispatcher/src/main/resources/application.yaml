@@ -336,11 +336,11 @@ menu:
       ru: "${menu.sections_config.notification_deletion.ru}"
       en: "${menu.sections_config.notification_deletion.en}"
     max_buttons_per_row: 1
-    prefix: delete_notification_
+    prefix: d_n_
     command: "/delete_not"
     command_description:
       ru: "Открыть меню удаления уведомлений"
-      en: "Open the deleteion notification menu"
+      en: "Open the deletion notification menu"
     sequence: ${menu.notification_deletion.name},${menu.notification.sequence}
 
   settings:

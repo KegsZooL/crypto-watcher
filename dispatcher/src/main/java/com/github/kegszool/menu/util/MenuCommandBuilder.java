@@ -14,7 +14,7 @@ public class MenuCommandBuilder {
     private final String mainMenu;
     private final String editCoinSections;
     private final String notification;
-    private final String creationNotificaiton;
+    private final String creationNotification;
     private final String deletionNotification;
     private final String settings;
     private final String favoriteCoins;
@@ -34,7 +34,7 @@ public class MenuCommandBuilder {
         this.mainMenu = mainMenu;
         this.editCoinSections = editCoinSections;
         this.notification = notification;
-        this.creationNotificaiton = creationNotification;
+        this.creationNotification = creationNotification;
         this.deletionNotification = deletionNotification;
         this.settings = settings;
         this.favoriteCoins = favoriteCoins;
@@ -46,7 +46,7 @@ public class MenuCommandBuilder {
                 new BotCommand(mainMenu, localizationService.getCommandDescription(mainMenu, locale)),
                 new BotCommand(editCoinSections, localizationService.getCommandDescription(editCoinSections, locale)),
                 new BotCommand(notification, localizationService.getCommandDescription(notification, locale)),
-                new BotCommand(creationNotificaiton, localizationService.getCommandDescription(creationNotificaiton, locale)),
+                new BotCommand(creationNotification, localizationService.getCommandDescription(creationNotification, locale)),
                 new BotCommand(deletionNotification, localizationService.getCommandDescription(deletionNotification, locale)),
                 new BotCommand(settings, localizationService.getCommandDescription(settings, locale)),
                 new BotCommand(favoriteCoins, localizationService.getCommandDescription(favoriteCoins, locale))

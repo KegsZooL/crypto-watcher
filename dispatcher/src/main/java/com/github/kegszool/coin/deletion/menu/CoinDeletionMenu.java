@@ -1,9 +1,8 @@
 package com.github.kegszool.coin.deletion.menu;
 
 import java.util.List;
-
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Scope;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.github.kegszool.coin.selection.menu.BaseCoinMenu;
@@ -54,7 +53,6 @@ public class CoinDeletionMenu extends BaseCoinMenu {
     @Override
     public String getTitle() {
         return title;
-
     }
 
     @Override

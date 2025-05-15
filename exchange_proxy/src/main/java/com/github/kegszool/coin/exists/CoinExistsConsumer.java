@@ -8,8 +8,8 @@ import com.github.kegszool.messaging.consumer.BaseRequestConsumer;
 import com.github.kegszool.messaging.dto.command_entity.UserCoinData;
 
 import org.springframework.amqp.support.AmqpHeaders;
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.producer.ProducerService;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
 
 @Component
 public class CoinExistsConsumer extends BaseRequestConsumer<UserCoinData, CoinExistsExecutor> {

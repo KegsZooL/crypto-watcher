@@ -1,7 +1,6 @@
 package com.github.kegszool.notification.deletion.menu;
 
 import java.util.List;
-
 import com.github.kegszool.menu.CalledMenu;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,7 +45,6 @@ public class NotificationDeletionMenu extends BaseNotificationMenu implements Ca
     @Override
     public String getTitle() {
         return title;
-
     }
 
     @Override

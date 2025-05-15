@@ -1,16 +1,17 @@
 package com.github.kegszool.notification.active;
 
+import java.util.List;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.github.kegszool.database.entity.base.Notification;
 import com.github.kegszool.database.entity.mapper.impl.NotificationMapper;
 import com.github.kegszool.database.repository.impl.NotificationRepository;
+
+import com.github.kegszool.messaging.RequestExecutor;
 import com.github.kegszool.messaging.dto.database_entity.NotificationDto;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.messaging.RequestExecutor;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class GetActiveNotificationExecutor implements RequestExecutor<String, List<NotificationDto>> {

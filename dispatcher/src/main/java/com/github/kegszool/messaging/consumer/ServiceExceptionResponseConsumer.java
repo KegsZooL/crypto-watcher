@@ -1,8 +1,8 @@
 package com.github.kegszool.messaging.consumer;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 import com.github.kegszool.messaging.dto.service.ServiceMessage;

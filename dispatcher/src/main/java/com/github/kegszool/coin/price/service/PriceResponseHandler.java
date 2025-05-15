@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.coin.price.model.PriceSnapshot;
-import com.github.kegszool.coin.price.model.PriceSnapshotBuffer;
+import com.github.kegszool.coin.price.model.PriceSnapshotCache;
 
 import com.github.kegszool.messaging.dto.HandlerResult;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
@@ -17,13 +17,13 @@ public class PriceResponseHandler extends BaseResponseHandler<PriceSnapshot> {
 
     private final String routingKey;
     private final String menuName;
-    private final PriceSnapshotBuffer priceBuffer;
+    private final PriceSnapshotCache priceBuffer;
 
     @Autowired
     public PriceResponseHandler(
             @Value("${spring.rabbitmq.template.routing-key.coin_price_response}") String routingKey,
          	@Value("${menu.price_snapshot.name}") String menuName,
-            PriceSnapshotBuffer priceBuffer
+            PriceSnapshotCache priceBuffer
     ) {
         this.priceBuffer = priceBuffer;
         this.routingKey = routingKey;
@@ -41,7 +41,7 @@ public class PriceResponseHandler extends BaseResponseHandler<PriceSnapshot> {
         Integer messageId = serviceMessage.getMessageId();
 
         PriceSnapshot snapshot = serviceMessage.getData();
-        priceBuffer.saveSnapshot(chatId, snapshot);
+        priceBuffer.save(chatId, snapshot);
 
         EditMessageText answerMessage = createAnswerMessage(snapshot, chatId, messageId);
         return new HandlerResult.Success(answerMessage);

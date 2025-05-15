@@ -1,9 +1,11 @@
 package com.github.kegszool.coin.addition.command;
 
+import java.util.List;
 import org.springframework.stereotype.Component;
+import com.github.kegszool.menu.ReplyKeyboardService;
 
-import com.github.kegszool.user.messaging.dto.UserDto;
 import com.github.kegszool.coin.dto.UserCoinData;
+import com.github.kegszool.user.messaging.dto.UserDto;
 import com.github.kegszool.coin.addition.messaging.check_exists.CheckCoinExistsRequestProducer;
 
 import org.telegram.telegrambots.meta.api.objects.User;
@@ -14,23 +16,24 @@ import org.telegram.telegrambots.meta.api.objects.message.Message;
 import com.github.kegszool.coin.addition.util.CoinCommandParser;
 import com.github.kegszool.coin.addition.util.CoinAdditionMessageBuilder;
 
-import java.util.List;
-
 @Component
 public class CoinAdditionCommandHandler {
 
     private final CoinCommandParser parser;
     private final CheckCoinExistsRequestProducer producer;
     private final CoinAdditionMessageBuilder messageBuilder;
+    private final ReplyKeyboardService replyKeyboardService;
 
     public CoinAdditionCommandHandler(
             CoinCommandParser parser,
             CheckCoinExistsRequestProducer producer,
-            CoinAdditionMessageBuilder messageBuilder
+            CoinAdditionMessageBuilder messageBuilder,
+            ReplyKeyboardService replyKeyboardService
     ) {
         this.parser = parser;
         this.producer = producer;
         this.messageBuilder = messageBuilder;
+        this.replyKeyboardService = replyKeyboardService;
     }
 
     public SendMessage handle(Update update) {
@@ -41,7 +44,9 @@ public class CoinAdditionCommandHandler {
             return messageBuilder.buildErrorMessage(msg);
         }
         sendRequest(msg, coins);
-        return messageBuilder.buildSuccessMessage(msg, coins);
+        SendMessage successMsg = messageBuilder.buildSuccessMessage(msg, coins);
+        replyKeyboardService.attachKeyboard(successMsg, update.getMessage().getChatId().toString());
+        return successMsg;
     }
 
     private void sendRequest(Message msg, List<String> coins) {

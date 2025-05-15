@@ -5,14 +5,14 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.messaging.dto.HandlerResult;
-import com.github.kegszool.user.messaging.dto.UserData;
 import com.github.kegszool.menu.service.MenuUpdaterService;
+
+import com.github.kegszool.messaging.dto.HandlerResult;
 import com.github.kegszool.messaging.response.BaseResponseHandler;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 
 @Component
-public class UpdatedNotificationHandler extends BaseResponseHandler<List<UserData>> {
+public class UpdatedNotificationHandler extends BaseResponseHandler<List<UserNotificationUpdateDto>> {
 
     private final String routingKey;
     private final MenuUpdaterService menuUpdaterService;
@@ -32,11 +32,9 @@ public class UpdatedNotificationHandler extends BaseResponseHandler<List<UserDat
     }
 
     @Override
-    public HandlerResult handle(ServiceMessage<List<UserData>> serviceMessage) {
-        serviceMessage.getData().forEach(not -> {
-            String chatId = not.getNotifications().getFirst().getChatId().toString();
-            menuUpdaterService.updateMenus(not, chatId);
-        });
+    public HandlerResult handle(ServiceMessage<List<UserNotificationUpdateDto>> serviceMessage) {
+        serviceMessage.getData().forEach(not ->
+                menuUpdaterService.updateMenus(not.getUserData(), not.getChatId()));
         return new HandlerResult.NoResponse();
     }
 }

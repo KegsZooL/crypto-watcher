@@ -1,15 +1,15 @@
 package com.github.kegszool.coin.addition.messaging.add;
 
+import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.user.messaging.dto.UserDto;
 import com.github.kegszool.coin.dto.UserCoinData;
+import com.github.kegszool.user.messaging.dto.UserDto;
+
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.producer.RequestProducerService;
-
-import java.util.List;
 
 @Service
 public class AddFavoriteCoinRequestProducer {

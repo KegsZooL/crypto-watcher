@@ -1,5 +1,12 @@
 package com.github.kegszool.notification.menu;
 
+import java.util.Set;
+import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Value;
+
 import com.github.kegszool.coin.dto.CoinDto;
 import com.github.kegszool.coin.dto.FavoriteCoinDto;
 
@@ -9,13 +16,6 @@ import com.github.kegszool.menu.util.SectionBuilder;
 import com.github.kegszool.menu.util.TitleBuilder;
 import com.github.kegszool.user.messaging.dto.UserData;
 import com.github.kegszool.notification.messaging.dto.NotificationDto;
-
-import java.util.LinkedHashMap;
-import java.util.Set;
-import java.util.List;
-import java.util.stream.Stream;
-import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Value;
 
 public abstract class BaseNotificationMenu extends BaseMenu {
 

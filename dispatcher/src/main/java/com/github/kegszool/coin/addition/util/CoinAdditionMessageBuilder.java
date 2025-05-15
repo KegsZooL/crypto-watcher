@@ -1,13 +1,13 @@
 package com.github.kegszool.coin.addition.util;
 
 import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 import com.github.kegszool.localization.LocalizationService;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 @Component
 public class CoinAdditionMessageBuilder {

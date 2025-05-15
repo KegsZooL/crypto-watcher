@@ -1,7 +1,7 @@
 package com.github.kegszool.messaging.consumer;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.stereotype.Service;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.bot.TelegramBotController;

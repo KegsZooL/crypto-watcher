@@ -1,8 +1,7 @@
 package com.github.kegszool.coin.selection.menu;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-
+import java.util.LinkedHashMap;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.github.kegszool.menu.base.BaseMenu;

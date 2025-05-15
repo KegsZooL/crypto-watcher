@@ -1,7 +1,6 @@
 package com.github.kegszool.coin.addition.menu;
 
 import java.util.List;
-
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
@@ -46,7 +45,6 @@ public class CoinAdditionMenu extends BaseCoinMenu {
     @Override
     public String getTitle() {
         return title;
-
     }
 
     @Override

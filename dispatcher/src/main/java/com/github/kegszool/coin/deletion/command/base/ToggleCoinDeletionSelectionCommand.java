@@ -13,29 +13,31 @@ import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMet
 @Component
 public class ToggleCoinDeletionSelectionCommand extends CallbackCommand {
 
+    private final String menuName;
+    private final String selectedPrefix;
+    private final String unSelectedPrefix;
     private final CoinDeletionSelectionHandler interactionHandler;
 
-    @Value("${menu.coin_deletion_menu.prefix.selected_coin_prefix}")
-    private String SELECTED_DELETION_COIN_PREFIX;
-
-    @Value("${menu.coin_deletion_menu.prefix.unselected_coin_prefix}")
-    private String UNSELECTED_DELETION_COIN_PREFIX;
-
-    @Value("${menu.coin_deletion_menu.name}")
-    private String COIN_DELETION_MENU_NAME;
-
     @Autowired
-    public ToggleCoinDeletionSelectionCommand(CoinDeletionSelectionHandler interactionHandler) {
+    public ToggleCoinDeletionSelectionCommand(
+            CoinDeletionSelectionHandler interactionHandler,
+    		@Value("${menu.coin_deletion_menu.name}") String menuName,
+            @Value("${menu.coin_deletion_menu.prefix.selected_coin_prefix}") String selectedPrefix,
+            @Value("${menu.coin_deletion_menu.prefix.unselected_coin_prefix}") String unSelectedPrefix
+    ) {
+        this.menuName = menuName;
+        this.selectedPrefix = selectedPrefix;
+        this.unSelectedPrefix = unSelectedPrefix;
         this.interactionHandler = interactionHandler;
     }
 
     @Override
     protected PartialBotApiMethod<?> handleCommand(CallbackQuery callback) {
-        return interactionHandler.handleSelection(callback, COIN_DELETION_MENU_NAME);
+        return interactionHandler.handleSelection(callback, menuName);
     }
 
     @Override
     protected boolean canHandleCommand(String command) {
-        return command.startsWith(SELECTED_DELETION_COIN_PREFIX) || command.startsWith(UNSELECTED_DELETION_COIN_PREFIX);
+        return command.startsWith(selectedPrefix) || command.startsWith(unSelectedPrefix);
     }
 }

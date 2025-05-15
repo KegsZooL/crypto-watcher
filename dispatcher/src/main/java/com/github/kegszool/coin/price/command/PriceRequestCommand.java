@@ -1,10 +1,11 @@
 package com.github.kegszool.coin.price.command;
 
-import com.github.kegszool.localization.LocalizationService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.github.kegszool.localization.LocalizationService;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.producer.RequestProducerService;
 
@@ -15,8 +16,6 @@ import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
-
-import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 @Component

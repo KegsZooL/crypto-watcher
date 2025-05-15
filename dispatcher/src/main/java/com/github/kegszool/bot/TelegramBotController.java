@@ -19,9 +19,9 @@ public class TelegramBotController {
     private final UpdateRouter updateRouter;
     private final ResponseRouter responseRouter;
     private final BotRegistrationService botRegistrationService;
+    private final MenuCommandConfigurationService menuCommandConfigurationService;
 
     private TelegramBot bot;
-    private MenuCommandConfigurationService menuCommandConfigurationService;
 
     @Autowired
     public TelegramBotController(

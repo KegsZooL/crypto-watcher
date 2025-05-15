@@ -2,12 +2,12 @@ package com.github.kegszool.notification.selection;
 
 import java.util.List;
 import java.util.Collections;
+import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.github.kegszool.notification.menu.BaseNotificationMenu;
 import com.github.kegszool.notification.util.CoinNotificationSectionBuilder;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Value;
 
 @Component
 @Scope("prototype")

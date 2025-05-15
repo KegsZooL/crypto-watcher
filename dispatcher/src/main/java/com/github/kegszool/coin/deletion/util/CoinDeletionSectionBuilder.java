@@ -1,13 +1,13 @@
 package com.github.kegszool.coin.deletion.util;
 
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.stream.Collectors;
 import com.github.kegszool.coin.dto.CoinDto;
-import com.github.kegszool.user.messaging.dto.UserData;
 import com.github.kegszool.menu.util.SectionBuilder;
+import com.github.kegszool.user.messaging.dto.UserData;
 import com.github.kegszool.coin.selection.util.state.MenuSelectionBuffer;
 
 @Component

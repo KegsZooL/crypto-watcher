@@ -1,10 +1,9 @@
 package com.github.kegszool.database.entity.mapper.impl;
 
+import org.springframework.stereotype.Component;
 import com.github.kegszool.database.entity.base.User;
 import com.github.kegszool.database.entity.mapper.EntityMapper;
 import com.github.kegszool.messaging.dto.database_entity.UserDto;
-
-import org.springframework.stereotype.Component;
 
 @Component
 public class UserMapper extends EntityMapper<User, UserDto> {

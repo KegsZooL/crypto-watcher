@@ -5,9 +5,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.user.messaging.dto.UserDto;
-import com.github.kegszool.messaging.producer.RequestProducerService;
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.language.messaging.dto.ChangeUserLanguageRequest;
+
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.producer.RequestProducerService;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.User;

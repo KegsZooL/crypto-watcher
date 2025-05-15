@@ -1,5 +1,6 @@
-package com.github.kegszool.menu.util;
+package com.github.kegszool.menu;
 
+import com.github.kegszool.menu.util.keyboard.ReplyKeyboardBuffer;
 import org.springframework.stereotype.Component;
 import com.github.kegszool.localization.LocalizationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,7 @@ public class ReplyKeyboardService {
         return msg;
     }
 
-    public SendMessage attachKeyboard(SendMessage msg, String chatId, String locale) {
+    public SendMessage attachKeyboardByLocale(SendMessage msg, String locale) {
         msg.setReplyMarkup(replyKeyboardBuffer.getByLocale(locale));
         return msg;
     }

@@ -3,8 +3,8 @@ package com.github.kegszool.notificaiton.subscription;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.handler.annotation.Header;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 import org.springframework.amqp.support.AmqpHeaders;
 import com.github.kegszool.messaging.dto.NotificationDto;

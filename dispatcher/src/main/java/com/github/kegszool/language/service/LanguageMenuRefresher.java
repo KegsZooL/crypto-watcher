@@ -1,8 +1,8 @@
 package com.github.kegszool.language.service;
 
 import org.springframework.stereotype.Component;
+import com.github.kegszool.menu.ReplyKeyboardService;
 import com.github.kegszool.messaging.util.MessageUtils;
-import com.github.kegszool.menu.util.ReplyKeyboardService;
 
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -21,12 +21,12 @@ public class LanguageMenuRefresher {
         this.keyboardService = keyboardService;
     }
 
-    public SendMessage refreshAndGetRefreshedMenu(CallbackQuery callbackQuery, String selectedLanguage) {
+    public SendMessage refreshAndAnswerMessage(CallbackQuery callbackQuery, String selectedLanguage) {
 
         String chatId = messageUtils.extractChatId(callbackQuery);
         String text = switch (selectedLanguage) {
-            case "en" -> "Язык был успешно изменён!";
-            default -> "The language has been successfully changed!";
+            case "en" -> "The language has been successfully changed!";
+            default -> "Язык был успешно изменён!";
         };
 
         SendMessage msg = SendMessage.builder()
@@ -34,7 +34,7 @@ public class LanguageMenuRefresher {
                 .text(text)
                 .build();
 
-        keyboardService.attachKeyboard(msg, chatId, selectedLanguage);
+        keyboardService.attachKeyboardByLocale(msg, selectedLanguage);
         return msg;
     }
 }

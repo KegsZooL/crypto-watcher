@@ -1,9 +1,8 @@
 package com.github.kegszool.coin.addition.util;
 
-import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
 import java.util.List;
+import java.util.Arrays;
+import org.springframework.stereotype.Component;
 
 @Component
 public class CoinCommandParser {

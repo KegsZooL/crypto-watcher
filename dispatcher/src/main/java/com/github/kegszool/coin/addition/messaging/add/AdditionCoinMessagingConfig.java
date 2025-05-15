@@ -1,13 +1,13 @@
 package com.github.kegszool.coin.addition.messaging.add;
 
+import org.springframework.amqp.core.Queue;
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import com.github.kegszool.messaging.config.RabbitConfiguration;
-
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
 
 @Configuration
 public class AdditionCoinMessagingConfig extends RabbitConfiguration {
@@ -38,7 +38,6 @@ public class AdditionCoinMessagingConfig extends RabbitConfiguration {
     public Queue addCoinResponseQueue() {
         return new Queue(responseQueue, true, false, false, queueArgs);
     }
-
 
     @Bean
     public Binding bindAddCoinRequest() {

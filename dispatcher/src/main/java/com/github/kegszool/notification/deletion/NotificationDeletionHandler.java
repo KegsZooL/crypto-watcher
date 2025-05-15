@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.menu.MenuStateStorage;
-import com.github.kegszool.menu.util.KeyboardUpdater;
 import com.github.kegszool.messaging.util.MessageUtils;
+import com.github.kegszool.menu.util.keyboard.KeyboardUpdater;
 
 import com.github.kegszool.notification.deletion.util.NotificationCallbackParser;
-import com.github.kegszool.notification.deletion.messaging.NotificationDeletionSender;
 import com.github.kegszool.notification.deletion.messaging.NotificationIdentifierDto;
+import com.github.kegszool.notification.deletion.messaging.NotificationDeletionSender;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.message.MaybeInaccessibleMessage;

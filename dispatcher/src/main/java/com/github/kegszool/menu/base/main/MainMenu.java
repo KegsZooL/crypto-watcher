@@ -1,12 +1,12 @@
 package com.github.kegszool.menu.base.main;
 
-import com.github.kegszool.menu.CalledMenu;
-import com.github.kegszool.menu.base.BaseMenu;
+import java.util.List;
+import java.util.Collections;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.List;
-import java.util.Collections;
+import com.github.kegszool.menu.CalledMenu;
+import com.github.kegszool.menu.base.BaseMenu;
 import com.github.kegszool.user.messaging.dto.UserData;
 
 @Component

@@ -1,15 +1,14 @@
-package com.github.kegszool.menu.util;
+package com.github.kegszool.menu.util.keyboard;
 
 import java.util.Map;
 import java.util.List;
 import java.util.HashMap;
-
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardRow;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.KeyboardButton;
 
 @Component
 public class ReplyKeyboardBuffer {

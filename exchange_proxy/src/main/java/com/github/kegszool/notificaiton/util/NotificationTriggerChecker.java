@@ -31,6 +31,7 @@ public class NotificationTriggerChecker {
     }
 
     public void check(String coinName, double currentPrice) {
+
         List<NotificationDto> notifications = activeNotificationCache.getNotifications(coinName);
         long now = System.currentTimeMillis();
 

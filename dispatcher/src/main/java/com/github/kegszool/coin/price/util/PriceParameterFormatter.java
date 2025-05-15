@@ -1,7 +1,7 @@
 package com.github.kegszool.coin.price.util;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
 
 @Component
 public class PriceParameterFormatter {

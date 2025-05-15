@@ -11,7 +11,6 @@ import com.github.kegszool.user.UserDataBuilder;
 import com.github.kegszool.database.repository.impl.*;
 import com.github.kegszool.database.entity.base.Notification;
 
-
 import com.github.kegszool.database.entity.base.Coin;
 import com.github.kegszool.database.entity.base.User;
 import com.github.kegszool.database.entity.mapper.impl.*;
@@ -22,7 +21,7 @@ import com.github.kegszool.messaging.dto.service.ServiceMessage;
 
 @Log4j2
 @Service
-public class UpdateNotificationExecutor implements RequestExecutor<List<NotificationDto>, List<UserData>> {
+public class UpdateNotificationExecutor implements RequestExecutor<List<NotificationDto>, List<UserNotificationUpdateDto>> {
 
     private final static Integer STUB_MESSAGE_ID = -1;
     private final static String STUB_CHAT_ID = "-1";
@@ -55,14 +54,15 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
     }
 
     @Override
-    public ServiceMessage<List<UserData>> execute(ServiceMessage<List<NotificationDto>> serviceMessage) {
+    public ServiceMessage<List<UserNotificationUpdateDto>> execute(ServiceMessage<List<NotificationDto>> serviceMessage) {
 
         List<NotificationDto> notifications = serviceMessage.getData();
         Map<Long, List<NotificationDto>> groupedByTelegramId = notifications.stream()
                 .collect(Collectors.groupingBy(dto -> dto.getUser().getTelegramId()));
 
-        Set<UserData> userDataSet = new HashSet<>();
+        Map<String, UserData> chatIdToUserData = new HashMap<>();
         List<NotificationDto> updated = new ArrayList<>();
+        List<UserNotificationUpdateDto> responsePayload = new ArrayList<>();
 
         for (Map.Entry<Long, List<NotificationDto>> entry : groupedByTelegramId.entrySet()) {
 
@@ -75,7 +75,13 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
             }
             User user = maybeUser.get();
 
+            String chatId = "";
             for (NotificationDto dto : entry.getValue()) {
+
+                if (chatId.isEmpty() && dto.getChatId() != null) {
+                    chatId = dto.getChatId().toString();
+                }
+
                 Coin coin = coinRepository.findByName(dto.getCoin().getName())
                         .orElseGet(() -> coinRepository.save(coinMapper.toEntity(dto.getCoin())));
 
@@ -99,15 +105,15 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
                         } else {
                             notification.setTriggered(true);
                         }
-
                         notificationRepository.save(notification);
                     }
                 }
             }
             UserData userData = userDataBuilder.buildUserData(user);
-            userDataSet.add(userData);
+            chatIdToUserData.put(chatId,userData);
         }
-        return new ServiceMessage<>(STUB_MESSAGE_ID, STUB_CHAT_ID, new ArrayList<>(userDataSet));
+        chatIdToUserData.forEach((chatId, data) -> responsePayload.add(new UserNotificationUpdateDto(chatId, data)));
+        return new ServiceMessage<>(STUB_MESSAGE_ID, STUB_CHAT_ID, responsePayload);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.github.kegszool.coin.addition.messaging.check_exists.response;
 
-import com.github.kegszool.coin.addition.messaging.add.AddFavoriteCoinRequestProducer;
+import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +9,11 @@ import com.github.kegszool.messaging.dto.HandlerResult;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.response.BaseResponseHandler;
 
-import java.util.List;
-import com.github.kegszool.localization.LocalizationService;
 import com.github.kegszool.coin.dto.CoinExistenceResult;
+import com.github.kegszool.localization.LocalizationService;
+
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import com.github.kegszool.coin.addition.messaging.add.AddFavoriteCoinRequestProducer;
 
 @Component
 public class CoinExistsResponseHandler extends BaseResponseHandler<CoinExistenceResult> {

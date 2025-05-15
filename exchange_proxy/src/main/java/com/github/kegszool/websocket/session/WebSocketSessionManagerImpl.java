@@ -16,11 +16,6 @@ public class WebSocketSessionManagerImpl implements WebSocketSessionManager {
     }
 
     @Override
-    public Session getSession(String instId) {
-        return sessions.get(instId);
-    }
-
-    @Override
     public void removeSession(String instId) {
         sessions.remove(instId);
     }

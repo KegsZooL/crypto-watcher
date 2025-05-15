@@ -19,7 +19,7 @@ public class BotRegistrationService {
         try {
             TelegramBotsLongPollingApplication application = new TelegramBotsLongPollingApplication();
             application.registerBot(BOT_TOKEN, bot);
-            log.info("Successful registration of the bot. Bot token: {}", BOT_TOKEN);
+            log.info("Successful registration of the bot | Bot token: {}", BOT_TOKEN);
         } catch (TelegramApiException ex) { throw createRegistrationException(ex); }
         return bot;
     }

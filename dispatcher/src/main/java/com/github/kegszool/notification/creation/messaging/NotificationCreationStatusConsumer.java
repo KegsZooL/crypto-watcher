@@ -1,11 +1,14 @@
 package com.github.kegszool.notification.creation.messaging;
 
+import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Component;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
-import org.springframework.stereotype.Component;
 
+@Log4j2
 @Component
 public class NotificationCreationStatusConsumer extends BaseResponseConsumer<Boolean> {
 
@@ -22,6 +25,7 @@ public class NotificationCreationStatusConsumer extends BaseResponseConsumer<Boo
 
     @Override
     protected void logReceivedData(ServiceMessage<Boolean> serviceMessage, String routingKey) {
-        //TODO: dummy
+        log.info("Confirmation of notification creation status has been received for chat id '{}' | Status: {}",
+                serviceMessage.getChatId(), serviceMessage.getData());
     }
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.menu.util.TitleBuilder;
 import com.github.kegszool.user.messaging.dto.UserData;
+
 import com.github.kegszool.notification.messaging.dto.Direction;
 import com.github.kegszool.notification.messaging.dto.NotificationDto;
 

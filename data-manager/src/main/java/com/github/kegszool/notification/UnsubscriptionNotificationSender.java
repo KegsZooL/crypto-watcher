@@ -1,11 +1,12 @@
 package com.github.kegszool.notification;
 
-import com.github.kegszool.messaging.dto.database_entity.NotificationDto;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.producer.ServiceMessageProducer;
+import com.github.kegszool.messaging.dto.database_entity.NotificationDto;
 
 @Component
 public class UnsubscriptionNotificationSender {

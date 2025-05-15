@@ -1,7 +1,6 @@
 package com.github.kegszool.settings;
 
 import java.util.Map;
-
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import com.github.kegszool.localization.BaseMenuLocalization;

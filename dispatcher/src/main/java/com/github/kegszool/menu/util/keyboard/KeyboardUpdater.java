@@ -1,4 +1,4 @@
-package com.github.kegszool.menu.util;
+package com.github.kegszool.menu.util.keyboard;
 
 import java.util.List;
 import java.util.ArrayList;

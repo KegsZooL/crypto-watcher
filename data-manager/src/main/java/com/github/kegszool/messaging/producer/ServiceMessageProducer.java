@@ -1,14 +1,14 @@
 package com.github.kegszool.messaging.producer;
 
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.github.kegszool.messaging.util.ServiceMessageUtils;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-
-import org.springframework.stereotype.Service;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Service
 public class ServiceMessageProducer implements ProducerService {

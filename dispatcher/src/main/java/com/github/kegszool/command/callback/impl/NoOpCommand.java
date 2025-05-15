@@ -1,10 +1,11 @@
 package com.github.kegszool.command.callback.impl;
 
-import com.github.kegszool.command.callback.CallbackCommand;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.github.kegszool.command.callback.CallbackCommand;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
+import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
 @Component
 public class NoOpCommand extends CallbackCommand {

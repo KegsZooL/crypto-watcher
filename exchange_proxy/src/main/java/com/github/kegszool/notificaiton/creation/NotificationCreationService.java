@@ -1,18 +1,19 @@
 package com.github.kegszool.notificaiton.creation;
 
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.github.kegszool.messaging.dto.CoinDto;
 import com.github.kegszool.messaging.dto.NotificationDto;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.coin.util.CoinExistenceChecker;
+
 import com.github.kegszool.coin.util.CoinPriceFetcher;
+import com.github.kegszool.coin.util.CoinExistenceChecker;
 
 import com.github.kegszool.notificaiton.NotificationProducer;
 import com.github.kegszool.websocket.util.WebSocketSubscriptionTracker;
 import com.github.kegszool.websocket.connection.OkxWebSocketConnector;
-
-import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Component
 public class NotificationCreationService {
@@ -43,6 +44,7 @@ public class NotificationCreationService {
     }
     
     public boolean processCreationRequest(ServiceMessage<NotificationDto> serviceMessage) {
+
         NotificationDto notification = serviceMessage.getData();
         String fullCoinName = notification.getCoin().getName();
         String coinName = fullCoinName.replace(currencySuffix, "");

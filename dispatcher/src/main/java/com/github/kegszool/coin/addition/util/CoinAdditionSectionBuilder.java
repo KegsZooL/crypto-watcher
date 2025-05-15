@@ -1,12 +1,12 @@
 package com.github.kegszool.coin.addition.util;
 
-import com.github.kegszool.coin.dto.CoinDto;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.stream.Collectors;
-import com.github.kegszool.user.messaging.dto.UserData;
+import com.github.kegszool.coin.dto.CoinDto;
 import com.github.kegszool.menu.util.SectionBuilder;
+import com.github.kegszool.user.messaging.dto.UserData;
 
 @Component
 public class CoinAdditionSectionBuilder implements SectionBuilder {

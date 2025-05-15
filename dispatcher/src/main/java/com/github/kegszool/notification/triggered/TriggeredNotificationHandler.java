@@ -1,6 +1,5 @@
 package com.github.kegszool.notification.triggered;
 
-import com.github.kegszool.notification.messaging.dto.NotificationDto;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.kegszool.messaging.dto.HandlerResult;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.response.BaseResponseHandler;
+import com.github.kegszool.notification.messaging.dto.NotificationDto;
 
 @Component
 public class TriggeredNotificationHandler extends BaseResponseHandler<NotificationDto> {

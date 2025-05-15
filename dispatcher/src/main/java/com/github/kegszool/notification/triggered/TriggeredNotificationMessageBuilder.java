@@ -1,6 +1,7 @@
 package com.github.kegszool.notification.triggered;
 
 import org.springframework.stereotype.Component;
+import com.github.kegszool.menu.ReplyKeyboardService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,18 +18,21 @@ public class TriggeredNotificationMessageBuilder {
     private final String increasedMsgType;
     private final String decreasedMsgType;
     private final LocalizationService localizationService;
+    private final ReplyKeyboardService replyKeyboardService;
 
     @Autowired
     public TriggeredNotificationMessageBuilder(
             @Value("${menu.notification.name}") String menuName,
             @Value("${menu.notification.answer_messages.up.msg_type}") String increasedMsgType,
             @Value("${menu.notification.answer_messages.down.msg_type}") String decreasedMsgType,
-            LocalizationService localizationService
+            LocalizationService localizationService,
+            ReplyKeyboardService replyKeyboardService
     ) {
         this.menuName = menuName;
         this.localizationService = localizationService;
         this.increasedMsgType = increasedMsgType;
         this.decreasedMsgType = decreasedMsgType;
+        this.replyKeyboardService = replyKeyboardService;
     }
 
     public SendMessage build(NotificationDto notification) {
@@ -49,10 +53,13 @@ public class TriggeredNotificationMessageBuilder {
                 .replace("{change}", changeFormatted)
                 .replace("{price}", Double.toString(triggeredPrice));
 
-        return SendMessage.builder()
+
+        SendMessage answerMsg = SendMessage.builder()
                 .chatId(chatId)
                 .text(localizedText)
                 .parseMode(ParseMode.HTML)
                 .build();
+        replyKeyboardService.attachKeyboard(answerMsg, chatId.toString());
+        return answerMsg;
     }
 }

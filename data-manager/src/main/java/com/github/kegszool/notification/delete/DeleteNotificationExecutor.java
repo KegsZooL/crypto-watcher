@@ -1,9 +1,6 @@
 package com.github.kegszool.notification.delete;
 
 import java.util.Optional;
-
-import com.github.kegszool.database.entity.mapper.impl.NotificationMapper;
-import com.github.kegszool.notification.UnsubscriptionNotificationSender;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +23,9 @@ import com.github.kegszool.notification.NotificationIdentifierDto;
 import com.github.kegszool.messaging.RequestExecutor;
 import com.github.kegszool.messaging.dto.database_entity.*;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
+
+import com.github.kegszool.notification.UnsubscriptionNotificationSender;
+import com.github.kegszool.database.entity.mapper.impl.NotificationMapper;
 
 @Log4j2
 @Component

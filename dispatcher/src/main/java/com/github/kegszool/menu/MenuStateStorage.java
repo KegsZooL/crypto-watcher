@@ -1,11 +1,10 @@
 package com.github.kegszool.menu;
 
-import org.springframework.stereotype.Component;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
-
-import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.LinkedHashMap;
+import org.springframework.stereotype.Component;
 import java.util.concurrent.ConcurrentHashMap;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 
 @Component
 public class MenuStateStorage {

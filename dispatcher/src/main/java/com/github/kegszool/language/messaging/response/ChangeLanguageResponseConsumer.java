@@ -1,13 +1,16 @@
 package com.github.kegszool.language.messaging.response;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.kegszool.user.messaging.dto.UserData;
+
 import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 
+@Log4j2
 @Component
 public class ChangeLanguageResponseConsumer extends BaseResponseConsumer<UserData> {
 
@@ -24,6 +27,7 @@ public class ChangeLanguageResponseConsumer extends BaseResponseConsumer<UserDat
 
     @Override
     protected void logReceivedData(ServiceMessage<UserData> serviceMessage, String routingKey) {
-        //TODO: write logging
+        log.info("Confirmation of the language change has been received for chat id: '{}' | Current language: {}",
+                serviceMessage.getChatId(), serviceMessage.getData().getUserPreference().interfaceLanguage());
     }
 }

@@ -1,5 +1,7 @@
 package com.github.kegszool.coin.price.util;
 
+import java.util.Map;
+import java.util.LinkedHashMap;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.kegszool.localization.LocalizationService;
 import com.github.kegszool.coin.price.model.PriceParameter;
 import com.github.kegszool.coin.price.menu.PriceMenuProperties;
-
-import java.util.Map;
-import java.util.LinkedHashMap;
 
 @Component
 public class PriceParameterBuilder {

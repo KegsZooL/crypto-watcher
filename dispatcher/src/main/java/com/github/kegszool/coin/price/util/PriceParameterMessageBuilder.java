@@ -1,7 +1,6 @@
 package com.github.kegszool.coin.price.util;
 
-import com.github.kegszool.coin.price.model.PriceSnapshot;
-import com.github.kegszool.coin.price.model.PriceSnapshotBuffer;
+import java.util.Map;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,23 +8,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.github.kegszool.messaging.util.MessageUtils;
 import com.github.kegszool.coin.price.model.PriceParameter;
 import com.github.kegszool.coin.price.menu.PriceMenuProperties;
+
 import org.telegram.telegrambots.meta.api.methods.ParseMode;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 
-import java.util.Map;
+import com.github.kegszool.coin.price.model.PriceSnapshot;
+import com.github.kegszool.coin.price.model.PriceSnapshotCache;
 
 @Component
 public class PriceParameterMessageBuilder {
 
-    private final PriceSnapshotBuffer priceBuffer;
+    private final PriceSnapshotCache priceBuffer;
     private final PriceParameterBuilder snapshotParametersRegistry;
     private final PriceParameterFormatter snapshotParameterFormater;
     private final MessageUtils messageUtils;
 
     @Autowired
     public PriceParameterMessageBuilder(
-            @Lazy PriceSnapshotBuffer priceBuffer,
+            @Lazy PriceSnapshotCache priceBuffer,
             PriceParameterBuilder snapshotParametersRegistry,
             PriceParameterFormatter snapshotParameterFormater,
             MessageUtils messageUtils
@@ -43,7 +44,7 @@ public class PriceParameterMessageBuilder {
         String chatId = messageUtils.extractChatId(callbackQuery);
         String parameterWithoutPrefix = getParameterWithoutPrefix(callbackQuery, snapshotProperties);
 
-        PriceSnapshot snapshot = priceBuffer.getSnapshot(chatId);
+        PriceSnapshot snapshot = priceBuffer.get(chatId);
         Map<String, PriceParameter> snapshotParameterMap = snapshotParametersRegistry.createParameterMap(snapshotProperties, chatId);
 
         String title = createTittleByParameter(parameterWithoutPrefix, snapshotParameterMap, snapshot);

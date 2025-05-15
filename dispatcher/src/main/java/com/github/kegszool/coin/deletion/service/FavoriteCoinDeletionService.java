@@ -1,11 +1,17 @@
 package com.github.kegszool.coin.deletion.service;
 
+import java.util.Set;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.github.kegszool.coin.selection.menu.BaseCoinMenu;
 import com.github.kegszool.coin.dto.FavoriteCoinDto;
+import com.github.kegszool.coin.selection.menu.BaseCoinMenu;
 import com.github.kegszool.coin.selection.util.state.MenuSelectionBuffer;
 import com.github.kegszool.coin.deletion.util.CoinDeletionUserDataFactory;
 
@@ -22,12 +28,6 @@ import com.github.kegszool.messaging.producer.RequestProducerService;
 
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-
-import java.util.Collections;
-import java.util.Set;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.stream.Collectors;
 
 @Service
 public class FavoriteCoinDeletionService {
@@ -69,7 +69,6 @@ public class FavoriteCoinDeletionService {
         this.coinSelectionMenuName = coinSelectionMenuName;
         this.routingKey = routingKey;
     }
-
 
     public void deleteSelectedCoins(CallbackQuery callbackQuery) {
 

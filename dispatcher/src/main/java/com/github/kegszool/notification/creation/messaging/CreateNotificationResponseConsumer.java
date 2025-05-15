@@ -1,13 +1,15 @@
 package com.github.kegszool.notification.creation.messaging;
 
-import com.fasterxml.jackson.core.type.TypeReference;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
+import com.fasterxml.jackson.core.type.TypeReference;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
 import com.github.kegszool.user.messaging.dto.UserData;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.consumer.BaseResponseConsumer;
 
+@Log4j2
 @Component
 public class CreateNotificationResponseConsumer extends BaseResponseConsumer<UserData> {
 
@@ -22,8 +24,8 @@ public class CreateNotificationResponseConsumer extends BaseResponseConsumer<Use
         return new TypeReference<>(){};
     }
 
-    //TODO: dummy
     @Override
     protected void logReceivedData(ServiceMessage<UserData> serviceMessage, String routingKey) {
+        log.info("Confirmation of notification creation has been received for chat id '{}'", serviceMessage.getChatId());
     }
 }

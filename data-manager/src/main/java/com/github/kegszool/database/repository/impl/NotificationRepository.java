@@ -1,14 +1,13 @@
 package com.github.kegszool.database.repository.impl;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-
-import com.github.kegszool.messaging.dto.database_entity.Direction;
+import java.math.BigDecimal;
 import org.springframework.stereotype.Repository;
 
 import com.github.kegszool.database.entity.base.Notification;
 import com.github.kegszool.database.repository.EntityRepository;
+import com.github.kegszool.messaging.dto.database_entity.Direction;
 
 @Repository
 public interface NotificationRepository extends EntityRepository<Notification, Integer> {

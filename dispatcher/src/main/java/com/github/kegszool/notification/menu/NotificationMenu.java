@@ -1,12 +1,12 @@
 package com.github.kegszool.notification.menu;
 
 import java.util.List;
-import com.github.kegszool.menu.CalledMenu;
 import org.springframework.stereotype.Component;
 import org.springframework.context.annotation.Scope;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.github.kegszool.menu.CalledMenu;
 import com.github.kegszool.notification.util.NotificationTitleBuilder;
 
 @Component
@@ -48,7 +48,6 @@ public class NotificationMenu extends BaseNotificationMenu implements CalledMenu
     @Override
     public String getTitle() {
         return title;
-
     }
 
     @Override

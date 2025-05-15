@@ -1,12 +1,11 @@
 package com.github.kegszool.coin.selection.util.state.updater;
 
-import com.github.kegszool.menu.exception.format.MenuButtonTextFormatException;
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
-
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 
-import lombok.extern.log4j.Log4j2;
+import com.github.kegszool.menu.exception.format.MenuButtonTextFormatException;
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 
 @Log4j2
 @Service

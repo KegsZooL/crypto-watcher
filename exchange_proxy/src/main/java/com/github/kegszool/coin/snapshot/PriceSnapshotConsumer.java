@@ -1,14 +1,13 @@
 package com.github.kegszool.coin.snapshot;
 
-import com.github.kegszool.messaging.consumer.BaseRequestConsumer;
-import com.github.kegszool.messaging.dto.service.ServiceMessage;
-import com.github.kegszool.messaging.producer.ServiceMessageProducer;
-
+import org.springframework.stereotype.Service;
 import org.springframework.amqp.support.AmqpHeaders;
+import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 
-import org.springframework.stereotype.Service;
-import org.springframework.messaging.handler.annotation.Header;
+import com.github.kegszool.messaging.dto.service.ServiceMessage;
+import com.github.kegszool.messaging.consumer.BaseRequestConsumer;
+import com.github.kegszool.messaging.producer.ServiceMessageProducer;
 
 @Service
 public class PriceSnapshotConsumer extends BaseRequestConsumer<String, PriceSnapshotExecutor> {

@@ -1,10 +1,8 @@
 package com.github.kegszool.notification.util;
 
-import org.springframework.stereotype.Component;
-
+import java.util.Locale;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.util.Locale;
 
 public class NotificationValueFormatter {
 

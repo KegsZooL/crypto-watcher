@@ -1,12 +1,12 @@
 package com.github.kegszool.coin.selection.util;
 
-import com.github.kegszool.menu.util.SectionBuilder;
-import com.github.kegszool.coin.dto.CoinDto;
-import com.github.kegszool.user.messaging.dto.UserData;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
-
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+
+import com.github.kegszool.coin.dto.CoinDto;
+import com.github.kegszool.menu.util.SectionBuilder;
+import com.github.kegszool.user.messaging.dto.UserData;
 
 @Component
 public class CoinSelectionSectionBuilder implements SectionBuilder {

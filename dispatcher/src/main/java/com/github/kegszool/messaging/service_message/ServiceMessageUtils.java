@@ -1,9 +1,9 @@
 package com.github.kegszool.messaging.service_message;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.AmqpException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
 
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 import com.github.kegszool.messaging.service_message.exception.InvalidServiceMessageException;
@@ -72,7 +72,6 @@ public class ServiceMessageUtils {
             throw handleConversionError(serviceMessageData, typeReference.getClass());
         }
     }
-
 
     public static <T> InvalidServiceMessagePayloadException handleConversionError(Object serviceMessageData, Class<T> targetClass) {
         Class<?> dataClass = serviceMessageData.getClass();

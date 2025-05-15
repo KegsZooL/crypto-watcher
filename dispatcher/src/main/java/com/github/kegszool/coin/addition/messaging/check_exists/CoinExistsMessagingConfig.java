@@ -1,13 +1,14 @@
 package com.github.kegszool.coin.addition.messaging.check_exists;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import com.github.kegszool.messaging.config.RabbitConfiguration;
-
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+
+import com.github.kegszool.messaging.config.RabbitConfiguration;
 
 @Configuration
 public class CoinExistsMessagingConfig extends RabbitConfiguration {

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.github.kegszool.update.UpdateHandler;
 import com.github.kegszool.messaging.util.MessageUtils;
+
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.methods.botapimethods.PartialBotApiMethod;
 
