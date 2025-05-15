@@ -1,6 +1,9 @@
 package com.github.kegszool.notificaiton.util;
 
+import java.util.Map;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
+
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import com.github.kegszool.notificaiton.active.ActiveNotificationCacheService;
 public class NotificationTriggerChecker {
 
     private final static int DELAY = 60000;
+    private final Map<Long, Long> lastTriggerPerChat = new ConcurrentHashMap<>();
 
     private final ActiveNotificationCacheService activeNotificationCache;
     private final NotificationTriggerEvaluator evaluator;
@@ -38,17 +42,19 @@ public class NotificationTriggerChecker {
         for (NotificationDto notification : notifications) {
             if (notification.isTriggered()) continue;
 
-            long lastTime = notification.getLastTriggeredTime();
-            if (lastTime > 0 && (now - lastTime) < DELAY) {
-                log.info("Skipping notification due to debounce | Chat: {} | Delay: {}ms",
-                        notification.getChatId(), DELAY);
+            long chatId = notification.getChatId();
+            long lastTime = lastTriggerPerChat.getOrDefault(chatId, 0L);
+
+            if ((now - lastTime) < DELAY) {
+//                log.info("Skipping notification due to debounce | Chat: {} | Delay: {}ms", notification.getChatId(), DELAY);
                 continue;
             }
 
-            logNotificationDetails(notification, coinName, currentPrice);
+//            logNotificationDetails(notification, coinName, currentPrice);
 
             if (evaluator.isTriggered(notification, currentPrice)) {
                 notification.setLastTriggeredTime(now);
+                lastTriggerPerChat.put(chatId, now);
                 actionExecutor.execute(notification, coinName, currentPrice);
             }
         }

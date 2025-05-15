@@ -1,6 +1,7 @@
 package com.github.kegszool.notification.util;
 
 import org.springframework.stereotype.Component;
+import com.github.kegszool.menu.ReplyKeyboardService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,6 +20,7 @@ public class NotificationAnswerMessageBuilder {
 
     private final String menuName;
     private final LocalizationService localizationService;
+    private final ReplyKeyboardService replyKeyboardService;
 
     @Autowired
     public NotificationAnswerMessageBuilder(
@@ -38,7 +40,9 @@ public class NotificationAnswerMessageBuilder {
             String fromMenuCoinNotSelectedMsgType,
 
             @Value("${menu.set_coin_notification.name}") String menuName,
-            LocalizationService localizationService
+
+            LocalizationService localizationService,
+            ReplyKeyboardService replyKeyboardService
     ) {
         this.fromCommandSuccessMsgType = fromCommandSuccessMsgType;
         this.fromCommandErrorMsgType = fromCommandErrorMsgType;
@@ -47,6 +51,7 @@ public class NotificationAnswerMessageBuilder {
         this.fromMenuCoinNotSelectedMsgType = fromMenuCoinNotSelectedMsgType;
         this.menuName = menuName;
         this.localizationService = localizationService;
+        this.replyKeyboardService = replyKeyboardService;
     }
 
     public SendMessage createSuccessMsgFromCommand(Long chatId, String coin) {
@@ -79,11 +84,13 @@ public class NotificationAnswerMessageBuilder {
     }
 
     private SendMessage buildMessage(Long chatId, String text) {
-        return SendMessage
+        SendMessage msg = SendMessage
                 .builder()
                 .chatId(chatId)
                 .text(text)
                 .parseMode(ParseMode.HTML)
                 .build();
+        replyKeyboardService.attachKeyboard(msg, chatId.toString());
+        return msg;
     }
 }

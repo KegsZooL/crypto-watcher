@@ -328,8 +328,6 @@ menu:
       ru: "🗑 Удаление оповещения\n\nНажмите на оповещение, которое хотите удалить — оно исчезнет сразу же."
       en: "🗑 Delete Notification\n\nTap the alert you want to remove — it will be deleted instantly."
       entryFormat:
-#        ru: "🪙 %-12s | %s %8s%% от $%-15s"
-#        en: "🪙 %-12s | %s %8s%% from $%-15s"
         ru: "🪙 %s | %s %s%% от $%s"
         en: "🪙 %s | %s %s%% from $%s"
     sections:
@@ -371,6 +369,9 @@ menu:
       en: "${menu.sections_config.language_change.en}"
     max_buttons_per_row: 2
     prefix: "${menu.action.prefix}change_language_"
+    answer_message:
+      ru: "\uD83C\uDF0D✅ Язык был успешно изменён!"
+      en: "\uD83C\uDF0D✅ The language has been successfully changed!"
 
   select_coin_notification:
     name: "${menu.action.prefix}select_coin_notification"

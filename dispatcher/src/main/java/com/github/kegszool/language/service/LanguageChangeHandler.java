@@ -21,6 +21,6 @@ public class LanguageChangeHandler {
 
     public SendMessage handle(CallbackQuery callbackQuery, String selectedLanguage) {
         requestSender.send(callbackQuery, selectedLanguage);
-        return refresher.refreshAndAnswerMessage(callbackQuery, selectedLanguage);
+        return refresher.refreshAndGetAnswerMsg(callbackQuery, selectedLanguage);
     }
 }
