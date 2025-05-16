@@ -21,7 +21,7 @@ import com.github.kegszool.messaging.dto.service.ServiceMessage;
 
 @Log4j2
 @Service
-public class UpdateNotificationExecutor implements RequestExecutor<List<NotificationDto>, List<UserNotificationUpdateDto>> {
+public class UpdateNotificationExecutor implements RequestExecutor<List<NotificationDto>, List<UserNotificationUpdate>> {
 
     private final static Integer STUB_MESSAGE_ID = -1;
     private final static String STUB_CHAT_ID = "-1";
@@ -54,7 +54,7 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
     }
 
     @Override
-    public ServiceMessage<List<UserNotificationUpdateDto>> execute(ServiceMessage<List<NotificationDto>> serviceMessage) {
+    public ServiceMessage<List<UserNotificationUpdate>> execute(ServiceMessage<List<NotificationDto>> serviceMessage) {
 
         List<NotificationDto> notifications = serviceMessage.getData();
         Map<Long, List<NotificationDto>> groupedByTelegramId = notifications.stream()
@@ -62,7 +62,7 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
 
         Map<String, UserData> chatIdToUserData = new HashMap<>();
         List<NotificationDto> updated = new ArrayList<>();
-        List<UserNotificationUpdateDto> responsePayload = new ArrayList<>();
+        List<UserNotificationUpdate> responsePayload = new ArrayList<>();
 
         for (Map.Entry<Long, List<NotificationDto>> entry : groupedByTelegramId.entrySet()) {
 
@@ -112,7 +112,7 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
             UserData userData = userDataBuilder.buildUserData(user);
             chatIdToUserData.put(chatId,userData);
         }
-        chatIdToUserData.forEach((chatId, data) -> responsePayload.add(new UserNotificationUpdateDto(chatId, data)));
+        chatIdToUserData.forEach((chatId, data) -> responsePayload.add(new UserNotificationUpdate(chatId, data)));
         return new ServiceMessage<>(STUB_MESSAGE_ID, STUB_CHAT_ID, responsePayload);
     }
 

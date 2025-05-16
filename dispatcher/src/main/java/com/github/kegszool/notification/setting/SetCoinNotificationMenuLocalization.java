@@ -39,7 +39,7 @@ public class SetCoinNotificationMenuLocalization extends BaseMenuLocalization {
             String fromCommandNotExistsRu,
 
             @Value("${menu.set_coin_notification.answer_messages.from_command.not_exists.en}")
-            String fromCommandNotExiststEn,
+            String fromCommandNotExistsEn,
 
             @Value("${menu.set_coin_notification.answer_messages.from_command.not_exists.msg_type}")
             String fromCommandNotExistsMsgType,
@@ -104,7 +104,7 @@ public class SetCoinNotificationMenuLocalization extends BaseMenuLocalization {
                         ),
                         fromCommandNotExistsMsgType, Map.of(
                                 "ru", fromCommandNotExistsRu,
-                                "en", fromCommandNotExiststEn
+                                "en", fromCommandNotExistsEn
                         )
                 )
         );

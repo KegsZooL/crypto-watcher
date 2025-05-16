@@ -12,7 +12,7 @@ import com.github.kegszool.messaging.dto.NotificationDto;
 import com.github.kegszool.messaging.dto.service.ServiceMessage;
 
 @Component
-public class NotificationCreationExecutor extends BaseRequestExecutor<NotificationDto, Boolean> {
+public class NotificationCreationExecutor extends BaseRequestExecutor<NotificationDto, NotificationCreationStatus> {
 
     private final String routingKey;
     private final NotificationCreationService creationService;
@@ -30,12 +30,13 @@ public class NotificationCreationExecutor extends BaseRequestExecutor<Notificati
     }
 
     @Override
-    public ServiceMessage<Boolean> execute(ServiceMessage<NotificationDto> serviceMessage) {
-        boolean responseStatus = creationService.processCreationRequest(serviceMessage);
-        if (!responseStatus) {
-        	return new ServiceMessage<>(serviceMessage.getMessageId(), serviceMessage.getChatId(), responseStatus);
-        }
-        return null;
+    public ServiceMessage<NotificationCreationStatus> execute(ServiceMessage<NotificationDto> serviceMessage) {
+
+        boolean creationStatus = creationService.processCreationRequest(serviceMessage);
+        NotificationCreationStatus notificationCreationStatus = new NotificationCreationStatus(
+                creationStatus, serviceMessage.getData().getCoin().getName());
+
+        return new ServiceMessage<>(serviceMessage.getMessageId(), serviceMessage.getChatId(), notificationCreationStatus);
     }
 
     @Override

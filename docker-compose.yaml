@@ -8,11 +8,6 @@ services:
       - rabbitmq
     env_file:
       - .env
-    environment:
-      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
-      - TELEGRAM_BOT_NAME=${TELEGRAM_BOT_NAME}
-      - RABBITMQ_REQUEST_TO_EXCHANGE_QUEUE=${RABBITMQ_REQUEST_TO_EXCHANGE_QUEUE}
-      - RABBITMQ_RESPONSE_FROM_EXCHANGE_QUEUE=${RABBITMQ_RESPONSE_FROM_EXCHANGE_QUEUE}
 
   exchange_proxy:
     build:
@@ -22,14 +17,36 @@ services:
       - rabbitmq
     env_file:
       - .env
+
+  data_manager:
+    build:
+      context: .
+      dockerfile: data-manager/Dockerfile
+    depends_on:
+      - rabbitmq
+      - postgres
+    env_file:
+      - .env
+
+  postgres:
+    image: postgres:17
+    restart: always
+    env_file:
+      - .env
     environment:
-      - RABBITMQ_REQUEST_TO_EXCHANGE_QUEUE=${RABBITMQ_REQUEST_TO_EXCHANGE_QUEUE}
-      - RABBITMQ_RESPONSE_FROM_EXCHANGE_QUEUE=${RABBITMQ_RESPONSE_FROM_EXCHANGE_QUEUE}
+      POSTGRES_DB: ${DATABASE_NAME}
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - ${DATABASE_PORT}
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
 
   rabbitmq:
     image: ${RABBITMQ_IMAGE}
-    container_name: ${RABBITMQ_CONTAINER_NAME}
     hostname: ${RABBITMQ_HOSTNAME}
+    env_file:
+      - .env
     environment:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_USERNAME}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
@@ -38,5 +55,3 @@ services:
       - ${RABBITMQ_AMQP_PORT}
     volumes:
       - ./rabbitmq-data:/var/lib/rabbitmq/mnesia
-    env_file:
-      - .env

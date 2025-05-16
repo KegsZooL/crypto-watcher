@@ -106,7 +106,7 @@ public class NotificationHandler {
                     direction
             );
             sendAndClear(notification, msg.getMessageId(), chatId);
-            return messageBuilder.createSuccessMsgFromMenu(chatId, coin);
+            return messageBuilder.createSuccessMsgFromCommand(chatId, coin);
         } catch (NumberFormatException ex) {
             return messageBuilder.createInvalidPercentageMsgFromMenu(chatId);
         }

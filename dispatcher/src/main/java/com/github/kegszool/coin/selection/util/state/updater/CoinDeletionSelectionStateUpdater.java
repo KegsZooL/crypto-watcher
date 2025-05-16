@@ -21,7 +21,7 @@ public class CoinDeletionSelectionStateUpdater implements SelectionDataUpdater {
     private String WHITE_HEAVY_CHECK_MARK;
 
     @Value("${emoji_unicode_symbol.ballot_box_with_check}")
-    private String BALLOT_BOX_WITH_CHECK_MARK;
+    private String BALLOT_BOX_WITH_CHECK_MARK = "";
 
     @Override
     public void update(InlineKeyboardButton button, String currentCallbackData) {

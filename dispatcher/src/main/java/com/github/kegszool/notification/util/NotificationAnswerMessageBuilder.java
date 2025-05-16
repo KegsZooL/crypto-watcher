@@ -14,7 +14,6 @@ public class NotificationAnswerMessageBuilder {
 
     private final String fromCommandSuccessMsgType;
     private final String fromCommandErrorMsgType;
-    private final String fromMenuSuccessMsgType;
     private final String fromMenuInvalidPercentageMsgType;
     private final String fromMenuCoinNotSelectedMsgType;
 
@@ -46,7 +45,6 @@ public class NotificationAnswerMessageBuilder {
     ) {
         this.fromCommandSuccessMsgType = fromCommandSuccessMsgType;
         this.fromCommandErrorMsgType = fromCommandErrorMsgType;
-        this.fromMenuSuccessMsgType = fromMenuSuccessMsgType;
         this.fromMenuInvalidPercentageMsgType = fromMenuInvalidPercentageMsgType;
         this.fromMenuCoinNotSelectedMsgType = fromMenuCoinNotSelectedMsgType;
         this.menuName = menuName;
@@ -63,13 +61,6 @@ public class NotificationAnswerMessageBuilder {
 
     public SendMessage createErrorMsgFromCommand(Long chatId) {
         String localizedText = localizationService.getAnswerMessage(menuName, fromCommandErrorMsgType, chatId.toString());
-        return buildMessage(chatId, localizedText);
-    }
-
-    public SendMessage createSuccessMsgFromMenu(Long chatId, String coin) {
-        String localizedText = localizationService
-                .getAnswerMessage(menuName, fromMenuSuccessMsgType, chatId.toString())
-                .replace("{coin}", coin);
         return buildMessage(chatId, localizedText);
     }
 

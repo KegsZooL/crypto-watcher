@@ -14,9 +14,10 @@ target/
 .idea
 
 ### Project entities ###
-.env
+#.env
 */logs/
-rabbit*
+rabbitmq-data
+postgres-data
 *.log
 
 ### Eclipse ###

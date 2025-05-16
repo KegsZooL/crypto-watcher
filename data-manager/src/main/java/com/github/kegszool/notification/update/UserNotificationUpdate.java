@@ -10,7 +10,7 @@ import com.github.kegszool.messaging.dto.database_entity.UserData;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserNotificationUpdateDto {
+public class UserNotificationUpdate {
     private String chatId;
     private UserData userData;
 }

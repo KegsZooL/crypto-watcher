@@ -97,10 +97,8 @@ public class NotificationTitleBuilder implements TitleBuilder {
         String formattedPercentage = NotificationValueFormatter.formatPercentage(percentage);
 
         String formattedPrice;
-        if (initialPrice > 999) {
-            formattedPrice = String.format("%.1f", initialPrice);
-        }
-        else if(initialPrice >= 100) {
+
+        if(initialPrice >= 100) {
             formattedPrice = String.format("%.2f", initialPrice);
         } else if (initialPrice >= 1) {
             formattedPrice = String.format("%.3f", initialPrice);

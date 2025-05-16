@@ -15,11 +15,12 @@
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>crypto-watcher</name>
-    <modules>
+
+	<modules>
         <module>data-manager</module>
         <module>exchange_proxy</module>
         <module>dispatcher</module>
-    </modules>
+	</modules>
 
     <properties>
         <java.version>23</java.version>
@@ -40,6 +41,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.36</version>
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
@@ -123,6 +125,22 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.36</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
             </plugin>
         </plugins>
     </build>

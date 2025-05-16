@@ -302,7 +302,7 @@ menu:
         en: "🚀 Coin <b>{coin}</b> has increased by <b>{change}%</b>!\nCurrent price: <b>{price}</b> 💰"
         msg_type: "_up"
       down:
-        ru: "🔻 Монета <b>{coin}</b> подешевела на <b>{change}%</b>!\nТекущая цена: <b>{price}</b> "
+        ru: "🔻 Монета <b>{coin}</b> подешевела на <b>{change}%</b>!\nТекущая цена: <b>{price}</b> 💰"
         en: "🔻 Coin <b>{coin}</b> has decreased by <b>{change}%</b>!\nCurrent price: <b>{price}</b> 💰"
         msg_type: "_down"
 
@@ -397,8 +397,8 @@ menu:
     answer_messages:
       from_command:
         success:
-          ru: "✅ Отправлен запрос на добавление уведомления для монеты 🪙 – {coin}"
-          en: "✅ Sent request to add a notification for coin 🪙 – {coin}"
+          ru: "✅ Отправлен запрос на добавление уведомления для монеты – 🪙 <b>{coin}</b>"
+          en: "✅ Sent request to add a notification for coin – 🪙 <b>{coin}</b>"
           msg_type: "_success"
         invalid_command:
           ru: "❌ Неверная команда. Пример: /not BTC +10%"
@@ -411,8 +411,8 @@ menu:
 
       from_menu:
         created:
-          ru: "✅ Уведомление успешно создано для монеты 🪙 – {coin}"
-          en: "✅ Notification created successfully for coin 🪙 – {coin}"
+          ru: "✅ Уведомление успешно создано для монеты – 🪙 <b>{coin}</b>"
+          en: "✅ Notification created successfully for coin – 🪙 <b>{coin}</b>"
           msg_type: "_created"
         invalid_percentage:
           ru: "❌ Неверный формат процента.\nПример: <b>+5%</b> или -2.5%\n\n📊 Максимальный процент: <b>10000%</b> (не включительно).\n🔂 Однократные уведомления: до <b>4</b> знаков после запятой.\n🔁 Повторяющиеся уведомления: до <b>1</b> знака после запятой."
@@ -494,6 +494,6 @@ api:
             last_price: ${MARKET_TICKER_LAST_PRICE_RESPONSE_PARAMETER}
 
 emoji_unicode_symbol:
-  coin: ${COIN_UNICODE_SYMBOL}
-  ballot_box_with_check: ${BALLOT_BOX_WITH_CHECK_UNICODE_SYMBOL}
-  white_heavy_check_mark: ${WHITE_HEAVY_CHECK_MARK_UNICODE_SYMBOL}
+  coin: 🪙
+  ballot_box_with_check: ☑️
+  white_heavy_check_mark: ✅

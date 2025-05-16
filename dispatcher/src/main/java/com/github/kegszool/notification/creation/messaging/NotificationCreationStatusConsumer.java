@@ -10,21 +10,21 @@ import com.github.kegszool.messaging.dto.service.ServiceMessage;
 
 @Log4j2
 @Component
-public class NotificationCreationStatusConsumer extends BaseResponseConsumer<Boolean> {
+public class NotificationCreationStatusConsumer extends BaseResponseConsumer<NotificationCreationStatus> {
 
     @Override
     @RabbitListener(queues = "${spring.rabbitmq.queues.create_notification_response_from_exchange}")
-    public void consume(ServiceMessage<Boolean> serviceMessage, String routingKey) {
+    public void consume(ServiceMessage<NotificationCreationStatus> serviceMessage, String routingKey) {
         super.consume(serviceMessage, routingKey);
     }
 
     @Override
-    protected TypeReference<Boolean> getTypeReference() {
+    protected TypeReference<NotificationCreationStatus> getTypeReference() {
         return new TypeReference<>(){};
     }
 
     @Override
-    protected void logReceivedData(ServiceMessage<Boolean> serviceMessage, String routingKey) {
+    protected void logReceivedData(ServiceMessage<NotificationCreationStatus> serviceMessage, String routingKey) {
         log.info("Confirmation of notification creation status has been received for chat id '{}' | Status: {}",
                 serviceMessage.getChatId(), serviceMessage.getData());
     }
