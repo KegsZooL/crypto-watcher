@@ -17,7 +17,7 @@ import com.github.kegszool.notificaiton.active.ActiveNotificationCacheService;
 public class NotificationTriggerChecker {
 
     private final static int DELAY = 60000;
-    private final Map<Long, Long> lastTriggerPerChat = new ConcurrentHashMap<>();
+    private final Map<String, Long> lastTriggerPerChat = new ConcurrentHashMap<>();
 
     private final ActiveNotificationCacheService activeNotificationCache;
     private final NotificationTriggerEvaluator evaluator;
@@ -40,38 +40,20 @@ public class NotificationTriggerChecker {
         long now = System.currentTimeMillis();
 
         for (NotificationDto notification : notifications) {
+
             if (notification.isTriggered()) continue;
 
             long chatId = notification.getChatId();
-            long lastTime = lastTriggerPerChat.getOrDefault(chatId, 0L);
+            String key = chatId + ":" + coinName;
+            long lastTime = lastTriggerPerChat.getOrDefault(key, 0L);
 
-            if ((now - lastTime) < DELAY) {
-//                log.info("Skipping notification due to debounce | Chat: {} | Delay: {}ms", notification.getChatId(), DELAY);
-                continue;
-            }
-
-//            logNotificationDetails(notification, coinName, currentPrice);
+            if ((now - lastTime) < DELAY) continue;
 
             if (evaluator.isTriggered(notification, currentPrice)) {
                 notification.setLastTriggeredTime(now);
-                lastTriggerPerChat.put(chatId, now);
+                lastTriggerPerChat.put(key, now);
                 actionExecutor.execute(notification, coinName, currentPrice);
             }
         }
-    }
-
-    private void logNotificationDetails(NotificationDto notification, String coinName, double currentPrice) {
-
-        double initialPrice = notification.getInitialPrice();
-        double targetPercent = notification.getTargetPercentage().doubleValue();
-        double targetChange = initialPrice * targetPercent / 100.0;
-        double targetPrice = switch (notification.getDirection()) {
-            case Up -> initialPrice + targetChange;
-            case Down -> initialPrice - targetChange;
-        };
-
-        log.info("Notification check | Coin: {} | Chat ID: {} | Direction: {} | Initial: {} | %: {} | Target: {} | Current: {}",
-                coinName, notification.getChatId(), notification.getDirection(),
-                initialPrice, targetPercent, targetPrice, currentPrice);
     }
 }
