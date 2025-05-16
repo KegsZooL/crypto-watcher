@@ -44,7 +44,7 @@ public class NotificationTriggerChecker {
             if (notification.isTriggered()) continue;
 
             long chatId = notification.getChatId();
-            String key = chatId + ":" + coinName;
+            String key = chatId + "_" + coinName + '_' + notification.getDirection() + notification.isRecurring();
             long lastTime = lastTriggerPerChat.getOrDefault(key, 0L);
 
             if ((now - lastTime) < DELAY) continue;
