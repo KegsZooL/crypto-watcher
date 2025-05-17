@@ -2,7 +2,7 @@ FROM maven:3.9.9-eclipse-temurin-23 as build
 LABEL authors="KegsZooL"
 
 WORKDIR /home/app
-COPY ../.. .
+COPY . .
 
 RUN mvn clean package -pl dispatcher -am -DskipTests
 
