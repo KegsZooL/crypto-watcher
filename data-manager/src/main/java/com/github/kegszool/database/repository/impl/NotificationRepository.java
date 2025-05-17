@@ -35,4 +35,6 @@ public interface NotificationRepository extends EntityRepository<Notification, I
             BigDecimal targetPercentage,
             Direction direction
     );
+
+    List<Notification> findByUser_IdAndCoin_IdAndIsRecurring(int userId, int coinId, boolean isRecurring);
 }

@@ -3,6 +3,7 @@ package com.github.kegszool.notification.update;
 import java.util.*;
 import lombok.extern.log4j.Log4j2;
 import java.util.stream.Collectors;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,6 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
     private final CoinMapper coinMapper;
     private final CoinRepository coinRepository;
     private final UserDataBuilder userDataBuilder;
-    private final NotificationMapper notificationMapper;
 
     @Autowired
     public UpdateNotificationExecutor(
@@ -41,8 +41,7 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
             UserRepository userRepository,
             CoinMapper coinMapper,
             CoinRepository coinRepository,
-            UserDataBuilder userDataBuilder,
-            NotificationMapper notificationMapper
+            UserDataBuilder userDataBuilder
     ) {
         this.routingKey = routingKey;
         this.notificationRepository = notificationRepository;
@@ -50,10 +49,10 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
         this.coinMapper = coinMapper;
         this.coinRepository = coinRepository;
         this.userDataBuilder = userDataBuilder;
-        this.notificationMapper = notificationMapper;
     }
 
     @Override
+    @Transactional
     public ServiceMessage<List<UserNotificationUpdate>> execute(ServiceMessage<List<NotificationDto>> serviceMessage) {
 
         List<NotificationDto> notifications = serviceMessage.getData();
@@ -61,12 +60,11 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
                 .collect(Collectors.groupingBy(dto -> dto.getUser().getTelegramId()));
 
         Map<String, UserData> chatIdToUserData = new HashMap<>();
-        List<NotificationDto> updated = new ArrayList<>();
         List<UserNotificationUpdate> responsePayload = new ArrayList<>();
 
         for (Map.Entry<Long, List<NotificationDto>> entry : groupedByTelegramId.entrySet()) {
 
-           	Long telegramId = entry.getKey();
+            Long telegramId = entry.getKey();
             Optional<User> maybeUser = userRepository.findByTelegramId(telegramId);
 
             if (maybeUser.isEmpty()) {
@@ -76,6 +74,8 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
             User user = maybeUser.get();
 
             String chatId = "";
+            List<Notification> notificationsToSave = new ArrayList<>();
+
             for (NotificationDto dto : entry.getValue()) {
 
                 if (chatId.isEmpty() && dto.getChatId() != null) {
@@ -85,32 +85,38 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
                 Coin coin = coinRepository.findByName(dto.getCoin().getName())
                         .orElseGet(() -> coinRepository.save(coinMapper.toEntity(dto.getCoin())));
 
-                List<Notification> updatedNotifications = notificationRepository
-                        .findByUser_IdAndCoin_IdAndInitialPriceAndTargetPercentageAndDirectionAndIsRecurring(
-                                user.getId(),
-                                coin.getId(),
-                                dto.getInitialPrice(),
-                                dto.getTargetPercentage(),
-                                dto.getDirection(),
-                                dto.isRecurring()
-                        );
+                if (dto.isRecurring()) {
+                    List<Notification> recurringNotifications = notificationRepository
+                            .findByUser_IdAndCoin_IdAndIsRecurring(user.getId(), coin.getId(), true);
 
-                if (!updatedNotifications.isEmpty()) {
-                    for (Notification notification : updatedNotifications) {
+                    for (Notification notification : recurringNotifications) {
                         notification.setLastTriggeredTime(dto.getLastTriggeredTime());
-                        if (dto.isRecurring()) {
-                            notification.setInitialPrice(dto.getTriggeredPrice());
-                            notification.setTriggered(false);
-                        	updated.add(notificationMapper.toDto(notification));
-                        } else {
-                            notification.setTriggered(true);
-                        }
-                        notificationRepository.save(notification);
+                        notification.setInitialPrice(dto.getTriggeredPrice());
+                        notification.setTriggered(false);
+                        notificationsToSave.add(notification);
+                    }
+                } else {
+                    List<Notification> matchedNotifications = notificationRepository
+                            .findByUser_IdAndCoin_IdAndInitialPriceAndTargetPercentageAndDirectionAndIsRecurring(
+                                    user.getId(),
+                                    coin.getId(),
+                                    dto.getInitialPrice(),
+                                    dto.getTargetPercentage(),
+                                    dto.getDirection(),
+                                    false
+                            );
+                    for (Notification notification : matchedNotifications) {
+                        notification.setLastTriggeredTime(dto.getLastTriggeredTime());
+                        notification.setTriggered(true);
+                        notificationsToSave.add(notification);
                     }
                 }
             }
+            if (!notificationsToSave.isEmpty()) {
+                notificationRepository.saveAll(notificationsToSave);
+            }
             UserData userData = userDataBuilder.buildUserData(user);
-            chatIdToUserData.put(chatId,userData);
+            chatIdToUserData.put(chatId, userData);
         }
         chatIdToUserData.forEach((chatId, data) -> responsePayload.add(new UserNotificationUpdate(chatId, data)));
         return new ServiceMessage<>(STUB_MESSAGE_ID, STUB_CHAT_ID, responsePayload);

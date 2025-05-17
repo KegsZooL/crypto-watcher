@@ -32,28 +32,29 @@ public class RecurringNotificationHandler implements NotificationHandler {
 
     @Override
     public void handle(NotificationDto notification, String coinName, double currentPrice) {
-        processOldNotification(notification);
-        processNewNotification(notification, coinName, currentPrice);
-    }
-
-    private void processOldNotification(NotificationDto notification) {
-        activeNotificationCache.remove(notification);
         triggeredNotificationBuffer.add(notification);
-    }
-
-    private void processNewNotification(NotificationDto notification, String coinName, double currentPrice) {
-
-        NotificationDto newNotification = new NotificationDto(
-                notification.getUser(), notification.getMessageId(),
-                notification.getChatId(), notification.getCoin(),
-                notification.isRecurring(), false,
-                notification.getTriggeredPrice(), currentPrice,
-                notification.getTargetPercentage(), notification.getDirection(),
-                notification.getLastTriggeredTime()
-        );
-        activeNotificationCache.add(coinName, List.of(newNotification));
-
-        log.info("Recurring updated | Coin: {} | New base price: {} | Chat ID: {}",
-                coinName, currentPrice, newNotification.getChatId());
+        List<NotificationDto> updated = activeNotificationCache.getNotifications(coinName).stream()
+                .filter(NotificationDto::isRecurring)
+                .map(n -> {
+                    activeNotificationCache.remove(n);
+                    log.info("Recurring notification has been updated | Coin: {} |" +
+                                    " New base price: {} | Target percentage: {} | Direction: {}",
+                            coinName, currentPrice, n.getTargetPercentage(), n.getDirection()
+                    );
+                    return new NotificationDto(
+                            n.getUser(),
+                            n.getMessageId(),
+                            n.getChatId(),
+                            n.getCoin(),
+                            true,
+                            false,
+                            currentPrice,
+                            n.getTriggeredPrice(),
+                            n.getTargetPercentage(),
+                            n.getDirection(),
+                            System.currentTimeMillis()
+                    );
+                }).toList();
+        activeNotificationCache.add(coinName, updated);
     }
 }

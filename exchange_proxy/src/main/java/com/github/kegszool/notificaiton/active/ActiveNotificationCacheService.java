@@ -27,19 +27,26 @@ public class ActiveNotificationCacheService {
                 return new CopyOnWriteArrayList<>(notifications);
             } else {
                 int addedCount = 0;
+                int updatedCount = 0;
                 for (NotificationDto newNotification : notifications) {
-                    boolean alreadyExists = existing.stream()
-                            .anyMatch(existingNotification -> isSameNotification(existingNotification, newNotification));
-                    if (!alreadyExists) {
+                    boolean updated = false;
+                    for (int i = 0; i < existing.size(); i++) {
+                        if (isSameNotification(existing.get(i), newNotification)) {
+                            existing.set(i, newNotification);
+                            updated = true;
+                            updatedCount++;
+                            log.info("Notification updated: {}", newNotification);
+                            break;
+                        }
+                    }
+                    if (!updated) {
                         existing.add(newNotification);
                         addedCount++;
                         log.info("New notification added: {}", newNotification);
-                    } else {
-                        log.info("Duplicate notification skipped: {}", newNotification);
                     }
                 }
-                log.info("For coin '{}': {} new notifications added, total now {}",
-                        coinName, addedCount, existing.size());
+                log.info("For coin '{}': {} notifications updated, {} new notifications added, total now {}",
+                        coinName, updatedCount, addedCount, existing.size());
                 return existing;
             }
         });

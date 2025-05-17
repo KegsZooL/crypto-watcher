@@ -47,8 +47,13 @@ public class TriggeredNotificationMessageBuilder {
         double triggeredPrice = notification.getTriggeredPrice();
 
         double actualChange = ((triggeredPrice - initialPrice) / initialPrice) * 100.0;
-        String changeFormatted = String.format("%.2f", actualChange);
 
+        String changeFormatted;
+        if (notification.isRecurring()) {
+            changeFormatted = String.format("%.2f", actualChange);
+        } else {
+            changeFormatted = String.format("%.3f", actualChange);
+        }
         localizedText = localizedText.replace("{coin}", notification.getCoin().getName())
                 .replace("{change}", changeFormatted)
                 .replace("{price}", Double.toString(triggeredPrice));
@@ -59,6 +64,7 @@ public class TriggeredNotificationMessageBuilder {
                 .text(localizedText)
                 .parseMode(ParseMode.HTML)
                 .build();
+
         replyKeyboardService.attachKeyboard(answerMsg, chatId.toString());
         return answerMsg;
     }

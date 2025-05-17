@@ -29,9 +29,6 @@ public class NotificationAnswerMessageBuilder {
             @Value("${menu.set_coin_notification.answer_messages.from_command.invalid_command.msg_type}")
             String fromCommandErrorMsgType,
 
-            @Value("${menu.set_coin_notification.answer_messages.from_menu.created.msg_type}")
-            String fromMenuSuccessMsgType,
-
             @Value("${menu.set_coin_notification.answer_messages.from_menu.invalid_percentage.msg_type}")
             String fromMenuInvalidPercentageMsgType,
 
