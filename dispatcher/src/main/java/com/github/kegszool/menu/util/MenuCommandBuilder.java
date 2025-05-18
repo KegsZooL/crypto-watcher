@@ -44,12 +44,12 @@ public class MenuCommandBuilder {
     public List<BotCommand> build(String locale) {
         return List.of(
                 new BotCommand(mainMenu, localizationService.getCommandDescription(mainMenu, locale)),
-                new BotCommand(editCoinSections, localizationService.getCommandDescription(editCoinSections, locale)),
                 new BotCommand(notification, localizationService.getCommandDescription(notification, locale)),
-                new BotCommand(creationNotification, localizationService.getCommandDescription(creationNotification, locale)),
-                new BotCommand(deletionNotification, localizationService.getCommandDescription(deletionNotification, locale)),
+                new BotCommand(favoriteCoins, localizationService.getCommandDescription(favoriteCoins, locale)),
                 new BotCommand(settings, localizationService.getCommandDescription(settings, locale)),
-                new BotCommand(favoriteCoins, localizationService.getCommandDescription(favoriteCoins, locale))
+                new BotCommand(editCoinSections, localizationService.getCommandDescription(editCoinSections, locale)),
+                new BotCommand(creationNotification, localizationService.getCommandDescription(creationNotification, locale)),
+                new BotCommand(deletionNotification, localizationService.getCommandDescription(deletionNotification, locale))
         );
     }
 }

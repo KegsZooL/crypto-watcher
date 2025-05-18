@@ -35,7 +35,6 @@ spring:
         create_notification_response_from_db: ${RABBITMQ_CREATE_NOTIFICATION_RESPONSE_FROM_DB_ROUTING_KEY}
 
         notify_created_notification: ${RABBITMQ_NOTIFY_NOTIFICATION_HAS_BEEN_CREATED_ROUTING_KEY}
-        notify_notification_updated: ${RABBITMQ_UPDATE_CONFIRMATION_NOTIFICATION_ROUTING_KEY}
 
         delete_notification_request: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_ROUTING_KEY}
         delete_notification_response: ${RABBITMQ_DELETE_NOTIFICATION_RESPONSE_ROUTING_KEY}
@@ -78,7 +77,6 @@ spring:
       create_notification_response_from_db: ${RABBITMQ_CREATE_NOTIFICATION_RESPONSE_FROM_DB_QUEUE}
 
       notify_created_notification: ${RABBITMQ_NOTIFY_NOTIFICATION_HAS_BEEN_CREATED_QUEUE}
-      notify_notification_updated: ${RABBITMQ_UPDATE_CONFIRMATION_NOTIFICATION_QUEUE}
 
       delete_notification_request: ${RABBITMQ_DELETE_NOTIFICATION_REQUEST_QUEUE}
       delete_notification_response: ${RABBITMQ_DELETE_NOTIFICATION_RESPONSE_QUEUE}
@@ -136,8 +134,8 @@ menu:
       ru: "🏠 Меню"
       en: "🏠 Menu"
     command_description:
-      ru: "Открыть главное меню"
-      en: "Open the main menu"
+      ru: "Главное меню"
+      en: "Main menu"
 
   coin_selection:
     name: "${menu.action.prefix}selection_menu"
@@ -160,8 +158,8 @@ menu:
       ru: "🪙 Монеты"
       en: "🪙 Coins"
     command_description:
-      ru: "Открыть ваши избранные монеты"
-      en: "Show your favorite coins"
+      ru: "Ваши избранные монеты"
+      en: "Your favorite coins"
 
   edit_coin_sections:
     name: edit_coin_sections_menu
@@ -186,9 +184,6 @@ menu:
     sections:
       ru: "${menu.sections_config.coin_deletion.ru}"
       en: "${menu.sections_config.coin_deletion.en}"
-    hint:
-      ru: "Ты не выбрал ни одной монеты для удаления. 🤔 Чтобы удалить монеты, нажми на них — появится галочка ✅, затем нажми кнопку <b>Удалить выбранные</b>."
-      en: "You haven’t selected any coins for deletion. 🤔 Tap on coins to mark them ✅, then tap <b>Delete Selected</b>."
     max_buttons_per_row: 3
     prefix:
       unselected_coin_prefix: unselected_deletion_
@@ -289,8 +284,8 @@ menu:
       ru: "🔔 Уведомления"
       en: "🔔 Alerts"
     command_description:
-      ru: "Открыть свои уведомления"
-      en: "Open your notifications"
+      ru: "Ваши уведомления"
+      en: "Your notifications"
 
     sections:
       ru: "${menu.sections_config.notification.ru}"
@@ -318,8 +313,8 @@ menu:
     sequence: ${menu.notification_creation.name},${menu.notification.sequence}
     command: "/not"
     command_description:
-      ru: "Открыть меню добавления уведомления"
-      en: "Open the creation notification menu"
+      ru: "Добавить уведомление"
+      en: "Create notification"
     display_menu_command: "/create_not"
 
   notification_deletion:
@@ -337,8 +332,8 @@ menu:
     prefix: d_n_
     command: "/delete_not"
     command_description:
-      ru: "Открыть меню удаления уведомлений"
-      en: "Open the deletion notification menu"
+      ru: "Удалить уведомление"
+      en: "Delete notification"
     sequence: ${menu.notification_deletion.name},${menu.notification.sequence}
 
   settings:
@@ -355,8 +350,8 @@ menu:
       ru: "⚙ Настройки"
       en: "⚙ Settings"
     command_description:
-      ru: "Открыть меню настроек"
-      en: "Open the settings menu"
+      ru: "Настройки"
+      en: "Settings"
     sequence: ${menu.settings.name},${menu.main.name}
 
   language_change:
@@ -480,18 +475,6 @@ menu:
 
 bot:
   token: ${TELEGRAM_BOT_TOKEN}
-
-api:
-  exchange:
-    url:
-      base: ${BASE_API_EXCHANGE_URL}
-      market:
-        base: ${MARKET_API_EXCHANGE_URL}
-        ticker:
-          base: ${MARKET_TICKER_API_EXCHANGE_URL}
-          response_parameter:
-            coin: ${MARKET_TICKER_COIN_RESPONSE_PARAMETER}
-            last_price: ${MARKET_TICKER_LAST_PRICE_RESPONSE_PARAMETER}
 
 emoji_unicode_symbol:
   coin: 🪙
