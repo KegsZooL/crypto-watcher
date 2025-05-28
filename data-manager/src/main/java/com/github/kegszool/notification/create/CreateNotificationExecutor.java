@@ -60,7 +60,6 @@ public class CreateNotificationExecutor implements RequestExecutor<NotificationD
 
         NotificationDto dto = serviceMessage.getData();
         Long telegramId = dto.getUser().getTelegramId();
-
         User user = userService.getUserByTelegramId(telegramId)
                 .orElseThrow(() -> {
                     log.error("User with telegram ID {} not found", telegramId);
@@ -71,12 +70,28 @@ public class CreateNotificationExecutor implements RequestExecutor<NotificationD
         Coin coin = coinRepository.findByName(coinName)
                 .orElseGet(() -> coinRepository.save(new Coin(coinName)));
 
+        boolean isEmpty = notificationRepository.findByUser_IdAndCoin_IdAndInitialPriceAndTargetPercentageAndDirectionAndIsRecurring(
+                user.getId(),
+                coin.getId(),
+                dto.getInitialPrice(),
+                dto.getTargetPercentage(),
+                dto.getDirection(),
+                dto.isRecurring()
+        ).isEmpty();
+
+       	UserData userData;
+        if (!isEmpty) {
+           log.info("Duplicate notification already exists for user id '{}' and coin '{}'", user.getId(), coin.getName());
+           userData = userDataBuilder.buildUserData(user);
+           return new ServiceMessage<>(serviceMessage.getMessageId(), serviceMessage.getChatId(), userData);
+        }
+
         Notification notification = notificationMapper.toEntity(dto, user, coin);
         notificationRepository.save(notification);
 
-        UserData userData = userDataBuilder.buildUserData(user);
-
+        userData = userDataBuilder.buildUserData(user);
         createdNotificationSender.notify(coinName);
+
         return new ServiceMessage<>(serviceMessage.getMessageId(), serviceMessage.getChatId(), userData);
     }
 

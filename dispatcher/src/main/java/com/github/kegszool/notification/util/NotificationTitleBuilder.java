@@ -2,6 +2,7 @@ package com.github.kegszool.notification.util;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,6 +54,14 @@ public class NotificationTitleBuilder implements TitleBuilder {
     public String buildTitle(UserData userData, String language) {
 
         List<NotificationDto> notifications = userData.getNotifications();
+
+        notifications.sort(Comparator
+                .comparing((NotificationDto n) -> n.getCoin().getName())
+                .thenComparing((NotificationDto n) -> !n.isRecurring())
+                .thenComparing(NotificationDto::getDirection)
+                .thenComparing((NotificationDto n) -> n.getTargetPercentage().negate())
+                .thenComparing(NotificationDto::getInitialPrice)
+        );
 
         List<String> recurringTitles = new ArrayList<>();
         List<String> oneTimeTitles = new ArrayList<>();

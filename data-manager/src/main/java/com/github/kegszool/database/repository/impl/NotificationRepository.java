@@ -36,5 +36,7 @@ public interface NotificationRepository extends EntityRepository<Notification, I
             Direction direction
     );
 
-    List<Notification> findByUser_IdAndCoin_IdAndIsRecurring(int userId, int coinId, boolean isRecurring);
+    List<Notification> findByUser_IdAndCoin_IdAndIsRecurringAndIsTriggered(
+            int userId, int coinId, boolean isRecurring, boolean isTriggered
+    );
 }

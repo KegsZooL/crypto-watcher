@@ -87,12 +87,11 @@ public class UpdateNotificationExecutor implements RequestExecutor<List<Notifica
 
                 if (dto.isRecurring()) {
                     List<Notification> recurringNotifications = notificationRepository
-                            .findByUser_IdAndCoin_IdAndIsRecurring(user.getId(), coin.getId(), true);
+                            .findByUser_IdAndCoin_IdAndIsRecurringAndIsTriggered(user.getId(), coin.getId(), true, false);
 
                     for (Notification notification : recurringNotifications) {
                         notification.setLastTriggeredTime(dto.getLastTriggeredTime());
                         notification.setInitialPrice(dto.getTriggeredPrice());
-                        notification.setTriggered(false);
                         notificationsToSave.add(notification);
                     }
                 } else {
