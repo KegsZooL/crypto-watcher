@@ -51,14 +51,39 @@ public class NotificationTriggerChecker {
                     notification.isRecurring()
             );
 
-            long lastTime = lastTriggerPerChat.getOrDefault(key, 0L);
-            if ((now - lastTime) < DELAY) continue;
+            logNotificationDetails(notification, coinName, currentPrice);
 
-            if (evaluator.isTriggered(notification, currentPrice)) {
-                notification.setLastTriggeredTime(now);
-                lastTriggerPerChat.put(key, now);
-                actionExecutor.execute(notification, coinName, currentPrice);
-            }
+            lastTriggerPerChat.compute(key, (k, v) -> {
+                long lastTime = (v != null) ? v : 0L;
+                if ((now - lastTime) < DELAY) {
+                    log.info("Skipping notification due to debounce | Chat: {} | Delay: {} ms",
+                            notification.getChatId(), DELAY);
+                    return lastTime;
+                }
+
+                if (evaluator.isTriggered(notification, currentPrice)) {
+                    notification.setLastTriggeredTime(now);
+                    actionExecutor.execute(notification, coinName, currentPrice);
+                    return now;
+                }
+
+                return lastTime;
+            });
         }
+    }
+
+    private void logNotificationDetails(NotificationDto notification, String coinName, double currentPrice) {
+
+        double initialPrice = notification.getInitialPrice();
+        double targetPercent = notification.getTargetPercentage().doubleValue();
+        double targetChange = initialPrice * targetPercent / 100.0;
+        double targetPrice = switch (notification.getDirection()) {
+            case Up -> initialPrice + targetChange;
+            case Down -> initialPrice - targetChange;
+        };
+
+        log.info("Notification check | Coin: {} | Chat ID: {} | Direction: {} | Initial: {} | %: {} | Target: {} | Current: {}",
+                coinName, notification.getChatId(), notification.getDirection(),
+                initialPrice, targetPercent, targetPrice, currentPrice);
     }
 }
