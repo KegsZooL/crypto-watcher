@@ -32,29 +32,27 @@ public class RecurringNotificationHandler implements NotificationHandler {
 
     @Override
     public void handle(NotificationDto notification, String coinName, double currentPrice) {
+
         triggeredNotificationBuffer.add(notification);
-        List<NotificationDto> updated = activeNotificationCache.getNotifications(coinName).stream()
-                .filter(NotificationDto::isRecurring)
-                .map(n -> {
-                    activeNotificationCache.remove(n);
-                    log.info("Recurring notification has been updated | Coin: {} |" +
-                                    " New base price: {} | Target percentage: {} | Direction: {}",
-                            coinName, currentPrice, n.getTargetPercentage(), n.getDirection()
-                    );
-                    return new NotificationDto(
-                            n.getUser(),
-                            n.getMessageId(),
-                            n.getChatId(),
-                            n.getCoin(),
-                            true,
-                            false,
-                            currentPrice,
-                            n.getTriggeredPrice(),
-                            n.getTargetPercentage(),
-                            n.getDirection(),
-                            System.currentTimeMillis()
-                    );
-                }).toList();
-        activeNotificationCache.add(coinName, updated);
+        activeNotificationCache.remove(notification);
+
+        NotificationDto updated = new NotificationDto(
+                notification.getUser(),
+                notification.getMessageId(),
+                notification.getChatId(),
+                notification.getCoin(),
+                true,
+                false,
+                currentPrice,
+                notification.getTriggeredPrice(),
+                notification.getTargetPercentage(),
+                notification.getDirection(),
+                System.currentTimeMillis()
+        );
+
+        log.info("Recurring notification has been updated | Coin: {} | New base price: {} | Target percentage: {} | Direction: {}",
+                coinName, currentPrice, updated.getTargetPercentage(), updated.getDirection()
+        );
+        activeNotificationCache.add(coinName, List.of(updated));
     }
 }
