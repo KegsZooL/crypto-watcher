@@ -18,15 +18,13 @@ public class WebSocketSubscriptionTracker {
         }).get() == 1;
     }
 
-    public synchronized boolean decrement(String instId) {
+    public synchronized void decrement(String instId) {
         AtomicInteger counter = activeSubscriptions.get(instId);
-        if (counter == null) return false;
+        if (counter == null) return;
 
         int count = counter.decrementAndGet();
         if (count <= 0) {
             activeSubscriptions.remove(instId);
-            return true;
         }
-        return false;
     }
 }

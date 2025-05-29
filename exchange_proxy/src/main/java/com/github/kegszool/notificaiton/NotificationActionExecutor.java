@@ -24,18 +24,28 @@ public class NotificationActionExecutor {
         this.handlers = handlers;
     }
 
-    public void execute(NotificationDto notification, String coinName, double currentPrice) {
+    public void execute(NotificationDto notification, String coinName, double currentPrice, long now) {
 
-        notification.setTriggered(true);
-        notification.setTriggeredPrice(currentPrice);
-        producer.sendTriggeredNotification(notification);
-
+        NotificationDto updated = new NotificationDto(
+                notification.getUser(),
+                notification.getMessageId(),
+                notification.getChatId(),
+                notification.getCoin(),
+                notification.isRecurring(),
+                true,
+                notification.getInitialPrice(),
+                currentPrice,
+                notification.getTargetPercentage(),
+                notification.getDirection(),
+                now
+        );
+        producer.sendTriggeredNotification(updated);
         log.info("Notification triggered | Coin: {} | Chat ID: {} | Current price: {}",
                 coinName, notification.getChatId(), currentPrice);
 
         handlers.stream()
-                .filter(handler -> handler.supports(notification))
+                .filter(handler -> handler.supports(updated))
                 .findFirst()
-                .ifPresent(handler -> handler.handle(notification, coinName, currentPrice));
+                .ifPresent(handler -> handler.handle(updated, coinName, currentPrice, now));
     }
 }

@@ -1,6 +1,10 @@
 package com.github.kegszool.notificaiton.handler;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,28 +35,40 @@ public class RecurringNotificationHandler implements NotificationHandler {
     }
 
     @Override
-    public void handle(NotificationDto notification, String coinName, double currentPrice) {
-
+    public void handle(NotificationDto notification, String coinName, double currentPrice, long now) {
         triggeredNotificationBuffer.add(notification);
-        activeNotificationCache.remove(notification);
 
-        NotificationDto updated = new NotificationDto(
-                notification.getUser(),
-                notification.getMessageId(),
-                notification.getChatId(),
-                notification.getCoin(),
-                true,
-                false,
-                currentPrice,
-                notification.getTriggeredPrice(),
-                notification.getTargetPercentage(),
-                notification.getDirection(),
-                System.currentTimeMillis()
-        );
+        synchronized (coinName.intern()) {
+            activeNotificationCache.compute(coinName, existing -> {
+                if (existing == null) return new CopyOnWriteArrayList<>();
 
-        log.info("Recurring notification has been updated | Coin: {} | New base price: {} | Target percentage: {} | Direction: {}",
-                coinName, currentPrice, updated.getTargetPercentage(), updated.getDirection()
-        );
-        activeNotificationCache.add(coinName, List.of(updated));
+                List<NotificationDto> updatedList = new ArrayList<>(existing.size());
+                for (NotificationDto n : existing) {
+                    if (n.isRecurring() && Objects.equals(n.getChatId(), notification.getChatId())) {
+                        NotificationDto updated = new NotificationDto(
+                                n.getUser(),
+                                n.getMessageId(),
+                                n.getChatId(),
+                                n.getCoin(),
+                                true,
+                                false,
+                                currentPrice,
+                                n.getTriggeredPrice(),
+                                n.getTargetPercentage(),
+                                n.getDirection(),
+                                now
+                        );
+                        updatedList.add(updated);
+                    } else {
+                        updatedList.add(n);
+                    }
+                }
+
+                log.info("Recurring notifications updated for coin '{}' | Chat ID: {} | New initial price: {}",
+                        coinName, notification.getChatId(), currentPrice);
+
+                return new CopyOnWriteArrayList<>(updatedList);
+            });
+        }
     }
 }

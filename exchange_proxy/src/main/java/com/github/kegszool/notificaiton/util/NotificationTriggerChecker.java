@@ -37,10 +37,12 @@ public class NotificationTriggerChecker {
     }
 
     public void check(String coinName, double currentPrice) {
-        List<NotificationDto> notifications = activeNotificationCache.getNotifications(coinName);
+        List<NotificationDto> originalNotifications = activeNotificationCache.getNotifications(coinName);
         long now = System.currentTimeMillis();
 
-        for (NotificationDto notification : notifications) {
+        for (NotificationDto original : originalNotifications) {
+            NotificationDto notification = copy(original);
+
             if (notification.isTriggered()) continue;
 
             String key = generateKey(notification, coinName);
@@ -52,27 +54,43 @@ public class NotificationTriggerChecker {
             }
 
             try {
-                lastTriggerPerChat.compute(key, (k, v) -> {
-                    long lastTime = (v != null) ? v : 0L;
+                synchronized (key.intern()) {
+                    long lastTime = lastTriggerPerChat.getOrDefault(key, 0L);
                     if ((now - lastTime) < DELAY) {
                         log.info("Skipping notification due to debounce | Chat: {} | Delay: {} ms",
                                 notification.getChatId(), DELAY);
-                        return lastTime;
+                        continue;
                     }
 
-                    logNotificationDetails(notification, coinName, currentPrice);
                     if (evaluator.isTriggered(notification, currentPrice)) {
-                        notification.setLastTriggeredTime(now);
-                        actionExecutor.execute(notification, coinName, currentPrice);
-                        return now;
-                    }
+                        NotificationDto updated = copy(notification);
+                        updated.setLastTriggeredTime(now);
+                        updated.setTriggered(true);
 
-                    return lastTime;
-                });
+                        actionExecutor.execute(updated, coinName, currentPrice, now);
+                        lastTriggerPerChat.put(key, now);
+                    }
+                }
             } finally {
                 processingNotificationKeys.remove(key);
             }
         }
+    }
+
+    private NotificationDto copy(NotificationDto original) {
+        return new NotificationDto(
+                original.getUser(),
+                original.getMessageId(),
+                original.getChatId(),
+                original.getCoin(),
+                original.isRecurring(),
+                original.isTriggered(),
+                original.getInitialPrice(),
+                original.getTriggeredPrice(),
+                original.getTargetPercentage(),
+                original.getDirection(),
+                original.getLastTriggeredTime()
+        );
     }
 
     private String generateKey(NotificationDto notification, String coinName) {
@@ -83,20 +101,5 @@ public class NotificationTriggerChecker {
                 notification.getTargetPercentage(),
                 notification.isRecurring()
         );
-    }
-
-    private void logNotificationDetails(NotificationDto notification, String coinName, double currentPrice) {
-
-        double initialPrice = notification.getInitialPrice();
-        double targetPercent = notification.getTargetPercentage().doubleValue();
-        double targetChange = initialPrice * targetPercent / 100.0;
-        double targetPrice = switch (notification.getDirection()) {
-            case Up -> initialPrice + targetChange;
-            case Down -> initialPrice - targetChange;
-        };
-
-        log.info("Notification check | Coin: {} | Chat ID: {} | Direction: {} | Initial: {} | %: {} | Target: {} | Current: {}",
-                coinName, notification.getChatId(), notification.getDirection(),
-                initialPrice, targetPercent, targetPrice, currentPrice);
     }
 }

@@ -1,10 +1,12 @@
 package com.github.kegszool.notificaiton.active;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.UnaryOperator;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ public class ActiveNotificationCacheService {
     private final ConcurrentMap<String, CopyOnWriteArrayList<NotificationDto>> cache = new ConcurrentHashMap<>();
 
     public List<NotificationDto> getNotifications(String coinName) {
-        return cache.getOrDefault(coinName, new CopyOnWriteArrayList<>());
+        return new ArrayList<>(cache.getOrDefault(coinName, new CopyOnWriteArrayList<>()));
     }
 
     public void add(String coinName, List<NotificationDto> notifications) {
@@ -57,6 +59,16 @@ public class ActiveNotificationCacheService {
         cache.computeIfPresent(coinName, (key, list) -> {
             list.removeIf(existing -> isSameNotification(existing, notification));
             return list;
+        });
+    }
+
+    public void compute(String coinName, UnaryOperator<List<NotificationDto>> updater) {
+        cache.compute(coinName, (k, existing) -> {
+            if (existing == null) {
+                return new CopyOnWriteArrayList<>();
+            } else {
+                return new CopyOnWriteArrayList<>(updater.apply(existing));
+            }
         });
     }
 

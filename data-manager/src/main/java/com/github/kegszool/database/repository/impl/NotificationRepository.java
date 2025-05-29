@@ -25,6 +25,16 @@ public interface NotificationRepository extends EntityRepository<Notification, I
             boolean isRecurring
     );
 
+    List<Notification> findByUser_IdAndCoin_IdAndInitialPriceAndTargetPercentageAndDirectionAndIsRecurringAndIsTriggered(
+            int userId,
+            int coinId,
+            double initialPrice,
+            BigDecimal targetPercentage,
+            Direction direction,
+            boolean isRecurring,
+            boolean isTriggered
+    );
+
     Optional<Notification> findByUser_IdAndMessageIdAndChatIdAndCoin_IdAndIsRecurringAndInitialPriceAndTargetPercentageAndDirection(
             int userId,
             Integer messageId,

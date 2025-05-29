@@ -29,7 +29,7 @@ public class OneTimeNotificationHandler implements NotificationHandler {
     }
 
     @Override
-    public void handle(NotificationDto notification, String coinName, double currentPrice) {
+    public void handle(NotificationDto notification, String coinName, double currentPrice, long now) {
         subscriber.unsubscribe(notification);
         buffer.add(notification);
     }

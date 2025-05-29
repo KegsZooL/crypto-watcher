@@ -60,11 +60,10 @@ public class NotificationWebSocketSubscriber {
         String fullCoinName = coinName + currencySuffix;
 
         activeNotifications.remove(deleted);
+	    subscriptionTracker.decrement(coinName);
 
         if (activeNotifications.getNotifications(coinName).isEmpty()) {
-            if (subscriptionTracker.decrement(coinName)) {
-                webSocketConnector.disconnect(fullCoinName);
-            }
+            webSocketConnector.disconnect(fullCoinName);
         }
     }
 }

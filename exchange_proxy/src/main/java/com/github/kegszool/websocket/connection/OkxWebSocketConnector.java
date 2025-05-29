@@ -59,15 +59,15 @@ public class OkxWebSocketConnector implements WebSocketConnector<String> {
     }
 
     private void processConnect(String instId) throws URISyntaxException, IOException, DeploymentException {
-            WebSocketContainer container = ContainerProvider.getWebSocketContainer();
-            URI uri = new URI(url);
+        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+        URI uri = new URI(url);
 
-            WebSocketClient client = new WebSocketClient(instId, sessionManager, messageHandler);
-            Session session = container.connectToServer(client, uri);
-            activeSessions.put(instId, session);
+        WebSocketClient client = new WebSocketClient(instId, sessionManager, messageHandler, this);
+        Session session = container.connectToServer(client, uri);
+        activeSessions.put(instId, session);
 
-            log.info("WebSocket connection established for instId: {}", instId);
-            subscribeToTicker(instId, session);
+        log.info("WebSocket connection established for instId: {}", instId);
+        subscribeToTicker(instId, session);
     }
 
     private void subscribeToTicker(String instId, Session session) {
@@ -92,7 +92,7 @@ public class OkxWebSocketConnector implements WebSocketConnector<String> {
                 log.error("Failed to close WebSocket session for instId: {}", instId, ex);
             }
         } else {
-            log.debug("No active WebSocket session found for instId: {}", instId);
+            log.info("No active WebSocket session found for instId: {}", instId);
         }
     }
 }

@@ -70,13 +70,14 @@ public class CreateNotificationExecutor implements RequestExecutor<NotificationD
         Coin coin = coinRepository.findByName(coinName)
                 .orElseGet(() -> coinRepository.save(new Coin(coinName)));
 
-        boolean isEmpty = notificationRepository.findByUser_IdAndCoin_IdAndInitialPriceAndTargetPercentageAndDirectionAndIsRecurring(
+        boolean isEmpty = notificationRepository.findByUser_IdAndCoin_IdAndInitialPriceAndTargetPercentageAndDirectionAndIsRecurringAndIsTriggered(
                 user.getId(),
                 coin.getId(),
                 dto.getInitialPrice(),
                 dto.getTargetPercentage(),
                 dto.getDirection(),
-                dto.isRecurring()
+                dto.isRecurring(),
+                dto.isTriggered()
         ).isEmpty();
 
        	UserData userData;
