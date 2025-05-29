@@ -17,7 +17,9 @@ import com.github.kegszool.notificaiton.active.ActiveNotificationCacheService;
 @Component
 public class NotificationTriggerChecker {
 
-    private final Set<String> processingNotifcationKeys = ConcurrentHashMap.newKeySet();
+    private final static int DELAY = 5000;
+    private final Map<String, Long> lastTriggerPerChat = new ConcurrentHashMap<>();
+    private final Set<String> processingNotificationKeys = ConcurrentHashMap.newKeySet();
 
     private final ActiveNotificationCacheService activeNotificationCache;
     private final NotificationTriggerEvaluator evaluator;
@@ -35,7 +37,6 @@ public class NotificationTriggerChecker {
     }
 
     public void check(String coinName, double currentPrice) {
-
         List<NotificationDto> notifications = activeNotificationCache.getNotifications(coinName);
         long now = System.currentTimeMillis();
 
@@ -43,19 +44,33 @@ public class NotificationTriggerChecker {
             if (notification.isTriggered()) continue;
 
             String key = generateKey(notification, coinName);
-            boolean isAdded = processingNotifcationKeys.add(key);
-            if(!isAdded) {
-                log.debug("Notification already being processed, skipping: {}", key);
+
+            boolean acquired = processingNotificationKeys.add(key);
+            if (!acquired) {
+                log.debug("Notification already being processed concurrently, skipping: {}", key);
                 continue;
             }
+
             try {
-            	logNotificationDetails(notification, coinName, currentPrice);
-                if (evaluator.isTriggered(notification, currentPrice)) {
-                    notification.setLastTriggeredTime(System.currentTimeMillis());
-                    actionExecutor.execute(notification, coinName, currentPrice);
-                }
+                lastTriggerPerChat.compute(key, (k, v) -> {
+                    long lastTime = (v != null) ? v : 0L;
+                    if ((now - lastTime) < DELAY) {
+                        log.info("Skipping notification due to debounce | Chat: {} | Delay: {} ms",
+                                notification.getChatId(), DELAY);
+                        return lastTime;
+                    }
+
+                    logNotificationDetails(notification, coinName, currentPrice);
+                    if (evaluator.isTriggered(notification, currentPrice)) {
+                        notification.setLastTriggeredTime(now);
+                        actionExecutor.execute(notification, coinName, currentPrice);
+                        return now;
+                    }
+
+                    return lastTime;
+                });
             } finally {
-                processingNotifcationKeys.remove(key);
+                processingNotificationKeys.remove(key);
             }
         }
     }
