@@ -1,0 +1,8 @@
+version: '3.8'
+services:
+  dispatcher:
+    build:
+      context: ..
+      dockerfile: dispatcher/Dockerfile
+    env_file:
+      - .env

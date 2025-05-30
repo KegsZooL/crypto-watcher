@@ -1,14 +1,5 @@
 services:
 
-  dispatcher:
-    build:
-      context: .
-      dockerfile: dispatcher/Dockerfile
-    depends_on:
-      - rabbitmq
-    env_file:
-      - .env
-
   exchange_proxy:
     build:
       context: .
