@@ -2,17 +2,16 @@
   <img src="https://github.com/user-attachments/assets/3ecf0580-5186-49f9-9ffa-c28898f3587c" alt= "Logo" />
 </p>
 
-# Crypto Watcher 👀
+# 👀 Crypto Watcher
 Crypto Watcher is a Telegram bot built in Java using the Spring Boot (Web/Data) frameworks.
 The system follows a microservice architecture and consists of three independent services:
 
 ## 🧩 Microservices
 1) **Dispatcher** – Handles interaction with the [Telegram API](https://core.telegram.org/) via the [Telegram Bots](https://github.com/rubenlagus/TelegramBots?tab=readme-ov-file) wrapper.
 2) **Exchange Proxy** - proxy between the [OKX](https://www.okx.com) exchange and users. Processes cryptocurrency data.
-3) **Data manager** - Responsible for processing user data and interacting with the database.
+3) **Data Manager** - Responsible for processing user data and interacting with the database.
 
-## Features 📝
-
+## 📝 Features
 -  **Receiving exchange data on cryptocurrencies via WebSocket/REST**
 -  **Easy configuration for Reply/Inline keyboard markup**
 -  **Fully customizable interactive menus through built-in entities**
@@ -20,8 +19,13 @@ The system follows a microservice architecture and consists of three independent
 
 ![preview](https://github.com/user-attachments/assets/5a08a184-ab09-441b-b1b9-e5f424d6d719)
 
+## ⚡️ Requirements
+- **Java 17+**
+- **Maven**
+- **Docker & Docker Compose**
+- **Git**
 
-# Installation :package:
+## 📦 Installation
 
 ### 1. Clone the Repository
 
@@ -130,6 +134,17 @@ services:
     volumes:
       - ./rabbitmq-data:/var/lib/rabbitmq/mnesia
 ```
+### 🚀 4. Run the System
+Use Docker Compose to build and run all services:
+```sh
+docker-compose up --build
+```
+- This will start:
+  + Dispatcher
+  + Exchange Proxy
+  + Data Manager
+  + RabbitMQ (message broker)
+  + PostgreSQL (data storage)
 
 ## ☠️ Security Warning
 NEVER commit `.env` files to version control. Always add them to `.gitignore`.
