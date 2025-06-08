@@ -146,5 +146,5 @@ docker-compose up --build
   + RabbitMQ (message broker)
   + PostgreSQL (data storage)
 
-## ☠️ Security Warning
+## ⚠️ Security Warning
 NEVER commit `.env` files to version control. Always add them to `.gitignore`.
