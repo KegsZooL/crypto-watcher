@@ -3,7 +3,7 @@
 </p>
 
 # 👀 Crypto Watcher
-Crypto Watcher is a Telegram bot built in Java using the Spring Boot (Web/Data) frameworks.
+Crypto Watcher is a Telegram bot built in Java using the Spring Boot (Web/Data) frameworks for tracking cryptocurrency prices.
 The system follows a microservice architecture and consists of three independent services:
 
 ## 🧩 Microservices
